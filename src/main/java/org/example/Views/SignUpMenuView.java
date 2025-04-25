@@ -20,8 +20,8 @@ public class SignUpMenuView implements AppMenu{
             System.out.println(controller.registerUser(matcher.group(1).trim(),
                     matcher.group(2).trim(),
                     matcher.group(3).trim(),
-                    matcher.group(5).trim(),
                     matcher.group(4).trim(),
+                    matcher.group(5).trim(),
                     matcher.group(6).trim()));
             //  گروه های مچر برن به کنترلر و چک بشن
 

@@ -48,7 +48,7 @@ public class SignUpMenuController extends RegisterMenuController {
     private boolean isNicknameValid(String nickname){
         return true;
     }
-    public String registerUser(String username, String password,String confirmpassword ,String email, String gender, String nickname) {
+    public String registerUser(String username, String password,String confirmpassword ,String nickname,String email, String gender) {
         if (!isUsernameValid(username)){
             return "Username is invalid";
         }
