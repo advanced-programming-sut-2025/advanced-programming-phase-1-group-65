@@ -23,7 +23,7 @@ public class SignUpMenuView implements AppMenu{
                     matcher.group(4).trim(),
                     matcher.group(5).trim(),
                     matcher.group(6).trim()));
-            //  گروه های مچر برن به کنترلر و چک بشن
+
 
         }
         else if ((matcher = SignUpMenuCommands.Exit.matcher(input)) != null){
@@ -35,7 +35,7 @@ public class SignUpMenuView implements AppMenu{
             System.out.println("You are now in login menu");
         }
         else if ((matcher=SignUpMenuCommands.REGISTERRANDOM.matcher(input))!= null){
-            // رمز رندوم بده سوال امنیتی بپرس
+
         }
         else {
             System.out.println("Invalid input! You are in SignUpMenu");

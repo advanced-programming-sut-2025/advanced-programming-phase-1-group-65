@@ -7,27 +7,8 @@ public class User {
     String email;
     String Gender;
     String Nickname;
-    public boolean IsUsernameValid(String username) {
-        return true;
-    }
-    public boolean IsPasswordValid(String password) {
-        return true;
-    }
-    public boolean IsEmailValid(String email) {
-        return true;
-    }
-    public boolean IsGenderValid(String gender) {
-        return true;
-    }
-    public boolean IsUsernameTaken(String username) {
-        return true;
-    }
-    public boolean IsConfirmPasswordValid(String confirmPassword) {
-        return true;
-    }
-    public static String forgetPassword(String username) {
-        return "";
-    }
+    String AnswerKey;
+    int AnswerNumber;
     public String getUsername() {
         return username;
     }
@@ -45,6 +26,10 @@ public class User {
     }
     public String getNickname() {
         return Nickname;
+    }
+    public void setAnswer(String answerKey, Integer answerNumber) {
+        AnswerKey = answerKey;
+        AnswerNumber = answerNumber;
     }
     public User(String username, String password, String email, String gender, String nickname) {
         this.username = username;
