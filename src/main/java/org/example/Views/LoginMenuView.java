@@ -4,7 +4,6 @@ import org.example.Controllers.LoginMenuController;
 import org.example.Models.App;
 import org.example.Models.Enums.Menu;
 import org.example.Models.Enums.LoginMenuCommands;
-import org.example.Models.User; // اضافه کن
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
@@ -19,16 +18,12 @@ public class LoginMenuView implements AppMenu {
         if ((matcher = LoginMenuCommands.LOGIN.matcher(input)) != null) {
             String username = matcher.group(1);
             String password = matcher.group(2);
-           // boolean stayLoggedIn = matcher.group(3) != null;
 
             boolean found = false;
 
-
             if (controller.login(username, password)) {
                 System.out.println("Login successful!");
-               /* if (stayLoggedIn) {
-                    System.out.println("You will stay logged in.");
-                }*/
+
 
             } else {
                 System.out.println("Username or password is incorrect!");
@@ -36,16 +31,20 @@ public class LoginMenuView implements AppMenu {
         } else if ((matcher = LoginMenuCommands.BACK.matcher(input)) != null) {
             App.setCurrentMenu(Menu.SIGNUPMENU);
             System.out.println("You are back in Sign Up Menu");
-        } else if ((matcher = LoginMenuCommands.MENUSHOW.matcher(input)) != null) {
-            System.out.println("Current menu: Login Menu");
         }
-        else if((matcher= LoginMenuCommands.EXIT.matcher(input)) != null){
-            System.out.println("Goodbye!");
+        else if ((matcher = LoginMenuCommands.MENU_EXIT.matcher(input)) != null) {
+            System.out.println("You have exited the Login menu. Goodbye!");
             System.exit(0);
-
+        }
+        else if ((matcher = LoginMenuCommands.SHOW_CURRENT_MENU.matcher(input)) != null) {
+            System.out.println("You are in LoginMenu");
+        } else if ((matcher = LoginMenuCommands.FORGOTPASSWORD.matcher(input)) != null) {
+            String username = matcher.group(1).trim();
+            String result = controller.forgotPassword(username);
+            System.out.println(result);
         }
         else {
-            System.out.println("Invalid input! You are in Login Menu");
-        }
+                System.out.println("Invalid input! You are in Login Menu");
+            }
     }
 }

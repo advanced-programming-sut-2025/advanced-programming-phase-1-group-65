@@ -14,7 +14,7 @@ public class Main {
                 App.getCurrentMenu().checkCommands(scanner);
             }
         } catch (Exception e) {
-            e.printStackTrace(); // خطا رو چاپ می‌کنه
+            e.printStackTrace();
         }
     }
 }

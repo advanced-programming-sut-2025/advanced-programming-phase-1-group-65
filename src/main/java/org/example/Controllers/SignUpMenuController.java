@@ -4,120 +4,122 @@ import org.example.Models.App;
 import org.example.Models.Enums.Menu;
 import org.example.Models.User;
 
+import java.util.Random;
 import java.util.Scanner;
 
 public class SignUpMenuController extends RegisterMenuController {
     public static String answerKey = "";
     public static int answerNumber = 0;
-    private boolean isUsernameValid(String username) {
-        if (!username.matches("^[a-zA-Z0-9-]+$")) {
-            return false;
+
+    public String generateRandomPassword() {
+        int length = 12;
+        String upperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String lowerCase = "abcdefghijklmnopqrstuvwxyz";
+        String digits = "0123456789";
+        String specialChars = "!@#$%^&*()_+-=[]{}|;:',.<>/?";
+        String allCharacters = upperCase + lowerCase + digits + specialChars;
+
+        Random random = new Random();
+        StringBuilder password = new StringBuilder(length);
+
+        password.append(upperCase.charAt(random.nextInt(upperCase.length())));
+        password.append(lowerCase.charAt(random.nextInt(lowerCase.length())));
+        password.append(digits.charAt(random.nextInt(digits.length())));
+        password.append(specialChars.charAt(random.nextInt(specialChars.length())));
+
+        for (int i = password.length(); i < length; i++) {
+            password.append(allCharacters.charAt(random.nextInt(allCharacters.length())));
         }
-        return true;
+
+        return password.toString();
     }
-    private boolean isUsernameTaken(String username){
-        for (User user: App.getUsers()){
-            if (user.getUsername().equals(username)){
-                return false;
-            }
+
+    private boolean isUsernameValid(String username) {
+        return username.matches("^[a-zA-Z0-9-]+$");
+    }
+
+    private boolean isUsernameTaken(String username) {
+        for (User user : App.getUsers()) {
+            if (user.getUsername().equals(username)) return false;
         }
         return true;
     }
 
     private boolean isPasswordValid(String password) {
-        if (!password.matches("^[a-zA-Z0-9!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?]+$")) {
-            return false;
-        }
-        return true;
+        return password.matches("^[a-zA-Z0-9!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?]+$");
     }
+
     private boolean isPasswordStrong(String password) {
-        if (!password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()_+\\-={}\\[\\]|:;\"'<>,.?/]).{8,}$")) {
-            return false;
-        }
-        return true;
+        return password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()_+\\-={}\\[\\]|:;\"'<>,.?/]).{8,}$");
     }
-    private boolean isPasswordConfirmValid(String password, String confirmPassword){
-        if (!password.equals(confirmPassword)){
-            return false;
-        }
-        return true;
+
+    private boolean isPasswordConfirmValid(String password, String confirmPassword) {
+        return password.equals(confirmPassword);
     }
-    private boolean isEmailValid(String email){
-        if (!email.matches("^[a-zA-Z0-9](?!.*\\.\\.)[a-zA-Z0-9._-]*[a-zA-Z0-9]@[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?(\\.[a-zA-Z]{2,})+$")){
-            return false;
-        }
-        return true;
+
+    private boolean isEmailValid(String email) {
+        return email.matches("^[a-zA-Z0-9](?!.*\\.\\.)[a-zA-Z0-9._-]*[a-zA-Z0-9]@[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?(\\.[a-zA-Z]{2,})+$");
     }
-    private boolean isGenderValid(String gender){
-        if (!gender.equalsIgnoreCase("male") && !gender.equalsIgnoreCase("female")){
-            return false;
-        }
-        return true;
+
+    private boolean isGenderValid(String gender) {
+        return gender.equalsIgnoreCase("male") || gender.equalsIgnoreCase("female");
     }
-    private boolean isNicknameValid(String nickname){
-        return true;
-    }
-    public String registerUser(String username, String password,String confirmpassword ,String nickname,String email, String gender) {
-        if (!isUsernameValid(username)){
-            return "Username is invalid";
-        }
-        if (!isUsernameTaken(username)){
-            return "Username is taken";
-        }
-        if (!isPasswordValid(password)){
-            return "Password is invalid";
-        }
-        if (!isPasswordStrong(password)){
-            return "Password needs to have at least 8 characters,\n one capital letter,\n one numeric digit,\n one special character";
-        }
-        if (!isPasswordConfirmValid(password, confirmpassword)){
-            System.out.println();
-            return "Passwords do not match";
-        }
-        if (!isEmailValid(email)){
-            System.out.println();
-            return "Email is invalid";
-        }
-        if (!isGenderValid(gender)){
-            System.out.println();
-            return "Gender is invalid";
-        }
-        User user;
+
+    public String registerUser(String username, String password, String confirmPassword, String nickname, String email, String gender) {
+        if (!isUsernameValid(username)) return "Username is invalid";
+        if (!isUsernameTaken(username)) return "Username is taken";
+        if (!isPasswordValid(password)) return "Password is invalid";
+        if (!isPasswordStrong(password)) return "Password must be at least 8 characters long and include uppercase, digit, and special character";
+        if (!isPasswordConfirmValid(password, confirmPassword)) return "Passwords do not match";
+        if (!isEmailValid(email)) return "Email is invalid";
+        if (!isGenderValid(gender)) return "Gender is invalid";
+
         SecurityCheck();
 
-
-         user =new User(username , password, email,gender,nickname);
-         user.setAnswer(answerKey, answerNumber);
+        User user = new User(username, password, email, gender, nickname);
+        user.setAnswer(answerKey, answerNumber);
         App.getUsers().add(user);
-
         App.setCurrentMenu(Menu.LOGINMENU);
-        return "User created successfully! you are now in login menu!";
-
-
+        return "User created successfully! You are now in login menu!";
     }
-    public void SecurityCheck(){
+
+    public void registerUserWithRandomPassword(String username, String nickname, String email, String gender, Scanner scanner) {
+        while (true) {
+            String password = generateRandomPassword();
+            System.out.println("Generated Password: " + password);
+            System.out.print("Do you want to use this password? (yes/no): ");
+            String response = scanner.nextLine().trim().toLowerCase();
+
+            if (response.equals("yes")) {
+                System.out.println(registerUser(username, password, password, nickname, email, gender));
+                return;
+            } else if (response.equals("no")) {
+                System.out.print("Generate a new one? (yes/no): ");
+                String retry = scanner.nextLine().trim().toLowerCase();
+                if (!retry.equals("yes")) {
+                    System.out.println("Returning to SignUp menu...");
+                    return;
+                }
+            } else {
+                System.out.println("Invalid response. Please type 'yes' or 'no'.");
+            }
+        }
+    }
+
+    public void SecurityCheck() {
         Scanner tempscanner = new Scanner(System.in);
-        System.out.println("Please Choose one of the following options to answer: \n" +
-                "1 - What is your favorite color?\n" +
-                "2 - What was your first school's name?\n" +
-                "3 - In which City where you born");
+        System.out.println("Please choose one of the following questions:");
+        System.out.println("1 - What is your favorite color?");
+        System.out.println("2 - What was your first school's name?");
+        System.out.println("3 - In which city were you born?");
         String choice = tempscanner.nextLine();
-        System.out.println("Wright your answer : ");
-        if (choice.equals("1")) {
-            answerKey = tempscanner.nextLine();
-            answerNumber = 1;
-        }
-        else if (choice.equals("2")) {
-             answerKey = tempscanner.nextLine();
-             answerNumber = 2;
-        }
-        else if (choice.equals("3")) {
-            answerKey = tempscanner.nextLine();
-            answerNumber = 3;
-        }
-
-
+        System.out.print("Write your answer: ");
+        answerKey = tempscanner.nextLine();
+        answerNumber = switch (choice) {
+            case "1" -> 1;
+            case "2" -> 2;
+            case "3" -> 3;
+            default -> 0;
+        };
     }
-
-
 }
