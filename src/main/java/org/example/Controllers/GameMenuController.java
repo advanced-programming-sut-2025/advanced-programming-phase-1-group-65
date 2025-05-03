@@ -1,11 +1,56 @@
 package org.example.Controllers;
+import org.example.Models.App;
+import org.example.Models.Game;
+import org.example.Models.User;
 
-public class GameMenuController extends MainMenuController{
-    String[] usernames = new String[3] ;
-    public void NewGame(String Username_1, String Username_2, String Username_3 ) {
-        usernames[0] = Username_1;
-        usernames[1] = Username_2;
-        usernames[2] = Username_3;
-        return;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class GameMenuController{
+    public String newGame(String username1 , String username2,String username3){
+        User user1 = App.getUser(username1);
+        User user2 = App.getUser(username2);
+        User user3 = App.getUser(username3);
+        if (user1==null || user2==null || user3==null){
+            return "One or more of usernames do not exist";
+        }
+        if(user1.player.game!=null || user2.player.game!=null || user3.player.game!=null){
+            return "One of the Users has another active game";
+        }
+        Game game = new Game();
+        user1.player.game = game;
+        user2.player.game = game;
+        user3.player.game = game;
+        int[] mapnum = GameMapChoose();
+        user1.player.setFarmNumber(mapnum[0]);
+        user2.player.setFarmNumber(mapnum[1]);
+        user3.player.setFarmNumber(mapnum[2]);
+
+        return "New game was successfully created";
+
     }
+    public int[] GameMapChoose(){
+        int i =0;
+        int[] GameMap = new int[3];
+        while(i <3){
+
+            Scanner sc = new Scanner(System.in);
+            String input = sc.nextLine();
+            Pattern pattern = Pattern.compile("^game map (\\d+)$");
+            Matcher matcher = pattern.matcher(input);
+
+            if (matcher.matches()) {
+              GameMap[i]   = Integer.parseInt(matcher.group(1));
+              i++;
+                // استفاده از mapNumber
+            }
+            else {
+                System.out.println("Invalid input");
+            }
+
+        }
+        return GameMap;
+    }
+
 }

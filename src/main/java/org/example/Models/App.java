@@ -21,8 +21,17 @@ public class App {
         return currentMenu;
     }
 
+//    public static List<Player> players = new ArrayList<>();
     public static List<User> getUsers() {
         return users;
+    }
+    public static User getUser(String username) {
+        for (User user : users) {
+            if (user.getUsername().equals(username)) {
+                return user;
+            }
+        }
+        return null;
     }
 
     public static void addUser(User user) {

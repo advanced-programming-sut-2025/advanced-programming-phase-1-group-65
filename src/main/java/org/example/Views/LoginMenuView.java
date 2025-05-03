@@ -19,7 +19,6 @@ public class LoginMenuView implements AppMenu {
             String username = matcher.group(1);
             String password = matcher.group(2);
 
-            boolean found = false;
 
             if (controller.login(username, password)) {
                 System.out.println("Login successful!");

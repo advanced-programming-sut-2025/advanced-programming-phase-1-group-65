@@ -9,8 +9,11 @@ public class User {
     private String nickname;
     private String answerKey;  // پاسخ به سوالات امنیتی
     private int answerNumber;  // شماره سوال امنیتی
-
+    public Player player =null;
     // سازنده
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
     public User(String username, String password, String email, String gender, String nickname) {
         this.username = username;
         this.password = password;

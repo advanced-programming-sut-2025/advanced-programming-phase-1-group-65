@@ -2,6 +2,7 @@ package org.example.Controllers;
 
 import org.example.Models.App;
 import org.example.Models.Enums.Menu;
+import org.example.Models.Player;
 import org.example.Models.User;
 
 import java.util.Random;
@@ -78,8 +79,10 @@ public class SignUpMenuController extends RegisterMenuController {
 
         User user = new User(username, password, email, gender, nickname);
         user.setAnswer(answerKey, answerNumber);
+        user.setPlayer(new Player());
         App.getUsers().add(user);
         App.setCurrentMenu(Menu.LOGINMENU);
+
         return "User created successfully! You are now in login menu!";
     }
 
