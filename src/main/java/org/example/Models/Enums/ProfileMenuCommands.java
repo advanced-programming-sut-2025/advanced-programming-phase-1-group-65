@@ -3,16 +3,19 @@ package org.example.Models.Enums;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public enum LoginMenuCommands {
-    LOGIN("^login -u (\\S+) -p (\\S+)( --stay-logged-in)?$"),
+public enum ProfileMenuCommands {
     SHOW_CURRENT_MENU("^show current menu$"),
-    MENU_EXIT("^menu exit$"),
-    FORGOTPASSWORD("^forgot-password -u (\\S+)$"),
-    MENU_ENTER("^menu enter (\\w+)$");
+    CHANGE_USERNAME("^change username (\\S+)$"),
+    CHANGE_PASSWORD("^change password -o (\\S+) -n (\\S+)$"),
+    CHANGE_EMAIL("^change email (\\S+)$"),
+    CHANGE_NICKNAME("^change nickname (\\S+)$"),
+    MENU_ENTER("^menu enter (\\w+)$"),
+    USER_INFO("^user info$"),
+    USER_LOGOUT("^user logout$");
 
     private final String pattern;
 
-    LoginMenuCommands(String pattern) {
+    ProfileMenuCommands(String pattern) {
         this.pattern = pattern;
     }
 

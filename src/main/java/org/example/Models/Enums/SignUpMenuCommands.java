@@ -6,8 +6,8 @@ import java.util.regex.Pattern;
 public enum SignUpMenuCommands {
 
     REGISTER("^register -u (\\S+) -p (\\S+) (\\S+) -n (\\S+) -e (\\S+) -g (\\S+)$"),
-    LOGINENTERY("menu enter loginmenu"),
-    REGISTERRANDOM("REGISTER RANDOM"),
+    MENU_ENTER("^menu enter (\\w+)$"),
+    REGISTERRANDOM("^register random$"),
     SHOW_CURRENT_MENU("^show current menu$"),
     MENU_EXIT("^menu exit$");
 
@@ -19,9 +19,6 @@ public enum SignUpMenuCommands {
 
     public Matcher matcher(String input) {
         Matcher matcher = Pattern.compile(this.pattern).matcher(input);
-        if (matcher.matches()) {
-            return matcher;
-        }
-        return null;
+        return matcher.matches() ? matcher : null;
     }
 }
