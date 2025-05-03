@@ -10,6 +10,11 @@ public class User {
     private String answerKey;  // پاسخ به سوالات امنیتی
     private int answerNumber;  // شماره سوال امنیتی
     public Player player =null;
+
+    // اضافه کردن فیلد برای ذخیره بیشترین طلا در یک بازی
+    private int mostGoldInOneGame;
+    private int gamesPlayed;
+
     // سازنده
     public void setPlayer(Player player) {
         this.player = player;
@@ -20,6 +25,8 @@ public class User {
         this.email = email;
         this.gender = gender;
         this.nickname = nickname;
+        this.mostGoldInOneGame = 0;  // مقدار پیش‌فرض
+        this.gamesPlayed = 0;        // تعداد بازی‌های پیش‌فرض
     }
 
     // متدهای دسترسی (Getters)

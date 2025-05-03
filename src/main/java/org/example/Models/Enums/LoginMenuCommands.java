@@ -5,10 +5,10 @@ import java.util.regex.Pattern;
 
 public enum LoginMenuCommands {
     LOGIN("^login -u (\\S+) -p (\\S+)( --stay-logged-in)?$"),
-    BACK("^menu enter signupmenu"),
     SHOW_CURRENT_MENU("^show current menu$"),
     MENU_EXIT("^menu exit$"),
-    FORGOTPASSWORD("^forgot-password -u (\\S+)$");
+    FORGOTPASSWORD("^forgot-password -u (\\S+)$"),
+    MENU_ENTER("^menu enter (\\w+)$"), BACK("Back");
 
     private final String pattern;
 

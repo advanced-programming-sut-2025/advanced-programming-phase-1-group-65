@@ -31,12 +31,19 @@ public class SignUpMenuView implements AppMenu {
                         username, password, confirmPassword, nickname, email, gender));
             }
 
+        } else if ((matcher = SignUpMenuCommands.MENU_ENTER.matcher(input)) != null) {
+            String menuName = matcher.group(1).toUpperCase();
+            try {
+                Menu menu = Menu.valueOf(menuName);
+                App.setCurrentMenu(menu);
+                System.out.println("You are now in " + menuName.toLowerCase() );
+            } catch (IllegalArgumentException e) {
+                System.out.println("No such menu: " + menuName.toLowerCase());
+            }
+
         } else if ((matcher = SignUpMenuCommands.MENU_EXIT.matcher(input)) != null) {
             System.out.println("You have exited the SignUp menu. Goodbye!");
             System.exit(0);
-        }else if ((matcher = SignUpMenuCommands.LOGINENTERY.matcher(input)) != null) {
-            App.setCurrentMenu(Menu.LOGINMENU);
-            System.out.println("You are now in login menu");
 
         } else if ((matcher = SignUpMenuCommands.REGISTERRANDOM.matcher(input)) != null) {
             controller.registerUserWithRandomPassword(
@@ -47,11 +54,10 @@ public class SignUpMenuView implements AppMenu {
                     scanner
             );
 
-        }
-        else if ((matcher = SignUpMenuCommands.SHOW_CURRENT_MENU.matcher(input)) != null) {
+        } else if ((matcher = SignUpMenuCommands.SHOW_CURRENT_MENU.matcher(input)) != null) {
             System.out.println("You are in SignUpMenu");
-        }
-        else {
+
+        } else {
             System.out.println("Invalid input! You are in SignUpMenu");
         }
     }

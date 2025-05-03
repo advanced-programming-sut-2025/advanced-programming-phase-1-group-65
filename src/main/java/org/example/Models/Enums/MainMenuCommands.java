@@ -3,17 +3,13 @@ package org.example.Models.Enums;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public enum SignUpMenuCommands {
-
-    REGISTER("^register -u (\\S+) -p (\\S+) (\\S+) -n (\\S+) -e (\\S+) -g (\\S+)$"),
+public enum MainMenuCommands {
     MENU_ENTER("^menu enter (\\w+)$"),
-    REGISTERRANDOM("^register random$"),
-    SHOW_CURRENT_MENU("^show current menu$"),
-    MENU_EXIT("^menu exit$");
+    SHOW_CURRENT_MENU("^show current menu$");
 
     private final String pattern;
 
-    SignUpMenuCommands(String pattern) {
+    MainMenuCommands(String pattern) {
         this.pattern = pattern;
     }
 

@@ -12,6 +12,7 @@ public class LoginMenuController {
     public boolean login(String username, String password) {
         for (User user : App.getUsers()) {
             if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+                App.setCurrentUser(user);
                 return true;
             }
         }
