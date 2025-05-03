@@ -22,6 +22,8 @@ public class GameMenuController{
         user1.player.game = game;
         user2.player.game = game;
         user3.player.game = game;
+        System.out.println("Choose your map number\n" +
+                "Command : game map <map_number>");
         int[] mapnum = GameMapChoose();
         user1.player.setFarmNumber(mapnum[0]);
         user2.player.setFarmNumber(mapnum[1]);
@@ -46,7 +48,7 @@ public class GameMenuController{
                 // استفاده از mapNumber
             }
             else {
-                System.out.println("Invalid input");
+                System.out.println("Invalid input! choose your map number");
             }
 
         }

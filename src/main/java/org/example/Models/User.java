@@ -41,6 +41,25 @@ public class User {
     public String getConfirmPassword() {
         return confirmPassword;
     }
+    // اضافه کردن متد برای دریافت بیشترین طلا در یک بازی
+    public int getMostGoldInOneGame() {
+        return mostGoldInOneGame;
+    }
+
+    // اضافه کردن متد برای تنظیم بیشترین طلا در یک بازی
+    public void setMostGoldInOneGame(int mostGoldInOneGame) {
+        this.mostGoldInOneGame = mostGoldInOneGame;
+    }
+
+    // اضافه کردن متد برای دریافت تعداد بازی‌های انجام شده
+    public int getGamesPlayed() {
+        return gamesPlayed;
+    }
+
+    // اضافه کردن متد برای افزایش تعداد بازی‌های انجام شده
+    public void incrementGamesPlayed() {
+        this.gamesPlayed++;
+    }
 
     public String getEmail() {
         return email;
@@ -61,6 +80,12 @@ public class User {
     public int getAnswerNumber() {
         return answerNumber;
     }
+    public void setNickname(String newNickname) {
+        this.nickname = newNickname;
+    }
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     // متد برای تنظیم سوال و پاسخ امنیتی
     public void setAnswer(String answerKey, Integer answerNumber) {
@@ -71,6 +96,9 @@ public class User {
     // متد برای تنظیم رمز عبور جدید
     public void setPassword(String newPassword) {
         this.password = newPassword;
+    }
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getSecurityQuestion() {
@@ -85,4 +113,6 @@ public class User {
                 return "No security question set!";
         }
     }
+
+
 }

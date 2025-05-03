@@ -15,7 +15,9 @@ public class SignUpMenuView implements AppMenu {
     public void check(Scanner scanner) {
         String input = scanner.nextLine();
         Matcher matcher;
-
+        System.out.println("Welcome to the Sign Up Menu\n" +
+                "Command : register -u <username> -p <password> <password> -n <nickname> -e <email> -g <gender>\n" +
+                "write random instead of password for random password");
         if ((matcher = SignUpMenuCommands.REGISTER.matcher(input)) != null) {
             String username = matcher.group(1).trim();
             String password = matcher.group(2).trim();

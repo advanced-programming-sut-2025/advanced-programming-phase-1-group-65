@@ -16,7 +16,6 @@ public enum Menu {
     SIGNUPMENU(new SignUpMenuView()),
     LOGINMENU(new LoginMenuView()),
     GAMEMENU(new GameMenuView()),
-    LOGINMENU(new LoginMenuView()),
     MAINMENU(new MainMenuView()),
     PROFILEMENU(new ProfileMenuView());
 

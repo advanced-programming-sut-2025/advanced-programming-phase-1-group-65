@@ -24,7 +24,7 @@ public class MainMenuView implements AppMenu {
 
                 try {
                     Menu menu = Menu.valueOf(menuName);
-                    if (menu == Menu.LOGINREGISTERMENU || menu == Menu.PROFILEMENU ) {
+                    if (menu == Menu.LOGINREGISTERMENU || menu == Menu.PROFILEMENU || menu == Menu.GAMEMENU) {
                         App.setCurrentMenu(menu);
                         System.out.println("You are now in " + menuName.toLowerCase());
                         return;

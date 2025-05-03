@@ -27,9 +27,6 @@ public class LoginMenuView implements AppMenu {
             } else {
                 System.out.println("Username or password is incorrect!");
             }
-        } else if ((matcher = LoginMenuCommands.BACK.matcher(input)) != null) {
-            App.setCurrentMenu(Menu.SIGNUPMENU);
-            System.out.println("You are back in Sign Up Menu");
         }
         else if ((matcher = LoginMenuCommands.MENU_EXIT.matcher(input)) != null) {
             System.out.println("You have exited the Login menu. Goodbye!");
