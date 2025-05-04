@@ -7,6 +7,7 @@ public class Tile {
     public Tile(TileType type) {
         this.type = type;
     }
+
     char getSymbol() {
         switch (type) {
             case WALL:
@@ -37,6 +38,8 @@ public class Tile {
                                             return 'M';
                                             case STARDROPSALOON:
                                                 return 'A';
+            case PLAYER:
+                return '@';
 
                         default:
                             return '?';

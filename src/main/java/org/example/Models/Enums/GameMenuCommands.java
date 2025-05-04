@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 public enum GameMenuCommands {
     NEWGAME("^game new -u ([\\w.-]+) ([\\w.-]+) ([\\w.-]+)$"),
-    LOADGAME(""),
+    LOADGAME("^load game$"),
     EXIT("^menu exit$"),;
 
     public Matcher matcher(String input) {

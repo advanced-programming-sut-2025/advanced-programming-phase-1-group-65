@@ -9,16 +9,19 @@ import java.util.regex.Pattern;
 
 public class GameMenuController{
     public String newGame(String username1 , String username2,String username3){
-        User user1 = App.getUser(username1);
-        User user2 = App.getUser(username2);
-        User user3 = App.getUser(username3);
+         User user1 =null;
+         User user2 =null;
+         User user3 =null;
+         user1 = App.getUser(username1);
+         user2 = App.getUser(username2);
+         user3 = App.getUser(username3);
         if (user1==null || user2==null || user3==null){
             return "One or more of usernames do not exist";
         }
         if(user1.player.game!=null || user2.player.game!=null || user3.player.game!=null){
             return "One of the Users has another active game";
         }
-        Game game = new Game();
+        Game game = new Game(user1,user2,user3);
         user1.player.game = game;
         user2.player.game = game;
         user3.player.game = game;
@@ -41,11 +44,11 @@ public class GameMenuController{
             String input = sc.nextLine();
             Pattern pattern = Pattern.compile("^game map (\\d+)$");
             Matcher matcher = pattern.matcher(input);
-            int map1 = Integer.parseInt(matcher.group(1));
+
 
             if (matcher.matches()) {
 
-
+                int map1 = Integer.parseInt(matcher.group(1));
                 if(map1<=4 && map1>=1 ){
                     GameMap[i]   = map1;
                     i++;

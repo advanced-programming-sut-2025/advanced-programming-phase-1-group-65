@@ -11,6 +11,9 @@ public class Player {
     public void setFarmNumber(int FarmNumber) {
         this.FarmNumber = FarmNumber;
     }
+    public int getFarmNumber() {
+        return FarmNumber;
+    }
     public Game game= null;
     public void setGame(Game game) {
         this.game = game;

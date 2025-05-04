@@ -12,8 +12,8 @@ public class GameMenuView implements AppMenu {
     private final GameMenuController controller= new GameMenuController();
     @Override
     public void check (Scanner scanner) {
-        System.out.println("Welcome to the GameMenu\n"
-        + "Commands : game new -u <username1> <username2> <username3>\n"
+        System.out.println(
+        "Commands : game new -u <username1> <username2> <username3>\n"
         + "load game");
         String input = scanner.nextLine();
         Matcher matcher;
@@ -27,6 +27,18 @@ public class GameMenuView implements AppMenu {
             System.out.println("You are now in MainMenu");
             App.setCurrentMenu(Menu.MAINMENU);
         }
+        else if((matcher = GameMenuCommands.LOADGAME.matcher(input)) != null) {
+            if(App.getCurrentUser().player.game == null){
+                System.out.println("You don't have an active game");
+            }
+            else {
+                System.out.println("loading game...");
+                App.getCurrentUser().player.game.MainPlayer= App.getCurrentUser().player;
+                App.getCurrentUser().player.game.currentPlayer = App.getCurrentUser().player;
+                App.getCurrentUser().player.game.GameRun();
+            }
+        }
+
         else {
             System.out.println("Invalid input");
         }
