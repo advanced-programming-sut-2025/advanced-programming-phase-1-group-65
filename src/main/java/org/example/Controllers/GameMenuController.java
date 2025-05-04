@@ -41,10 +41,20 @@ public class GameMenuController{
             String input = sc.nextLine();
             Pattern pattern = Pattern.compile("^game map (\\d+)$");
             Matcher matcher = pattern.matcher(input);
+            int map1 = Integer.parseInt(matcher.group(1));
 
             if (matcher.matches()) {
-              GameMap[i]   = Integer.parseInt(matcher.group(1));
-              i++;
+
+
+                if(map1<=4 && map1>=1 ){
+                    GameMap[i]   = map1;
+                    i++;
+                }
+                else{
+                    System.out.println("Invalid map number");
+                }
+
+
                 // استفاده از mapNumber
             }
             else {

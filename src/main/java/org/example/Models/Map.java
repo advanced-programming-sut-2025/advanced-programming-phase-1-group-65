@@ -293,6 +293,10 @@ public class Map {
           return map;
 
      }
+     public void generaterandomobjects() {
+          //
+
+     }
      public void printMap(ArrayList<ArrayList<Tile>> map) {
           for (ArrayList<Tile> row : map) {
                for (Tile tile : row) {

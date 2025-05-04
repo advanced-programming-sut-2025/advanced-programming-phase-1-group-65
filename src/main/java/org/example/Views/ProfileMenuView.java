@@ -17,9 +17,9 @@ public class ProfileMenuView implements AppMenu {
         System.out.println("Welcome to Profile Menu!");
         System.out.println("Commands: ");
         System.out.println("change username -u <username>");
-        System.out.println("change nickname -u <nickname>");
+        System.out.println("change nickname -n <nickname>");
         System.out.println("change email -e <email>");
-        System.out.println("change password -p <new_password> -o <old_password>");
+        System.out.println("change password -o <old_password> -p <new_password>");
         System.out.println("user info");
         System.out.println("user logout");
 

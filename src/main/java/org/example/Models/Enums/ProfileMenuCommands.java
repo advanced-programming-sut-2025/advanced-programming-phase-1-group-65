@@ -5,10 +5,10 @@ import java.util.regex.Pattern;
 
 public enum ProfileMenuCommands {
     SHOW_CURRENT_MENU("^show current menu$"),
-    CHANGE_USERNAME("^change username (\\S+)$"),
-    CHANGE_PASSWORD("^change password -o (\\S+) -n (\\S+)$"),
-    CHANGE_EMAIL("^change email (\\S+)$"),
-    CHANGE_NICKNAME("^change nickname (\\S+)$"),
+    CHANGE_USERNAME("^change username -u (\\S+)$"),
+    CHANGE_PASSWORD("^change password -o (\\S+) -p (\\S+)$"),
+    CHANGE_EMAIL("^change email -e (\\S+)$"),
+    CHANGE_NICKNAME("^change nickname -n (\\S+)$"),
     MENU_ENTER("^menu enter (\\w+)$"),
     USER_INFO("^user info$"),
     USER_LOGOUT("^user logout$");
