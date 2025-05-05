@@ -44,6 +44,11 @@ public class GameView {
             else if(input.equals("print map")){
                 game.map.printMap(game.Map);
             }
+            else if((matcher= GameCommands.WALK.matcher(input))!=null){
+                int x = Integer.parseInt(matcher.group(1));
+                int y = Integer.parseInt(matcher.group(2));
+                System.out.println(Controller.Walk(x,y,game));
+            }
             else {
                 System.out.println("invalid input");
             }

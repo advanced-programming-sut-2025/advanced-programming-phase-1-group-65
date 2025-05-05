@@ -3,7 +3,8 @@ package org.example.Models;
 public class Player {
     public int PositionX;
     public int PositionY;
-    int Energy;
+    public int Energy=200;
+
 
     Inventory inventory;
     int FarmNumber;
@@ -14,6 +15,7 @@ public class Player {
     public int getFarmNumber() {
         return FarmNumber;
     }
+
     public Game game= null;
     public void setGame(Game game) {
         this.game = game;

@@ -3,12 +3,12 @@ package org.example.Models;
 import org.example.Models.Enums.TileType;
 
 public class Tile {
-    TileType type;
+    public TileType type;
     public Tile(TileType type) {
         this.type = type;
     }
 
-    char getSymbol() {
+   public char getSymbol() {
         switch (type) {
             case WALL:
                 return 'W';

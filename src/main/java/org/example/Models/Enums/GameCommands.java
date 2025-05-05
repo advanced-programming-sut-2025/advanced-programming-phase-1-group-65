@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 public enum GameCommands {
     EXIT("^exit game$"),
     NEXTTURN("^next turn$"),
-    WALK(""),
+    WALK("^walk -l (\\d+),(\\d+)"),
     PRINTMAP(""),
     HELPMAP("^help reading map$"),;
 

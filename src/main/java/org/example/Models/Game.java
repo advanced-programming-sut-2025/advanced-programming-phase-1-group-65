@@ -9,8 +9,8 @@ import java.util.Scanner;
 
 
 public class Game {
-    public Map map;
-    public ArrayList<ArrayList<Tile>> Map;
+    public Map map=null;
+    public ArrayList<ArrayList<Tile>> Map=null;
     public int timesLoaded=0;
     public User user1=null;
     public User user2=null;
@@ -31,6 +31,7 @@ public class Game {
 
         if(timesLoaded==0){
             map = new Map();
+         // پایینی اری لیست درسته
             Map = map.buildMap();
             for (User user : users){
                 if (user.player.getFarmNumber()==1){

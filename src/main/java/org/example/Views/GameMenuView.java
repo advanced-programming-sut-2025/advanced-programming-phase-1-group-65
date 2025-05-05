@@ -32,7 +32,7 @@ public class GameMenuView implements AppMenu {
                 System.out.println("You don't have an active game");
             }
             else {
-                System.out.println("loading game...");
+                System.out.println("game loaded");
                 App.getCurrentUser().player.game.MainPlayer= App.getCurrentUser().player;
                 App.getCurrentUser().player.game.currentPlayer = App.getCurrentUser().player;
                 App.getCurrentUser().player.game.GameRun();
