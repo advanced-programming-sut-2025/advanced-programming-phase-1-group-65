@@ -11,6 +11,8 @@ public class LoginMenuView implements AppMenu {
 
     @Override
     public void check(Scanner scanner) {
+        System.out.println("Welcome to the Login Menu\n" +
+                "Command : login -u <username> -p <password> ");
         String input = scanner.nextLine();
         Matcher matcher;
         LoginMenuController controller = new LoginMenuController();
