@@ -8,6 +8,10 @@ public class Tile {
         this.type = type;
     }
 
+    public TileType getType() {
+        return type;
+    }
+
    public char getSymbol() {
         switch (type) {
             case WALL:
@@ -40,6 +44,10 @@ public class Tile {
                                                 return 'A';
             case PLAYER:
                 return '@';
+            case ROCK:
+                return 'R';
+                case FORAGING:
+                    return '#';
 
                         default:
                             return '?';
