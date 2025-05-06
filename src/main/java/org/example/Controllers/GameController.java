@@ -90,7 +90,7 @@ public class GameController {
             return "You can not walk to this position";
         }
 
-        int energyNeeded = minsteps / 20;
+        int energyNeeded = minsteps / 20 + 1;
         if (energyNeeded > game.currentPlayer.Energy) {
             return "You don't have enough energy";
         }
