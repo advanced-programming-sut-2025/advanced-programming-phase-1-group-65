@@ -38,20 +38,33 @@ public class GameClock {
         return seasons[currentSeasonIndex];
     }
 
-    public void advanceTimeByOneHour() {
+    public void advanceTimeByOneHour(Game game) {
         hour++;
-        if (hour >= 24) {
-            hour = 0;
-            advanceDay();
+        if (hour >= 22) {
+            hour = 9;
+            advanceDay(game);
         }
     }
 
-    public void advanceTimeByOneDay() {
-        advanceDay();
+    public void advanceTimeByOneDay(Game game) {
+        advanceDay(game);
     }
 
-    private void advanceDay() {
+    private void advanceDay(Game game) {
+        if (game.user1.player.Fainted){
+            game.user1.player.Energy = 150;
+            game.user1.player.Fainted = false;
+        }
+        if (game.user2.player.Fainted){
+            game.user2.player.Energy = 150;
+            game.user2.player.Fainted = false;
+        }
+        if (game.user3.player.Fainted){
+            game.user3.player.Energy = 150;
+            game.user3.player.Fainted = false;
+        }
         day++;
+        hour=9;
         if (day > 28) {
             day = 1;
             currentSeasonIndex = (currentSeasonIndex + 1) % 4;

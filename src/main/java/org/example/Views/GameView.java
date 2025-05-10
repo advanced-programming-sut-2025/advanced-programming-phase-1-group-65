@@ -61,7 +61,20 @@ public class GameView {
                     controller.processAdvanceDays(game, days);
                 }
 
-            } else if (input.equals("print map")) {
+            }
+            else if ((matcher = GameCommands.ENERGY_SHOW.matcher(input)) != null) {
+                controller.ShowCurrentEnergy(game);
+            }
+            else if ((matcher = GameCommands.ENERGY_SET_CHEAT.matcher(input)) != null) {
+                int energy = Integer.parseInt(matcher.group(1));
+                controller.Energy_set(game, energy);
+                System.out.println("Energy Changed successfully.");
+            }
+            else if ((matcher = GameCommands.ENERGY_UNLIMITED.matcher(input)) != null) {
+                controller.Energy_unlimited(game);
+                System.out.println("Energy unlimited");
+            }
+            else if (input.equals("print map")) {
                 game.map.printMap(game.Map);
 
             }

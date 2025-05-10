@@ -64,13 +64,13 @@ public class Game {
 
     public void advanceGameClock() {
         if (gameClock != null) {
-            gameClock.advanceTimeByOneHour();
+            gameClock.advanceTimeByOneHour(this);
         }
     }
 
     public void advanceGameDate() {
         if (gameClock != null) {
-            gameClock.advanceTimeByOneDay();
+            gameClock.advanceTimeByOneDay(this);
         }
     }
 
@@ -80,7 +80,7 @@ public class Game {
             return;
         }
         for (int i = 0; i < hours; i++) {
-            gameClock.advanceTimeByOneHour();
+            gameClock.advanceTimeByOneHour(this);
 
         }
     }
@@ -91,7 +91,7 @@ public class Game {
             return;
         }
         for (int i = 0; i < days; i++) {
-            gameClock.advanceTimeByOneDay();
+            gameClock.advanceTimeByOneDay(this);
         }
     }
 }

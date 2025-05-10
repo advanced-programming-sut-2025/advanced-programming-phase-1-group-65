@@ -16,7 +16,10 @@ public enum GameCommands {
     DATETIME("^datetime$"),
     DAYOFWEEK("^day of the week$"),
     CHEAT_ADVANCE_TIME("^cheat advance time (\\d+)h$"),
-    CHEAT_ADVANCE_DATE("^cheat advance date (\\d+)d$");
+    CHEAT_ADVANCE_DATE("^cheat advance date (\\d+)d$"),
+    ENERGY_SHOW("^energy show$"),
+    ENERGY_SET_CHEAT("^energy set -v (\\d+)$"),
+    ENERGY_UNLIMITED("^energy unlimited$");
 
     private final String pattern;
 

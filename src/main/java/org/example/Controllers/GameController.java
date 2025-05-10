@@ -21,27 +21,72 @@ public class GameController {
     private boolean[][] visited;
     public void processNextTurn(Game game) {
         if (game.currentPlayer == game.user1.player) {
+            if (game.user2.player.Fainted){
+                if (game.user3.player.Fainted){
+                    if (game.user1.player.Fainted){
+                        game.gameClock.advanceTimeByOneDay(game);
+                        return;
+                    }
+                    game.gameClock.advanceTimeByOneHour(game);
+                    return;
+                }
+                game.currentPlayer = game.user3.player;
+                System.out.println("You are now playing" + game.user3.getNickname());
+                nextTurnCounter++;
+                return;
+            }
             game.currentPlayer = game.user2.player;
             System.out.println("You are now playing " + game.user2.getNickname());
+            nextTurnCounter++;
+            return;
         } else if (game.currentPlayer == game.user2.player) {
+            if (game.user3.player.Fainted){
+                if (game.user1.player.Fainted){
+                    if (game.user2.player.Fainted){
+                        game.gameClock.advanceTimeByOneDay(game);
+                        return;
+                    }
+                    game.gameClock.advanceTimeByOneHour(game);
+                    return;
+                }
+                game.currentPlayer = game.user1.player;
+                System.out.println("You are now playing " + game.user1.getNickname());
+                nextTurnCounter++;
+                return;
+            }
             game.currentPlayer = game.user3.player;
             System.out.println("You are now playing " + game.user3.getNickname());
+            nextTurnCounter++;
+            return;
         } else if (game.currentPlayer == game.user3.player) {
+            if (game.user1.player.Fainted){
+                if (game.user2.player.Fainted){
+                    if (game.user3.player.Fainted){
+                        game.gameClock.advanceTimeByOneDay(game);
+                    }
+                    game.gameClock.advanceTimeByOneHour(game);
+                }
+                game.currentPlayer = game.user2.player;
+                System.out.println("You are now playing " + game.user2.getNickname());
+                nextTurnCounter++;
+                return;
+            }
             game.currentPlayer = game.user1.player;
             System.out.println("You are now playing " + game.user1.getNickname());
+            nextTurnCounter++;
+            return;
         }
 
-        nextTurnCounter++;
 
         if (nextTurnCounter >= 3) {
-            game.gameClock.advanceTimeByOneHour();
+            game.gameClock.advanceTimeByOneHour(game);
             nextTurnCounter = 0;
             System.out.println("One hour has passed in game time.");
         }
     }
     public String Walk(int destx, int desty, Game game) {
         Scanner temp = new Scanner(System.in);
-        int height = 114;
+        int height = 112;
         int width = 140;
         boolean[][] visited = new boolean[height][width];
         int[][] distance = new int[height][width];
@@ -89,14 +134,18 @@ public class GameController {
         }
 
         int energyNeeded = minsteps / 20 + 1;
-        if (energyNeeded > game.currentPlayer.Energy) {
-            return "You don't have enough energy";
-        }
+
 
         System.out.println("You need " + energyNeeded + " energy to walk to this position.\nDo you wish to proceed? (y/n)");
         String ch = temp.nextLine();
 
         if (ch.equalsIgnoreCase("y") || ch.equalsIgnoreCase("yes")) {
+            if (energyNeeded > game.currentPlayer.Energy) {
+                game.currentPlayer.Fainted = true;
+                processNextTurn(game);
+                return "Last player has fainted.";
+
+            }
             int prevX = game.currentPlayer.PositionX;
             int prevY = game.currentPlayer.PositionY;
 
@@ -114,16 +163,25 @@ public class GameController {
     }
     public void processAdvanceHours(Game game, int hours) {
         for (int i = 0; i < hours; i++) {
-            game.gameClock.advanceTimeByOneHour();
+            game.gameClock.advanceTimeByOneHour(game);
         }
         System.out.println("Time advanced by " + hours + " hours.");
     }
 
     public void processAdvanceDays(Game game, int days) {
         for (int i = 0; i < days; i++) {
-            game.gameClock.advanceTimeByOneDay();
+            game.gameClock.advanceTimeByOneDay(game);
         }
         System.out.println("Date advanced by " + days + " days.");
+    }
+    public void ShowCurrentEnergy(Game game) {
+        System.out.println("Current energy: " + game.currentPlayer.Energy);
+    }
+    public void Energy_set(Game game, int energy) {
+        game.currentPlayer.Energy = energy;
+    }
+    public void Energy_unlimited(Game game) {
+        game.currentPlayer.Energy = Integer.MAX_VALUE;
     }
 
 
