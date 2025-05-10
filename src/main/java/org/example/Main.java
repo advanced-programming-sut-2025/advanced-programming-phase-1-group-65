@@ -29,6 +29,8 @@ login -u Arya -p Arya@90579
 
 menu enter Gamemenu
 
+game new -u Ilia Amir Arya
+
 */
 public class Main {
     public static void main(String[] args) {

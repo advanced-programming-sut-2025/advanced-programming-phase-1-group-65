@@ -5,6 +5,7 @@ import org.example.Models.App;
 import org.example.Models.Enums.GameCommands;
 import org.example.Models.Enums.Menu;
 import org.example.Models.Game;
+import org.example.Models.Enums.WeatherType;
 
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -22,8 +23,7 @@ public class GameView {
                     game.timesLoaded++;
                     App.setCurrentMenu(Menu.MAINMENU);
                     break;
-                }
-                else{
+                } else {
                     System.out.println("You don't have the authority to do this.");
                 }
 
@@ -47,46 +47,55 @@ public class GameView {
 
             } else if ((matcher = GameCommands.CHEAT_ADVANCE_TIME.matcher(input)) != null) {
                 int hours = Integer.parseInt(matcher.group(1));
-                if (hours < 0) {
-                    System.out.println("Invalid value. X must be non-negative.");
-                } else {
-                    controller.processAdvanceHours(game, hours);
-                }
+                controller.processAdvanceHours(game, hours);
 
             } else if ((matcher = GameCommands.CHEAT_ADVANCE_DATE.matcher(input)) != null) {
                 int days = Integer.parseInt(matcher.group(1));
-                if (days < 0) {
-                    System.out.println("Invalid value. X must be non-negative.");
-                } else {
-                    controller.processAdvanceDays(game, days);
-                }
+                controller.processAdvanceDays(game, days);
 
-            }
-            else if ((matcher = GameCommands.ENERGY_SHOW.matcher(input)) != null) {
+            } else if ((matcher = GameCommands.ENERGY_SHOW.matcher(input)) != null) {
                 controller.ShowCurrentEnergy(game);
-            }
-            else if ((matcher = GameCommands.ENERGY_SET_CHEAT.matcher(input)) != null) {
+
+            } else if ((matcher = GameCommands.ENERGY_SET_CHEAT.matcher(input)) != null) {
                 int energy = Integer.parseInt(matcher.group(1));
                 controller.Energy_set(game, energy);
-                System.out.println("Energy Changed successfully.");
-            }
-            else if ((matcher = GameCommands.ENERGY_UNLIMITED.matcher(input)) != null) {
+                System.out.println("Energy changed successfully.");
+
+            } else if ((matcher = GameCommands.ENERGY_UNLIMITED.matcher(input)) != null) {
                 controller.Energy_unlimited(game);
-                System.out.println("Energy unlimited");
-            }
-            else if (input.equals("print map")) {
+                System.out.println("Energy set to unlimited.");
+
+            } else if (input.equals("print map")) {
                 game.map.printMap(game.Map);
 
-            }
-            else if((matcher= GameCommands.WALK.matcher(input))!=null){
+            } else if ((matcher = GameCommands.WALK.matcher(input)) != null) {
                 int x = Integer.parseInt(matcher.group(1));
                 int y = Integer.parseInt(matcher.group(2));
-                System.out.println(controller.Walk(x,y,game));
-            }else {
+                System.out.println(controller.Walk(x, y, game));
+
+            } else if ((matcher = GameCommands.WEATHER_SHOW.matcher(input)) != null) {
+                System.out.println("Today's weather: " + game.weatherSystem.getTodayWeather());
+
+            } else if ((matcher = GameCommands.WEATHER_FORECAST.matcher(input)) != null) {
+                System.out.println("Tomorrow's weather: " + game.weatherSystem.getTomorrowWeather());
+
+            } else if ((matcher = GameCommands.CHEAT_WEATHER_SET.matcher(input)) != null) {
+                String type = matcher.group(1);
+                WeatherType weatherType;
+                try {
+                    weatherType = WeatherType.valueOf(type.toUpperCase());
+                    controller.setWeatherCheat(game, weatherType);
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Invalid weather type. Please choose from: SUNNY, RAIN, STORM, SNOW.");
+                }
+
+            } else if ((matcher = GameCommands.CHEAT_THOR.matcher(input)) != null) {
+                int x = Integer.parseInt(matcher.group(1));
+                int y = Integer.parseInt(matcher.group(2));
+                controller.triggerLightning(game, x, y);
+            } else {
                 System.out.println("Invalid input");
             }
-
-
         }
     }
 }

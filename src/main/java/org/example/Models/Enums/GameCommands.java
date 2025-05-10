@@ -1,15 +1,13 @@
 package org.example.Models.Enums;
 
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public enum GameCommands {
     EXIT("^exit game$"),
     NEXTTURN("^next turn$"),
-    WALK("^walk -l (\\d+),(\\d+)"),
+    WALK("^walk -l (\\d+),(\\d+)$"),
     PRINTMAP(""),
     HELPMAP("^help reading map$"),
-
     SEASON("^season$"),
     DATE("^date$"),
     TIME("^time$"),
@@ -19,7 +17,11 @@ public enum GameCommands {
     CHEAT_ADVANCE_DATE("^cheat advance date (\\d+)d$"),
     ENERGY_SHOW("^energy show$"),
     ENERGY_SET_CHEAT("^energy set -v (\\d+)$"),
-    ENERGY_UNLIMITED("^energy unlimited$");
+    ENERGY_UNLIMITED("^energy unlimited$"),
+    WEATHER_SHOW("^weather$"),
+    WEATHER_FORECAST("^weather forecast$"),
+    CHEAT_WEATHER_SET("^cheat weather set (SUNNY|RAIN|STORM|SNOW)$"),
+    CHEAT_THOR("^cheat Thor -l (\\d+) (\\d+)$");
 
     private final String pattern;
 

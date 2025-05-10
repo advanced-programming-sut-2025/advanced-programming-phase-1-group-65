@@ -1,6 +1,7 @@
 package org.example.Controllers;
 
 import org.example.Models.Enums.TileType;
+import org.example.Models.Enums.WeatherType;
 import org.example.Models.Game;
 import org.example.Models.Player;
 import org.example.Models.Tile;
@@ -10,30 +11,28 @@ import java.util.Queue;
 import java.util.Scanner;
 
 public class GameController {
-    private static final int[][] DIRECTIONS ={
-            {-1,0},//up
-            { 1,0},//down
-            { 0,-1},//left
-            { 0,1},//right
+    private static final int[][] DIRECTIONS = {
+            {-1, 0}, // up
+            {1, 0},  // down
+            {0, -1}, // left
+            {0, 1}   // right
     };
     private int nextTurnCounter = 0;
 
-    private boolean[][] visited;
-    private int minsteps=Integer.MAX_VALUE;
-
     public void processNextTurn(Game game) {
         if (game.currentPlayer == game.user1.player) {
-            if (game.user2.player.Fainted){
-                if (game.user3.player.Fainted){
-                    if (game.user1.player.Fainted){
+            if (game.user2.player.Fainted) {
+                if (game.user3.player.Fainted) {
+                    if (game.user1.player.Fainted) {
                         game.gameClock.advanceTimeByOneDay(game);
+                        game.weatherSystem.advanceDay();
                         return;
                     }
                     game.gameClock.advanceTimeByOneHour(game);
                     return;
                 }
                 game.currentPlayer = game.user3.player;
-                System.out.println("You are now playing" + game.user3.getNickname());
+                System.out.println("You are now playing " + game.user3.getNickname());
                 nextTurnCounter++;
                 return;
             }
@@ -42,10 +41,11 @@ public class GameController {
             nextTurnCounter++;
             return;
         } else if (game.currentPlayer == game.user2.player) {
-            if (game.user3.player.Fainted){
-                if (game.user1.player.Fainted){
-                    if (game.user2.player.Fainted){
+            if (game.user3.player.Fainted) {
+                if (game.user1.player.Fainted) {
+                    if (game.user2.player.Fainted) {
                         game.gameClock.advanceTimeByOneDay(game);
+                        game.weatherSystem.advanceDay();
                         return;
                     }
                     game.gameClock.advanceTimeByOneHour(game);
@@ -61,10 +61,11 @@ public class GameController {
             nextTurnCounter++;
             return;
         } else if (game.currentPlayer == game.user3.player) {
-            if (game.user1.player.Fainted){
-                if (game.user2.player.Fainted){
-                    if (game.user3.player.Fainted){
+            if (game.user1.player.Fainted) {
+                if (game.user2.player.Fainted) {
+                    if (game.user3.player.Fainted) {
                         game.gameClock.advanceTimeByOneDay(game);
+                        game.weatherSystem.advanceDay();
                     }
                     game.gameClock.advanceTimeByOneHour(game);
                 }
@@ -79,13 +80,13 @@ public class GameController {
             return;
         }
 
-
         if (nextTurnCounter >= 3) {
             game.gameClock.advanceTimeByOneHour(game);
             nextTurnCounter = 0;
             System.out.println("One hour has passed in game time.");
         }
     }
+
     public String Walk(int destx, int desty, Game game) {
         Scanner temp = new Scanner(System.in);
         int height = 112;
@@ -135,8 +136,24 @@ public class GameController {
             return "You can not walk to this position";
         }
 
-        int energyNeeded = minsteps / 20 + 1;
+        // محاسبه انرژی نیاز
+        double modifier = 1.0;
+        WeatherType currentWeather = game.weatherSystem.getTodayWeather();
 
+        switch (currentWeather) {
+            case RAIN:
+                modifier = 1.5;
+                break;
+            case SNOW:
+                modifier = 2.0;
+                break;
+            case SUNNY:
+            default:
+                modifier = 1.0;
+                break;
+        }
+
+        double energyNeeded = ((minsteps / 20 + 1) * modifier);
 
         System.out.println("You need " + energyNeeded + " energy to walk to this position.\nDo you wish to proceed? (y/n)");
         String ch = temp.nextLine();
@@ -146,8 +163,8 @@ public class GameController {
                 game.currentPlayer.Fainted = true;
                 processNextTurn(game);
                 return "Last player has fainted.";
-
             }
+
             int prevX = game.currentPlayer.PositionX;
             int prevY = game.currentPlayer.PositionY;
 
@@ -163,6 +180,7 @@ public class GameController {
 
         return "Command cancelled";
     }
+
     public void processAdvanceHours(Game game, int hours) {
         for (int i = 0; i < hours; i++) {
             game.gameClock.advanceTimeByOneHour(game);
@@ -173,19 +191,31 @@ public class GameController {
     public void processAdvanceDays(Game game, int days) {
         for (int i = 0; i < days; i++) {
             game.gameClock.advanceTimeByOneDay(game);
+            game.weatherSystem.advanceDay();
         }
         System.out.println("Date advanced by " + days + " days.");
     }
+
     public void ShowCurrentEnergy(Game game) {
         System.out.println("Current energy: " + game.currentPlayer.Energy);
     }
+
     public void Energy_set(Game game, int energy) {
         game.currentPlayer.Energy = energy;
     }
+
     public void Energy_unlimited(Game game) {
         game.currentPlayer.Energy = Integer.MAX_VALUE;
     }
 
+    public void setWeatherCheat(Game game, WeatherType weather) {
+        game.weatherSystem.setTomorrowWeather(weather);
+        System.out.println("Tomorrow's weather has been manually set to: " + weather);
+    }
 
+    public void triggerLightning(Game game, int x, int y) {
 
+        System.out.println("Lightning triggered at position (" + x + ", " + y + ")!");
+
+    }
 }
