@@ -1,9 +1,8 @@
 package org.example.Controllers;
 
+import org.example.Models.*;
+import org.example.Models.Enums.ItemType;
 import org.example.Models.Enums.TileType;
-import org.example.Models.Game;
-import org.example.Models.Player;
-import org.example.Models.Tile;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -166,6 +165,7 @@ public class GameController {
             game.gameClock.advanceTimeByOneHour(game);
         }
         System.out.println("Time advanced by " + hours + " hours.");
+
     }
 
     public void processAdvanceDays(Game game, int days) {
@@ -182,6 +182,22 @@ public class GameController {
     }
     public void Energy_unlimited(Game game) {
         game.currentPlayer.Energy = Integer.MAX_VALUE;
+    }
+    public String EquipTool(Game game,String name) {
+        for(Item item : game.currentPlayer.items){
+            if(item.type.equals(ItemType.TOOL) && item.subtype.toString().equalsIgnoreCase(name) ){
+                game.currentPlayer.CurrentTool= (Tool) item;
+                return name+" was equipped";
+            }
+
+        }
+        return "You do not have this tool";
+    }
+    public String ShowCurrentTool(Game game) {
+        if (game.currentPlayer.CurrentTool == null) {
+            return "You do not have any tools equipped";
+        }
+        return game.currentPlayer.CurrentTool.subtype.toString();
     }
 
 

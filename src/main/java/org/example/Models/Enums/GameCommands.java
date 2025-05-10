@@ -19,7 +19,9 @@ public enum GameCommands {
     CHEAT_ADVANCE_DATE("^cheat advance date (\\d+)d$"),
     ENERGY_SHOW("^energy show$"),
     ENERGY_SET_CHEAT("^energy set -v (\\d+)$"),
-    ENERGY_UNLIMITED("^energy unlimited$");
+    ENERGY_UNLIMITED("^energy unlimited$"),
+    SHOW_CURRENT_TOOL("^tool show current$"),
+    TOOL_EQUIP("^tools equip ([\\w.-]+)$");
 
     private final String pattern;
 

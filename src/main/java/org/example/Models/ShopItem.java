@@ -1,6 +1,6 @@
 package org.example.Models;
 
-public class ShopItem extends Item {
+public class ShopItem {
     int price;
     String Name;
     String Type;

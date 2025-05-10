@@ -82,7 +82,16 @@ public class GameView {
                 int x = Integer.parseInt(matcher.group(1));
                 int y = Integer.parseInt(matcher.group(2));
                 System.out.println(controller.Walk(x,y,game));
-            }else {
+            }
+            else if ((matcher= GameCommands.TOOL_EQUIP.matcher(input))!=null){
+                String name = matcher.group(1);
+                System.out.println(controller.EquipTool(game,name));
+            }
+            else if ((matcher= GameCommands.SHOW_CURRENT_TOOL.matcher(input))!=null){
+                System.out.println(controller.ShowCurrentTool(game));
+            }
+
+            else {
                 System.out.println("Invalid input");
             }
 

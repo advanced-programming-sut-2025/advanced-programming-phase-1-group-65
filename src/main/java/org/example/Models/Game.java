@@ -1,5 +1,6 @@
 package org.example.Models;
 
+import org.example.Models.Enums.ItemSubType;
 import org.example.Models.Enums.TileType;
 import org.example.Views.GameView;
 
@@ -55,6 +56,19 @@ public class Game {
                 }
 
                 user.player.game.Map.get(user.player.PositionY).set(user.player.PositionX, new Tile(TileType.PLAYER));
+                user.player.items.add(new Tool(1, ItemSubType.AXE));
+                user.player.items.add(new Tool(1, ItemSubType.WATERINGCAN));
+                user.player.items.add(new Tool(1, ItemSubType.FISHINGPOLE));
+                user.player.items.add(new Tool(1, ItemSubType.SCYTHE));
+                user.player.items.add(new Tool(1, ItemSubType.MILKPAIL));
+                user.player.items.add(new Tool(1, ItemSubType.SHEAR));
+                user.player.items.add(new Tool(1, ItemSubType.TRASH_CAN));
+                user.player.items.add(new Tool(1, ItemSubType.HOE));
+                user.player.items.add(new Tool(1, ItemSubType.PICKAXE));
+
+
+
+
             }
         }
 

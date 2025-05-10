@@ -1,6 +1,14 @@
 package org.example.Models;
 import org.example.Models.Enums.FoodType;
+import org.example.Models.Enums.ItemSubType;
+import org.example.Models.Enums.ItemType;
+
 public class Food extends Item {
+    public ItemSubType subtype;
+    public Food(int count, ItemSubType subtype) {
+        super(ItemType.FOOD,subtype,count);
+        this.subtype = subtype;
+    }
     String Quality;
     private int Energy;
     private String Name;
