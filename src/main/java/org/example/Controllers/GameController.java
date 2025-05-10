@@ -19,8 +19,6 @@ public class GameController {
     private int nextTurnCounter = 0;
 
     private boolean[][] visited;
-    private int minsteps=Integer.MAX_VALUE;
-
     public void processNextTurn(Game game) {
         if (game.currentPlayer == game.user1.player) {
             game.currentPlayer = game.user2.player;
