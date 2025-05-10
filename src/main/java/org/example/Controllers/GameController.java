@@ -135,7 +135,7 @@ public class GameController {
             return "You can not walk to this position";
         }
 
-        int energyNeeded = minsteps / 20;
+        int energyNeeded = minsteps / 20 + 1;
 
 
         System.out.println("You need " + energyNeeded + " energy to walk to this position.\nDo you wish to proceed? (y/n)");
