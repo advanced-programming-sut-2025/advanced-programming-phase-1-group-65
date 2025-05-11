@@ -9,18 +9,20 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Game {
-    public Map map=null;
-    public ArrayList<ArrayList<Tile>> Map=null;
-    public int timesLoaded=0;
-    public User user1=null;
-    public User user2=null;
-    public User user3=null;
+    public Map map = null;
+    public ArrayList<ArrayList<Tile>> Map = null;
+    public int timesLoaded = 0;
+
+    public User user1 = null;
+    public User user2 = null;
+    public User user3 = null;
     List<User> users;
 
     public Player currentPlayer = null;
     public Player MainPlayer = null;
 
     public GameClock gameClock;
+    public WeatherSystem weatherSystem;
 
     public Game(User user1, User user2, User user3) {
         this.user1 = user1;
@@ -28,11 +30,10 @@ public class Game {
         this.user3 = user3;
         this.users = List.of(user1, user2, user3);
         this.gameClock = new GameClock();
+        this.weatherSystem = new WeatherSystem("spring");
     }
 
-
-    public void GameRun(){
-
+    public void GameRun() {
         Scanner sc = new Scanner(System.in);
 
         if (timesLoaded == 0) {
@@ -69,6 +70,8 @@ public class Game {
 
 
 
+                user.player.game.Map.get(user.player.PositionY)
+                        .set(user.player.PositionX, new Tile(TileType.PLAYER));
             }
         }
 
@@ -95,7 +98,6 @@ public class Game {
         }
         for (int i = 0; i < hours; i++) {
             gameClock.advanceTimeByOneHour(this);
-
         }
     }
 

@@ -43,6 +43,7 @@ public class GameClock {
         if (hour >= 22) {
             hour = 9;
             advanceDay(game);
+            game.weatherSystem.advanceDay();
         }
     }
 
