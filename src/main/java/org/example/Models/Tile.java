@@ -11,7 +11,9 @@ public class Tile {
     public TileType getType() {
         return type;
     }
-
+    public Tile clone() {
+        return new Tile(this.type); // یا اطلاعات کامل‌تر
+    }
    public char getSymbol() {
         switch (type) {
             case WALL:

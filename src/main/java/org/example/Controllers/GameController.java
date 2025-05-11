@@ -9,6 +9,7 @@ import org.example.Models.Game;
 import org.example.Models.Player;
 import org.example.Models.Tile;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
@@ -97,40 +98,50 @@ public class GameController {
         int width = 140;
         boolean[][] visited = new boolean[height][width];
         int[][] distance = new int[height][width];
-
         int startX = game.currentPlayer.PositionX;
         int startY = game.currentPlayer.PositionY;
 
-        if (!game.Map.get(desty).get(destx).type.equals(TileType.EMPTY)) {
+
+
+        if (!game.Map.get(desty).get(destx).type.equals(TileType.EMPTY)
+                && !game.Map.get(desty).get(destx).type.equals(TileType.GREENHOUSE)
+                && !game.Map.get(desty).get(destx).type.equals(TileType.QUARRY)) {
             return "You can not walk to this position";
         }
+
 
         Queue<int[]> queue = new LinkedList<>();
         queue.add(new int[]{startX, startY});
         visited[startY][startX] = true;
         distance[startY][startX] = 0;
 
+
         while (!queue.isEmpty()) {
             int[] current = queue.poll();
             int x = current[0];
             int y = current[1];
 
-            if (x == destx && y == desty) {
-                break;
-            }
+            if (x == destx && y == desty) break;
 
             for (int[] dir : DIRECTIONS) {
                 int newX = x + dir[0];
                 int newY = y + dir[1];
 
-                if (newX >= 0 && newY >= 0 && newX < width && newY < height
-                        && !visited[newY][newX]
-                        && (game.Map.get(newY).get(newX).type.equals(TileType.EMPTY)
-                        || game.Map.get(newY).get(newX).type.equals(TileType.PLAYER))) {
+                if (newX >= 0 && newY >= 0 && newX < width && newY < height && !visited[newY][newX]) {
+                    TileType type = game.Map.get(newY).get(newX).getType();
 
-                    visited[newY][newX] = true;
-                    distance[newY][newX] = distance[y][x] + 1;
-                    queue.add(new int[]{newX, newY});
+                    if (type == TileType.EMPTY || type == TileType.PLAYER
+                            || type == TileType.GREENHOUSE || type == TileType.QUARRY) {
+
+                        visited[newY][newX] = true;
+                        distance[newY][newX] = distance[y][x] + 1;
+
+                        // اگر GREENHOUSE یا QUARRY بود، نوعش رو نگه‌دار برای بازیابی
+
+
+
+                        queue.add(new int[]{newX, newY});
+                    }
                 }
             }
         }
@@ -169,16 +180,11 @@ public class GameController {
                 return "Last player has fainted.";
             }
 
-            int prevX = game.currentPlayer.PositionX;
-            int prevY = game.currentPlayer.PositionY;
-
             game.currentPlayer.Energy -= energyNeeded;
             game.currentPlayer.PositionX = destx;
             game.currentPlayer.PositionY = desty;
-
-            game.Map.get(prevY).set(prevX, new Tile(TileType.EMPTY));
+            game.Map.get(startY).set(startX,game.MapClone.get(startY).get(startX));
             game.Map.get(desty).set(destx, new Tile(TileType.PLAYER));
-
             return "You have reached your destination";
         }
 
