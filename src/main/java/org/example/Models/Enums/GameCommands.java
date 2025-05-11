@@ -23,7 +23,9 @@ public enum GameCommands {
     CHEAT_WEATHER_SET("^cheat weather set (SUNNY|RAIN|STORM|SNOW)$"),
     CHEAT_THOR("^cheat Thor -l (\\d+) (\\d+)$"),
     SHOW_CURRENT_TOOL("^tool show current$"),
-    TOOL_EQUIP("^tools equip ([\\w.-]+)$");
+    TOOL_EQUIP("^tools equip ([\\w.-]+)$"),
+    USE_TOOL("^tools use -d (0|1|-1),(0|1|-1)$"),
+    TOOLS_AVAILABLE("^tools show available");
 
     private final String pattern;
 

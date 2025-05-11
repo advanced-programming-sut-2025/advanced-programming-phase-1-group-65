@@ -7,10 +7,12 @@ public class Item {
     public ItemType type;
     public ItemSubType subtype;
     public int Count;
-    public Item(ItemType type, ItemSubType subtype , int count) {
+    public String name;
+    public Item(ItemType type, ItemSubType subtype , int count,String name) {
         this.type = type;
         this.subtype = subtype;
         this.Count = count;
+        this.name = name;
     }
 
 

@@ -103,6 +103,14 @@ public class GameView {
                 int y = Integer.parseInt(matcher.group(2));
                 controller.triggerLightning(game, x, y);
             }
+            else if ((matcher = GameCommands.TOOLS_AVAILABLE.matcher(input)) != null) {
+                controller.ShowAllTools(game);
+            }
+            else if ((matcher = GameCommands.USE_TOOL.matcher(input)) != null) {
+                int x = Integer.parseInt(matcher.group(1));
+                int y = Integer.parseInt(matcher.group(2));
+                controller.UseTool(game, x, y);
+            }
 
             else {
                 System.out.println("Invalid input");

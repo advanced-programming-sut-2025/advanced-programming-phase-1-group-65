@@ -1,49 +1,202 @@
 package org.example.Models;
 
+import com.sun.source.tree.Tree;
+import org.example.Models.Enums.ItemSubType;
+import org.example.Models.Enums.TileSubType;
 import org.example.Models.Enums.TileType;
 import org.example.Models.Enums.TileType.*;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Map {
 
 
-    public void generateRandomObjects(ArrayList<ArrayList<Tile>> MapArrayList) {
+    public void generateRandomObjects(ArrayList<ArrayList<Tile>> MapArrayList,Game game) {
         // generating random objects for farm number 1
-        generateRandomTrees(MapArrayList, 0,0, 39, 29);
+        generateRandomTrees(MapArrayList, 0,0, 39, 29,game);
         generateRandomForagings(MapArrayList, 0, 0, 39, 29);
         generateRandomRocks(MapArrayList, 0, 0, 39, 29);
 
         // generating random objects for farm number 2
-        generateRandomTrees(MapArrayList, 100, 0, 139, 29);
+        generateRandomTrees(MapArrayList, 100, 0, 139, 29,game);
         generateRandomForagings(MapArrayList, 100, 0, 139, 29);
         generateRandomRocks(MapArrayList, 100, 0, 139, 29);
 
         // generating random objects for farm number 3
-        generateRandomTrees(MapArrayList, 0, 82, 39, 111);
+        generateRandomTrees(MapArrayList, 0, 82, 39, 111,game);
         generateRandomForagings(MapArrayList, 0, 82, 39, 111);
         generateRandomRocks(MapArrayList, 0, 82, 39, 111);
 
         // generating random objects for farm number 4
-        generateRandomTrees(MapArrayList, 100, 82, 139, 111);
+        generateRandomTrees(MapArrayList, 100, 82, 139, 111,game);
         generateRandomForagings(MapArrayList, 100, 82, 139, 111);
         generateRandomRocks(MapArrayList, 100, 82, 139, 111);
     }
 
-    public void generateRandomTrees(ArrayList<ArrayList<Tile>> MapArrayList ,int x0, int y0, int x1, int y1) {
+    public void generateRandomTrees(ArrayList<ArrayList<Tile>> MapArrayList ,int x0, int y0, int x1, int y1,Game game) {
         int numOfTrees = (int) ((Math.random() * 10) + 20);
-
+        Trees tree;
         int randomX = (int) ((Math.random() * (x1 - x0 + 1)) + x0);
         int randomY = (int) ((Math.random() * (y1 - y0 + 1)) + y0);
-
+        Material seed;
         for (int i = 0; i < numOfTrees; i++) {
             while (MapArrayList.get(randomY).get(randomX).getType() != TileType.EMPTY) {
                 randomX = (int) ((Math.random() * (x1 - x0 + 1)) + x0);
                 randomY = (int) ((Math.random() * (y1 - y0 + 1)) + y0);
             }
-            MapArrayList.get(randomY).set(randomX, new Tile(TileType.TREE));
+            seed = getRandomSeed(game);
+            tree = new Trees(TileSubType.WILD,"Wild",null,5);
+            tree.seed = seed;
+            MapArrayList.get(randomY).set(randomX, tree);
         }
     }
+   public Material getRandomSeed(Game game) {
+        Material seed = null;
+        if(game.gameClock.getCurrentSeasonIndex()==1){
+            String[] Trees = {"Apricot Tree", "Cherry Tree", "Mystic Tree", "Mushroom Tree", "Mahogany Tree", "Pine Tree"
+            ,"Maple Tree", "Oak Tree"};
+            Random rand = new Random();
+            int index = rand.nextInt(Trees.length);
+            switch (index){
+                case 0:
+                     seed = new Material(1,ItemSubType.SEED,"Apricot Sapling");
+                    break;
+                case 1:
+                    seed = new Material(2,ItemSubType.SEED,"Cherry Sapling");
+                    break;
+                case 2:
+                    seed = new Material(3,ItemSubType.SEED,"Mystic Tree Seeds");
+                    break;
+                case 3:
+                    seed = new Material(4,ItemSubType.SEED,"Mushroom Tree Seeds");
+                    break;
+                case 4:
+                    seed = new Material(4,ItemSubType.SEED,"Mahogany Tree Seeds");
+                    break;
+                case 5:
+                    seed = new Material(5,ItemSubType.SEED,"Pine Tree Seeds");
+                    break;
+                 case 6:
+                     seed = new Material(6,ItemSubType.SEED,"Maple Tree Seeds");
+                     break;
+                     case 7:
+                         seed = new Material(7,ItemSubType.SEED,"Oak Tree Seeds");
+                         break;
+                default:
+                    seed = new Material(7,ItemSubType.SEED,"Maple Tree Seeds");
+            }
+
+        }
+        else if(game.gameClock.getCurrentSeasonIndex()==2){
+            String[] Trees = {"Banana Tree","Mango Tree","Mystic Tree", "Mushroom Tree", "Mahogany Tree", "Pine Tree"
+                    ,"Maple Tree", "Oak Tree","Orange Tree","Peach Tree"};
+            Random rand = new Random();
+            int index = rand.nextInt(Trees.length);
+            switch (index){
+                case 0:
+                    seed = new Material(1,ItemSubType.SEED,"Banana Sapling");
+                    break;
+                case 1:
+                    seed = new Material(2,ItemSubType.SEED,"Mango Sapling");
+                    break;
+                case 2:
+                    seed = new Material(3,ItemSubType.SEED,"Mystic Tree Seeds");
+                    break;
+                case 3:
+                    seed = new Material(4,ItemSubType.SEED,"Mushroom Tree Seeds");
+                    break;
+                case 4:
+                    seed = new Material(4,ItemSubType.SEED,"Mahogany Tree Seeds");
+                    break;
+                case 5:
+                    seed = new Material(5,ItemSubType.SEED,"Pine Tree Seeds");
+                    break;
+                case 6:
+                    seed = new Material(6,ItemSubType.SEED,"Maple Tree Seeds");
+                    break;
+                case 7:
+                    seed = new Material(7,ItemSubType.SEED,"Oak Tree Seeds");
+                    break;
+                    case 8:
+                        seed = new Material(8,ItemSubType.SEED,"Orange Sapling");
+                        break;
+                        case 9:
+                            seed = new Material(9,ItemSubType.SEED,"Peach Sapling");
+                            break;
+                default:
+                    seed = new Material(1,ItemSubType.SEED,"Banana Sapling");
+
+
+            }
+        }
+        else if(game.gameClock.getCurrentSeasonIndex()==3){
+            String[] Trees = {"Apple Tree", "Pomegranate Tree", "Mystic Tree", "Mushroom Tree", "Mahogany Tree", "Pine Tree"
+                    ,"Maple Tree", "Oak Tree"};
+            Random rand = new Random();
+            int index = rand.nextInt(Trees.length);
+            switch (index){
+                case 0:
+                    seed = new Material(1,ItemSubType.SEED,"Apple Sapling");
+                    break;
+                case 1:
+                    seed = new Material(2,ItemSubType.SEED,"Pomegranate Sapling");
+                    break;
+                case 2:
+                    seed = new Material(3,ItemSubType.SEED,"Mystic Tree Seeds");
+                    break;
+                case 3:
+                    seed = new Material(4,ItemSubType.SEED,"Mushroom Tree Seeds");
+                    break;
+                case 4:
+                    seed = new Material(4,ItemSubType.SEED,"Mahogany Tree Seeds");
+                    break;
+                case 5:
+                    seed = new Material(5,ItemSubType.SEED,"Pine Tree Seeds");
+                    break;
+                case 6:
+                    seed = new Material(6,ItemSubType.SEED,"Maple Tree Seeds");
+                    break;
+                case 7:
+                    seed = new Material(7,ItemSubType.SEED,"Oak Tree Seeds");
+                    break;
+                default:
+                    seed = new Material(7,ItemSubType.SEED,"Pine Tree Seeds");
+            }
+
+        }
+        else if(game.gameClock.getCurrentSeasonIndex()==4){
+            String[] Trees = {"Mystic Tree", "Mushroom Tree", "Mahogany Tree", "Pine Tree"
+                    ,"Maple Tree", "Oak Tree"};
+            Random rand = new Random();
+            int index = rand.nextInt(Trees.length);
+            switch (index){
+
+                case 0:
+                    seed = new Material(3,ItemSubType.SEED,"Mystic Tree Seeds");
+                    break;
+                case 1:
+                    seed = new Material(4,ItemSubType.SEED,"Mushroom Tree Seeds");
+                    break;
+                case 2:
+                    seed = new Material(4,ItemSubType.SEED,"Mahogany Tree Seeds");
+                    break;
+                case 3:
+                    seed = new Material(5,ItemSubType.SEED,"Pine Tree Seeds");
+                    break;
+                case 4:
+                    seed = new Material(6,ItemSubType.SEED,"Maple Tree Seeds");
+                    break;
+                case 5:
+                    seed = new Material(7,ItemSubType.SEED,"Oak Tree Seeds");
+                    break;
+                    default:
+                        seed = new Material(7,ItemSubType.SEED,"Oak Tree Seeds");
+            }
+        }
+        return seed;
+    }
+
 
     public void generateRandomForagings(ArrayList<ArrayList<Tile>> MapArrayList ,int x0, int y0, int x1, int y1) {
         int numOfForagings = (int) ((Math.random() * 10) + 20);
@@ -76,7 +229,7 @@ public class Map {
 
     }
 
-    public ArrayList<ArrayList<Tile>> buildMap() {
+    public ArrayList<ArrayList<Tile>> buildMap(Game game) {
         ArrayList<ArrayList<Tile>> map = new ArrayList<>();
 
         String[] MapTemplate={
@@ -360,7 +513,7 @@ public class Map {
             }
             map.add(tilerow);
         }
-        generateRandomObjects(map);
+        generateRandomObjects(map,game);
         return map;
 
     }

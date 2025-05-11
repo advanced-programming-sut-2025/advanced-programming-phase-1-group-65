@@ -39,7 +39,7 @@ public class Game {
         if (timesLoaded == 0) {
             map = new Map();
          // پایینی اری لیست درسته
-            Map = map.buildMap();
+            Map = map.buildMap(this);
 
             for (User user : users) {
                 if (user.player.getFarmNumber() == 1) {
@@ -57,15 +57,15 @@ public class Game {
                 }
 
                 user.player.game.Map.get(user.player.PositionY).set(user.player.PositionX, new Tile(TileType.PLAYER));
-                user.player.items.add(new Tool(1, ItemSubType.AXE));
-                user.player.items.add(new Tool(1, ItemSubType.WATERINGCAN));
-                user.player.items.add(new Tool(1, ItemSubType.FISHINGPOLE));
-                user.player.items.add(new Tool(1, ItemSubType.SCYTHE));
-                user.player.items.add(new Tool(1, ItemSubType.MILKPAIL));
-                user.player.items.add(new Tool(1, ItemSubType.SHEAR));
-                user.player.items.add(new Tool(1, ItemSubType.TRASH_CAN));
-                user.player.items.add(new Tool(1, ItemSubType.HOE));
-                user.player.items.add(new Tool(1, ItemSubType.PICKAXE));
+                user.player.items.add(new Tool(1, ItemSubType.AXE,"Axe"));
+                user.player.items.add(new Tool(1, ItemSubType.WATERINGCAN,"WateringCan"));
+                user.player.items.add(new Tool(1, ItemSubType.FISHINGPOLE,"FishingPole"));
+                user.player.items.add(new Tool(1, ItemSubType.SCYTHE,"Scythe"));
+                user.player.items.add(new Tool(1, ItemSubType.MILKPAIL,"MilkPail"));
+                user.player.items.add(new Tool(1, ItemSubType.SHEAR,"Shear"));
+                user.player.items.add(new Tool(1, ItemSubType.TRASH_CAN,"TrashCan"));
+                user.player.items.add(new Tool(1, ItemSubType.HOE,"Hoe"));
+                user.player.items.add(new Tool(1, ItemSubType.PICKAXE,"Pickaxe"));
 
 
 
@@ -99,6 +99,7 @@ public class Game {
         for (int i = 0; i < hours; i++) {
             gameClock.advanceTimeByOneHour(this);
         }
+
     }
 
     public void advanceDateByDays(int days) {

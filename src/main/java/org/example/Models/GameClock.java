@@ -14,6 +14,12 @@ public class GameClock {
         this.currentSeasonIndex = 0;
         this.year = 1;
     }
+    public int getDay(){
+        return this.day;
+    }
+    public int getCurrentSeasonIndex(){
+        return this.currentSeasonIndex+1;
+    }
 
     public String getFormattedTime() {
         return String.format("%02d:00", hour);

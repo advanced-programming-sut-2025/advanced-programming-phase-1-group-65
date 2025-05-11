@@ -5,27 +5,24 @@ import org.example.Models.Enums.ItemType;
 
 public class Food extends Item {
     public ItemSubType subtype;
-    public Food(int count, ItemSubType subtype) {
-        super(ItemType.FOOD,subtype,count);
+    public Food(int count, ItemSubType subtype, String name, int energy, int price,boolean isEdible) {
+        super(ItemType.FOOD,subtype,count,name);
         this.subtype = subtype;
+        this.energy = energy;
+        this.price = price;
+        this.isEdible = isEdible;
+
     }
+    public int FruitHarvestCycle;
     String Quality;
-    private int Energy;
-    private String Name;
-    private String Type;
-    private String Recipe;
-    private boolean IsEatable;
-    public boolean IsGrowable(FoodType foodType) {
-        if(foodType == FoodType.FRUIT) {
-            return true;
-        }
-        return false;
-    }
+    public int energy;
+    public boolean isEdible;
+
     private int TimeToGrow;
     private int StageOfGrowth;
     private String Season;
     private boolean isGiantable;
-    private int Price;
+    public int price;
     private String HarvestingStages;
     private int HarvestingPeriods;
     private int Quantity;

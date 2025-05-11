@@ -1,6 +1,7 @@
 package org.example.Controllers;
 
 import org.example.Models.*;
+import org.example.Models.Enums.ItemSubType;
 import org.example.Models.Enums.ItemType;
 import org.example.Models.Enums.TileType;
 import org.example.Models.Enums.WeatherType;
@@ -227,6 +228,51 @@ public class GameController {
         }
         return game.currentPlayer.CurrentTool.subtype.toString();
     }
+    public void ShowAllTools(Game game) {
+        for (Item item : game.currentPlayer.items) {
+            if (item.type.equals(ItemType.TOOL)) {
+                System.out.println("- "+item.subtype.toString().toLowerCase());
+            }
+        }
+    }
+    public void UseTool(Game game, int x, int y) {
+        int distx = game.currentPlayer.PositionX + x;
+        int disty = game.currentPlayer.PositionY - y;
+        if (game.currentPlayer.CurrentTool == null) {
+            System.out.println("You do not have any tools equipped");
+            return;
+        }
+        else if (game.currentPlayer.CurrentTool.subtype.equals(ItemSubType.AXE)){
+
+            if(game.Map.get(disty).get(distx).type.equals(TileType.TREE)){
+                Trees tree = (Trees) game.Map.get(disty).get(distx);
+                Material seed= tree.seed;
+                Material wood= new Material(12, ItemSubType.WOOD,"Wood");
+                AddItem(game,seed);
+                AddItem(game,wood);
+                game.Map.get(disty).set(distx , new Tile(TileType.EMPTY));
+                System.out.println("You have chopped the tree");
+                return;
+
+            }
+            System.out.println("This tool is not proper for the selected tile");
+            return;
+
+        }
+        else {
+            return;
+        }
+    }
+    public void AddItem(Game game, Item newitem) {
+        for (Item item : game.currentPlayer.items) {
+            if(item.name.equalsIgnoreCase(newitem.name) && item.subtype.equals(newitem.subtype)){
+                item.Count = item.Count + newitem.Count;
+                return;
+            }
+        }
+        game.currentPlayer.items.add(newitem);
+        return;
+    }
 
     public void setWeatherCheat(Game game, WeatherType weather) {
         game.weatherSystem.setTomorrowWeather(weather);
@@ -238,4 +284,5 @@ public class GameController {
         System.out.println("Lightning triggered at position (" + x + ", " + y + ")!");
 
     }
+
 }

@@ -4,4 +4,5 @@ public enum ItemType {
     FOOD,
     TOOL,
     MATERIAL;
+
 }
