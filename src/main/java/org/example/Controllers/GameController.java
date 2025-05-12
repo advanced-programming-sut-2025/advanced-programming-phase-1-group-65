@@ -329,12 +329,12 @@ public class GameController {
         if (game.currentPlayer != null) {
             game.currentPlayer.addMoney(amount);
             if(game.currentPlayer == game.user1.player){
-            System.out.println("Added " + amount + " dollars to " + game.user1.getNickname() + "'s account.");}
-           if(game.currentPlayer == game.user2.player){
-            System.out.println("Added " + amount + " dollars to " + game.user2.getNickname() + "'s account.");}
-           if(game.currentPlayer == game.user3.player){
-        System.out.println("Added " + amount + " dollars to " + game.user3.getNickname() + "'s account.");}
-      } else {
+                System.out.println("Added " + amount + " dollars to " + game.user1.getNickname() + "'s account.");}
+            if(game.currentPlayer == game.user2.player){
+                System.out.println("Added " + amount + " dollars to " + game.user2.getNickname() + "'s account.");}
+            if(game.currentPlayer == game.user3.player){
+                System.out.println("Added " + amount + " dollars to " + game.user3.getNickname() + "'s account.");}
+        } else {
             System.out.println("No current player available.");
         }
     }

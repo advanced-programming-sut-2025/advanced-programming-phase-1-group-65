@@ -11,6 +11,8 @@ import java.util.Scanner;
 public class Game {
     public Map map = null;
     public ArrayList<ArrayList<Tile>> Map = null;
+    public Map mapclone = null;
+    public ArrayList<ArrayList<Tile>> MapClone = null;
     public int timesLoaded = 0;
     public java.util.Map<TileType, Shop> shops = new java.util.HashMap<>();
     public User user1 = null;
@@ -39,6 +41,11 @@ public class Game {
         if (timesLoaded == 0) {
             map = new Map();
             Map = map.buildMap(this);
+
+            mapclone = new Map();
+
+            MapClone = mapclone.buildMap(this);
+
 
             for (User user : users) {
                 if (user.player.getFarmNumber() == 1) {

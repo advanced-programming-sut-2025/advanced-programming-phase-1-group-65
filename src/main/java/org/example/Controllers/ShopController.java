@@ -178,8 +178,6 @@ public class ShopController {
 
                 game.currentPlayer.money -= totalPrice;
                 item.increasePurchasedToday(count);
-                System.out.println("DEBUG: increasePurchasedToday called with count = " + count);
-                System.out.println("DEBUG: new purchasedToday value: " + item.getPurchasedToday());
                 System.out.println("You bought " + count + " x " + item.getName() + " for " + totalPrice + "g.");
                 return;
             }

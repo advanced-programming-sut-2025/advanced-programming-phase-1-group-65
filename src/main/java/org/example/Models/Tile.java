@@ -12,7 +12,9 @@ public class Tile {
     public TileType getType() {
         return type;
     }
-    public char getSymbol() {
+
+
+   public char getSymbol() {
         switch (type) {
             case WALL:
                 return 'W';
