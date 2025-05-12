@@ -127,6 +127,10 @@ public class GameView {
                 int count = matcher.group(2) != null ? Integer.parseInt(matcher.group(2)) : 1;
                 shopController.purchaseItem(game, productName, count);
             }
+            else if((matcher = GameCommands.CRAFTINFO.matcher(input)) != null) {
+                String name = matcher.group(1);
+                controller.CraftInfo(game, name);
+            }
 
 
             else {

@@ -15,22 +15,22 @@ public class Map {
     public void generateRandomObjects(ArrayList<ArrayList<Tile>> MapArrayList,Game game) {
         // generating random objects for farm number 1
         generateRandomTrees(MapArrayList, 0,0, 39, 29,game);
-        generateRandomForagings(MapArrayList, 0, 0, 39, 29,game);
+        //generateRandomForagings(MapArrayList, 0, 0, 39, 29,game);
         generateRandomRocks(MapArrayList, 0, 0, 39, 29);
 
         // generating random objects for farm number 2
         generateRandomTrees(MapArrayList, 100, 0, 139, 29,game);
-        generateRandomForagings(MapArrayList, 100, 0, 139, 29,game);
+       // generateRandomForagings(MapArrayList, 100, 0, 139, 29,game);
         generateRandomRocks(MapArrayList, 100, 0, 139, 29);
 
         // generating random objects for farm number 3
         generateRandomTrees(MapArrayList, 0, 82, 39, 111,game);
-        generateRandomForagings(MapArrayList, 0, 82, 39, 111,game);
+        //generateRandomForagings(MapArrayList, 0, 82, 39, 111,game);
         generateRandomRocks(MapArrayList, 0, 82, 39, 111);
 
         // generating random objects for farm number 4
         generateRandomTrees(MapArrayList, 100, 82, 139, 111,game);
-        generateRandomForagings(MapArrayList, 100, 82, 139, 111,game);
+       // generateRandomForagings(MapArrayList, 100, 82, 139, 111,game);
         generateRandomRocks(MapArrayList, 100, 82, 139, 111);
     }
 
@@ -198,7 +198,7 @@ public class Map {
     }
 
 
-    public void generateRandomForagings(ArrayList<ArrayList<Tile>> MapArrayList ,int x0, int y0, int x1, int y1,Game game) {
+    /*public void generateRandomForagings(ArrayList<ArrayList<Tile>> MapArrayList ,int x0, int y0, int x1, int y1,Game game) {
         int numOfForagings = (int) ((Math.random() * 10) + 20);
 
         int randomX = (int) ((Math.random() * (x1 - x0 + 1)) + x0);
@@ -211,16 +211,108 @@ public class Map {
             }
             MapArrayList.get(randomY).set(randomX, new Tile(TileType.FORAGING));
         }
-    }
+    }*/
     public Foraging getForaging(Game game){
         if (game.gameClock.getCurrentSeasonIndex()==1){
 
         }
         return null;
     }
+    public void GenerateRandomForagingDaily(ArrayList<ArrayList<Tile>> Map, Game game) {
+        ArrayList<Foraging> foragingCrops = new ArrayList<>();
+        ArrayList<Foraging> foragingSeeds=new ArrayList<>();
+        Random rand = new Random();
+        int chance = 1;
+        int selected = 1;
+        for (Foraging crop : game.AllCropInfo){
+            if(crop.isHarvestable && crop.Season==game.gameClock.getCurrentSeasonIndex()){
+                foragingCrops.add(crop);
+            }
+            else if(!(crop.isHarvestable && crop.Season!=game.gameClock.getCurrentSeasonIndex())) {
+                foragingSeeds.add(crop);
+            }
+        }
+        for (int y = 0; y < 29 ; y++) {
+            for (int x = 0; x < 39; x++){
+                chance = rand.nextInt(100);
+                if (Map.get(y).get(x).getType() == TileType.EMPTY) {
+                    selected = rand.nextInt(foragingCrops.size());
 
-    public Material getForagingSeed(Game game){
-        return null;
+                    if (chance ==0) {
+                        Map.get(y).set(x, foragingCrops.get(selected));
+                    }
+                }
+                else if(Map.get(y).get(x).getType()==TileType.FERTILE){
+                    selected = rand.nextInt(foragingSeeds.size());
+
+                    if (chance ==0) {
+                        Map.get(y).set(x, foragingSeeds.get(selected));
+                        game.AllCrops.add(foragingSeeds.get(selected));
+                    }
+                }
+            }
+        }
+        for (int y = 0; y < 29 ; y++) {
+            for (int x = 100; x < 139; x++){
+                chance = rand.nextInt(100);
+                if (Map.get(y).get(x).getType() == TileType.EMPTY) {
+                    selected = rand.nextInt(foragingCrops.size());
+
+                    if (chance ==0) {
+                        Map.get(y).set(x, foragingCrops.get(selected));
+                    }
+                }
+                else if(Map.get(y).get(x).getType()==TileType.FERTILE){
+                    selected = rand.nextInt(foragingSeeds.size());
+
+                    if (chance ==0) {
+                        Map.get(y).set(x, foragingSeeds.get(selected));
+                        game.AllCrops.add(foragingSeeds.get(selected));
+                    }
+                }
+            }
+        }
+        for (int y = 83; y < 111 ; y++) {
+            for (int x = 0; x < 39; x++){
+                chance = rand.nextInt(100);
+                if (Map.get(y).get(x).getType() == TileType.EMPTY) {
+                    selected = rand.nextInt(foragingCrops.size());
+
+                    if (chance ==0) {
+                        Map.get(y).set(x, foragingCrops.get(selected));
+                    }
+                }
+                else if(Map.get(y).get(x).getType()==TileType.FERTILE){
+                    selected = rand.nextInt(foragingSeeds.size());
+
+                    if (chance ==0) {
+                        Map.get(y).set(x, foragingSeeds.get(selected));
+                        game.AllCrops.add(foragingSeeds.get(selected));
+                    }
+                }
+            }
+        }
+        for (int y = 83; y < 111 ; y++) {
+            for (int x = 100; x < 139; x++){
+                chance = rand.nextInt(100);
+                if (Map.get(y).get(x).getType() == TileType.EMPTY) {
+                    selected = rand.nextInt(foragingCrops.size());
+
+                    if (chance ==0) {
+                        Map.get(y).set(x, foragingCrops.get(selected));
+                    }
+                }
+                else if(Map.get(y).get(x).getType()==TileType.FERTILE){
+                    selected = rand.nextInt(foragingSeeds.size());
+
+                    if (chance ==0) {
+                        Map.get(y).set(x, foragingSeeds.get(selected));
+                        game.AllCrops.add(foragingSeeds.get(selected));
+                    }
+                }
+            }
+        }
+
     }
 
     public void generateRandomRocks(ArrayList<ArrayList<Tile>> MapArrayList ,int x0, int y0, int x1, int y1) {

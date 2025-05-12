@@ -71,6 +71,7 @@ public class GameClock {
             game.user3.player.Energy = 150;
             game.user3.player.Fainted = false;
         }
+        game.map.GenerateRandomForagingDaily(game.Map,game);
 
         day++;
         hour=9;
