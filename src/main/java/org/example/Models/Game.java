@@ -14,7 +14,9 @@ public class Game {
     public Map mapclone = null;
     public ArrayList<ArrayList<Tile>> MapClone = null;
     public int timesLoaded = 0;
-
+    public ArrayList<Trees> AllTrees = new ArrayList<>();
+    public ArrayList<Foraging> AllCrops = new ArrayList<>();
+    public ArrayList<Foraging> AllCropInfo = new ArrayList<>();
     public User user1 = null;
     public User user2 = null;
     public User user3 = null;
@@ -45,7 +47,7 @@ public class Game {
 
             mapclone = new Map();
 
-            MapClone = mapclone.buildMap(this);
+            MapClone = mapclone.cloneMap(this);
 
 
             for (User user : users) {

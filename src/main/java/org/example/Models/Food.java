@@ -13,17 +13,8 @@ public class Food extends Item {
         this.isEdible = isEdible;
 
     }
-    public int FruitHarvestCycle;
-    String Quality;
     public int energy;
     public boolean isEdible;
 
-    private int TimeToGrow;
-    private int StageOfGrowth;
-    private String Season;
-    private boolean isGiantable;
     public int price;
-    private String HarvestingStages;
-    private int HarvestingPeriods;
-    private int Quantity;
 }

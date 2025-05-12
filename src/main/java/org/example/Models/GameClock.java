@@ -70,6 +70,7 @@ public class GameClock {
             game.user3.player.Energy = 150;
             game.user3.player.Fainted = false;
         }
+
         day++;
         hour=9;
         if (day > 28) {

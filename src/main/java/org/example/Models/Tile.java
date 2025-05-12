@@ -50,6 +50,8 @@ public class Tile {
                 return 'R';
                 case FORAGING:
                     return '#';
+            case FERTILE:
+                return 'O';
 
                         default:
                             return '?';
