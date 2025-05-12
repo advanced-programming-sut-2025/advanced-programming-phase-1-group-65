@@ -36,7 +36,7 @@ public class Tile {
                             return 'J';
                             case GENERALSTORE:
                                 return 'S';
-                                case CARPERNTERSHOP:
+                                case CARPENTERSHOP:
                                     return 'P';
                                     case FISHSHOP:
                                         return 'F';

@@ -14,9 +14,6 @@ public class GameClock {
         this.currentSeasonIndex = 0;
         this.year = 1;
     }
-    public int getDay(){
-        return this.day;
-    }
     public int getCurrentSeasonIndex(){
         return this.currentSeasonIndex+1;
     }
@@ -51,6 +48,10 @@ public class GameClock {
             advanceDay(game);
             game.weatherSystem.advanceDay();
         }
+    }
+
+    public int getHour() {
+        return hour;
     }
 
     public void advanceTimeByOneDay(Game game) {

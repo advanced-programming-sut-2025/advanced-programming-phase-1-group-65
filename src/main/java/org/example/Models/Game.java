@@ -17,6 +17,7 @@ public class Game {
     public ArrayList<Trees> AllTrees = new ArrayList<>();
     public ArrayList<Foraging> AllCrops = new ArrayList<>();
     public ArrayList<Foraging> AllCropInfo = new ArrayList<>();
+    public java.util.Map<TileType, Shop> shops = new java.util.HashMap<>();
     public User user1 = null;
     public User user2 = null;
     public User user3 = null;
@@ -88,36 +89,5 @@ public class Game {
         gameView.check(sc, this);
     }
 
-    public void advanceGameClock() {
-        if (gameClock != null) {
-            gameClock.advanceTimeByOneHour(this);
-        }
-    }
 
-    public void advanceGameDate() {
-        if (gameClock != null) {
-            gameClock.advanceTimeByOneDay(this);
-        }
-    }
-
-    public void advanceTimeByHours(int hours) {
-        if (hours < 0) {
-            System.out.println("Error: number of hours must be non-negative.");
-            return;
-        }
-        for (int i = 0; i < hours; i++) {
-            gameClock.advanceTimeByOneHour(this);
-        }
-
-    }
-
-    public void advanceDateByDays(int days) {
-        if (days < 0) {
-            System.out.println("Error: number of days must be non-negative.");
-            return;
-        }
-        for (int i = 0; i < days; i++) {
-            gameClock.advanceTimeByOneDay(this);
-        }
-    }
 }

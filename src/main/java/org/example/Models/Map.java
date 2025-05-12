@@ -216,10 +216,11 @@ public class Map {
         if (game.gameClock.getCurrentSeasonIndex()==1){
 
         }
+        return null;
     }
 
     public Material getForagingSeed(Game game){
-
+        return null;
     }
 
     public void generateRandomRocks(ArrayList<ArrayList<Tile>> MapArrayList ,int x0, int y0, int x1, int y1) {
@@ -498,7 +499,7 @@ public class Map {
                         tile = new Tile(TileType.GENERALSTORE);
                         break;
                     case 'P':
-                        tile = new Tile(TileType.CARPERNTERSHOP);
+                        tile = new Tile(TileType.CARPENTERSHOP);
                         break;
                     case 'F':
                         tile = new Tile(TileType.FISHSHOP);
@@ -561,7 +562,7 @@ public class Map {
                         tile = new Tile(TileType.GENERALSTORE);
                         break;
                     case 'P':
-                        tile = new Tile(TileType.CARPERNTERSHOP);
+                        tile = new Tile(TileType.CARPENTERSHOP);
                         break;
                     case 'F':
                         tile = new Tile(TileType.FISHSHOP);

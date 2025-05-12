@@ -7,15 +7,14 @@ public class User {
     private String email;
     private String gender;
     private String nickname;
-    private String answerKey;  // پاسخ به سوالات امنیتی
-    private int answerNumber;  // شماره سوال امنیتی
+    private String answerKey;
+    private int answerNumber;
     public Player player =null;
-
-    // اضافه کردن فیلد برای ذخیره بیشترین طلا در یک بازی
     private int mostGoldInOneGame;
     private int gamesPlayed;
 
-    // سازنده
+
+
     public void setPlayer(Player player) {
         this.player = player;
     }
@@ -25,11 +24,11 @@ public class User {
         this.email = email;
         this.gender = gender;
         this.nickname = nickname;
-        this.mostGoldInOneGame = 0;  // مقدار پیش‌فرض
-        this.gamesPlayed = 0;        // تعداد بازی‌های پیش‌فرض
+        this.mostGoldInOneGame = 0;
+        this.gamesPlayed = 0;
     }
 
-    // متدهای دسترسی (Getters)
+
     public String getUsername() {
         return username;
     }
@@ -38,25 +37,19 @@ public class User {
         return password;
     }
 
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
-    // اضافه کردن متد برای دریافت بیشترین طلا در یک بازی
+
     public int getMostGoldInOneGame() {
         return mostGoldInOneGame;
     }
 
-    // اضافه کردن متد برای تنظیم بیشترین طلا در یک بازی
     public void setMostGoldInOneGame(int mostGoldInOneGame) {
         this.mostGoldInOneGame = mostGoldInOneGame;
     }
 
-    // اضافه کردن متد برای دریافت تعداد بازی‌های انجام شده
     public int getGamesPlayed() {
         return gamesPlayed;
     }
 
-    // اضافه کردن متد برای افزایش تعداد بازی‌های انجام شده
     public void incrementGamesPlayed() {
         this.gamesPlayed++;
     }
@@ -87,13 +80,11 @@ public class User {
         this.username = username;
     }
 
-    // متد برای تنظیم سوال و پاسخ امنیتی
     public void setAnswer(String answerKey, Integer answerNumber) {
         this.answerKey = answerKey;
         this.answerNumber = answerNumber;
     }
 
-    // متد برای تنظیم رمز عبور جدید
     public void setPassword(String newPassword) {
         this.password = newPassword;
     }
@@ -101,18 +92,6 @@ public class User {
         this.email = email;
     }
 
-    public String getSecurityQuestion() {
-        switch (answerNumber) {
-            case 1:
-                return "What is your favorite color?";
-            case 2:
-                return "What was the name of your first school?";
-            case 3:
-                return "In which city were you born?";
-            default:
-                return "No security question set!";
-        }
-    }
 
 
 }
