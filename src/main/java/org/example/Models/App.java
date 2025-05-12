@@ -21,7 +21,6 @@ public class App {
         return currentMenu;
     }
 
-//    public static List<Player> players = new ArrayList<>();
     public static List<User> getUsers() {
         return users;
     }

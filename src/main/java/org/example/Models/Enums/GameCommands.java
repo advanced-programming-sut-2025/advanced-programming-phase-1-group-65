@@ -25,7 +25,11 @@ public enum GameCommands {
     SHOW_CURRENT_TOOL("^tool show current$"),
     TOOL_EQUIP("^tools equip ([\\w.-]+)$"),
     USE_TOOL("^tools use -d (0|1|-1),(0|1|-1)$"),
-    TOOLS_AVAILABLE("^tools show available");
+    TOOLS_AVAILABLE("^tools show available"),
+    CHEAT_ADD_MONEY("^cheat add (\\d+) dollars$"),
+    SHOW_ALL_PRODUCTS("^show all products$"),
+    SHOW_ALL_AVAILABLE_PRODUCTS("^show all available products$");
+
 
     private final String pattern;
 

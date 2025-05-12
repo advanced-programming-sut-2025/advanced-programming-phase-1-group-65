@@ -6,13 +6,14 @@ import org.example.Models.Enums.GameCommands;
 import org.example.Models.Enums.Menu;
 import org.example.Models.Enums.WeatherType;
 import org.example.Models.Game;
-
+import org.example.Controllers.ShopController;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
 public class GameView {
     public void check(Scanner scanner, Game game) {
         GameController controller = new GameController();
+        ShopController shopController = new ShopController();
         Matcher matcher;
 
         while (true) {
@@ -111,12 +112,20 @@ public class GameView {
                 int y = Integer.parseInt(matcher.group(2));
                 controller.UseTool(game, x, y);
             }
+            else if ((matcher = GameCommands.CHEAT_ADD_MONEY.matcher(input)) != null) {
+                int amount = Integer.parseInt(matcher.group(1));
+                controller.cheatAddDollars(game, amount);
+            }
+            else if ((matcher = GameCommands.SHOW_ALL_PRODUCTS.matcher(input)) != null) {
+                shopController.showAllProducts(game);
+            } else if ((matcher = GameCommands.SHOW_ALL_AVAILABLE_PRODUCTS.matcher(input)) != null) {
+                shopController.showAllAvailableProducts(game);
+            }
+
 
             else {
                 System.out.println("Invalid input");
             }
-
-
         }
     }
 }

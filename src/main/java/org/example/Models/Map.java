@@ -488,7 +488,7 @@ public class Map {
                         tile = new Tile(TileType.GENERALSTORE);
                         break;
                     case 'P':
-                        tile = new Tile(TileType.CARPERNTERSHOP);
+                        tile = new Tile(TileType.CARPENTERSHOP);
                         break;
                     case 'F':
                         tile = new Tile(TileType.FISHSHOP);
