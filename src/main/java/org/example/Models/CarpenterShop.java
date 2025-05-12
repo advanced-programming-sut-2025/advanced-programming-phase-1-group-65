@@ -35,7 +35,7 @@ public class CarpenterShop implements Shop {
     @Override
     public void resetDailyLimits() {
         for (LimitedShopItem item : limitedItems) {
-            item.resetPurchaseCount();
+            item.resetPurchasedToday();
         }
     }
 }

@@ -28,8 +28,8 @@ public enum GameCommands {
     TOOLS_AVAILABLE("^tools show available"),
     CHEAT_ADD_MONEY("^cheat add (\\d+) dollars$"),
     SHOW_ALL_PRODUCTS("^show all products$"),
-    SHOW_ALL_AVAILABLE_PRODUCTS("^show all available products$");
-
+    SHOW_ALL_AVAILABLE_PRODUCTS("^show all available products$"),
+    PURCHASE_ITEM("^purchase ([\\w\\s.-]+)(?: -n (\\d+))?$");
 
     private final String pattern;
 

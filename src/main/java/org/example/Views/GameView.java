@@ -118,8 +118,14 @@ public class GameView {
             }
             else if ((matcher = GameCommands.SHOW_ALL_PRODUCTS.matcher(input)) != null) {
                 shopController.showAllProducts(game);
-            } else if ((matcher = GameCommands.SHOW_ALL_AVAILABLE_PRODUCTS.matcher(input)) != null) {
+            }
+            else if ((matcher = GameCommands.SHOW_ALL_AVAILABLE_PRODUCTS.matcher(input)) != null) {
                 shopController.showAllAvailableProducts(game);
+            }
+            else if ((matcher = GameCommands.PURCHASE_ITEM.matcher(input)) != null) {
+                String productName = matcher.group(1).trim();
+                int count = matcher.group(2) != null ? Integer.parseInt(matcher.group(2)) : 1;
+                shopController.purchaseItem(game, productName, count);
             }
 
 

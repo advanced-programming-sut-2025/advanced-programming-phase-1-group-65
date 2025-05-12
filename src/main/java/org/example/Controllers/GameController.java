@@ -297,7 +297,7 @@ public class GameController {
 
             }
             System.out.println("This tool is not proper for the selected tile");
-            return;
+
 
         }
         else {

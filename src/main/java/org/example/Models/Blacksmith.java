@@ -36,7 +36,7 @@ public class Blacksmith implements Shop {
 
     public void resetDailyLimits() {
         for (LimitedShopItem item : limitedItems) {
-            item.resetPurchaseCount();
+            item.resetPurchasedToday();
         }
     }
 }
