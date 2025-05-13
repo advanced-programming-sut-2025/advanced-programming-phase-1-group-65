@@ -134,6 +134,12 @@ public class GameView {
             else if((matcher = GameCommands.SHOWINVNETORY.matcher(input)) != null) {
                 controller.ShowInventory(game);
             }
+            else if((matcher = GameCommands.PLANTING.matcher(input)) != null) {
+                String name = matcher.group(1);
+                int x = Integer.parseInt(matcher.group(2));
+                int y = Integer.parseInt(matcher.group(3));
+                controller.Plant(game,x,y,name);
+            }
 
 
             else {

@@ -479,6 +479,66 @@ public class GameController {
             System.out.println("- "+item.Count+" "+item.name);
         }
     }
+    public void Plant(Game game, int x, int y,String name) {
+        int destx = game.currentPlayer.PositionX+x;
+        int desty = game.currentPlayer.PositionY-y;
+
+        if(!(game.Map.get(desty).get(destx).type.equals(TileType.FERTILE))){
+            System.out.println("The ground should be fertile.");
+            return;
+        }
+        Foraging newPlant;
+        Material tempSeed;
+        Trees newTree;
+        for (Item item : game.currentPlayer.items){
+            if(item.subtype.equals(ItemSubType.SEED)){
+                tempSeed = (Material) item;
+                if(tempSeed.name.equals(name)){
+                    for(Foraging foraging : game.AllCropInfo){
+                        if(foraging.Seed.name.equals(name)){
+                            newPlant = foraging;
+                            game.Map.get(desty).set(destx,foraging);
+                            System.out.println("Plant added.");
+                            removeItem(game,tempSeed,1);
+                            return;
+                        }
+                    }
+                    for(Trees tree : game.AllTreesInfo){
+                        if(tree.seed.name.equals(name)){
+                            newTree = tree;
+                            game.Map.get(desty).set(destx,newTree);
+                            System.out.println("Tree added.");
+                            removeItem(game,tempSeed,1);
+                            return;
+                        }
+                    }
+
+                }
+            }
+        }
+
+        System.out.println("You Don't have this seed in your inventory.");
+        return;
+
+    }
+    public void removeItem(Game game, Item targetItem, int countToRemove) {
+        for (Item item : game.currentPlayer.items) {
+            if (item.name.equalsIgnoreCase(targetItem.name) && item.subtype == targetItem.subtype) {
+                if (item.Count > countToRemove) {
+                    item.Count -= countToRemove;
+                    return;
+                } else if (item.Count == countToRemove) {
+                    game.currentPlayer.items.remove(item);
+                    return;
+                } else {
+                    return ;
+                    // به اندازه ی کافی نداشته یعنی
+                }
+            }
+        }
+        return;
+    }
+
     public static String numberWithDashes(int number) {
         String numStr = String.valueOf(Math.abs(number));
         StringBuilder result = new StringBuilder();

@@ -406,92 +406,94 @@ public class Game {
         Foraging AncientFruitCrop = new Foraging(27775,"Ancient Fruit",123,false,AncientFruit,true,AncientSeeds,0);
         game.AllCropInfo.add(AncientFruitCrop);
 
+        Material NoSeed = new Material(1, ItemSubType.SEED, "No Seeds");
+
         Food CommonMushroom  = new Food(2,ItemSubType.FRUIT,"Common Mushroom",38,40,true);
-        Foraging CommonMushroomCrop = new Foraging(0,"Common Mushroom",1234,true,CommonMushroom,true,null,0);
+        Foraging CommonMushroomCrop = new Foraging(0,"Common Mushroom",1234,true,CommonMushroom,true,NoSeed,0);
         game.AllCropInfo.add(CommonMushroomCrop);
 
         Food Daffodil  = new Food(2,ItemSubType.FRUIT,"Daffodil",0,30,true);
-        Foraging DaffodilCrop = new Foraging(0,"Daffodil",1,true,Daffodil,true,null,0);
+        Foraging DaffodilCrop = new Foraging(0,"Daffodil",1,true,Daffodil,true,NoSeed,0);
         game.AllCropInfo.add(DaffodilCrop);
 
         Food Dandelion = new Food(2,ItemSubType.FRUIT,"Dandelion",25,40,true);
-        Foraging DandelionCrop = new Foraging(0,"Dandelion",1,true,Dandelion,true,null,0);
+        Foraging DandelionCrop = new Foraging(0,"Dandelion",1,true,Dandelion,true,NoSeed,0);
         game.AllCropInfo.add(DandelionCrop);
 
         Food Leek  = new Food(2,ItemSubType.FRUIT,"Leek",40,60,true);
-        Foraging LeekCrop = new Foraging(0,"Leek",1,true,Leek,true,null,0);
+        Foraging LeekCrop = new Foraging(0,"Leek",1,true,Leek,true,NoSeed,0);
         game.AllCropInfo.add(LeekCrop);
 
         Food Morel  = new Food(2,ItemSubType.FRUIT,"Morel",20,150,true);
-        Foraging MorelCrop = new Foraging(0,"Morel",1,true,Morel,true,null,0);
+        Foraging MorelCrop = new Foraging(0,"Morel",1,true,Morel,true,NoSeed,0);
         game.AllCropInfo.add(MorelCrop);
 
         Food Salmonberry  = new Food(3,ItemSubType.FRUIT,"Salmonberry",25,5,true);
-        Foraging SalmonberryCrop = new Foraging(0,"SalmonBerry",1,true,Salmonberry,true,null,0);
+        Foraging SalmonberryCrop = new Foraging(0,"SalmonBerry",1,true,Salmonberry,true,NoSeed,0);
         game.AllCropInfo.add(SalmonberryCrop);
 
         Food SpringOnion  = new Food(2,ItemSubType.FRUIT,"Spring Onion",0,30,true);
-        Foraging SpringOnionCrop = new Foraging(0,"Spring Onion",1,true,SpringOnion,true,null,0);
+        Foraging SpringOnionCrop = new Foraging(0,"Spring Onion",1,true,SpringOnion,true,NoSeed,0);
         game.AllCropInfo.add(SpringOnionCrop);
 
         Food WildHorseradish  = new Food(2,ItemSubType.FRUIT,"Wild Horseradish",0,30,true);
-        Foraging WildHorseradishCrop = new Foraging(0,"Wild Horseradish",1,true,WildHorseradish,true,null,0);
+        Foraging WildHorseradishCrop = new Foraging(0,"Wild Horseradish",1,true,WildHorseradish,true,NoSeed,0);
         game.AllCropInfo.add(WildHorseradishCrop);
 
         Food FiddleheadFern  = new Food(2,ItemSubType.FRUIT,"Fiddlehead Fern",0,30,true);
-        Foraging FiddleheadFernCrop = new Foraging(0,"Fiddlehead Fern",2,true,FiddleheadFern,true,null,0);
+        Foraging FiddleheadFernCrop = new Foraging(0,"Fiddlehead Fern",2,true,FiddleheadFern,true,NoSeed,0);
         game.AllCropInfo.add(FiddleheadFernCrop);
 
         Food RedMushroom  = new Food(2,ItemSubType.FRUIT,"Red Mushroom",-50,75,false);
-        Foraging RedMushroomCrop = new Foraging(0,"Red Mushroom",2,true,RedMushroom,true,null,0);
+        Foraging RedMushroomCrop = new Foraging(0,"Red Mushroom",2,true,RedMushroom,true,NoSeed,0);
         game.AllCropInfo.add(RedMushroomCrop);
 
         Food SpiceBerry  = new Food(2,ItemSubType.FRUIT,"Spice Berry",25,80,true);
-        Foraging SpiceBerryCrop = new Foraging(0,"Spice Berry",2,true,SpiceBerry,true,null,0);
+        Foraging SpiceBerryCrop = new Foraging(0,"Spice Berry",2,true,SpiceBerry,true,NoSeed,0);
         game.AllCropInfo.add(SpiceBerryCrop);
 
         Food SweetPea  = new Food(2,ItemSubType.FRUIT,"Sweet Pea",0,50,false);
-        Foraging SweetPeaCrop = new Foraging(0,"Sweet Pea",2,true,SweetPea,true,null,0);
+        Foraging SweetPeaCrop = new Foraging(0,"Sweet Pea",2,true,SweetPea,true,NoSeed,0);
         game.AllCropInfo.add(SweetPeaCrop);
 
         Food Blackberry  = new Food(2,ItemSubType.FRUIT,"Blackberry",25,25,true);
-        Foraging BlackberryCrop = new Foraging(0,"Blackberry",3,true,Blackberry,true,null,0);
+        Foraging BlackberryCrop = new Foraging(0,"Blackberry",3,true,Blackberry,true,NoSeed,0);
         game.AllCropInfo.add(BlackberryCrop);
 
         Food Chanterelle  = new Food(2,ItemSubType.FRUIT,"Chanterelle",75,160,true);
-        Foraging ChanterelleCrop = new Foraging(0,"Chanterelle",3,true,Chanterelle,true,null,0);
+        Foraging ChanterelleCrop = new Foraging(0,"Chanterelle",3,true,Chanterelle,true,NoSeed,0);
         game.AllCropInfo.add(ChanterelleCrop);
 
         Food Hazelnut  = new Food(2,ItemSubType.FRUIT,"Hazelnut",38,40,true);
-        Foraging HazelnutCrop = new Foraging(0,"Hazelnut",3,true,Hazelnut,true,null,0);
+        Foraging HazelnutCrop = new Foraging(0,"Hazelnut",3,true,Hazelnut,true,NoSeed,0);
         game.AllCropInfo.add(HazelnutCrop);
 
         Food PurpleMushroom  = new Food(2,ItemSubType.FRUIT,"Purple Mushroom",30,90,true);
-        Foraging PurpleMushroomCrop = new Foraging(0,"Purple Mushroom",3,true,PurpleMushroom,true,null,0);
+        Foraging PurpleMushroomCrop = new Foraging(0,"Purple Mushroom",3,true,PurpleMushroom,true,NoSeed,0);
         game.AllCropInfo.add(PurpleMushroomCrop);
 
         Food WildPlum  = new Food(2,ItemSubType.FRUIT,"Wild Plum",25,80,true);
-        Foraging WildPlumCrop = new Foraging(0,"Wild Plum",3,true,WildPlum,true,null,0);
+        Foraging WildPlumCrop = new Foraging(0,"Wild Plum",3,true,WildPlum,true,NoSeed,0);
         game.AllCropInfo.add(WildPlumCrop);
 
         Food Crocus  = new Food(2,ItemSubType.FRUIT,"Crocus",0,60,false);
-        Foraging CrocusCrop = new Foraging(0,"Crocus",4,true,Crocus,true,null,0);
+        Foraging CrocusCrop = new Foraging(0,"Crocus",4,true,Crocus,true,NoSeed,0);
         game.AllCropInfo.add(CrocusCrop);
 
         Food CrystalFruit  = new Food(2,ItemSubType.FRUIT,"Crystal Fruit",53,150,true);
-        Foraging CrystalFruitCrop = new Foraging(0,"Crystal Fruit",4,true,CrystalFruit,true,null,0);
+        Foraging CrystalFruitCrop = new Foraging(0,"Crystal Fruit",4,true,CrystalFruit,true,NoSeed,0);
         game.AllCropInfo.add(CrystalFruitCrop);
 
         Food Holly  = new Food(2,ItemSubType.FRUIT,"Holly Crop",-37,80,false);
-        Foraging HollyCrop = new Foraging(0,"Holly Crop",4,true,Holly,true,null,0);
+        Foraging HollyCrop = new Foraging(0,"Holly Crop",4,true,Holly,true,NoSeed,0);
         game.AllCropInfo.add(HollyCrop);
 
         Food SnowYam  = new Food(2,ItemSubType.FRUIT,"Snow Yam",30,100,true);
-        Foraging SnowYamCrop = new Foraging(0,"Snow Yam",4,true,SnowYam,true,null,0);
+        Foraging SnowYamCrop = new Foraging(0,"Snow Yam",4,true,SnowYam,true,NoSeed,0);
         game.AllCropInfo.add(SnowYamCrop);
 
         Food WinterRoot  = new Food(2,ItemSubType.FRUIT,"Winter Crop",25,70,true);
-        Foraging WinterRootCrop = new Foraging(0,"Winter Crop",4,true,WinterRoot,true,null,0);
+        Foraging WinterRootCrop = new Foraging(0,"Winter Crop",4,true,WinterRoot,true,NoSeed,0);
         game.AllCropInfo.add(WinterRootCrop);
     }
 

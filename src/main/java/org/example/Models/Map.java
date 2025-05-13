@@ -14,22 +14,22 @@ public class Map {
 
     public void generateRandomObjects(ArrayList<ArrayList<Tile>> MapArrayList,Game game) {
         // generating random objects for farm number 1
-        generateRandomTrees(MapArrayList, 0,0, 39, 29,game);
+        generateRandomTrees(MapArrayList, 0,0, 39, 27,game);
         //generateRandomForagings(MapArrayList, 0, 0, 39, 29,game);
        // generateRandomRocks(MapArrayList, 0, 0, 39, 29);
 
         // generating random objects for farm number 2
-        generateRandomTrees(MapArrayList, 100, 0, 139, 29,game);
+        generateRandomTrees(MapArrayList, 100, 0, 139, 27,game);
        // generateRandomForagings(MapArrayList, 100, 0, 139, 29,game);
         //generateRandomRocks(MapArrayList, 100, 0, 139, 29);
 
         // generating random objects for farm number 3
-        generateRandomTrees(MapArrayList, 0, 82, 39, 111,game);
+        generateRandomTrees(MapArrayList, 0, 85, 39, 111,game);
         //generateRandomForagings(MapArrayList, 0, 82, 39, 111,game);
        // generateRandomRocks(MapArrayList, 0, 82, 39, 111);
 
         // generating random objects for farm number 4
-        generateRandomTrees(MapArrayList, 100, 82, 139, 111,game);
+        generateRandomTrees(MapArrayList, 100, 85, 139, 111,game);
        // generateRandomForagings(MapArrayList, 100, 82, 139, 111,game);
         //generateRandomRocks(MapArrayList, 100, 82, 139, 111);
     }

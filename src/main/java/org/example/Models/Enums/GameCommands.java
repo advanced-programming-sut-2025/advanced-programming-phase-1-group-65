@@ -31,7 +31,8 @@ public enum GameCommands {
     SHOW_ALL_AVAILABLE_PRODUCTS("^show all available products$"),
     PURCHASE_ITEM("^purchase\\s+(.+)(?:\\s+-n\\s+(\\d+))?$"),
     CRAFTINFO("^craftinfo\\s+-n\\s+(.+)$"),
-    SHOWINVNETORY("Show inventory");
+    SHOWINVNETORY("Show inventory"),
+    PLANTING("^plant -s\\s+(.+) -d (0|1|-1),(0|1|-1)$");
 
     private final String pattern;
 
