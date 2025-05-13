@@ -1,14 +1,16 @@
 package org.example.Models;
 
-public class LimitedShopItem {
-    private String name;
+import org.example.Models.Enums.ItemSubType;
+import org.example.Models.Enums.ItemType;
+
+public class LimitedShopItem extends Item {
     private int price;
     private int dailyLimit;
     private String description;
     private int purchasedToday = 0;
 
-    public LimitedShopItem(String name, String description, int price, int dailyLimit) {
-        this.name = name;
+    public LimitedShopItem(String name, String description, int price, int dailyLimit, ItemType type, ItemSubType subtype) {
+        super(type,subtype,1,name);
         this.description = description;
         this.price = price;
         this.dailyLimit = dailyLimit;

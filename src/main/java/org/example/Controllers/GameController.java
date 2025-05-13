@@ -331,7 +331,7 @@ public class GameController {
                         game.Map.get(disty).set(distx , new Tile(TileType.EMPTY));
                     }
                     game.currentPlayer.Energy-=2;
-                    game.currentPlayer.items.add(fruit);
+                    AddItem(game,fruit);
                     System.out.println("You have chopped the foraging and harvested " + fruit.Count +" "+fruit.name);
                     return;
 
@@ -353,6 +353,7 @@ public class GameController {
 
 
             }
+
             else{
                 System.out.println("This tool is not proper for the selected tile");
                 game.currentPlayer.Energy-=2;
@@ -423,6 +424,11 @@ public class GameController {
         }
         System.out.println("This Crop doesn't exist.");
 
+    }
+    public void ShowInventory(Game game) {
+        for(Item item : game.currentPlayer.items){
+            System.out.println("- "+item.Count+" "+item.name);
+        }
     }
     public static String numberWithDashes(int number) {
         String numStr = String.valueOf(Math.abs(number));

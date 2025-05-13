@@ -1,6 +1,7 @@
 package org.example.Controllers;
 
 import org.example.Models.*;
+import org.example.Models.Enums.ItemSubType;
 import org.example.Models.Enums.TileType;
 
 import java.util.HashMap;
@@ -126,7 +127,7 @@ public class ShopController {
         return shopCache.get(type);
     }
 
-    public void purchaseItem(Game game, String productName, int count) {
+    public void purchaseItem(Game game, String productName, int count,GameController controller) {
         if (count <= 0) {
             System.out.println("Invalid quantity specified.");
             return;
@@ -178,6 +179,19 @@ public class ShopController {
 
                 game.currentPlayer.money -= totalPrice;
                 item.increasePurchasedToday(count);
+                if(item.subtype == ItemSubType.SEED) {
+                    for (Foraging foraging : game.AllCropInfo){
+                        if (foraging.Seed.name.equalsIgnoreCase(item.name)) {
+                            Material shopseed = foraging.Seed;
+                            shopseed.Count = count;
+                            controller.AddItem(game,shopseed);
+                            break;
+                        }
+                    }
+                }
+                else {
+                    controller.AddItem(game,item);
+                }
                 System.out.println("You bought " + count + " x " + item.getName() + " for " + totalPrice + "g.");
                 return;
             }

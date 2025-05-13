@@ -16,22 +16,22 @@ public class Map {
         // generating random objects for farm number 1
         generateRandomTrees(MapArrayList, 0,0, 39, 29,game);
         //generateRandomForagings(MapArrayList, 0, 0, 39, 29,game);
-        generateRandomRocks(MapArrayList, 0, 0, 39, 29);
+       // generateRandomRocks(MapArrayList, 0, 0, 39, 29);
 
         // generating random objects for farm number 2
         generateRandomTrees(MapArrayList, 100, 0, 139, 29,game);
        // generateRandomForagings(MapArrayList, 100, 0, 139, 29,game);
-        generateRandomRocks(MapArrayList, 100, 0, 139, 29);
+        //generateRandomRocks(MapArrayList, 100, 0, 139, 29);
 
         // generating random objects for farm number 3
         generateRandomTrees(MapArrayList, 0, 82, 39, 111,game);
         //generateRandomForagings(MapArrayList, 0, 82, 39, 111,game);
-        generateRandomRocks(MapArrayList, 0, 82, 39, 111);
+       // generateRandomRocks(MapArrayList, 0, 82, 39, 111);
 
         // generating random objects for farm number 4
         generateRandomTrees(MapArrayList, 100, 82, 139, 111,game);
        // generateRandomForagings(MapArrayList, 100, 82, 139, 111,game);
-        generateRandomRocks(MapArrayList, 100, 82, 139, 111);
+        //generateRandomRocks(MapArrayList, 100, 82, 139, 111);
     }
 
     public void generateRandomTrees(ArrayList<ArrayList<Tile>> MapArrayList ,int x0, int y0, int x1, int y1,Game game) {
@@ -232,7 +232,7 @@ public class Map {
                 foragingSeeds.add(crop);
             }
         }
-        for (int y = 0; y < 29 ; y++) {
+        for (int y = 0; y < 28 ; y++) {
             for (int x = 0; x < 39; x++){
                 chance = rand.nextInt(100);
                 if (Map.get(y).get(x).getType() == TileType.EMPTY) {
@@ -252,7 +252,7 @@ public class Map {
                 }
             }
         }
-        for (int y = 0; y < 29 ; y++) {
+        for (int y = 0; y < 28 ; y++) {
             for (int x = 100; x < 139; x++){
                 chance = rand.nextInt(100);
                 if (Map.get(y).get(x).getType() == TileType.EMPTY) {
@@ -272,7 +272,7 @@ public class Map {
                 }
             }
         }
-        for (int y = 83; y < 111 ; y++) {
+        for (int y = 84; y < 111 ; y++) {
             for (int x = 0; x < 39; x++){
                 chance = rand.nextInt(100);
                 if (Map.get(y).get(x).getType() == TileType.EMPTY) {
@@ -292,7 +292,7 @@ public class Map {
                 }
             }
         }
-        for (int y = 83; y < 111 ; y++) {
+        for (int y = 84; y < 111 ; y++) {
             for (int x = 100; x < 139; x++){
                 chance = rand.nextInt(100);
                 if (Map.get(y).get(x).getType() == TileType.EMPTY) {

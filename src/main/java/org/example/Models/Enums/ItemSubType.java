@@ -8,6 +8,6 @@ public enum ItemSubType {
     FRUIT,
 
     //Materials
-    SEED,WOOD;
+    SEED,WOOD,IRON,COOPER,GOLD,COAL,UNKNOWN,BAIT;
 
 }

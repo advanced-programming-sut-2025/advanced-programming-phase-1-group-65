@@ -17,6 +17,7 @@ public class Game {
     public ArrayList<Trees> AllTrees = new ArrayList<>();
     public ArrayList<Foraging> AllCrops = new ArrayList<>();
     public ArrayList<Foraging> AllCropInfo = new ArrayList<>();
+    public ArrayList<Food> AllFishInfo =  new ArrayList<>();
     public java.util.Map<TileType, Shop> shops = new java.util.HashMap<>();
     public User user1 = null;
     public User user2 = null;

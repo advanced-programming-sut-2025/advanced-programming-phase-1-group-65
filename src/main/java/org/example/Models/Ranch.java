@@ -12,7 +12,7 @@ public class Ranch implements Shop {
         limitedItems = new ArrayList<>();
 
 
-        unlimitedItems.add(new ShopItem("Hay", "Dried grass used as animal food.", 50));
+       /* unlimitedItems.add(new ShopItem("Hay", "Dried grass used as animal food.", 50));
 
         limitedItems.add(new LimitedShopItem("Milk Pail", "Gather milk from your animals.", 1000, 1));
         limitedItems.add(new LimitedShopItem("Shears", "Used to collect wool from sheep.", 1000, 1));
@@ -24,6 +24,8 @@ public class Ranch implements Shop {
         limitedItems.add(new LimitedShopItem("Pig", "These pigs are trained to find truffles! Lives in the barn.", 16000, 2));
         limitedItems.add(new LimitedShopItem("Dinosaur", "The Dinosaur is a farm animal that lives in a Big Coop.", 14000, 2));
         limitedItems.add(new LimitedShopItem("Sheep", "Can be shorn for wool. A pair of shears is required to harvest the wool. Lives in the barn.", 8000, 2));
+
+        */
     }
 
     @Override

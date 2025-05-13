@@ -11,7 +11,7 @@ public class StardropSaloon implements Shop {
         unlimitedItems = new ArrayList<>();
         limitedItems = new ArrayList<>();
 
-        unlimitedItems.add(new ShopItem("Beer", "Drink in moderation.", 400));
+        /*unlimitedItems.add(new ShopItem("Beer", "Drink in moderation.", 400));
         unlimitedItems.add(new ShopItem("Salad", "A healthy garden salad.", 220));
         unlimitedItems.add(new ShopItem("Bread", "A crusty baguette.", 120));
         unlimitedItems.add(new ShopItem("Spaghetti", "An old favorite.", 240));
@@ -27,6 +27,8 @@ public class StardropSaloon implements Shop {
         limitedItems.add(new LimitedShopItem("Maki Roll Recipe", "A recipe to make Maki Roll.", 300, 1));
         limitedItems.add(new LimitedShopItem("Triple Shot Espresso Recipe", "A recipe to make Triple Shot Espresso.", 5000, 1));
         limitedItems.add(new LimitedShopItem("Cookie Recipe", "A recipe to make Cookie.", 300, 1));
+
+         */
 
 
     }

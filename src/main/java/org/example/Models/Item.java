@@ -8,12 +8,15 @@ public class Item {
     public ItemSubType subtype;
     public int Count;
     public String name;
+    public int price;
     public Item(ItemType type, ItemSubType subtype , int count,String name) {
         this.type = type;
         this.subtype = subtype;
         this.Count = count;
         this.name = name;
     }
+    public String getName() { return name; }
+    public int getPrice() { return price; }
 
 
 }
