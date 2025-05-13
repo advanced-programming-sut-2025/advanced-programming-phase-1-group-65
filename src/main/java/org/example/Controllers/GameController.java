@@ -294,15 +294,46 @@ public class GameController {
         else if (game.currentPlayer.CurrentTool.subtype.equals(ItemSubType.AXE)){
 
             if(game.Map.get(disty).get(distx).type.equals(TileType.TREE)){
+
                 Trees tree = (Trees) game.Map.get(disty).get(distx);
-                Material seed= tree.seed;
-                Material wood= new Material(12, ItemSubType.WOOD,"Wood");
-                AddItem(game,seed);
-                AddItem(game,wood);
-                game.Map.get(disty).set(distx , new Tile(TileType.EMPTY));
-                game.currentPlayer.Energy-=5;
-                System.out.println("You have chopped the tree");
-                return;
+                    if (tree.name.equalsIgnoreCase("Wild")) {
+                        Material seed= tree.seed;
+                        Material wood= new Material(12, ItemSubType.WOOD,"Wood");
+                        AddItem(game,seed);
+                        AddItem(game,wood);
+
+                        game.Map.get(disty).set(distx , new Tile(TileType.EMPTY));
+                        game.currentPlayer.Energy-=5;
+                        System.out.println("You have chopped the tree");
+                        return;
+                    }
+                    if (tree.Fruit.subtype.equals(ItemSubType.SYRUP) && tree.isHarvestable) {
+                        AddItem(game,tree.Fruit);
+                        System.out.println("You have Harvested"+tree.Fruit.Count+" " + tree.Fruit.name);
+                        game.currentPlayer.Energy-=5;
+                        return;
+                    }
+                    else if (!tree.isHarvestable){
+                        System.out.println("This Tree is not harvestable yer\ndo you wish to proceed?(y/n)");
+                        String ch = temp.nextLine();
+                        if (ch.equals("y")) {
+                            Material seed= tree.seed;
+                            Material wood= new Material(12, ItemSubType.WOOD,"Wood");
+                            AddItem(game,seed);
+                            AddItem(game,wood);
+
+                            game.Map.get(disty).set(distx , new Tile(TileType.EMPTY));
+                            game.currentPlayer.Energy-=5;
+                            System.out.println("You have chopped the tree");
+                            return;
+                        }
+                        else {
+                            System.out.println("Command Cancelled");
+                            return;
+                        }
+                    }
+
+
 
             }
             System.out.println("This tool is not proper for the selected tile");
@@ -420,6 +451,24 @@ public class GameController {
                 System.out.println("Energy: " + foraging.Fruit.energy);
                 System.out.println("Season: " + Season);
                 return;
+            }
+        }
+        for (Trees tree : game.AllTreesInfo){
+            if (tree.name.equalsIgnoreCase(name)) {
+                String Season = getSeasonsFromDigitsEN(tree.Season);
+                System.out.println("Name: " + tree.name);
+                System.out.println("Fruit: " + tree.Fruit.name);
+                System.out.println("Stages : 7-7-7-7");
+                System.out.println("Source: " + tree.seed.name);
+                System.out.println("Total Harvest Time: 28");
+                System.out.println("Regrowth Time: " + tree.HarvestingCycle);
+                System.out.println("Base Sell Price: " + tree.Fruit.price);
+                System.out.println("Is Edible: " + tree.Fruit.isEdible);
+                System.out.println("Energy: " + tree.Fruit.energy);
+                System.out.println("Season: " + Season);
+                return;
+
+
             }
         }
         System.out.println("This Crop doesn't exist.");

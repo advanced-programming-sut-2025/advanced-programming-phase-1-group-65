@@ -17,7 +17,8 @@ public class Game {
     public ArrayList<Trees> AllTrees = new ArrayList<>();
     public ArrayList<Foraging> AllCrops = new ArrayList<>();
     public ArrayList<Foraging> AllCropInfo = new ArrayList<>();
-    public ArrayList<Food> AllFishInfo =  new ArrayList<>();
+    public ArrayList<Trees> AllTreesInfo = new ArrayList<>();
+    public ArrayList<Rock> AllRocksInfo = new ArrayList<>();
     public java.util.Map<TileType, Shop> shops = new java.util.HashMap<>();
     public User user1 = null;
     public User user2 = null;
@@ -37,6 +38,167 @@ public class Game {
         this.users = List.of(user1, user2, user3);
         this.gameClock = new GameClock();
         this.weatherSystem = new WeatherSystem("spring");
+    }
+
+    public void createAllTrees(Game game){
+        Material ApricotSapling = new Material(1,ItemSubType.SEED,"Apricot Sapling");
+        Food Apricot = new Food(4,ItemSubType.FRUIT,"Apricot",38,59,true);
+        Trees ApricotTree = new Trees("Apricot Tree",Apricot,1,1,ApricotSapling);
+        game.AllTreesInfo.add(ApricotTree);
+
+        Material CherrySapling = new Material(1,ItemSubType.SEED,"Cherry Sapling");
+        Food Cherry = new Food(4,ItemSubType.FRUIT,"Apricot",38,80,true);
+        Trees CherryTree = new Trees("Cherry Tree",Apricot,1,1,CherrySapling);
+        game.AllTreesInfo.add(CherryTree);
+
+        Material BananaSapling = new Material(1,ItemSubType.SEED,"Banana Sapling");
+        Food Banana = new Food(4,ItemSubType.FRUIT,"Banana",75,150,true);
+        Trees BananaTree = new Trees("Banana Tree",Banana,2,1,BananaSapling);
+        game.AllTreesInfo.add(BananaTree);
+
+        Material MangoSapling = new Material(1,ItemSubType.SEED,"Mango Sapling");
+        Food Mango = new Food(4,ItemSubType.FRUIT,"Mango",100,130,true);
+        Trees MangoTree = new Trees("Mango Tree",Mango,2,1,MangoSapling);
+        game.AllTreesInfo.add(MangoTree);
+
+        Material OrangeSapling = new Material(1,ItemSubType.SEED,"Orange Sapling");
+        Food Orange = new Food(4,ItemSubType.FRUIT,"Orange",38,100,true);
+        Trees OrangeTree = new Trees("Orange Tree",Orange,2,1,OrangeSapling);
+        game.AllTreesInfo.add(OrangeTree);
+
+        Material PeachSapling = new Material(1,ItemSubType.SEED,"Peach Sapling");
+        Food Peach = new Food(4,ItemSubType.FRUIT,"Peach",38,140,true);
+        Trees PeachTree = new Trees("Peach Tree",Peach,2,1,PeachSapling);
+        game.AllTreesInfo.add(PeachTree);
+
+        Material AppleSapling = new Material(1,ItemSubType.SEED,"Apple Sapling");
+        Food Apple = new Food(4,ItemSubType.FRUIT,"Apple",38,100,true);
+        Trees AppleTree = new Trees("Apple Tree",Apple,3,1,AppleSapling);
+        game.AllTreesInfo.add(AppleTree);
+
+        Material PomegranateSapling = new Material(1,ItemSubType.SEED,"Pomegranate Sapling");
+        Food Pomegranate = new Food(4,ItemSubType.FRUIT,"Pomegranate",38,140,true);
+        Trees PomegranateTree = new Trees("Pomegranate Tree",Pomegranate,3,1,PomegranateSapling);
+        game.AllTreesInfo.add(PomegranateTree);
+
+        Material Acorns = new Material(1,ItemSubType.SEED,"Acorns");
+        Food OakResin = new Food(4,ItemSubType.SYRUP,"Oak Resin",0,150,false);
+        Trees OakTree = new Trees("Oak Tree",OakResin,1234,7,Acorns);
+        game.AllTreesInfo.add(OakTree);
+
+        Material MapleSeeds = new Material(1,ItemSubType.SEED,"Maple Seeds");
+        Food MapleSyrup = new Food(2,ItemSubType.SYRUP,"Maple Syrup",0,200,false);
+        Trees MapleTree = new Trees("Maple Tree",MapleSyrup,1234,9,MapleSeeds);
+        game.AllTreesInfo.add(MapleTree);
+
+        Material PineCones = new Material(1,ItemSubType.SEED,"Pine Cones");
+        Food PineTar = new Food(4,ItemSubType.SYRUP,"Pine Tar",0,100,false);
+        Trees PineTree = new Trees("Pine Tree",PineTar,1234,5,PineCones);
+        game.AllTreesInfo.add(PineTree);
+
+        Material MahoganySeeds = new Material(1,ItemSubType.SEED,"Mahogany Seeds");
+        Food Sap = new Food(4,ItemSubType.SYRUP,"Sap",-2,2,false);
+        Trees MahoganyTree = new Trees("Mahogany Tree",Sap,1234,1,MahoganySeeds);
+        game.AllTreesInfo.add(MahoganyTree);
+
+        Material MushroomSeeds = new Material(1,ItemSubType.SEED,"Orange Sapling");
+        Food CommonMushroom = new Food(4,ItemSubType.FRUIT,"Common Mushroom",38,40,true);
+        Trees MushroomTree = new Trees("Mushroom Tree",CommonMushroom,1,1,MushroomSeeds);
+        game.AllTreesInfo.add(MushroomTree);
+
+        Material MysticTreeSeeds = new Material(1,ItemSubType.SEED,"Mystic Tree Seeds");
+        Food MysticSyrup = new Food(4,ItemSubType.SYRUP,"Sap",500,1000,true);
+        Trees MysticTree = new Trees("Mystic Tree",MysticSyrup,1234,7,MysticTreeSeeds);
+        game.AllTreesInfo.add(MysticTree);
+
+
+    }
+    public void creatAllRocks(Game game) {
+        Material Quartz = new Material(1,ItemSubType.QUARTZ,"Quartz");
+        Quartz.price =25;
+        Rock QuartzRock = new Rock(Quartz);
+        game.AllRocksInfo.add(QuartzRock);
+
+        Material EarthCrystal = new Material(1,ItemSubType.EARTHCRYSTAL,"Earth Crystal");
+        EarthCrystal.price = 50;
+        Rock EarthCrystalRock = new Rock(EarthCrystal);
+        game.AllRocksInfo.add(EarthCrystalRock);
+
+        Material FrozenTear = new Material(1,ItemSubType.FROZENTEAR,"Frozen Tear");
+        FrozenTear.price = 75;
+        Rock FrozenTearRock = new Rock(FrozenTear);
+        game.AllRocksInfo.add(FrozenTearRock);
+
+        Material FireQuartz = new Material(1,ItemSubType.FIREQUARTZ,"Fire Quartz");
+        FireQuartz.price = 100;
+        Rock FireQuartzRock = new Rock(FireQuartz);
+        game.AllRocksInfo.add(FireQuartzRock);
+
+        Material Emerald = new Material(1,ItemSubType.EMERALD,"Emerald");
+        Emerald.price = 250;
+        Rock EmeraldRock = new Rock(Emerald);
+        game.AllRocksInfo.add(EmeraldRock);
+
+        Material Aquamarine = new Material(1,ItemSubType.AQUAMARINE,"Aquamarine");
+        Aquamarine.price = 180;
+        Rock AquamaRock = new Rock(Aquamarine);
+        game.AllRocksInfo.add(AquamaRock);
+
+        Material Ruby = new Material(1,ItemSubType.RUBY,"Ruby");
+        Ruby.price = 250;
+        Rock RubyRock = new Rock(Ruby);
+        game.AllRocksInfo.add(RubyRock);
+
+        Material Amethyst = new Material(1,ItemSubType.AMETHYST,"Amethyst");
+        Amethyst.price = 100;
+        Rock AmethystRock = new Rock(Amethyst);
+        game.AllRocksInfo.add(AmethystRock);
+
+        Material Topaz = new Material(1,ItemSubType.TOPAZ,"Topaz");
+        Topaz.price = 80;
+        Rock TopazRock = new Rock(Topaz);
+        game.AllRocksInfo.add(TopazRock);
+
+        Material Jade = new Material(1,ItemSubType.JADE,"Jade");
+        Jade.price = 200;
+        Rock JadeRock = new Rock(Jade);
+        game.AllRocksInfo.add(JadeRock);
+
+        Material Diamond = new Material(1,ItemSubType.DIAMOND,"Diamond");
+        Diamond.price = 750;
+        Rock DiamondRock = new Rock(Diamond);
+        game.AllRocksInfo.add(DiamondRock);
+
+        Material PrismaticShard = new Material(1,ItemSubType.PRISMATICSHARD,"Prismatic Shard");
+        PrismaticShard.price = 2000;
+        Rock PrismaticShardRock = new Rock(PrismaticShard);
+        game.AllRocksInfo.add(PrismaticShardRock);
+
+        Material Gold = new Material(1,ItemSubType.GOLD,"Gold");
+        Gold.price = 25;
+        Rock GoldRock = new Rock(Gold);
+        game.AllRocksInfo.add(GoldRock);
+
+        Material Coal = new Material(1,ItemSubType.COAL,"Coal");
+        Coal.price = 15;
+        Rock CoalRock = new Rock(Coal);
+        game.AllRocksInfo.add(CoalRock);
+
+        Material Copper = new Material(1,ItemSubType.COOPER,"Copper");
+        Copper.price = 5;
+        Rock CopperRock = new Rock(Copper);
+        game.AllRocksInfo.add(CopperRock);
+
+        Material Iron = new Material(1,ItemSubType.IRON,"Iron");
+        Iron.price = 10;
+        Rock IronRock = new Rock(Iron);
+        game.AllRocksInfo.add(IronRock);
+
+        Material Iriduim = new Material(1,ItemSubType.IRIDUIM,"Iriduim");
+        Iriduim.price = 100;
+        Rock IriduimRock = new Rock(Iriduim);
+        game.AllRocksInfo.add(IriduimRock);
+
     }
     public void creatAllCrops(Game game) {
         Material JazzSeeds = new Material(1,ItemSubType.SEED,"Jazz Seeds");
@@ -345,6 +507,8 @@ public class Game {
 
             MapClone = mapclone.cloneMap(this);
             creatAllCrops(this);
+            createAllTrees(this);
+            creatAllRocks(this);
             //this.map.GenerateRandomForagingDaily(this.Map,this);
 
 
@@ -373,7 +537,8 @@ public class Game {
                 user.player.items.add(new Tool(1, ItemSubType.TRASH_CAN,"TrashCan"));
                 user.player.items.add(new Tool(1, ItemSubType.HOE,"Hoe"));
                 user.player.items.add(new Tool(1, ItemSubType.PICKAXE,"Pickaxe"));
-
+                map.GenerateRandomForagingDaily(Map,this);
+                map.GenerateRandomRockDaily(Map,this);
 
 
 

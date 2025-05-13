@@ -8,14 +8,18 @@ public class Trees extends Tile{
     public Food Fruit ;
     public int Season;
     public Material seed;
-    public Trees( String name, Food Fruit, int Season) {
+    public Trees( String name, Food Fruit, int Season,int HarvestingCycle,Material seed) {
         super(TileType.TREE);
         this.name = name;
         this.Fruit = Fruit;
         this.Season = Season;
+        this.HarvestingCycle = HarvestingCycle;
+        this.seed = seed;
     }
     public boolean isHarvestable=false;
-    public int firstDay;
     public int HarvestingCycle;
+    public boolean WateredToday=false;
+    public int daysWithoutWater;
+    public int FirstDay;
 
 }

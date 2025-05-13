@@ -72,7 +72,7 @@ public class GameClock {
             game.user3.player.Fainted = false;
         }
         game.map.GenerateRandomForagingDaily(game.Map,game);
-
+        game.map.GenerateRandomRockDaily(game.Map,game);
         day++;
         hour=9;
         if (day > 28) {

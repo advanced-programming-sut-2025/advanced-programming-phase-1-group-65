@@ -46,8 +46,7 @@ public class Map {
                 randomY = (int) ((Math.random() * (y1 - y0 + 1)) + y0);
             }
             seed = getRandomSeed(game);
-            tree = new Trees("Wild",null,5);
-            tree.seed = seed;
+            tree = new Trees("Wild",null,5,0,seed);
             MapArrayList.get(randomY).set(randomX, tree);
         }
     }
@@ -72,19 +71,19 @@ public class Map {
                     seed = new Material(1,ItemSubType.SEED,"Mushroom Tree Seeds");
                     break;
                 case 4:
-                    seed = new Material(1,ItemSubType.SEED,"Mahogany Tree Seeds");
+                    seed = new Material(1,ItemSubType.SEED,"Mahogany Seeds");
                     break;
                 case 5:
-                    seed = new Material(1,ItemSubType.SEED,"Pine Tree Seeds");
+                    seed = new Material(1,ItemSubType.SEED,"Pine Cones");
                     break;
                  case 6:
-                     seed = new Material(1,ItemSubType.SEED,"Maple Tree Seeds");
+                     seed = new Material(1,ItemSubType.SEED,"Maple Seeds");
                      break;
                      case 7:
-                         seed = new Material(1,ItemSubType.SEED,"Oak Tree Seeds");
+                         seed = new Material(1,ItemSubType.SEED,"Acorns");
                          break;
                 default:
-                    seed = new Material(1,ItemSubType.SEED,"Maple Tree Seeds");
+                    seed = new Material(1,ItemSubType.SEED,"Maple Seeds");
             }
 
         }
@@ -107,16 +106,16 @@ public class Map {
                     seed = new Material(1,ItemSubType.SEED,"Mushroom Tree Seeds");
                     break;
                 case 4:
-                    seed = new Material(1,ItemSubType.SEED,"Mahogany Tree Seeds");
+                    seed = new Material(1,ItemSubType.SEED,"Mahogany Seeds");
                     break;
                 case 5:
-                    seed = new Material(1,ItemSubType.SEED,"Pine Tree Seeds");
+                    seed = new Material(1,ItemSubType.SEED,"Pine Cones");
                     break;
                 case 6:
-                    seed = new Material(1,ItemSubType.SEED,"Maple Tree Seeds");
+                    seed = new Material(1,ItemSubType.SEED,"Maple Seeds");
                     break;
                 case 7:
-                    seed = new Material(1,ItemSubType.SEED,"Oak Tree Seeds");
+                    seed = new Material(1,ItemSubType.SEED,"Acorns");
                     break;
                     case 8:
                         seed = new Material(1,ItemSubType.SEED,"Orange Sapling");
@@ -149,19 +148,19 @@ public class Map {
                     seed = new Material(1,ItemSubType.SEED,"Mushroom Tree Seeds");
                     break;
                 case 4:
-                    seed = new Material(1,ItemSubType.SEED,"Mahogany Tree Seeds");
+                    seed = new Material(1,ItemSubType.SEED,"Mahogany Seeds");
                     break;
                 case 5:
-                    seed = new Material(1,ItemSubType.SEED,"Pine Tree Seeds");
+                    seed = new Material(1,ItemSubType.SEED,"Pine Cones");
                     break;
                 case 6:
-                    seed = new Material(1,ItemSubType.SEED,"Maple Tree Seeds");
+                    seed = new Material(1,ItemSubType.SEED,"Maple Seeds");
                     break;
                 case 7:
-                    seed = new Material(1,ItemSubType.SEED,"Oak Tree Seeds");
+                    seed = new Material(1,ItemSubType.SEED,"Acorns");
                     break;
                 default:
-                    seed = new Material(1,ItemSubType.SEED,"Pine Tree Seeds");
+                    seed = new Material(1,ItemSubType.SEED,"Pine Cones");
             }
 
         }
@@ -179,23 +178,24 @@ public class Map {
                     seed = new Material(1,ItemSubType.SEED,"Mushroom Tree Seeds");
                     break;
                 case 2:
-                    seed = new Material(1,ItemSubType.SEED,"Mahogany Tree Seeds");
+                    seed = new Material(1,ItemSubType.SEED,"Mahogany Seeds");
                     break;
                 case 3:
-                    seed = new Material(1,ItemSubType.SEED,"Pine Tree Seeds");
+                    seed = new Material(1,ItemSubType.SEED,"Pine Cones");
                     break;
                 case 4:
                     seed = new Material(1,ItemSubType.SEED,"Maple Tree Seeds");
                     break;
                 case 5:
-                    seed = new Material(1,ItemSubType.SEED,"Oak Tree Seeds");
+                    seed = new Material(1,ItemSubType.SEED,"Acorns");
                     break;
                     default:
-                        seed = new Material(1,ItemSubType.SEED,"Oak Tree Seeds");
+                        seed = new Material(1,ItemSubType.SEED,"Acorns");
             }
         }
         return seed;
     }
+
 
 
     /*public void generateRandomForagings(ArrayList<ArrayList<Tile>> MapArrayList ,int x0, int y0, int x1, int y1,Game game) {
@@ -212,11 +212,21 @@ public class Map {
             MapArrayList.get(randomY).set(randomX, new Tile(TileType.FORAGING));
         }
     }*/
-    public Foraging getForaging(Game game){
-        if (game.gameClock.getCurrentSeasonIndex()==1){
-
+    public void GenerateRandomRockDaily(ArrayList<ArrayList<Tile>> Map, Game game) {
+        Random rand = new Random();
+        int chance;
+        int selected;
+        for (int i = 0; i < Map.size(); i++) {
+            for (int j = 0; j < Map.get(i).size(); j++) {
+                if (Map.get(i).get(j).type.equals(TileType.QUARRY)) {
+                    chance = rand.nextInt(100);
+                    if (chance ==0) {
+                       selected = rand.nextInt(game.AllRocksInfo.size());
+                       game.Map.get(i).set(j, game.AllRocksInfo.get(selected));
+                    }
+                }
+            }
         }
-        return null;
     }
     public void GenerateRandomForagingDaily(ArrayList<ArrayList<Tile>> Map, Game game) {
         ArrayList<Foraging> foragingCrops = new ArrayList<>();
@@ -228,7 +238,7 @@ public class Map {
             if(crop.isHarvestable && crop.Season==game.gameClock.getCurrentSeasonIndex()){
                 foragingCrops.add(crop);
             }
-            else if(!(crop.isHarvestable && crop.Season!=game.gameClock.getCurrentSeasonIndex())) {
+            else if(!(crop.isHarvestable) && crop.Season==game.gameClock.getCurrentSeasonIndex()) {
                 foragingSeeds.add(crop);
             }
         }
@@ -312,6 +322,8 @@ public class Map {
                 }
             }
         }
+        foragingCrops = null;
+        foragingSeeds = null;
 
     }
 
@@ -498,7 +510,7 @@ public class Map {
 // ROW 83
             , "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW.WWWW.....WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW.....WWWW.WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW"
 // ROW 84
-            , "W.....LLLLLLLLLL....LLLLLLLLLL.........W............................................................WCCCC........................QQQQQQQQQQW"
+            , "W.....LLLLLLLLLL....LLLLLLLLLL.........W............................................................W............................QQQQQQQQQQW"
 // ROW 85
             , "W.....LLLLLLLLLL....LLLLLLLLLL.........W............................................................WCCCC........................QQQQQQQQQQW"
 // ROW 86
@@ -506,7 +518,7 @@ public class Map {
 // ROW 87
             , "W.....LLLLLLLLLL....LLLLLLLLLL.........W............................................................WCCCC........................QQQQQQQQQQW"
 // ROW 90
-            , "W......................................W............................................................W............................QQQQQQQQQQW"
+            , "W......................................W............................................................WCCCC........................QQQQQQQQQQW"
 // ROW 91
             , "W......................................W............................................................W............................QQQQQQQQQQW"
 // ROW 92
