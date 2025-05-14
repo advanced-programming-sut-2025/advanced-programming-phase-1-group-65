@@ -40,6 +40,7 @@ public class Main {
         m.printMap(map);
 */
         Scanner scanner = new Scanner(System.in);
+        App.checkStayLoggedIn();
 
         try {
             while (true) {

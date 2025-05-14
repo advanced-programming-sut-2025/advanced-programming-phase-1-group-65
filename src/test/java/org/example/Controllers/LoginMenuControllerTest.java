@@ -24,7 +24,7 @@ public class LoginMenuControllerTest {
     void testValidLogin() {
         User user = new User("user123", "Password123!", "user@example.com", "male", "nickname");
         App.addUser(user);
-        boolean result = controller.login("user123", "Password123!");
+        boolean result = controller.login("user123", "Password123!" ,false);
 
         assertTrue(result);
         assertEquals(user, App.getCurrentUser());
@@ -34,7 +34,7 @@ public class LoginMenuControllerTest {
     void testInvalidLogin() {
         User user = new User("user123", "Password123!", "user@example.com", "male", "nickname");
         App.addUser(user);
-        boolean result = controller.login("user123", "WrongPassword!");
+        boolean result = controller.login("user123", "WrongPassword!" , false);
 
         assertFalse(result);
     }

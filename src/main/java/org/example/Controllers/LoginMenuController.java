@@ -4,15 +4,21 @@ import org.example.Models.App;
 import org.example.Models.User;
 import org.example.Models.Enums.Menu;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Random;
 import java.util.Scanner;
 
 public class LoginMenuController {
 
-    public boolean login(String username, String password) {
+    public boolean login(String username, String password , boolean stayLoggedIn) {
         for (User user : App.getUsers()) {
             if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
                 App.setCurrentUser(user);
+                if (stayLoggedIn) {
+                    App.saveLoginState(user);
+                }
                 return true;
             }
         }
@@ -104,5 +110,12 @@ public class LoginMenuController {
         }
 
         return password.toString();
+    }private void saveLoginState(User user) {
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("stayLoggedIn.txt"))) {
+            writer.write(user.getUsername());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

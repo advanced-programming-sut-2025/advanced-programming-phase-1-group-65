@@ -17,13 +17,12 @@ public class LoginMenuView implements AppMenu {
         Matcher matcher;
         LoginMenuController controller = new LoginMenuController();
 
-        if ((matcher = LoginMenuCommands.LOGIN.matcher(input)) != null) {
+        if ((matcher = LoginMenuCommands.LOGIN.matcher(input)) != null && matcher.matches()) {
             String username = matcher.group(1);
             String password = matcher.group(2);
+            boolean stayLoggedIn = matcher.group(3) != null;
 
-            boolean found = false;
-
-            if (controller.login(username, password)) {
+            if (controller.login(username, password, stayLoggedIn)) {
                 System.out.println("Login successful!");
                 App.setCurrentMenu(Menu.MAINMENU);
             } else {
