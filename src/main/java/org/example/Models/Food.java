@@ -13,6 +13,13 @@ public class Food extends Item {
         this.isEdible = isEdible;
 
     }
+    public Food(Food Other){
+        super(ItemType.FOOD,Other.subtype, Other.Count, Other.name);
+        this.subtype = Other.subtype;
+        this.energy = Other.energy;
+        this.price = Other.price;
+        this.isEdible = Other.isEdible;
+    }
     public int energy;
     public boolean isEdible;
 

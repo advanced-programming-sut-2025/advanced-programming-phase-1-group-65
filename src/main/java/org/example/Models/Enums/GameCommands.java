@@ -31,12 +31,14 @@ public enum GameCommands {
     SHOW_ALL_AVAILABLE_PRODUCTS("^show all available products$"),
     PURCHASE_ITEM("^purchase\\s+(.+?)(?:\\s+-n\\s+(\\d+))?$"),
     CRAFTINFO("^craftinfo\\s+-n\\s+(.+)$"),
-    SHOWINVNETORY("Show inventory"),
+    SHOWINVNETORY("show inventory"),
     PLANTING("^plant -s\\s+(.+) -d (0|1|-1),(0|1|-1)$"),
     CHEATWATER("^cheat water$"),
     HOWMUCHWATER("^howmuch water$"),
     SHOWPLANT("^show plant -l (\\d+),(\\d+)$"),
-    FISHING("^fishing\\s+-p\\s+(.+)$");
+    FISHING("^fishing\\s+-p\\s+(.+)$"),
+    TRASHCAN("^inventory trash\\s+(.+?)(?:\\s+-n\\s+(\\d+))?"),
+    FERTILIZE("^fertilize\\s+-f\\s+(.+) -d (0|1|-1),(0|1|-1)$");
 
     private final String pattern;
 

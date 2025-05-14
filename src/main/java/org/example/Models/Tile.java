@@ -53,8 +53,12 @@ public class Tile {
             case FERTILE:
                 return 'O';
 
+
                         default:
                             return '?';
         }
+
     }
+    public boolean deluxeFed=false;
+    public boolean speedFed=false;
 }

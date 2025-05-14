@@ -9,6 +9,10 @@ public class Rock extends Tile {
         this.Mineral = Mineral;
 
     }
+    public Rock(Rock Other){
+        super(TileType.ROCK);
+        this.Mineral = Other.Mineral;
+    }
    public Material Mineral;
 
 }

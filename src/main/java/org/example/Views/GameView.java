@@ -158,6 +158,17 @@ public class GameView {
                 String toolName = matcher.group(1);
                 controller.Fishing(game, toolName);
             }
+            else if((matcher = GameCommands.TRASHCAN.matcher(input)) != null) {
+                String itemName = matcher.group(1).trim();
+                int count = matcher.group(2) != null ? Integer.parseInt(matcher.group(2)) : 1;
+                controller.removeItem(game,itemName,count);
+            }
+            else if ((matcher = GameCommands.FERTILIZE.matcher(input)) != null) {
+                String name = matcher.group(1);
+                int x = Integer.parseInt(matcher.group(2));
+                int y = Integer.parseInt(matcher.group(3));
+                controller.Fertilize(game,x,y,name);
+            }
 
 
             else {

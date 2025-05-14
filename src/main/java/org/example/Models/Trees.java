@@ -16,6 +16,14 @@ public class Trees extends Tile{
         this.HarvestingCycle = HarvestingCycle;
         this.seed = seed;
     }
+    public Trees (Trees Other){
+        super(TileType.TREE);
+        this.name = Other.name;
+        this.Fruit = Other.Fruit;
+        this.Season = Other.Season;
+        this.HarvestingCycle = Other.HarvestingCycle;
+        this.seed = Other.seed;
+    }
     public boolean isHarvestable=false;
     public int HarvestingCycle;
     public boolean WateredToday=false;

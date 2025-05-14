@@ -175,6 +175,16 @@ public class ShopController {
                         }
                     }
                 }
+                else if(item.subtype == ItemSubType.FERTILIZER){
+                    if(item.name.equalsIgnoreCase("deluxe retaining soil")) {
+                        Material fertilizer = new Material(count,ItemSubType.FERTILIZER,"deluxe retaining soil");
+                        controller.AddItem(game,fertilizer);
+                    }
+                    if(item.name.equalsIgnoreCase("speed-gro")) {
+                        Material fertilizer = new Material(count,ItemSubType.FERTILIZER,"speed-gro");
+                        controller.AddItem(game,fertilizer);
+                    }
+                }
                 System.out.println("You bought " + count + " x " + item.getName() + " for " + totalPrice + "g.");
                 return;
             }
@@ -221,6 +231,16 @@ public class ShopController {
                             controller.AddItem(game,shopRock);
                             break;
                         }
+                    }
+                }
+                else if(item.subtype == ItemSubType.FERTILIZER){
+                    if(item.name.equalsIgnoreCase("deluxe retaining soil")) {
+                        Material fertilizer = new Material(count,ItemSubType.FERTILIZER,"deluxe retaining soil");
+                        controller.AddItem(game,fertilizer);
+                    }
+                    if(item.name.equalsIgnoreCase("speed-gro")) {
+                        Material fertilizer = new Material(count,ItemSubType.FERTILIZER,"speed-gro");
+                        controller.AddItem(game,fertilizer);
                     }
                 }
 

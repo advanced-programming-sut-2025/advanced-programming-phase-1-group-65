@@ -46,7 +46,7 @@ public class Map {
                 randomY = (int) ((Math.random() * (y1 - y0 + 1)) + y0);
             }
             seed = getRandomSeed(game);
-            tree = new Trees("Wild",null,5,0,seed);
+            tree = new Trees("Wild",null,1234,0,seed);
             MapArrayList.get(randomY).set(randomX, tree);
         }
     }
@@ -222,7 +222,8 @@ public class Map {
                     chance = rand.nextInt(100);
                     if (chance ==0) {
                        selected = rand.nextInt(game.AllRocksInfo.size());
-                       game.Map.get(i).set(j, game.AllRocksInfo.get(selected));
+                       Rock newRock = new Rock (game.AllRocksInfo.get(selected));
+                       game.Map.get(i).set(j, newRock);
                     }
                 }
             }
@@ -244,80 +245,87 @@ public class Map {
         }
         for (int y = 0; y < 28 ; y++) {
             for (int x = 0; x < 39; x++){
-                chance = rand.nextInt(100);
+                chance = rand.nextInt(200);
                 if (Map.get(y).get(x).getType() == TileType.EMPTY) {
                     selected = rand.nextInt(foragingCrops.size());
+                    Foraging newForaging = new Foraging(foragingCrops.get(selected));
 
                     if (chance ==0) {
-                        Map.get(y).set(x, foragingCrops.get(selected));
+                        Map.get(y).set(x, newForaging);
                     }
                 }
                 else if(Map.get(y).get(x).getType()==TileType.FERTILE){
                     selected = rand.nextInt(foragingSeeds.size());
-
+                    Foraging newForaging = new Foraging(foragingSeeds.get(selected));
                     if (chance ==0) {
-                        Map.get(y).set(x, foragingSeeds.get(selected));
-                        game.AllCrops.add(foragingSeeds.get(selected));
+                        Map.get(y).set(x, newForaging);
+                        game.AllCrops.add(newForaging);
                     }
                 }
             }
         }
         for (int y = 0; y < 28 ; y++) {
             for (int x = 100; x < 139; x++){
-                chance = rand.nextInt(100);
+                chance = rand.nextInt(200);
                 if (Map.get(y).get(x).getType() == TileType.EMPTY) {
                     selected = rand.nextInt(foragingCrops.size());
+                    Foraging newForaging = new Foraging(foragingCrops.get(selected));
 
                     if (chance ==0) {
-                        Map.get(y).set(x, foragingCrops.get(selected));
+                        Map.get(y).set(x, newForaging);
                     }
                 }
                 else if(Map.get(y).get(x).getType()==TileType.FERTILE){
                     selected = rand.nextInt(foragingSeeds.size());
+                    Foraging newForaging = new Foraging(foragingSeeds.get(selected));
 
                     if (chance ==0) {
-                        Map.get(y).set(x, foragingSeeds.get(selected));
-                        game.AllCrops.add(foragingSeeds.get(selected));
+                        Map.get(y).set(x, newForaging);
+                        game.AllCrops.add(newForaging);
                     }
                 }
             }
         }
         for (int y = 84; y < 111 ; y++) {
             for (int x = 0; x < 39; x++){
-                chance = rand.nextInt(100);
+                chance = rand.nextInt(200);
                 if (Map.get(y).get(x).getType() == TileType.EMPTY) {
                     selected = rand.nextInt(foragingCrops.size());
+                    Foraging newForaging = new Foraging(foragingCrops.get(selected));
 
                     if (chance ==0) {
-                        Map.get(y).set(x, foragingCrops.get(selected));
+                        Map.get(y).set(x, newForaging);
                     }
                 }
                 else if(Map.get(y).get(x).getType()==TileType.FERTILE){
                     selected = rand.nextInt(foragingSeeds.size());
+                    Foraging newForaging = new Foraging(foragingSeeds.get(selected));
 
                     if (chance ==0) {
-                        Map.get(y).set(x, foragingSeeds.get(selected));
-                        game.AllCrops.add(foragingSeeds.get(selected));
+                        Map.get(y).set(x, newForaging);
+                        game.AllCrops.add(newForaging);
                     }
                 }
             }
         }
         for (int y = 84; y < 111 ; y++) {
             for (int x = 100; x < 139; x++){
-                chance = rand.nextInt(100);
+                chance = rand.nextInt(200);
                 if (Map.get(y).get(x).getType() == TileType.EMPTY) {
                     selected = rand.nextInt(foragingCrops.size());
+                    Foraging newForaging = new Foraging(foragingCrops.get(selected));
 
                     if (chance ==0) {
-                        Map.get(y).set(x, foragingCrops.get(selected));
+                        Map.get(y).set(x, newForaging);
                     }
                 }
                 else if(Map.get(y).get(x).getType()==TileType.FERTILE){
                     selected = rand.nextInt(foragingSeeds.size());
+                    Foraging newForaging = new Foraging(foragingSeeds.get(selected));
 
                     if (chance ==0) {
-                        Map.get(y).set(x, foragingSeeds.get(selected));
-                        game.AllCrops.add(foragingSeeds.get(selected));
+                        Map.get(y).set(x, newForaging);
+                        game.AllCrops.add(newForaging);
                     }
                 }
             }

@@ -8,4 +8,8 @@ public class FishWithSeason {
         this.fish = fish;
         this.season = season;
     }
+    public FishWithSeason(FishWithSeason Other){
+        fish = Other.fish;
+        season = Other.season;
+    }
 }

@@ -1,10 +1,7 @@
 package org.example.Controllers;
 
 import org.example.Models.*;
-import org.example.Models.Enums.ItemSubType;
-import org.example.Models.Enums.ItemType;
-import org.example.Models.Enums.TileType;
-import org.example.Models.Enums.WeatherType;
+import org.example.Models.Enums.*;
 import org.example.Models.Game;
 import org.example.Models.Player;
 import org.example.Models.Tile;
@@ -300,12 +297,13 @@ public class GameController {
             if(game.Map.get(disty).get(distx).type.equals(TileType.TREE)){
                 int bonusEnergy =0;
                 if (game.currentPlayer.foragingSkill.getLevel()==4){
-                    bonusEnergy = 1;
+                    bonusEnergy = -1;
                 }
 
                 Trees tree = (Trees) game.Map.get(disty).get(distx);
+                Trees tree2 = new Trees(tree);
                     if (tree.name.equalsIgnoreCase("Wild")) {
-                        Material seed= tree.seed;
+                        Material seed= tree2.seed;
                         Material wood= new Material(12, ItemSubType.WOOD,"Wood");
                         AddItem(game,seed);
                         AddItem(game,wood);
@@ -318,7 +316,8 @@ public class GameController {
                         return;
                     }
                     if (tree.Fruit.subtype.equals(ItemSubType.SYRUP) && tree.isHarvestable) {
-                        AddItem(game,tree.Fruit);
+                        Food newFruit = new Food(tree2.Fruit);
+                        AddItem(game,newFruit);
                         game.currentPlayer.gainForagingXP(5);
                         System.out.println("You have Harvested"+tree.Fruit.Count+" " + tree.Fruit.name);
                         game.currentPlayer.Energy-=5+bonusEnergy;
@@ -329,7 +328,7 @@ public class GameController {
                         System.out.println("This Tree is not harvestable yer\ndo you wish to proceed?(y/n)");
                         String ch = temp.nextLine();
                         if (ch.equals("y")) {
-                            Material seed= tree.seed;
+                            Material seed= tree2.seed;
                             Material wood= new Material(12, ItemSubType.WOOD,"Wood");
                             AddItem(game,seed);
                             AddItem(game,wood);
@@ -360,7 +359,7 @@ public class GameController {
         else if(game.currentPlayer.CurrentTool.subtype.equals(ItemSubType.HOE)){
             int bonusEnergy =0;
             if(game.currentPlayer.farmingSkill.getLevel()==4){
-                bonusEnergy = 1;
+                bonusEnergy = -1;
             }
             if(game.Map.get(disty).get(distx).type.equals(TileType.EMPTY)){
                 game.Map.get(disty).set(distx , new Tile(TileType.FERTILE));
@@ -376,14 +375,17 @@ public class GameController {
         else if(game.currentPlayer.CurrentTool.subtype.equals(ItemSubType.SCYTHE)){
             if(game.Map.get(disty).get(distx).type.equals(TileType.FORAGING)){
                 Foraging foraging = (Foraging) game.Map.get(disty).get(distx);
-                Food fruit = foraging.Fruit;
+                Foraging newForaging = new Foraging(foraging);
+                Food fruit = newForaging.Fruit;
                 if (foraging.isHarvestable){
                     if (foraging.OneTime){
                         game.Map.get(disty).set(distx , new Tile(TileType.EMPTY));
                     }
+                    Food newFruit = new Food(newForaging.Fruit);
                     game.currentPlayer.Energy-=2;
-                    AddItem(game,fruit);
+                    AddItem(game,newFruit);
                     game.currentPlayer.gainForagingXP(10);
+                    foraging.isHarvestable=false;
                     System.out.println("You have chopped the foraging and harvested " + fruit.Count +" "+fruit.name);
                     return;
 
@@ -407,14 +409,16 @@ public class GameController {
             }
             else if(game.Map.get(disty).get(distx).type.equals(TileType.TREE)){
                 Trees tree = (Trees) game.Map.get(disty).get(distx);
-                Food fruit = tree.Fruit;
+                Trees newtree = new Trees(tree);
+                Food fruit = newtree.Fruit;
                 if (tree.isHarvestable){
-
+                    Food newFruit = new Food(fruit);
                     game.currentPlayer.Energy-=2;
-                    AddItem(game,fruit);
+                    AddItem(game,newFruit);
                     game.currentPlayer.gainForagingXP(5);
                     System.out.println("You have harvested the tree and got " + fruit.Count +" "+fruit.name);
                     tree.HarvestedFirstTime = true;
+                    tree.isHarvestable=false;
                     return;
 
                 }
@@ -436,7 +440,7 @@ public class GameController {
         else if (game.currentPlayer.CurrentTool.subtype.equals(ItemSubType.WATERINGCAN)){
             int bonusEnergy =0;
             if(game.currentPlayer.farmingSkill.getLevel()==4){
-                bonusEnergy = 1;
+                bonusEnergy = -1;
             }
             if(game.Map.get(disty).get(distx).type.equals(TileType.LAKE)){
                 game.currentPlayer.CurrentTool.volume = 40;
@@ -485,7 +489,7 @@ public class GameController {
         else if(game.currentPlayer.CurrentTool.subtype.equals(ItemSubType.PICKAXE)){
             int bonusEnergy = 0;
             if (game.currentPlayer.miningSkill.getLevel()==4){
-                bonusEnergy=1;
+                bonusEnergy=-1;
             }
             if(game.Map.get(disty).get(distx).type.equals(TileType.ROCK)){
                 Rock rock = (Rock) game.Map.get(disty).get(distx);
@@ -502,9 +506,9 @@ public class GameController {
                     Random rand = new Random();
                     int selected;
                     selected = rand.nextInt(game.AllRocksInfo.size());
-                    Material randomMineral = game.AllRocksInfo.get(selected).Mineral;
-                    AddItem(game,randomMineral);
-                    System.out.println("You also got " + randomMineral.Count +" "+randomMineral.name);
+                    Rock newRock = new Rock(game.AllRocksInfo.get(selected));
+                    AddItem(game,newRock.Mineral);
+                    System.out.println("You also got " + newRock.Mineral.Count +" "+newRock.Mineral.name);
 
                 }
                 return;
@@ -527,15 +531,21 @@ public class GameController {
         while(iterator.hasNext()){
             Foraging foraging = iterator.next();
             int days = sumOfDigits(foraging.Stage);
-            if(!foraging.WateredToday && foraging.daysWithOutWater < 2){
-                foraging.daysWithOutWater++;
+            if(foraging.speedFed){
+                foraging.speedFed = false;
+                foraging.day++;
             }
-            if (foraging.daysWithOutWater >= 2){
-                game.Map.get(foraging.posy).set(foraging.posx, new Tile(TileType.EMPTY));
-                System.out.println(foraging.name + " has withered due to lack of water");
-                iterator.remove();
-                return;
-            }
+           if(!foraging.deluxeFed){
+               if(!foraging.WateredToday && foraging.daysWithOutWater < 2){
+                   foraging.daysWithOutWater++;
+               }
+               if (foraging.daysWithOutWater >= 2){
+                   game.Map.get(foraging.posy).set(foraging.posx, new Tile(TileType.EMPTY));
+                   System.out.println(foraging.name + " has withered due to lack of water");
+                   iterator.remove();
+                   return;
+               }
+           }
             if (foraging.WateredToday){
                 foraging.daysWithOutWater=0;
             }
@@ -561,15 +571,23 @@ public class GameController {
         while(iterator.hasNext()){
             Trees tree = iterator.next();
             int days = 28;
-            if (!tree.WateredToday && tree.daysWithoutWater<2){
-                tree.daysWithoutWater++;
+            if(tree.speedFed){
+                tree.day++;
+                tree.speedFed = false;
             }
-            if (tree.daysWithoutWater >= 2){
-                game.Map.get(tree.posy).set(tree.posx, new Tile(TileType.EMPTY));
-                System.out.println(tree.name + " has withered due to lack of water");
-                iterator.remove();
-                return;
+            if(!tree.deluxeFed){
+                if (!tree.WateredToday && tree.daysWithoutWater<2){
+                    tree.daysWithoutWater++;
+                }
+                if (tree.daysWithoutWater >= 2){
+                    game.Map.get(tree.posy).set(tree.posx, new Tile(TileType.EMPTY));
+                    System.out.println(tree.name + " has withered due to lack of water");
+                    iterator.remove();
+                    return;
+                }
             }
+
+
             if (tree.WateredToday){
                 tree.daysWithoutWater=0;
             }
@@ -593,7 +611,7 @@ public class GameController {
     public void Fishing(Game game, String toolName) {
         int bonusEnergy = 0;
         if (game.currentPlayer.fishingSkill.getLevel()==4){
-            bonusEnergy=1;
+            bonusEnergy=-1;
         }
         Tool tool = null;
         for (Item item : game.currentPlayer.items) {
@@ -684,6 +702,7 @@ public class GameController {
             System.out.println("- " + caughtFish.name + " (Quality: Normal)");
             game.currentPlayer.gainFishingXP(5);
         }
+        seasonalFish=null;
 
         game.currentPlayer.Energy -= 8+bonusEnergy;
         bonusEnergy = 0;
@@ -785,6 +804,7 @@ public class GameController {
             System.out.println("The ground should be fertile.");
             return;
         }
+
         Foraging newPlant;
         Material tempSeed;
         Trees newTree;
@@ -799,13 +819,20 @@ public class GameController {
                                 System.out.println("This Crop can not be planted during this season");
                                 return;
                             }
-                            newPlant = foraging;
+                            newPlant = new Foraging(foraging);
+                            if (game.Map.get(desty).get(destx).deluxeFed) {
+                                newPlant.deluxeFed = true;
+                            }
+                            else if(game.Map.get(desty).get(destx).speedFed) {
+                                newPlant.speedFed = true;
+                                newPlant.day++;
+                            }
                             game.Map.get(desty).set(destx,newPlant);
                             newPlant.posx = destx;
                             newPlant.posy = desty;
                             game.AllCrops.add(newPlant);
                             System.out.println("Plant added.");
-                            removeItem(game,tempSeed,1);
+                            removeItem(game,tempSeed.name,1);
                             return;
                         }
                     }
@@ -813,16 +840,16 @@ public class GameController {
 
                         if(tree.seed.name.equals(name)){
                             if (!containsDigit(game.gameClock.getCurrentSeasonIndex(),tree.Season)){
-                                System.out.println("This Crop can not be planted during this season");
+                                System.out.println("This Tree can not be planted during this season");
                                 return;
                             }
-                            newTree = tree;
+                            newTree = new Trees(tree);
                             game.Map.get(desty).set(destx,newTree);
                             newTree.posx = destx;
                             newTree.posy = desty;
                             game.AllTrees.add(newTree);
                             System.out.println("Tree added.");
-                            removeItem(game,tempSeed,1);
+                            removeItem(game,tempSeed.name,1);
                             return;
                         }
                     }
@@ -835,6 +862,85 @@ public class GameController {
         return;
 
     }
+    public void Fertilize(Game game , int x, int y, String name) {
+        int posx = game.currentPlayer.PositionX+x;
+        int posy = game.currentPlayer.PositionY-y;
+        Tile tile = game.Map.get(posy).get(posx);
+        if (tile.type.equals(TileType.FERTILE) || tile.type.equals(TileType.FORAGING) ||tile.type.equals(TileType.TREE)){
+            if (name.equalsIgnoreCase("deluxe retaining soil")){
+                if (HasItem(game,"deluxe retaining soil")){
+                    tile.deluxeFed = true;
+                    if(tile instanceof Foraging){
+                        Foraging foraging = (Foraging) game.Map.get(posy).get(posx);
+                        if (foraging.day > 0){
+                            System.out.println("You can't fertilize a crop after one day after planting it.");
+                            tile.deluxeFed = false;
+                            return;
+                        }
+                    }
+                    else if(tile instanceof Trees){
+                        Trees tree = (Trees) game.Map.get(posy).get(posx);
+                        if (tree.day > 0){
+                            System.out.println("You can't fertilize a tree after one day after planting it.");
+                            tile.deluxeFed=false;
+                            return;
+                        }
+                    }
+                    System.out.println("deluxe retaining soil added.");
+                    removeItem(game ,"deluxe retaining soil",1);
+                    return;
+
+                }
+                System.out.println("You dont have this fertilizer.");
+                return;
+
+            }
+            else if(name.equalsIgnoreCase("speed-gro")) {
+                if (HasItem(game, "speed-gro")) {
+                    tile.speedFed = true;
+                    if (tile instanceof Foraging) {
+                        Foraging foraging = (Foraging) game.Map.get(posy).get(posx);
+                        if (foraging.day > 0) {
+                            System.out.println("You can't fertilize a crop after one day after planting it.");
+                            tile.speedFed = false;
+                            return;
+                        }
+                        foraging.day++;
+
+                    }
+                   else if (tile instanceof Trees) {
+                        Trees tree = (Trees) game.Map.get(posy).get(posx);
+                        if (tree.day > 0) {
+                            System.out.println("You can't fertilize a tree after one day after planting it.");
+                            tile.speedFed = false;
+                            return;
+                        }
+                        tree.day++;
+
+
+                    }
+                    System.out.println("Speed-gro added.");
+
+                    removeItem(game, "speed-gro", 1);
+                    return;
+
+                }
+                System.out.println("You don't have this fertilizer.");
+                return;
+            }
+        }
+        System.out.println("You can't fertilize this tile.");
+        return;
+
+    }
+    public boolean HasItem(Game game , String name){
+        for (Item item : game.currentPlayer.items){
+            if(item.name.equalsIgnoreCase(name)){
+                return true;
+            }
+        }
+        return false;
+    }
     public void CheatWater(Game game) {
         for (Trees tree : game.AllTrees){
             tree.WateredToday = true;
@@ -844,21 +950,29 @@ public class GameController {
         }
         return;
     }
-    public void removeItem(Game game, Item targetItem, int countToRemove) {
+    public void removeItem(Game game, String name, int countToRemove) {
         for (Item item : game.currentPlayer.items) {
-            if (item.name.equalsIgnoreCase(targetItem.name) && item.subtype == targetItem.subtype) {
+            if (item.name.equalsIgnoreCase(name)) {
+                if(item.type.equals(ItemType.TOOL)){
+                    System.out.println("You can't remove a tool.");
+                    return;
+                }
                 if (item.Count > countToRemove) {
                     item.Count -= countToRemove;
+                    System.out.println("You removed "+countToRemove+" from "+name);
                     return;
                 } else if (item.Count == countToRemove) {
                     game.currentPlayer.items.remove(item);
+                    System.out.println("You removed "+name);
                     return;
                 } else {
+                    System.out.println("This amount is more than you have.");
                     return ;
                     // به اندازه ی کافی نداشته یعنی
                 }
             }
         }
+        System.out.println("You don't have this item.");
         return;
     }
     public static boolean containsDigit(int digit, int number) {

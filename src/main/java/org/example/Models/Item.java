@@ -15,6 +15,12 @@ public class Item {
         this.Count = count;
         this.name = name;
     }
+    public Item(Item Other){
+        this.type = Other.type;
+        this.subtype = Other.subtype;
+        this.Count = Other.Count;
+        this.name = Other.name;
+    }
     public String getName() { return name; }
     public int getPrice() { return price; }
 

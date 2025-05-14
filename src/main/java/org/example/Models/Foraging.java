@@ -15,6 +15,17 @@ public class Foraging extends Tile{
         this.Seed = Seed;
         this.RegrowthTime = RegrowthTime;
     }
+    public Foraging(Foraging Other){
+        super(TileType.FORAGING);
+        this.Stage = Other.Stage;
+        this.name = Other.name;
+        this.Season = Other.Season;
+        this.isHarvestable = Other.isHarvestable;
+        this.Fruit = Other.Fruit;
+        this.OneTime = Other.OneTime;
+        this.Seed = Other.Seed;
+        this.RegrowthTime = Other.RegrowthTime;
+    }
     public int Stage;
     public String name;
     public Food Fruit;
@@ -29,4 +40,5 @@ public class Foraging extends Tile{
     public int posy;
     public int day;
     public boolean HarvestedFirstTime = false;
+    public boolean Fertilized = false;
 }
