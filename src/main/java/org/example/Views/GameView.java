@@ -140,6 +140,10 @@ public class GameView {
                 int y = Integer.parseInt(matcher.group(3));
                 controller.Plant(game,x,y,name);
             }
+            else if ((matcher = GameCommands.FISHING.matcher(input)) != null) {
+                String toolName = matcher.group(1);
+                controller.Fishing(game, toolName);
+            }
 
 
             else {

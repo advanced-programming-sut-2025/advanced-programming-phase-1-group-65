@@ -81,7 +81,9 @@ public class GameClock {
             if (currentSeasonIndex == 0) {
                 year++;
             }
-            System.out.println("Season has changed to: " + getCurrentSeason());
+            String newSeason = getCurrentSeason();
+            System.out.println("Season has changed to: " + newSeason);
+            game.weatherSystem.setCurrentSeason(newSeason);
         }
     }
 }

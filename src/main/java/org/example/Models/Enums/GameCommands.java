@@ -29,10 +29,11 @@ public enum GameCommands {
     CHEAT_ADD_MONEY("^cheat add (\\d+) dollars$"),
     SHOW_ALL_PRODUCTS("^show all products$"),
     SHOW_ALL_AVAILABLE_PRODUCTS("^show all available products$"),
-    PURCHASE_ITEM("^purchase\\s+(.+)(?:\\s+-n\\s+(\\d+))?$"),
+    PURCHASE_ITEM("^purchase\\s+(.+?)(?:\\s+-n\\s+(\\d+))?$"),
     CRAFTINFO("^craftinfo\\s+-n\\s+(.+)$"),
     SHOWINVNETORY("Show inventory"),
-    PLANTING("^plant -s\\s+(.+) -d (0|1|-1),(0|1|-1)$");
+    PLANTING("^plant -s\\s+(.+) -d (0|1|-1),(0|1|-1)$"),
+    FISHING("^fishing\\s+-p\\s+(.+)$");
 
     private final String pattern;
 

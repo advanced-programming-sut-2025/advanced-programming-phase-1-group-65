@@ -19,6 +19,7 @@ public class Game {
     public ArrayList<Foraging> AllCropInfo = new ArrayList<>();
     public ArrayList<Trees> AllTreesInfo = new ArrayList<>();
     public ArrayList<Rock> AllRocksInfo = new ArrayList<>();
+
     public java.util.Map<TileType, Shop> shops = new java.util.HashMap<>();
     public User user1 = null;
     public User user2 = null;
@@ -497,6 +498,8 @@ public class Game {
         game.AllCropInfo.add(WinterRootCrop);
     }
 
+
+
     public void GameRun() {
         Scanner sc = new Scanner(System.in);
 
@@ -511,6 +514,7 @@ public class Game {
             creatAllCrops(this);
             createAllTrees(this);
             creatAllRocks(this);
+            FishManager.createAllFish();
             //this.map.GenerateRandomForagingDaily(this.Map,this);
 
 
