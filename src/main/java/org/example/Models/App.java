@@ -61,4 +61,7 @@ public class App {
             menuView.check(scanner);
         }
     }
+    public static void clearUsers() {
+        users.clear();
+    }
 }

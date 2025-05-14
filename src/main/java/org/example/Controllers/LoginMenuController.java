@@ -79,11 +79,11 @@ public class LoginMenuController {
         return password.matches("^[a-zA-Z0-9!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?]+$");
     }
 
-    private boolean isPasswordStrong(String password) {
+   public boolean isPasswordStrong(String password) {
         return password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()_+\\-={}\\[\\]|:;\"'<>,.?/]).{8,}$");
     }
 
-    private String generateRandomPassword() {
+    public String generateRandomPassword() {
         int length = 12;
         String upperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         String lowerCase = "abcdefghijklmnopqrstuvwxyz";
