@@ -591,6 +591,10 @@ public class GameController {
 
     }
     public void Fishing(Game game, String toolName) {
+        int bonusEnergy = 0;
+        if (game.currentPlayer.fishingSkill.getLevel()==4){
+            bonusEnergy=1;
+        }
         Tool tool = null;
         for (Item item : game.currentPlayer.items) {
             if (item.name.equalsIgnoreCase(toolName) && item instanceof Tool && ((Tool) item).subtype == ItemSubType.FISHINGPOLE) {
@@ -626,7 +630,8 @@ public class GameController {
 
         if (!isNearLake) {
             System.out.println("You must be near a lake tile to fish.");
-            game.currentPlayer.Energy -= 8;
+            game.currentPlayer.Energy -= 8+bonusEnergy;
+            bonusEnergy = 0;
             return;
         }
 
@@ -665,20 +670,23 @@ public class GameController {
 
         if (fishCount == 0) {
             System.out.println("You didn’t catch any fish this time.");
-            game.currentPlayer.Energy -= 8;
+            game.currentPlayer.Energy -= 8+bonusEnergy;
+            bonusEnergy = 0;
             return;
         }
 
-        System.out.println("🎣 You caught " + fishCount + " fish:");
+        System.out.println("You caught " + fishCount + " fish:");
         for (int i = 0; i < fishCount; i++) {
             int randomIndex = new Random().nextInt(seasonalFish.size());
             Food caughtFish = seasonalFish.get(randomIndex);
 
             AddItem(game, caughtFish);
             System.out.println("- " + caughtFish.name + " (Quality: Normal)");
+            game.currentPlayer.gainFishingXP(5);
         }
 
-        game.currentPlayer.Energy -= 8;
+        game.currentPlayer.Energy -= 8+bonusEnergy;
+        bonusEnergy = 0;
     }
     public void AddItem(Game game, Item newitem) {
         for (Item item : game.currentPlayer.items) {
