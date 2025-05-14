@@ -153,6 +153,28 @@ public class ShopController {
                 }
 
                 game.currentPlayer.money -= totalPrice;
+                if(item.subtype == ItemSubType.SEED) {
+                    for (Foraging foraging : game.AllCropInfo){
+                        if (foraging.Seed.name.equalsIgnoreCase(item.name)) {
+                            Material shopseed = foraging.Seed;
+                            shopseed.Count = count;
+                            controller.AddItem(game,shopseed);
+                            break;
+                        }
+                    }
+                }
+                else if(item.subtype==ItemSubType.IRON || item.subtype == ItemSubType.GOLD
+                        || item.subtype == ItemSubType.COOPER || item.subtype == ItemSubType.COAL) {
+                    for (Rock rock : game.AllRocksInfo){
+                        if (rock.Mineral.name.equalsIgnoreCase(item.name)) {
+                            Material shopRock = rock.Mineral;
+                            shopRock.Count = count;
+                            System.out.println(shopRock.name);
+                            controller.AddItem(game,shopRock);
+                            break;
+                        }
+                    }
+                }
                 System.out.println("You bought " + count + " x " + item.getName() + " for " + totalPrice + "g.");
                 return;
             }
@@ -189,9 +211,19 @@ public class ShopController {
                         }
                     }
                 }
-                else {
-                    controller.AddItem(game,item);
+                else if(item.subtype==ItemSubType.IRON || item.subtype == ItemSubType.GOLD
+                || item.subtype == ItemSubType.COOPER || item.subtype == ItemSubType.COAL) {
+                    for (Rock rock : game.AllRocksInfo){
+                        if (rock.Mineral.name.equalsIgnoreCase(item.name)) {
+                            Material shopRock = rock.Mineral;
+                            shopRock.Count = count;
+                            System.out.println(shopRock.name);
+                            controller.AddItem(game,shopRock);
+                            break;
+                        }
+                    }
                 }
+
                 System.out.println("You bought " + count + " x " + item.getName() + " for " + totalPrice + "g.");
                 return;
             }

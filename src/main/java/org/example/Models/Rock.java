@@ -6,8 +6,9 @@ import org.example.Models.Enums.TileType;
 public class Rock extends Tile {
     public Rock(Material Mineral) {
         super(TileType.ROCK);
+        this.Mineral = Mineral;
 
     }
-    Material Mineral;
+   public Material Mineral;
 
 }

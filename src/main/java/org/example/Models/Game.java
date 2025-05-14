@@ -174,7 +174,7 @@ public class Game {
         Rock PrismaticShardRock = new Rock(PrismaticShard);
         game.AllRocksInfo.add(PrismaticShardRock);
 
-        Material Gold = new Material(1,ItemSubType.GOLD,"Gold");
+        Material Gold = new Material(1,ItemSubType.GOLD,"Gold Ore");
         Gold.price = 25;
         Rock GoldRock = new Rock(Gold);
         game.AllRocksInfo.add(GoldRock);
@@ -184,17 +184,17 @@ public class Game {
         Rock CoalRock = new Rock(Coal);
         game.AllRocksInfo.add(CoalRock);
 
-        Material Copper = new Material(1,ItemSubType.COOPER,"Copper");
+        Material Copper = new Material(1,ItemSubType.COOPER,"Copper Ore");
         Copper.price = 5;
         Rock CopperRock = new Rock(Copper);
         game.AllRocksInfo.add(CopperRock);
 
-        Material Iron = new Material(1,ItemSubType.IRON,"Iron");
+        Material Iron = new Material(1,ItemSubType.IRON,"Iron Ore");
         Iron.price = 10;
         Rock IronRock = new Rock(Iron);
         game.AllRocksInfo.add(IronRock);
 
-        Material Iriduim = new Material(1,ItemSubType.IRIDUIM,"Iriduim");
+        Material Iriduim = new Material(1,ItemSubType.IRIDUIM,"Iriduim Ore");
         Iriduim.price = 100;
         Rock IriduimRock = new Rock(Iriduim);
         game.AllRocksInfo.add(IriduimRock);
