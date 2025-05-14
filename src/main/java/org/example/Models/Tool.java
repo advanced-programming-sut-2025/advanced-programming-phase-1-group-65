@@ -11,5 +11,6 @@ public class Tool extends Item {
     }
 
    public int level;
+    public int volume=0;
 
 }

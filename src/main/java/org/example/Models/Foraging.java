@@ -25,4 +25,8 @@ public class Foraging extends Tile{
     public int RegrowthTime;
     public boolean WateredToday = false;
     public int daysWithOutWater=0;
+    public int posx;
+    public int posy;
+    public int day;
+    public boolean HarvestedFirstTime = false;
 }

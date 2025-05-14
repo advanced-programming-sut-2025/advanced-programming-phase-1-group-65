@@ -20,6 +20,9 @@ public class Trees extends Tile{
     public int HarvestingCycle;
     public boolean WateredToday=false;
     public int daysWithoutWater;
-    public int FirstDay;
+    public int day;
+    public int posx;
+    public int posy;
+    public boolean HarvestedFirstTime=false;
 
 }

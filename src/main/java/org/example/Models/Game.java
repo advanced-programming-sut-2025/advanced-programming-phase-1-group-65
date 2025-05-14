@@ -228,12 +228,12 @@ public class Game {
 
         Material ParsnipSeeds = new Material(1, ItemSubType.SEED, "Parsnip Seeds");
         Food Parsnip = new Food(3, ItemSubType.FRUIT, "Parsnip", 25, 35, true);
-        Foraging ParsnipCrop = new Foraging(1227, "Parsnip", 1, false, Parsnip, true, ParsnipSeeds,0);
+        Foraging ParsnipCrop = new Foraging(1111, "Parsnip", 1, false, Parsnip, true, ParsnipSeeds,0);
         game.AllCropInfo.add(ParsnipCrop);
 
         Material PotatoSeeds = new Material(1, ItemSubType.SEED, "Potato Seeds");
         Food Potato = new Food(3, ItemSubType.FRUIT, "Potato", 25, 80, true);
-        Foraging PotatoCrop = new Foraging(1111, "Potato", 1, false, Potato, true, PotatoSeeds,0);
+        Foraging PotatoCrop = new Foraging(11121, "Potato", 1, false, Potato, true, PotatoSeeds,0);
         game.AllCropInfo.add(PotatoCrop);
 
         Material RhubarbSeeds = new Material(1, ItemSubType.SEED, "Rhubarb Seeds");

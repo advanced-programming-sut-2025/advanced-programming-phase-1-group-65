@@ -140,6 +140,17 @@ public class GameView {
                 int y = Integer.parseInt(matcher.group(3));
                 controller.Plant(game,x,y,name);
             }
+            else if((matcher = GameCommands.CHEATWATER.matcher(input)) != null) {
+                controller.CheatWater(game);
+            }
+            else if((matcher = GameCommands.HOWMUCHWATER.matcher(input)) != null) {
+                controller.HowMuchWater(game);
+            }
+            else if((matcher = GameCommands.SHOWPLANT.matcher(input)) != null) {
+                int x = Integer.parseInt(matcher.group(1));
+                int y = Integer.parseInt(matcher.group(2));
+                controller.ShowPlant(game,x,y);
+            }
 
 
             else {
