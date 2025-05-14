@@ -385,7 +385,6 @@ public class GameController {
                     AddItem(game,fruit);
                     game.currentPlayer.gainForagingXP(10);
                     System.out.println("You have chopped the foraging and harvested " + fruit.Count +" "+fruit.name);
-                    foraging.HarvestedFirstTime = true;
                     return;
 
                 }
@@ -517,6 +516,7 @@ public class GameController {
                 return;
             }
         }
+
         else {
             System.out.println("invalid tool");
             return;
@@ -589,6 +589,96 @@ public class GameController {
             tree.WateredToday = false;
         }
 
+    }
+    public void Fishing(Game game, String toolName) {
+        Tool tool = null;
+        for (Item item : game.currentPlayer.items) {
+            if (item.name.equalsIgnoreCase(toolName) && item instanceof Tool && ((Tool) item).subtype == ItemSubType.FISHINGPOLE) {
+                tool = (Tool) item;
+                break;
+            }
+        }
+
+        if (tool == null) {
+            System.out.println("You do not have the specified fishing pole.");
+            return;
+        }
+
+        int px = game.currentPlayer.PositionX;
+        int py = game.currentPlayer.PositionY;
+
+        boolean isNearLake = false;
+        for (int dx = -1; dx <= 1; dx++) {
+            for (int dy = -1; dy <= 1; dy++) {
+                if (dx == 0 && dy == 0) continue;
+                int nx = px + dx;
+                int ny = py + dy;
+
+                if (ny >= 0 && ny < game.Map.size() && nx >= 0 && nx < game.Map.get(ny).size()) {
+                    if (game.Map.get(ny).get(nx).type == TileType.LAKE) {
+                        isNearLake = true;
+                        break;
+                    }
+                }
+            }
+            if (isNearLake) break;
+        }
+
+        if (!isNearLake) {
+            System.out.println("You must be near a lake tile to fish.");
+            game.currentPlayer.Energy -= 8;
+            return;
+        }
+
+        String currentSeason = game.gameClock.getCurrentSeason();
+
+        ArrayList<Food> seasonalFish = new ArrayList<>();
+        for (FishWithSeason fishData : FishManager.allFish) {
+            if (fishData.season.equalsIgnoreCase(currentSeason)) {
+                seasonalFish.add(new Food(
+                        fishData.fish.Count,
+                        fishData.fish.subtype,
+                        fishData.fish.name,
+                        fishData.fish.energy,
+                        fishData.fish.price,
+                        fishData.fish.isEdible
+                ));
+            }
+        }
+
+        if (seasonalFish.isEmpty()) {
+            System.out.println("There are no fish available in this season.");
+            return;
+        }
+
+        String weather = game.weatherSystem.getTodayWeatherName();
+        double M = switch (weather) {
+            case "sunny" -> 1.5;
+            case "rain" -> 1.2;
+            case "storm" -> 0.5;
+            default -> 1.0;
+        };
+
+        double R = Math.random();
+        int fishCount = (int) Math.ceil(R * M * (game.currentPlayer.fishingSkill.getLevel() + 2));
+        fishCount = Math.min(fishCount, 6);
+
+        if (fishCount == 0) {
+            System.out.println("You didn’t catch any fish this time.");
+            game.currentPlayer.Energy -= 8;
+            return;
+        }
+
+        System.out.println("🎣 You caught " + fishCount + " fish:");
+        for (int i = 0; i < fishCount; i++) {
+            int randomIndex = new Random().nextInt(seasonalFish.size());
+            Food caughtFish = seasonalFish.get(randomIndex);
+
+            AddItem(game, caughtFish);
+            System.out.println("- " + caughtFish.name + " (Quality: Normal)");
+        }
+
+        game.currentPlayer.Energy -= 8;
     }
     public void AddItem(Game game, Item newitem) {
         for (Item item : game.currentPlayer.items) {
@@ -859,7 +949,7 @@ public class GameController {
         return bool ? "True" : "False";
     }
     public  int sumOfDigits(int number) {
-        number = Math.abs(number); // برای پشتیبانی از عدد منفی
+        number = Math.abs(number);
         int sum = 0;
         while (number > 0) {
             sum += number % 10;

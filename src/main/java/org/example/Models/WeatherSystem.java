@@ -76,6 +76,11 @@ public class WeatherSystem {
     public void setTomorrowWeather(WeatherType weather) {
         this.tomorrowWeather = weather;
     }
-
+    public String getTodayWeatherName() {
+        return todayWeather.name().toLowerCase();
+    }
+    public void setCurrentSeason(String season) {
+        this.currentSeason = season;
+    }
 
 }

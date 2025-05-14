@@ -154,6 +154,10 @@ public class GameView {
             else if((matcher = GameCommands.HELPMAP.matcher(input)) !=null){
                 controller.HelpMap();
             }
+            else if ((matcher = GameCommands.FISHING.matcher(input)) != null) {
+                String toolName = matcher.group(1);
+                controller.Fishing(game, toolName);
+            }
 
 
             else {
