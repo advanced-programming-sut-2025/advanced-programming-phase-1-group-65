@@ -592,9 +592,10 @@ public class GameController {
     }
     public void Fishing(Game game, String toolName) {
         int bonusEnergy = 0;
-        if (game.currentPlayer.fishingSkill.getLevel()==4){
-            bonusEnergy=1;
+        if (game.currentPlayer.fishingSkill.getLevel() >= 4) {
+            bonusEnergy = 1;
         }
+
         Tool tool = null;
         for (Item item : game.currentPlayer.items) {
             if (item.name.equalsIgnoreCase(toolName) && item instanceof Tool && ((Tool) item).subtype == ItemSubType.FISHINGPOLE) {
@@ -630,7 +631,7 @@ public class GameController {
 
         if (!isNearLake) {
             System.out.println("You must be near a lake tile to fish.");
-            game.currentPlayer.Energy -= 8+bonusEnergy;
+            game.currentPlayer.Energy -= 8 + bonusEnergy;
             bonusEnergy = 0;
             return;
         }
@@ -648,6 +649,23 @@ public class GameController {
                         fishData.fish.price,
                         fishData.fish.isEdible
                 ));
+            }
+        }
+
+        // اضافه کردن ماهی‌های لجندری اگر سطح ماهی‌گیری بازیکن ۴ یا بیشتر باشد
+        if (game.currentPlayer.fishingSkill.getLevel() >= 4) {
+            // ماهی‌های لجندری بر اساس فصل‌های مختلف
+            if (currentSeason.equalsIgnoreCase("Spring")) {
+                seasonalFish.add(new Food(1, ItemSubType.FISH, "Legend", 50, 5000, true));
+            }
+            if (currentSeason.equalsIgnoreCase("Winter")) {
+                seasonalFish.add(new Food(1, ItemSubType.FISH, "Glacierfish", 45, 1000, true));
+            }
+            if (currentSeason.equalsIgnoreCase("Fall")) {
+                seasonalFish.add(new Food(1, ItemSubType.FISH, "Angler", 30, 900, true));
+            }
+            if (currentSeason.equalsIgnoreCase("Summer")) {
+                seasonalFish.add(new Food(1, ItemSubType.FISH, "Crimsonfish", 40, 1500, true));
             }
         }
 
@@ -670,7 +688,7 @@ public class GameController {
 
         if (fishCount == 0) {
             System.out.println("You didn’t catch any fish this time.");
-            game.currentPlayer.Energy -= 8+bonusEnergy;
+            game.currentPlayer.Energy -= 8 + bonusEnergy;
             bonusEnergy = 0;
             return;
         }
@@ -685,7 +703,7 @@ public class GameController {
             game.currentPlayer.gainFishingXP(5);
         }
 
-        game.currentPlayer.Energy -= 8+bonusEnergy;
+        game.currentPlayer.Energy -= 8 + bonusEnergy;
         bonusEnergy = 0;
     }
     public void AddItem(Game game, Item newitem) {
