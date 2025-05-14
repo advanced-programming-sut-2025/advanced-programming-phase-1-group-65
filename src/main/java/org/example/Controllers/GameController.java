@@ -673,6 +673,12 @@ public class GameController {
             System.out.println("- "+item.Count+" "+item.name);
         }
     }
+    public void HelpMap(){
+        System.out.println("Empty Ground : .\n" +
+                "Wall : W\n" +
+                "Foragings : #\nTrees : T\nQuarry : Q\nGreenHouse : G\n Home : C\nLake : L\nFertile Ground : O\nPlayer : @\n" +
+                "Blacksmith : B\nJojaMart : J\nPirre's Shop : S\nCarpenter's Shop : P\nFish Shop : F\nMarnie's Ranch : M\nStardrop Saloon : A");
+    }
     public void Plant(Game game, int x, int y,String name) {
         int destx = game.currentPlayer.PositionX+x;
         int desty = game.currentPlayer.PositionY-y;

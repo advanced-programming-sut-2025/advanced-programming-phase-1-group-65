@@ -151,6 +151,9 @@ public class GameView {
                 int y = Integer.parseInt(matcher.group(2));
                 controller.ShowPlant(game,x,y);
             }
+            else if((matcher = GameCommands.HELPMAP.matcher(input)) !=null){
+                controller.HelpMap();
+            }
 
 
             else {
