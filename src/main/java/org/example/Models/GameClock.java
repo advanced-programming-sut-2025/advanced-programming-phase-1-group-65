@@ -1,5 +1,8 @@
 package org.example.Models;
 
+import org.example.Controllers.GameController;
+import org.example.Models.Enums.GameCommands;
+
 public class GameClock {
     private int hour;
     private int day;
@@ -41,11 +44,11 @@ public class GameClock {
         return seasons[currentSeasonIndex];
     }
 
-    public void advanceTimeByOneHour(Game game) {
+    public void advanceTimeByOneHour(Game game,GameController controller) {
         hour++;
         if (hour >= 22) {
             hour = 9;
-            advanceDay(game);
+            advanceDay(game,controller);
             game.weatherSystem.advanceDay();
         }
     }
@@ -54,11 +57,11 @@ public class GameClock {
         return hour;
     }
 
-    public void advanceTimeByOneDay(Game game) {
-        advanceDay(game);
+    public void advanceTimeByOneDay(Game game,GameController controller) {
+        advanceDay(game,controller);
     }
 
-    private void advanceDay(Game game) {
+    private void advanceDay(Game game, GameController controller) {
         if (game.user1.player.Fainted){
             game.user1.player.Energy = 150;
             game.user1.player.Fainted = false;
@@ -73,6 +76,8 @@ public class GameClock {
         }
         game.map.GenerateRandomForagingDaily(game.Map,game);
         game.map.GenerateRandomRockDaily(game.Map,game);
+        controller.TendToCropsDaily(game);
+        controller.TendToTreesDaily(game);
         day++;
         hour=9;
         if (day > 28) {

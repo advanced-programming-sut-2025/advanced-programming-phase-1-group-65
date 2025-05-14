@@ -175,7 +175,7 @@ public class Game {
         Rock PrismaticShardRock = new Rock(PrismaticShard);
         game.AllRocksInfo.add(PrismaticShardRock);
 
-        Material Gold = new Material(1,ItemSubType.GOLD,"Gold");
+        Material Gold = new Material(1,ItemSubType.GOLD,"Gold Ore");
         Gold.price = 25;
         Rock GoldRock = new Rock(Gold);
         game.AllRocksInfo.add(GoldRock);
@@ -185,17 +185,17 @@ public class Game {
         Rock CoalRock = new Rock(Coal);
         game.AllRocksInfo.add(CoalRock);
 
-        Material Copper = new Material(1,ItemSubType.COOPER,"Copper");
+        Material Copper = new Material(1,ItemSubType.COOPER,"Copper Ore");
         Copper.price = 5;
         Rock CopperRock = new Rock(Copper);
         game.AllRocksInfo.add(CopperRock);
 
-        Material Iron = new Material(1,ItemSubType.IRON,"Iron");
+        Material Iron = new Material(1,ItemSubType.IRON,"Iron Ore");
         Iron.price = 10;
         Rock IronRock = new Rock(Iron);
         game.AllRocksInfo.add(IronRock);
 
-        Material Iriduim = new Material(1,ItemSubType.IRIDUIM,"Iriduim");
+        Material Iriduim = new Material(1,ItemSubType.IRIDUIM,"Iriduim Ore");
         Iriduim.price = 100;
         Rock IriduimRock = new Rock(Iriduim);
         game.AllRocksInfo.add(IriduimRock);
@@ -229,12 +229,12 @@ public class Game {
 
         Material ParsnipSeeds = new Material(1, ItemSubType.SEED, "Parsnip Seeds");
         Food Parsnip = new Food(3, ItemSubType.FRUIT, "Parsnip", 25, 35, true);
-        Foraging ParsnipCrop = new Foraging(1227, "Parsnip", 1, false, Parsnip, true, ParsnipSeeds,0);
+        Foraging ParsnipCrop = new Foraging(1111, "Parsnip", 1, false, Parsnip, true, ParsnipSeeds,0);
         game.AllCropInfo.add(ParsnipCrop);
 
         Material PotatoSeeds = new Material(1, ItemSubType.SEED, "Potato Seeds");
         Food Potato = new Food(3, ItemSubType.FRUIT, "Potato", 25, 80, true);
-        Foraging PotatoCrop = new Foraging(1111, "Potato", 1, false, Potato, true, PotatoSeeds,0);
+        Foraging PotatoCrop = new Foraging(11121, "Potato", 1, false, Potato, true, PotatoSeeds,0);
         game.AllCropInfo.add(PotatoCrop);
 
         Material RhubarbSeeds = new Material(1, ItemSubType.SEED, "Rhubarb Seeds");

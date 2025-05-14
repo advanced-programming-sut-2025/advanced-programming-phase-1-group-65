@@ -1,19 +1,45 @@
 package org.example.Models;
 
+import org.example.Models.Enums.SkillType;
 import org.example.Models.Enums.TileType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Player {
+    public Skill farmingSkill;
+    public Skill miningSkill;
+    public Skill foragingSkill;
+    public Skill fishingSkill;
+
+    public Player() {
+        farmingSkill = new Skill();
+        miningSkill = new Skill();
+        foragingSkill = new Skill();
+        fishingSkill = new Skill();
+    }
+
+    public void gainFarmingXP(int amount) {
+        farmingSkill.gainXP(amount);
+    }
+
+    public void gainMiningXP(int amount) {
+        miningSkill.gainXP(amount);
+    }
+
+    public void gainForagingXP(int amount) {
+        foragingSkill.gainXP(amount);
+    }
+
+    public void gainFishingXP(int amount) {
+        fishingSkill.gainXP(amount);
+    }
     public int PositionX;
     public int PositionY;
     public double Energy = 200;
     public boolean Fainted = false;
-    public int FarmingSkill = 0;
-    public int MiningSkill = 0;
-    public int ForagingSkill = 0;
-    public int FishingSkill = 0;
+
     int FarmNumber;
     public List<Item> items = new ArrayList<>();
     public Tool CurrentTool = null;

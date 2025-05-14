@@ -21,7 +21,7 @@ public enum GameCommands {
     WEATHER_SHOW("^weather$"),
     WEATHER_FORECAST("^weather forecast$"),
     CHEAT_WEATHER_SET("^cheat weather set (SUNNY|RAIN|STORM|SNOW)$"),
-    CHEAT_THOR("^cheat Thor -l (\\d+) (\\d+)$"),
+    CHEAT_THOR("^cheat Thor -l (\\d+),(\\d+)$"),
     SHOW_CURRENT_TOOL("^tool show current$"),
     TOOL_EQUIP("^tools equip ([\\w.-]+)$"),
     USE_TOOL("^tools use -d (0|1|-1),(0|1|-1)$"),
@@ -33,6 +33,9 @@ public enum GameCommands {
     CRAFTINFO("^craftinfo\\s+-n\\s+(.+)$"),
     SHOWINVNETORY("Show inventory"),
     PLANTING("^plant -s\\s+(.+) -d (0|1|-1),(0|1|-1)$"),
+    CHEATWATER("^cheat water$"),
+    HOWMUCHWATER("^howmuch water$"),
+    SHOWPLANT("^show plant -l (\\d+),(\\d+)$"),
     FISHING("^fishing\\s+-p\\s+(.+)$");
 
     private final String pattern;
