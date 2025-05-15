@@ -588,7 +588,8 @@ public class GameController {
 
         Tool tool = null;
         for (Item item : game.currentPlayer.items) {
-            if (item.name.equalsIgnoreCase(toolName) && item instanceof Tool && ((Tool) item).subtype == ItemSubType.FISHINGPOLE) {
+            if (item.name.equalsIgnoreCase(toolName) && item instanceof Tool &&
+                    ((Tool) item).subtype == ItemSubType.FISHINGPOLE) {
                 tool = (Tool) item;
                 break;
             }
@@ -622,7 +623,6 @@ public class GameController {
         if (!isNearLake) {
             System.out.println("You must be near a lake tile to fish.");
             game.currentPlayer.Energy -= 8 + bonusEnergy;
-            bonusEnergy = 0;
             return;
         }
 
@@ -643,10 +643,14 @@ public class GameController {
         }
 
         if (game.currentPlayer.fishingSkill.getLevel() >= 4) {
-            seasonalFish.add(new Food(1, ItemSubType.FISH, "Legend", 50, 5000, true));
-            seasonalFish.add(new Food(1, ItemSubType.FISH, "Glacierfish", 45, 1000, true));
-            seasonalFish.add(new Food(1, ItemSubType.FISH, "Angler", 30, 900, true));
-            seasonalFish.add(new Food(1, ItemSubType.FISH, "Crimsonfish", 40, 1500, true));
+            if (currentSeason.equalsIgnoreCase("spring"))
+                seasonalFish.add(new Food(1, ItemSubType.FISH, "Legend", 50, 5000, true));
+            if (currentSeason.equalsIgnoreCase("winter"))
+                seasonalFish.add(new Food(1, ItemSubType.FISH, "Glacierfish", 45, 1000, true));
+            if (currentSeason.equalsIgnoreCase("fall"))
+                seasonalFish.add(new Food(1, ItemSubType.FISH, "Angler", 30, 900, true));
+            if (currentSeason.equalsIgnoreCase("summer"))
+                seasonalFish.add(new Food(1, ItemSubType.FISH, "Crimsonfish", 40, 1500, true));
         }
 
         if (seasonalFish.isEmpty()) {
@@ -655,7 +659,7 @@ public class GameController {
         }
 
         String weather = game.weatherSystem.getTodayWeatherName();
-        double M = switch (weather) {
+        double M = switch (weather.toLowerCase()) {
             case "sunny" -> 1.5;
             case "rain" -> 1.2;
             case "storm" -> 0.5;
@@ -669,22 +673,47 @@ public class GameController {
         if (fishCount == 0) {
             System.out.println("You didn’t catch any fish this time.");
             game.currentPlayer.Energy -= 8 + bonusEnergy;
-            bonusEnergy = 0;
             return;
         }
 
         System.out.println("You caught " + fishCount + " fish:");
+
         for (int i = 0; i < fishCount; i++) {
             int randomIndex = new Random().nextInt(seasonalFish.size());
             Food caughtFish = seasonalFish.get(randomIndex);
 
+            double poleMultiplier = 0.1;
+            String toolNameLower = tool.name.toLowerCase();
+            if (toolNameLower.contains("bamboo")) poleMultiplier = 0.5;
+            else if (toolNameLower.contains("fiberglass")) poleMultiplier = 0.9;
+            else if (toolNameLower.contains("iridium")) poleMultiplier = 1.2;
+
+            double qualityScore = (Math.random() * (game.currentPlayer.fishingSkill.getLevel() + 2)  * poleMultiplier)/(7-M);
+
+            String quality;
+            double priceMultiplier;
+
+            if (qualityScore <= 0.5) {
+                quality = "Normal";
+                priceMultiplier = 1.0;
+            } else if (qualityScore > 0.5 && qualityScore <= 0.7) {
+                quality = "Silver";
+                priceMultiplier = 1.25;
+            } else if (qualityScore > 0.7 && qualityScore <= 0.9) {
+                quality = "Gold";
+                priceMultiplier = 1.5;
+            } else {
+                quality = "Iridium";
+                priceMultiplier = 2.0;
+            }
+            caughtFish.price *= priceMultiplier;
+
             AddItem(game, caughtFish);
-            System.out.println("- " + caughtFish.name + " (Quality: Normal)");
+            System.out.println("- " + caughtFish.name + " (Quality: " + quality + ")");
             game.currentPlayer.gainFishingXP(5);
         }
 
         game.currentPlayer.Energy -= 8 + bonusEnergy;
-        bonusEnergy = 0;
     }
     public void AddItem(Game game, Item newitem) {
         for (Item item : game.currentPlayer.items) {
