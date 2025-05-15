@@ -698,12 +698,30 @@ public class Map {
 
 
     public void printMap(ArrayList<ArrayList<Tile>> map) {
+        final String RESET = "\u001B[0m";
+        final String BLUE = "\u001B[34m";
+        final String BLACK = "\u001B[30m";
+        final String GREEN = "\u001B[32m";
+        final String BRIGHT_GREEN = "\u001B[92m";
+        final String BROWN = "\u001B[33m";
+        final String RED = "\u001B[31m";
+
         for (ArrayList<Tile> row : map) {
             for (Tile tile : row) {
-                System.out.print(tile.getSymbol() + " ");
+                String color;
+                switch (tile.getType()) {
+                    case LAKE -> color = BLUE;
+                    case WALL -> color = BLACK;
+                    case TREE -> color = GREEN;
+                    case QUARRY -> color = BROWN;
+                    case PLAYER -> color = RED;
+                    case FORAGING -> color = BRIGHT_GREEN;
+                    default -> color = RESET;
+                }
+
+                System.out.print(color + tile.getSymbol() + RESET + " ");
             }
             System.out.println();
         }
     }
-
 }
