@@ -1,6 +1,7 @@
 package org.example.Models;
 
 import com.sun.source.tree.Tree;
+import org.example.Controllers.GameController;
 import org.example.Models.Enums.ItemSubType;
 import org.example.Models.Enums.TileSubType;
 import org.example.Models.Enums.TileType;
@@ -59,31 +60,31 @@ public class Map {
             int index = rand.nextInt(Trees.length);
             switch (index){
                 case 0:
-                     seed = new Material(1,ItemSubType.SEED,"Apricot Sapling");
+                     seed = new Material(1,ItemSubType.SEED,"Apricot Sapling",1000);
                     break;
                 case 1:
-                    seed = new Material(1,ItemSubType.SEED,"Cherry Sapling");
+                    seed = new Material(1,ItemSubType.SEED,"Cherry Sapling",4000);
                     break;
                 case 2:
-                    seed = new Material(1,ItemSubType.SEED,"Mystic Tree Seeds");
+                    seed = new Material(1,ItemSubType.SEED,"Mystic Tree Seeds",5000);
                     break;
                 case 3:
-                    seed = new Material(1,ItemSubType.SEED,"Mushroom Tree Seeds");
+                    seed = new Material(1,ItemSubType.SEED,"Mushroom Tree Seeds",6000);
                     break;
                 case 4:
-                    seed = new Material(1,ItemSubType.SEED,"Mahogany Seeds");
+                    seed = new Material(1,ItemSubType.SEED,"Mahogany Seeds",5000);
                     break;
                 case 5:
-                    seed = new Material(1,ItemSubType.SEED,"Pine Cones");
+                    seed = new Material(1,ItemSubType.SEED,"Pine Cones",4000);
                     break;
                  case 6:
-                     seed = new Material(1,ItemSubType.SEED,"Maple Seeds");
+                     seed = new Material(1,ItemSubType.SEED,"Maple Seeds",3000);
                      break;
                      case 7:
-                         seed = new Material(1,ItemSubType.SEED,"Acorns");
+                         seed = new Material(1,ItemSubType.SEED,"Acorns",4000);
                          break;
                 default:
-                    seed = new Material(1,ItemSubType.SEED,"Maple Seeds");
+                    seed = new Material(1,ItemSubType.SEED,"Maple Seeds",4000);
             }
 
         }
@@ -94,37 +95,37 @@ public class Map {
             int index = rand.nextInt(Trees.length);
             switch (index){
                 case 0:
-                    seed = new Material(1,ItemSubType.SEED,"Banana Sapling");
+                    seed = new Material(1,ItemSubType.SEED,"Banana Sapling",4000);
                     break;
                 case 1:
-                    seed = new Material(1,ItemSubType.SEED,"Mango Sapling");
+                    seed = new Material(1,ItemSubType.SEED,"Mango Sapling",4000);
                     break;
                 case 2:
-                    seed = new Material(1,ItemSubType.SEED,"Mystic Tree Seeds");
+                    seed = new Material(1,ItemSubType.SEED,"Mystic Tree Seeds",5000);
                     break;
                 case 3:
-                    seed = new Material(1,ItemSubType.SEED,"Mushroom Tree Seeds");
+                    seed = new Material(1,ItemSubType.SEED,"Mushroom Tree Seeds",4000);
                     break;
                 case 4:
-                    seed = new Material(1,ItemSubType.SEED,"Mahogany Seeds");
+                    seed = new Material(1,ItemSubType.SEED,"Mahogany Seeds",3000);
                     break;
                 case 5:
-                    seed = new Material(1,ItemSubType.SEED,"Pine Cones");
+                    seed = new Material(1,ItemSubType.SEED,"Pine Cones",4000);
                     break;
                 case 6:
-                    seed = new Material(1,ItemSubType.SEED,"Maple Seeds");
+                    seed = new Material(1,ItemSubType.SEED,"Maple Seeds",3000);
                     break;
                 case 7:
-                    seed = new Material(1,ItemSubType.SEED,"Acorns");
+                    seed = new Material(1,ItemSubType.SEED,"Acorns",4000);
                     break;
                     case 8:
-                        seed = new Material(1,ItemSubType.SEED,"Orange Sapling");
+                        seed = new Material(1,ItemSubType.SEED,"Orange Sapling",4000);
                         break;
                         case 9:
-                            seed = new Material(1,ItemSubType.SEED,"Peach Sapling");
+                            seed = new Material(1,ItemSubType.SEED,"Peach Sapling",4000);
                             break;
                 default:
-                    seed = new Material(1,ItemSubType.SEED,"Banana Sapling");
+                    seed = new Material(1,ItemSubType.SEED,"Banana Sapling",4000);
 
 
             }
@@ -136,31 +137,31 @@ public class Map {
             int index = rand.nextInt(Trees.length);
             switch (index){
                 case 0:
-                    seed = new Material(1,ItemSubType.SEED,"Apple Sapling");
+                    seed = new Material(1,ItemSubType.SEED,"Apple Sapling",4000);
                     break;
                 case 1:
-                    seed = new Material(1,ItemSubType.SEED,"Pomegranate Sapling");
+                    seed = new Material(1,ItemSubType.SEED,"Pomegranate Sapling",4000);
                     break;
                 case 2:
-                    seed = new Material(1,ItemSubType.SEED,"Mystic Tree Seeds");
+                    seed = new Material(1,ItemSubType.SEED,"Mystic Tree Seeds",4000);
                     break;
                 case 3:
-                    seed = new Material(1,ItemSubType.SEED,"Mushroom Tree Seeds");
+                    seed = new Material(1,ItemSubType.SEED,"Mushroom Tree Seeds",4000);
                     break;
                 case 4:
-                    seed = new Material(1,ItemSubType.SEED,"Mahogany Seeds");
+                    seed = new Material(1,ItemSubType.SEED,"Mahogany Seeds",4000);
                     break;
                 case 5:
-                    seed = new Material(1,ItemSubType.SEED,"Pine Cones");
+                    seed = new Material(1,ItemSubType.SEED,"Pine Cones",4000);
                     break;
                 case 6:
-                    seed = new Material(1,ItemSubType.SEED,"Maple Seeds");
+                    seed = new Material(1,ItemSubType.SEED,"Maple Seeds",4000);
                     break;
                 case 7:
-                    seed = new Material(1,ItemSubType.SEED,"Acorns");
+                    seed = new Material(1,ItemSubType.SEED,"Acorns",4000);
                     break;
                 default:
-                    seed = new Material(1,ItemSubType.SEED,"Pine Cones");
+                    seed = new Material(1,ItemSubType.SEED,"Pine Cones",4000);
             }
 
         }
@@ -172,25 +173,25 @@ public class Map {
             switch (index){
 
                 case 0:
-                    seed = new Material(1,ItemSubType.SEED,"Mystic Tree Seeds");
+                    seed = new Material(1,ItemSubType.SEED,"Mystic Tree Seeds",4000);
                     break;
                 case 1:
-                    seed = new Material(1,ItemSubType.SEED,"Mushroom Tree Seeds");
+                    seed = new Material(1,ItemSubType.SEED,"Mushroom Tree Seeds",4000);
                     break;
                 case 2:
-                    seed = new Material(1,ItemSubType.SEED,"Mahogany Seeds");
+                    seed = new Material(1,ItemSubType.SEED,"Mahogany Seeds",4000);
                     break;
                 case 3:
-                    seed = new Material(1,ItemSubType.SEED,"Pine Cones");
+                    seed = new Material(1,ItemSubType.SEED,"Pine Cones",4000);
                     break;
                 case 4:
-                    seed = new Material(1,ItemSubType.SEED,"Maple Tree Seeds");
+                    seed = new Material(1,ItemSubType.SEED,"Maple Tree Seeds",4000);
                     break;
                 case 5:
-                    seed = new Material(1,ItemSubType.SEED,"Acorns");
+                    seed = new Material(1,ItemSubType.SEED,"Acorns",4000);
                     break;
                     default:
-                        seed = new Material(1,ItemSubType.SEED,"Acorns");
+                        seed = new Material(1,ItemSubType.SEED,"Acorns",4000);
             }
         }
         return seed;
@@ -232,14 +233,15 @@ public class Map {
     public void GenerateRandomForagingDaily(ArrayList<ArrayList<Tile>> Map, Game game) {
         ArrayList<Foraging> foragingCrops = new ArrayList<>();
         ArrayList<Foraging> foragingSeeds=new ArrayList<>();
+        GameController tempController = new GameController();
         Random rand = new Random();
         int chance = 1;
         int selected = 1;
         for (Foraging crop : game.AllCropInfo){
-            if(crop.isHarvestable && crop.Season==game.gameClock.getCurrentSeasonIndex()){
+            if(crop.isHarvestable && tempController.containsDigit(game.gameClock.getCurrentSeasonIndex(),crop.Season)){
                 foragingCrops.add(crop);
             }
-            else if(!(crop.isHarvestable) && crop.Season==game.gameClock.getCurrentSeasonIndex()) {
+            else if(!(crop.isHarvestable) && tempController.containsDigit(game.gameClock.getCurrentSeasonIndex(),crop.Season)) {
                 foragingSeeds.add(crop);
             }
         }
@@ -350,11 +352,27 @@ public class Map {
         }
 
     }
+
+    public void generateShippingBins(ArrayList<ArrayList<Tile>> Map ,Game game) {
+        Tile Shippingbin1 = new Tile(TileType.SHIPPINGBIN);
+        Tile Shippingbin2 = new Tile(TileType.SHIPPINGBIN);
+        Tile Shippingbin3 = new Tile(TileType.SHIPPINGBIN);
+        Tile Shippingbin4 = new Tile(TileType.SHIPPINGBIN);
+        Shippingbin1.FarmNumber=1;
+        Shippingbin2.FarmNumber=2;
+        Shippingbin3.FarmNumber=3;
+        Shippingbin4.FarmNumber=4;
+        Map.get(30).set(46,Shippingbin1);
+        Map.get(30).set(93,Shippingbin2);
+        Map.get(81).set(46,Shippingbin3);
+        Map.get(81).set(93,Shippingbin4);
+    }
+
     public String[] MapTemplate={
             //ROW1
-            "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW............................................................WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW"
+              "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW............................................................WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW"
             , // row2
-            "WQQQQQQQQQQ....GGGGGG..............CCCCW............................................................WCCCC........................QQQQQQQQQQW"
+              "WQQQQQQQQQQ....GGGGGG..............CCCCW............................................................WCCCC........................QQQQQQQQQQW"
             //row3
             , "WQQQQQQQQQQ....GGGGGG..............CCCCW............................................................WCCCC........................QQQQQQQQQQW"
             //row4

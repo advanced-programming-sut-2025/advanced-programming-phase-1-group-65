@@ -5,23 +5,20 @@ import org.example.Models.Enums.ItemType;
 
 public class Food extends Item {
     public ItemSubType subtype;
-    public Food(int count, ItemSubType subtype, String name, int energy, int price,boolean isEdible) {
-        super(ItemType.FOOD,subtype,count,name);
+    public Food(int count, ItemSubType subtype, String name, int energy, Integer price,boolean isEdible) {
+        super(ItemType.FOOD,subtype,count,name,price);
         this.subtype = subtype;
         this.energy = energy;
-        this.price = price;
         this.isEdible = isEdible;
 
     }
     public Food(Food Other){
-        super(ItemType.FOOD,Other.subtype, Other.Count, Other.name);
+        super(ItemType.FOOD,Other.subtype, Other.Count, Other.name, Other.price);
         this.subtype = Other.subtype;
         this.energy = Other.energy;
-        this.price = Other.price;
         this.isEdible = Other.isEdible;
     }
     public int energy;
     public boolean isEdible;
-
-    public int price;
+    public Integer price;
 }

@@ -9,12 +9,12 @@ public class ShopItem extends Item {
 
     public ShopItem(String name, String description, int price,ItemType type, ItemSubType subType) {
 
-        super(type,subType,1,name);
+        super(type,subType,1,name,price);
         this.description = description;
         this.price = price;
     }
 
     public String getName() { return name; }
     public String getDescription() { return description; }
-    public int getPrice() { return price; }
+    public Integer getPrice() { return price; }
 }

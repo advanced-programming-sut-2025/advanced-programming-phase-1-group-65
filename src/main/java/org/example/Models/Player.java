@@ -19,7 +19,8 @@ public class Player {
         foragingSkill = new Skill();
         fishingSkill = new Skill();
     }
-
+    public int FarmNumber;
+    public ArrayList<Item> SoldItems = new ArrayList<>();
     public void gainFarmingXP(int amount) {
         farmingSkill.gainXP(amount);
     }
@@ -40,7 +41,6 @@ public class Player {
     public double Energy = 200;
     public boolean Fainted = false;
 
-    int FarmNumber;
     public List<Item> items = new ArrayList<>();
     public Tool CurrentTool = null;
     public Game game = null;

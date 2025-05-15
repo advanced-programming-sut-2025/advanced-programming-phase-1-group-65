@@ -1,13 +1,14 @@
 package org.example.Models;
-public class Animal {
-    private String name;
-    private String type;
-    private boolean produces;
-    private int FriendSheepPoint;
 
-    public Animal(String name, String type, boolean produces) {
+import org.example.Models.Enums.AnimalType;
+
+public class Animal {
+    public String name;
+    public int FriendSheepPoint;
+    public AnimalType animalType;
+
+    public Animal(String name, AnimalType animalType) {
         this.name = name;
-        this.type = type;
-        this.produces = produces;
+        this.animalType = animalType;
     }
 }

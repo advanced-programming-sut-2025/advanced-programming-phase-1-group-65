@@ -177,11 +177,11 @@ public class ShopController {
                 }
                 else if(item.subtype == ItemSubType.FERTILIZER){
                     if(item.name.equalsIgnoreCase("deluxe retaining soil")) {
-                        Material fertilizer = new Material(count,ItemSubType.FERTILIZER,"deluxe retaining soil");
+                        Material fertilizer = new Material(count,ItemSubType.FERTILIZER,"deluxe retaining soil",150);
                         controller.AddItem(game,fertilizer);
                     }
                     if(item.name.equalsIgnoreCase("speed-gro")) {
-                        Material fertilizer = new Material(count,ItemSubType.FERTILIZER,"speed-gro");
+                        Material fertilizer = new Material(count,ItemSubType.FERTILIZER,"speed-gro",100);
                         controller.AddItem(game,fertilizer);
                     }
                 }
@@ -235,11 +235,11 @@ public class ShopController {
                 }
                 else if(item.subtype == ItemSubType.FERTILIZER){
                     if(item.name.equalsIgnoreCase("deluxe retaining soil")) {
-                        Material fertilizer = new Material(count,ItemSubType.FERTILIZER,"deluxe retaining soil");
+                        Material fertilizer = new Material(count,ItemSubType.FERTILIZER,"deluxe retaining soil",150);
                         controller.AddItem(game,fertilizer);
                     }
                     if(item.name.equalsIgnoreCase("speed-gro")) {
-                        Material fertilizer = new Material(count,ItemSubType.FERTILIZER,"speed-gro");
+                        Material fertilizer = new Material(count,ItemSubType.FERTILIZER,"speed-gro",100);
                         controller.AddItem(game,fertilizer);
                     }
                 }

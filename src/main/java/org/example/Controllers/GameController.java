@@ -304,7 +304,7 @@ public class GameController {
                 Trees tree2 = new Trees(tree);
                     if (tree.name.equalsIgnoreCase("Wild")) {
                         Material seed= tree2.seed;
-                        Material wood= new Material(12, ItemSubType.WOOD,"Wood");
+                        Material wood= new Material(12, ItemSubType.WOOD,"Wood",1);
                         AddItem(game,seed);
                         AddItem(game,wood);
 
@@ -329,7 +329,7 @@ public class GameController {
                         String ch = temp.nextLine();
                         if (ch.equals("y")) {
                             Material seed= tree2.seed;
-                            Material wood= new Material(12, ItemSubType.WOOD,"Wood");
+                            Material wood= new Material(12, ItemSubType.WOOD,"Wood",1);
                             AddItem(game,seed);
                             AddItem(game,wood);
 
@@ -868,7 +868,7 @@ public class GameController {
         Tile tile = game.Map.get(posy).get(posx);
         if (tile.type.equals(TileType.FERTILE) || tile.type.equals(TileType.FORAGING) ||tile.type.equals(TileType.TREE)){
             if (name.equalsIgnoreCase("deluxe retaining soil")){
-                if (HasItem(game,"deluxe retaining soil")){
+                if (HasItem(game,"deluxe retaining soil", 1)){
                     tile.deluxeFed = true;
                     if(tile instanceof Foraging){
                         Foraging foraging = (Foraging) game.Map.get(posy).get(posx);
@@ -896,7 +896,7 @@ public class GameController {
 
             }
             else if(name.equalsIgnoreCase("speed-gro")) {
-                if (HasItem(game, "speed-gro")) {
+                if (HasItem(game, "speed-gro",1)) {
                     tile.speedFed = true;
                     if (tile instanceof Foraging) {
                         Foraging foraging = (Foraging) game.Map.get(posy).get(posx);
@@ -933,13 +933,72 @@ public class GameController {
         return;
 
     }
-    public boolean HasItem(Game game , String name){
+
+    public void Sell(String name,Game game,int count){
+        int playerX = game.currentPlayer.PositionX;
+        int playerY = game.currentPlayer.PositionY;
+        boolean nearShop = false;
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+                int newX = playerX + j;
+                int newY = playerY + i;
+
+                if (newX >= 0 && newY >= 0 && newY < game.Map.size() && newX < game.Map.get(0).size()) {
+                    Tile tile = game.Map.get(newY).get(newX);
+                    if (tile.type.equals(TileType.SHIPPINGBIN)) {
+                        nearShop =true;
+                    }
+                }
+
+            }
+
+        }
+
+        if(nearShop){
+
+            if(!HasItem(game,name,1)){
+                System.out.println("You don't have this amount of this item ");
+                return;
+            }
+            Item newitem = new Item(getItem(game,name));
+            newitem.Count= count;
+            if(newitem.price == 0){
+                System.out.println("You can't sell this item");
+                return;
+            }
+            game.currentPlayer.SoldItems.add(newitem);
+            removeItem(game,name,count);
+            System.out.println("You sold this item");
+            return;
+        }
+        System.out.println("You need to be near a Shipping Bin.");
+
+    }
+    public void TendToShippingBins(Game game){
+        for (User user : game.users){
+            if(!user.player.SoldItems.isEmpty()){
+                for (Item item : user.player.SoldItems){
+                    user.player.money+=(item.price)*(item.Count);
+                }
+            }
+            user.player.SoldItems.clear();
+        }
+    }
+    public boolean HasItem(Game game , String name,int requiredCount){
         for (Item item : game.currentPlayer.items){
-            if(item.name.equalsIgnoreCase(name)){
+            if(item.name.equalsIgnoreCase(name) && item.Count >= requiredCount){
                 return true;
             }
         }
         return false;
+    }
+    public Item getItem(Game game,String name){
+        for (Item item : game.currentPlayer.items){
+            if(item.name.equalsIgnoreCase(name)){
+                return item;
+            }
+        }
+        return null;
     }
     public void CheatWater(Game game) {
         for (Trees tree : game.AllTrees){
@@ -975,7 +1034,7 @@ public class GameController {
         System.out.println("You don't have this item.");
         return;
     }
-    public static boolean containsDigit(int digit, int number) {
+    public  boolean containsDigit(int digit, int number) {
         if (digit < 0 || digit > 9) {
             throw new IllegalArgumentException("Digit must be between 0 and 9");
         }

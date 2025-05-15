@@ -78,6 +78,7 @@ public class GameClock {
         game.map.GenerateRandomRockDaily(game.Map,game);
         controller.TendToCropsDaily(game);
         controller.TendToTreesDaily(game);
+        controller.TendToShippingBins(game);
         day++;
         hour=9;
         if (day > 28) {

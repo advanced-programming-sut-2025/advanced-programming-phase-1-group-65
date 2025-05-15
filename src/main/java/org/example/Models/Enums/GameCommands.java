@@ -38,7 +38,9 @@ public enum GameCommands {
     SHOWPLANT("^show plant -l (\\d+),(\\d+)$"),
     FISHING("^fishing\\s+-p\\s+(.+)$"),
     TRASHCAN("^inventory trash\\s+(.+?)(?:\\s+-n\\s+(\\d+))?"),
-    FERTILIZE("^fertilize\\s+-f\\s+(.+) -d (0|1|-1),(0|1|-1)$");
+    FERTILIZE("^fertilize\\s+-f\\s+(.+) -d (0|1|-1),(0|1|-1)$"),
+    SELL("^sell\\s+(.+?)(?:\\s+-n\\s+(\\d+))?$"),
+    SHOWMONEY("show money");
 
     private final String pattern;
 

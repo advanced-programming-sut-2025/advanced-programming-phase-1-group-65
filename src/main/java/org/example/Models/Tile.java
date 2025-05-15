@@ -2,6 +2,8 @@ package org.example.Models;
 
 import org.example.Models.Enums.TileType;
 
+import java.util.ArrayList;
+
 public class Tile {
     public TileType type;
     public Tile(TileType type) {
@@ -52,6 +54,8 @@ public class Tile {
                     return '#';
             case FERTILE:
                 return 'O';
+            case SHIPPINGBIN:
+                return '&';
 
 
                         default:
@@ -61,4 +65,7 @@ public class Tile {
     }
     public boolean deluxeFed=false;
     public boolean speedFed=false;
+    public ArrayList<Item> Items = new ArrayList<>();
+    public int FarmNumber=1;
+
 }

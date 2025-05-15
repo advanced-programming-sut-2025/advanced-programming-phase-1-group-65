@@ -84,7 +84,7 @@ public class User {
         this.answerKey = answerKey;
         this.answerNumber = answerNumber;
     }
-
+    public Game game;
     public void setPassword(String newPassword) {
         this.password = newPassword;
     }

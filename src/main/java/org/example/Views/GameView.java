@@ -169,6 +169,14 @@ public class GameView {
                 int y = Integer.parseInt(matcher.group(3));
                 controller.Fertilize(game,x,y,name);
             }
+            else if((matcher = GameCommands.SELL.matcher(input)) != null) {
+                String name = matcher.group(1);
+                int count = matcher.group(2) != null ? Integer.parseInt(matcher.group(2)) : 1;
+                controller.Sell(name,game,count);
+            }
+            else if((matcher = GameCommands.SHOWMONEY.matcher(input)) != null) {
+                System.out.println(game.currentPlayer.money);
+            }
 
 
             else {

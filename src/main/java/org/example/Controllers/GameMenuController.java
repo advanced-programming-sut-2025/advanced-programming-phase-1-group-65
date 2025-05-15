@@ -18,13 +18,16 @@ public class GameMenuController{
         if (user1==null || user2==null || user3==null){
             return "One or more of usernames do not exist";
         }
-        if(user1.player.game!=null || user2.player.game!=null || user3.player.game!=null){
+        if(user1.game!=null || user2.game!=null || user3.game!=null){
             return "One of the Users has another active game";
         }
         Game game = new Game(user1,user2,user3);
         user1.player.game = game;
         user2.player.game = game;
         user3.player.game = game;
+        user1.game = game;
+        user2.game = game;
+        user3.game = game;
         System.out.println("Choose your map number\n" +
                 "Command : game map <map_number>");
         int[] mapnum = GameMapChoose();
