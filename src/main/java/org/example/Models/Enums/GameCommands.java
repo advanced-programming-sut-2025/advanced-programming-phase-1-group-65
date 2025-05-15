@@ -36,7 +36,8 @@ public enum GameCommands {
     CHEATWATER("^cheat water$"),
     HOWMUCHWATER("^howmuch water$"),
     SHOWPLANT("^show plant -l (\\d+),(\\d+)$"),
-    FISHING("^fishing\\s+-p\\s+(.+)$");
+    FISHING("^fishing\\s+-p\\s+(.+)$"),
+    MEET_NPC("^meet NPC (\\w+)$");
 
     private final String pattern;
 

@@ -1,6 +1,7 @@
 package org.example.Views;
 
 import org.example.Controllers.GameController;
+import org.example.Controllers.NPCController;
 import org.example.Models.App;
 import org.example.Models.Enums.GameCommands;
 import org.example.Models.Enums.Menu;
@@ -158,7 +159,12 @@ public class GameView {
                 String toolName = matcher.group(1);
                 controller.Fishing(game, toolName);
             }
-
+            else if ((matcher = GameCommands.MEET_NPC.matcher(input)) != null) {
+                String npcName = matcher.group(1);
+                NPCController npcController = new NPCController(game); // اگر از قبل داری، نیازی نیست اینجا بسازی
+                String response = npcController.talkToNPCByName(npcName);
+                System.out.println(response); // نمایش خروجی صحبت با NPC
+            }
 
             else {
                 System.out.println("Invalid input");

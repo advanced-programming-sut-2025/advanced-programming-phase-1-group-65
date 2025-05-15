@@ -19,7 +19,7 @@ public class Game {
     public ArrayList<Foraging> AllCropInfo = new ArrayList<>();
     public ArrayList<Trees> AllTreesInfo = new ArrayList<>();
     public ArrayList<Rock> AllRocksInfo = new ArrayList<>();
-
+    public List<NPC> npcs = new ArrayList<>();
     public java.util.Map<TileType, Shop> shops = new java.util.HashMap<>();
     public User user1 = null;
     public User user2 = null;
@@ -505,7 +505,6 @@ public class Game {
 
         if (timesLoaded == 0) {
             map = new Map();
-         // پایینی اری لیست درسته
             Map = map.buildMap(this);
 
             mapclone = new Map();
