@@ -9,6 +9,8 @@ import org.example.Models.Enums.TileType.*;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static java.awt.Color.GRAY;
+
 public class Map {
 
 
@@ -705,7 +707,8 @@ public class Map {
         final String BRIGHT_GREEN = "\u001B[92m";
         final String BROWN = "\u001B[33m";
         final String RED = "\u001B[31m";
-
+        final String STONE_GRAY = "\u001B[38;2;128;128;128m";
+        final String SHACK_BROWN = "\u001B[38;2;139;69;19m"; // Wood brown
         for (ArrayList<Tile> row : map) {
             for (Tile tile : row) {
                 String color;
@@ -716,6 +719,8 @@ public class Map {
                     case QUARRY -> color = BROWN;
                     case PLAYER -> color = RED;
                     case FORAGING -> color = BRIGHT_GREEN;
+                    case ROCK -> color = STONE_GRAY;
+                    case SHACK -> color = SHACK_BROWN;
                     default -> color = RESET;
                 }
 
