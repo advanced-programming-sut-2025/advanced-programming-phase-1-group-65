@@ -708,7 +708,8 @@ public class Map {
         final String BROWN = "\u001B[33m";
         final String RED = "\u001B[31m";
         final String STONE_GRAY = "\u001B[38;2;128;128;128m";
-        final String SHACK_BROWN = "\u001B[38;2;139;69;19m"; // Wood brown
+        final String SHACK_BROWN = "\u001B[38;2;139;69;19m";
+        final String GREENHOUSE_GREEN = "\u001B[38;2;50;205;50m"; // Lime Green
         for (ArrayList<Tile> row : map) {
             for (Tile tile : row) {
                 String color;
@@ -721,6 +722,7 @@ public class Map {
                     case FORAGING -> color = BRIGHT_GREEN;
                     case ROCK -> color = STONE_GRAY;
                     case SHACK -> color = SHACK_BROWN;
+                    case GREENHOUSE -> color = GREENHOUSE_GREEN;
                     default -> color = RESET;
                 }
 
