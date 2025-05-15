@@ -147,7 +147,7 @@ public class GameController {
                 destType == TileType.RANCH ||
                 destType == TileType.STARDROPSALOON||
                 destType == TileType.GREENHOUSE||
-                destType == TileType.QUARRY)) {
+                destType == TileType.QUARRY||destType==TileType.SHACK)) {
             return "You can not walk to this position";
         }
 
@@ -174,7 +174,7 @@ public class GameController {
                             nextType == TileType.BLACKSMITH || nextType == TileType.JOJAMART ||
                             nextType == TileType.GENERALSTORE || nextType == TileType.CARPENTERSHOP ||
                             nextType == TileType.FISHSHOP || nextType == TileType.RANCH ||
-                            nextType == TileType.STARDROPSALOON||nextType==TileType.GREENHOUSE||nextType==TileType.QUARRY) {
+                            nextType == TileType.STARDROPSALOON||nextType==TileType.GREENHOUSE||nextType==TileType.QUARRY||nextType==TileType.SHACK) {
 
                         visited[newY][newX] = true;
                         distance[newY][newX] = distance[y][x] + 1;
@@ -1044,6 +1044,15 @@ public class GameController {
 
         return numStr.indexOf(digitChar) != -1;
     }
+    public void BuildBarnOrCoop(Game game,String name,int x,int y) {
+        BuildingController buildingController = new BuildingController();
+        if(!(HasItem(game,name,1))){
+            System.out.println("Buy a building first");
+            return;
+        }
+        Item item = new Item(getItem(game,name));
+        buildingController.Build(item.name,game,x,y,this);
+    }
 
     public void HowMuchWater(Game game) {
         if(game.currentPlayer.CurrentTool.subtype.equals(ItemSubType.WATERINGCAN)){
@@ -1083,6 +1092,25 @@ public class GameController {
             System.out.println("Watered Today: " + Waterd);
             CraftInfo(game,tree.name);
         }
+    }
+    public void GoHome(Game game) {
+        Player currentPlayerTemp = game.currentPlayer;
+        for(User user : game.users){
+            game.currentPlayer = user.player;
+            if (user.player.FarmNumber==1){
+                Walk(36,2,game);
+            }
+            else if (user.player.FarmNumber==2){
+                Walk(102,2,game);
+            }
+            else if (user.player.FarmNumber==3){
+                Walk(2,109,game);
+            }
+            else if (user.player.FarmNumber==4){
+                Walk(102,85,game);
+            }
+        }
+        game.currentPlayer = currentPlayerTemp;
     }
 
     public static String numberWithDashes(int number) {

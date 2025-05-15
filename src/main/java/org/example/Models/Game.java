@@ -19,7 +19,7 @@ public class Game {
     public ArrayList<Foraging> AllCropInfo = new ArrayList<>();
     public ArrayList<Trees> AllTreesInfo = new ArrayList<>();
     public ArrayList<Rock> AllRocksInfo = new ArrayList<>();
-
+    public ArrayList<Building> AllBuildings = new ArrayList<>();
     public java.util.Map<TileType, Shop> shops = new java.util.HashMap<>();
     public User user1 = null;
     public User user2 = null;
@@ -532,6 +532,8 @@ public class Game {
                 user.player.items.add(new Tool(1, ItemSubType.HOE,"Hoe",0));
                 user.player.items.add(new Tool(1, ItemSubType.PICKAXE,"Pickaxe",0));
                 user.player.items.add(new Material(1, ItemSubType.SEED,"Test Seed",25));
+                user.player.items.add(new Material(1000,ItemSubType.WOOD,"Wood",10));
+                user.player.items.add(new Material(1000,ItemSubType.STONE,"Stone",10));
 
 
 

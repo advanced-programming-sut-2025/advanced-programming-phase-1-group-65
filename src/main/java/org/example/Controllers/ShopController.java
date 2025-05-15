@@ -2,6 +2,7 @@ package org.example.Controllers;
 
 import org.example.Models.*;
 import org.example.Models.Enums.ItemSubType;
+import org.example.Models.Enums.ItemType;
 import org.example.Models.Enums.TileType;
 
 import java.util.HashMap;
@@ -128,6 +129,7 @@ public class ShopController {
     }
 
     public void purchaseItem(Game game, String productName, int count,GameController controller) {
+        BuildingController buildingController = new BuildingController();
         if (count <= 0) {
             System.out.println("Invalid quantity specified.");
             return;
@@ -183,6 +185,20 @@ public class ShopController {
                     if(item.name.equalsIgnoreCase("speed-gro")) {
                         Material fertilizer = new Material(count,ItemSubType.FERTILIZER,"speed-gro",100);
                         controller.AddItem(game,fertilizer);
+                    }
+                }
+                else if(item.subtype == ItemSubType.BARN || item.subtype == ItemSubType.COOP){
+                    if(!buildingController.canBuild(item.name, game,controller)) {
+                        System.out.println("You don't have the materials for this building.");
+                        return;
+                    }
+                    if(item.subtype == ItemSubType.COOP) {
+                        Item building = new Item(ItemType.MATERIAL,ItemSubType.COOP,1, item.name, item.getPrice());
+                        controller.AddItem(game,building);
+                    }
+                    else if(item.subtype == ItemSubType.BARN) {
+                        Item building = new Item(ItemType.MATERIAL,ItemSubType.BARN,1, item.name, item.getPrice());
+                        controller.AddItem(game,building);
                     }
                 }
                 System.out.println("You bought " + count + " x " + item.getName() + " for " + totalPrice + "g.");
@@ -241,6 +257,21 @@ public class ShopController {
                     if(item.name.equalsIgnoreCase("speed-gro")) {
                         Material fertilizer = new Material(count,ItemSubType.FERTILIZER,"speed-gro",100);
                         controller.AddItem(game,fertilizer);
+                    }
+                }
+                else if(item.subtype == ItemSubType.BARN || item.subtype == ItemSubType.COOP){
+                    if(!buildingController.canBuild(item.name, game,controller)) {
+                        System.out.println("You don't have the materials for this building.");
+                        return;
+                    }
+                    buildingController.looseMaterial(item.name, game,controller);
+                    if(item.subtype == ItemSubType.COOP) {
+                        Item building = new Item(ItemType.MATERIAL,ItemSubType.COOP,1, item.name, item.getPrice());
+                        controller.AddItem(game,building);
+                    }
+                    else if(item.subtype == ItemSubType.BARN) {
+                        Item building = new Item(ItemType.MATERIAL,ItemSubType.BARN,1, item.name, item.getPrice());
+                        controller.AddItem(game,building);
                     }
                 }
 

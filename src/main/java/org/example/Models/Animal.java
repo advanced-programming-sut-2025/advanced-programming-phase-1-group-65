@@ -11,4 +11,5 @@ public class Animal {
         this.name = name;
         this.animalType = animalType;
     }
+    public boolean FedToday = false;
 }

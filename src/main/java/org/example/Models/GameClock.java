@@ -79,6 +79,8 @@ public class GameClock {
         controller.TendToCropsDaily(game);
         controller.TendToTreesDaily(game);
         controller.TendToShippingBins(game);
+        controller.GoHome(game);
+
         day++;
         hour=9;
         if (day > 28) {
@@ -90,6 +92,9 @@ public class GameClock {
             String newSeason = getCurrentSeason();
             System.out.println("Season has changed to: " + newSeason);
             game.weatherSystem.setCurrentSeason(newSeason);
+        }
+        if(game.weatherSystem.getTodayWeatherName().equalsIgnoreCase("rain")){
+            controller.CheatWater(game);
         }
     }
 }

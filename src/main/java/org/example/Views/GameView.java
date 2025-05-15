@@ -177,6 +177,12 @@ public class GameView {
             else if((matcher = GameCommands.SHOWMONEY.matcher(input)) != null) {
                 System.out.println(game.currentPlayer.money);
             }
+            else if((matcher = GameCommands.BUILD.matcher(input)) != null) {
+                String name = matcher.group(1);
+                int x = Integer.parseInt(matcher.group(2));
+                int y = Integer.parseInt(matcher.group(3));
+                controller.BuildBarnOrCoop(game,name,x,y);
+            }
 
 
             else {

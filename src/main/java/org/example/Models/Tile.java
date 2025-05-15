@@ -9,7 +9,7 @@ public class Tile {
     public Tile(TileType type) {
         this.type = type;
     }
-
+    public Building parentBuilding = null;
     public TileType getType() {
         return type;
     }
@@ -56,6 +56,8 @@ public class Tile {
                 return 'O';
             case SHIPPINGBIN:
                 return '&';
+            case BUILDING:
+                return '=';
 
 
                         default:

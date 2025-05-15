@@ -40,7 +40,8 @@ public enum GameCommands {
     TRASHCAN("^inventory trash\\s+(.+?)(?:\\s+-n\\s+(\\d+))?"),
     FERTILIZE("^fertilize\\s+-f\\s+(.+) -d (0|1|-1),(0|1|-1)$"),
     SELL("^sell\\s+(.+?)(?:\\s+-n\\s+(\\d+))?$"),
-    SHOWMONEY("show money");
+    SHOWMONEY("show money"),
+    BUILD("^build -a\\s+(.+)\\s+-l (\\d+),(\\d+)$");
 
     private final String pattern;
 
