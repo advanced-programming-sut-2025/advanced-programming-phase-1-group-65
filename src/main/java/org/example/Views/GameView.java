@@ -205,6 +205,24 @@ public class GameView {
                 String name = matcher.group(1);
                 controller.CollectProduce(game,name);
             }
+            else if((matcher = GameCommands.GREENHOUSE.matcher(input)) != null) {
+                controller.GreenHouse(game);
+            }
+            else if((matcher = GameCommands.PRODUCES.matcher(input)) != null) {
+                controller.ShowNotCollectedProducts(game);
+            }
+            else if((matcher = GameCommands.SHEPHERD.matcher(input)) != null) {
+                String name = matcher.group(1);
+                int x = Integer.parseInt(matcher.group(2));
+                int y = Integer.parseInt(matcher.group(3));
+                controller.Shepherd(game,name,x,y);
+            }
+            else if((matcher = GameCommands.PET.matcher(input)) != null) {
+                String name = matcher.group(1);
+                int x = Integer.parseInt(matcher.group(2));
+                int y = Integer.parseInt(matcher.group(3));
+                controller.Pet(game,name,x,y);
+            }
 
 
             else {

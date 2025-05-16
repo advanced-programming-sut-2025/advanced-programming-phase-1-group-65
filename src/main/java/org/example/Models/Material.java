@@ -9,5 +9,10 @@ public class Material extends Item{
         super(ItemType.MATERIAL,subType,count,name,price);
         this.subType = subType;
     }
+    public Material(Material Other){
+        super(Other.type,Other.subType, Other.Count, Other.name, Other.price);
+        this.subType = Other.subType;
+
+    }
 
 }

@@ -520,6 +520,58 @@ public class GameController {
                 return;
             }
         }
+        else if(game.currentPlayer.CurrentTool.subtype == ItemSubType.SHEAR){
+            if(game.Map.get(disty).get(distx).type.equals(TileType.ANIMAL)){
+                Animal animal = (Animal) game.Map.get(disty).get(distx);
+                if(!animal.isHarvestable){
+                    System.out.println("This animal is not harvestable yet");
+                    game.currentPlayer.Energy-=4;
+                    return;
+                }
+                if (animal.animalType==AnimalType.SHEEP){
+                    animal.isHarvestable=false;
+                    Material newMaterial = new Material(animal.FinalMaterialProduct);
+                    AddItem(game,newMaterial);
+                    System.out.println("You have shaved the sheep and got " + newMaterial.Count +" "+newMaterial.name);
+                    game.currentPlayer.Energy-=4;
+
+                    return;
+                }
+                System.out.println("This animal can not be shaved");
+                game.currentPlayer.Energy-=4;
+                return;
+
+
+            }
+            System.out.println("This tools is not proper for the selected tile");
+            game.currentPlayer.Energy-=4;
+            return;
+        }
+        else if(game.currentPlayer.CurrentTool.subtype.equals(ItemSubType.MILKPAIL)){
+            if (game.Map.get(disty).get(distx).type.equals(TileType.ANIMAL)){
+                Animal animal = (Animal) game.Map.get(disty).get(distx);
+                if(!animal.isHarvestable){
+                    System.out.println("This animal is not harvestable yet");
+                    game.currentPlayer.Energy-=4;
+                    return;
+                }
+                if(animal.animalType==AnimalType.COW || animal.animalType==AnimalType.GOAT){
+                    Food newFood = new Food(animal.FinalFoodProduct);
+                    System.out.println("You have milked the animal and got " + newFood.Count +" "+newFood.name);
+                    animal.isHarvestable=false;
+                    AddItem(game,newFood);
+                    game.currentPlayer.Energy-=4;
+                    return;
+                }
+                System.out.println("This animal can not be milked");
+                game.currentPlayer.Energy-=4;
+                return;
+
+            }
+            System.out.println("This tools is not proper for the selected tile");
+            game.currentPlayer.Energy-=4;
+            return;
+        }
 
         else {
             System.out.println("invalid tool");
@@ -613,24 +665,23 @@ public class GameController {
             for(Building building: user.player.playerBuildings){
                 for(Animal animal: building.animals){
                     if(!animal.FedToday){
-                        animal.isHarvestable =false;
-                        animal.FinalFoodProduct = null;
                         animal.day = 0;
                     }
                     Random rand = new Random();
                     boolean produceSecondary = false;
-                    if(animal.FriendSheepPoint>=100){
+                    if(animal.FriendSheepPoint>=100 && animal.animalType !=AnimalType.RABBIT && animal.animalType!=AnimalType.PIG  && animal.animalType!=AnimalType.DINOSAUR &&
+                    animal.animalType != AnimalType.SHEEP){
                         double chance = (rand.nextDouble() * 150 + animal.FriendSheepPoint) / 1500.0;
                         produceSecondary = rand.nextDouble() < chance;
                     }
                     double R = rand.nextDouble();
                     double quality = (R*0.5*0.5)*(animal.FriendSheepPoint/1000.0);
-                    if (animal.day >= animal.ProductionCycle && animal.day!=0){
+                    if (animal.day >= animal.ProductionCycle && animal.animalType!=AnimalType.PIG){
                         animal.isHarvestable=true;
                         animal.day = 0;
                     }
-                    if (animal.isHarvestable && (animal.animalType==AnimalType.DINOSAUR|| animal.animalType==AnimalType.CHICKEN|| animal.animalType==AnimalType.COW
-                    || animal.animalType==AnimalType.DUCK||animal.animalType==AnimalType.GOAT||animal.animalType==AnimalType.SHEEP)){
+                    if ((animal.animalType==AnimalType.DINOSAUR|| animal.animalType==AnimalType.CHICKEN|| animal.animalType==AnimalType.COW
+                    || animal.animalType==AnimalType.DUCK||animal.animalType==AnimalType.GOAT || animal.animalType==AnimalType.PIG)){
                         if (produceSecondary){
                             animal.FinalFoodProduct = new Food(animal.foodProduct.get(1));
                         }
@@ -648,6 +699,19 @@ public class GameController {
                         }
 
                     }
+                    if((animal.animalType==AnimalType.SHEEP)){
+                        animal.FinalMaterialProduct = new Material(animal.materialProduct.get(0));
+
+                    }
+
+                    if(!animal.Inside){
+                        animal.FriendSheepPoint -=20;
+
+                    }
+                    if(!animal.petToday){
+                        animal.FriendSheepPoint += (animal.FriendSheepPoint/200 - 10);
+                    }
+
                     animal.day++;
                     animal.FedToday = false;
                     animal.petToday = false;
@@ -655,6 +719,45 @@ public class GameController {
                 }
             }
         }
+    }
+    public void ShowNotCollectedProducts(Game game){
+        for(Building building: game.currentPlayer.playerBuildings){
+            for(Animal animal: building.animals){
+                if(animal.isHarvestable && animal.animalType!=AnimalType.SHEEP){
+                    System.out.println(animal.name+ " "+animal.FinalFoodProduct.name);
+                    return;
+                }
+                if(animal.animalType==AnimalType.SHEEP && animal.isHarvestable){
+                    System.out.println(animal.name+ " "+animal.FinalMaterialProduct.name);
+                }
+            }
+        }
+        System.out.println("You have collected all of the products");
+    }
+    public void GreenHouse(Game game){
+        if(game.currentPlayer.money < 1000){
+            System.out.println("You don't have enough money");
+            return;
+        }
+        if(!HasItem(game,"Wood",500)){
+            System.out.println("You don't have enough wood");
+            return;
+        }
+        System.out.println("GreenHouse Built successfully");
+
+    }
+    public void Pet(Game game, String name,int x,int y){
+        int posX= game.currentPlayer.PositionX+x;
+        int posY= game.currentPlayer.PositionY-y;
+        if(game.Map.get(posY).get(posX).type==TileType.ANIMAL){
+            Animal animalTile =(Animal) game.Map.get(posY).get(posX);
+            animalTile.petToday = true;
+            animalTile.FriendSheepPoint+=15;
+            System.out.println(animalTile.name+ " has pet today");
+            return;
+        }
+        System.out.println("You don't have an animal near you");
+        return;
     }
     public void Fishing(Game game, String toolName) {
         int bonusEnergy = 0;
@@ -910,6 +1013,51 @@ public class GameController {
         return;
 
     }
+    public void Shepherd(Game game,String name,int x , int y){
+
+        Animal Target =null;
+        for(Building building:game.currentPlayer.playerBuildings){
+            for (Animal animal : building.animals) {
+                if(animal.name.equals(name)){
+                    Target = animal;
+                    break;
+                }
+            }
+        }
+        if(Target==null){
+            System.out.println("Animal was not found.");
+            return;
+        }
+        if(!Target.Inside){
+            Target.Inside = true;
+            System.out.println("Animal Was moved back inside.");
+            game.Map.get(Target.posY).set(Target.posX,new Tile(TileType.EMPTY));
+            return;
+        }
+        if(game.gameClock.getCurrentSeasonIndex() == 4 || game.weatherSystem.getTodayWeatherName().equalsIgnoreCase("rain")||
+                game.weatherSystem.getTodayWeatherName().equalsIgnoreCase("storm")){
+            System.out.println("Weather is not suitable for this action.");
+            return;
+        }
+        if (!game.Map.get(y).get(x).type.equals(TileType.EMPTY)) {
+            System.out.println("You can't shepherd in this position.");
+            return;
+        }
+
+        if(Target.animalType == AnimalType.PIG){
+            Target.isHarvestable=true;
+            Target.FinalFoodProduct = new Food(Target.foodProduct.get(0));
+            System.out.println("pig can be harvested now.");
+        }
+        game.Map.get(y).set(x,Target);
+        Target.Inside = false;
+        Target.FedToday =true;
+        Target.FriendSheepPoint+=8;
+        Target.posX = x;
+        Target.posY = y;
+        System.out.println("Animal Was moved outside.");
+
+    }
     public void Fertilize(Game game , int x, int y, String name) {
         int posx = game.currentPlayer.PositionX+x;
         int posy = game.currentPlayer.PositionY-y;
@@ -991,7 +1139,8 @@ public class GameController {
                 if(animal.name.equals(name)){
                     System.out.println(animal.name +" was fed");
                     removeItem(game,"Hay",1);
-                    animal.FedToday = true;
+                    animal.FedToday=true;
+                    animal.FriendSheepPoint+=8;
                     return;
                 }
             }
@@ -1004,10 +1153,11 @@ public class GameController {
         for(Building building : game.currentPlayer.playerBuildings){
             for(Animal animal : building.animals){
                 if(animal.name.equals(name)){
-                    if (animal.isHarvestable && animal.animalType!=AnimalType.RABBIT && animal.animalType!=AnimalType.SHEEP){
+                    if (animal.isHarvestable && (animal.animalType==AnimalType.CHICKEN || animal.animalType==AnimalType.DUCK|| animal.animalType==AnimalType.PIG)){
                         Food newFood = new Food(animal.FinalFoodProduct);
                         AddItem(game,newFood);
                         System.out.println("You have collected "+animal.FinalFoodProduct.name);
+                        animal.isHarvestable = false;
                         return;
                     }
                     System.out.println("Animal is not harvestable yet");

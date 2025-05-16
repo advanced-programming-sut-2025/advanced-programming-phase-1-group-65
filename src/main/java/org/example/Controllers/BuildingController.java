@@ -32,6 +32,7 @@ public class BuildingController {
                     return BigBarn;
                     case "Deluxe Barn":
                         Building DeluxeBarn = new Building(name,startX,startY,7,4,12,BuildingType.BARN);
+                        return DeluxeBarn;
         }
         return null;
 

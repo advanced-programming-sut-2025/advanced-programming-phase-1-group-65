@@ -46,7 +46,12 @@ public enum GameCommands {
     BUYANIMAL("^buy animal -a (.+) -n (.+)"),
     CHEATANIMALFRIEND("^cheat set friendship -n (.+) -c (\\d)"),
     FEEDHAY("^feed hay -n (.+)"),
-    COLLECTPRODUCE("^collect produce -n (.+)$");
+    COLLECTPRODUCE("^collect produce -n (.+)$"),
+    GREENHOUSE("^greenhouse build"),
+    PRODUCES("^produces"),
+    PET("^pet -n (.+) -d (0|1|-1),(0|1|-1)$"),
+    SHEPHERD("shepherd animals -n (.+) -l (\\d+),(\\d+)$");
+
 
     private final String pattern;
 
