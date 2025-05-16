@@ -6,6 +6,7 @@ import org.example.Models.Enums.TileType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Map;
 
 public class NPCController {
 
@@ -175,10 +176,39 @@ public class NPCController {
             friendshipPoints = 200;
         }
 
-        npc.increaseFriendship(friendshipPoints);
+        int currentPoints = player.npcFriendships.getOrDefault(npc.getName(), 0);
+        int newPoints = currentPoints + friendshipPoints;
+        if (newPoints > 799) {
+            newPoints = 799;
+        }
+
+        player.npcFriendships.put(npc.getName(), newPoints);
+
+        npc.setFriendshipPoints(newPoints);
+
+        int newLevel = newPoints / 200;
+        if (newLevel > 3) newLevel = 3;
+        npc.setFriendshipLevel(newLevel);
+
         npc.setLastGiftDay(game.gameClock.getDay());
 
         return "You gave " + itemName + " to " + npcName + ". Friendship +" + friendshipPoints + ".";
+    }
+    public String getAllNPCFriendships() {
+        StringBuilder sb = new StringBuilder("NPC Friendships:\n");
+        for (Map.Entry<String, Integer> entry : game.currentPlayer.npcFriendships.entrySet()) {
+            String npcName = entry.getKey();
+            int points = entry.getValue();
+            int level = points / 200;
+            if (level > 3) {
+                level = 3;
+            }
+
+            sb.append("- ").append(npcName)
+                    .append(": ").append(points).append(" points")
+                    .append(" (Level ").append(level).append(")\n");
+        }
+        return sb.toString();
     }
 
     private boolean isValidNPCName(String npcName) {

@@ -17,7 +17,7 @@ public class NPC {
     private Map<String, List<String>> dialogues;
     private Set<String> favoriteItems = new HashSet<>();
     private int lastGiftDay = -1;
-
+    private int friendshipPoints = 0;
     public NPC(String name, int x, int y) {
         this.name = name;
         this.x = x;
@@ -49,17 +49,21 @@ public class NPC {
         this.lastGiftDay = lastGiftDay;
     }
 
-    public int getFriendshipLevel() {
-        return friendshipLevel;
+
+    public void setFriendshipPoints(int points) {
+        this.friendshipPoints = Math.min(799, points);
     }
-    public void setFriendshipLevel(int friendshipLevel) {
-        this.friendshipLevel = friendshipLevel;
+
+    public void setFriendshipLevel(int level) {
+        this.friendshipLevel = Math.min(3, level);
     }
+
     public Set<String> getFavoriteItems() {
         return favoriteItems;
     }
     public void increaseFriendship(int amount) {
-        friendshipLevel = Math.min(100, friendshipLevel + amount);
+        friendshipPoints = Math.min(799, friendshipPoints + amount);
+        friendshipLevel = Math.min(3, friendshipPoints / 200);
     }
     private void loadDefaultDialogues() {
         // --- Spring Morning Sunny ---
@@ -381,8 +385,8 @@ public class NPC {
     }
 
     private String getFriendshipCategory() {
-        if (friendshipLevel < 30) return "low";
-        else if (friendshipLevel < 70) return "neutral";
+        if (friendshipPoints < 70) return "low";
+        else if (friendshipPoints < 100) return "neutral";
         else return "high";
     }
 
