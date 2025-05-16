@@ -56,7 +56,7 @@ public class BuildingController {
                 }
             }
         }
-        game.AllBuildings.add(building);
+        game.currentPlayer.playerBuildings.add(building);
         for (int i = 0; i < building.height; i++) {
             for (int j = 0; j < building.width; j++) {
                 int x = startX + j;

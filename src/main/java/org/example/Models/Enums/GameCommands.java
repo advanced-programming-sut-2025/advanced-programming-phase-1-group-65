@@ -41,7 +41,9 @@ public enum GameCommands {
     FERTILIZE("^fertilize\\s+-f\\s+(.+) -d (0|1|-1),(0|1|-1)$"),
     SELL("^sell\\s+(.+?)(?:\\s+-n\\s+(\\d+))?$"),
     SHOWMONEY("show money"),
-    BUILD("^build -a\\s+(.+)\\s+-l (\\d+),(\\d+)$");
+    BUILD("^build -a\\s+(.+)\\s+-l (\\d+),(\\d+)$"),
+    ANIMALS("^animals$"),
+    BUYANIMAL("^buy animal -a (.+) -n (.+)");
 
     private final String pattern;
 

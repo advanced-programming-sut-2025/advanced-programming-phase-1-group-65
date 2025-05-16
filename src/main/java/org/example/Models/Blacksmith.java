@@ -9,7 +9,9 @@ import java.util.List;
 public class Blacksmith implements Shop {
     private List<ShopItem> unlimitedItems;
     private List<LimitedShopItem> limitedItems;
-
+    public String getName(){
+        return "Blacksmith";
+    }
     public Blacksmith() {
         unlimitedItems = new ArrayList<>();
         limitedItems = new ArrayList<>();

@@ -7,6 +7,11 @@ public class FishShop implements Shop {
     private List<ShopItem> unlimitedItems;
     private List<LimitedShopItem> limitedItems;
 
+    @Override
+    public String getName() {
+        return "Fish Shop";
+    }
+
     public FishShop() {
         unlimitedItems = new ArrayList<>();
         limitedItems = new ArrayList<>();

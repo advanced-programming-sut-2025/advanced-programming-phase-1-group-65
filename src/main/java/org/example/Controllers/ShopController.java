@@ -1,9 +1,7 @@
 package org.example.Controllers;
 
 import org.example.Models.*;
-import org.example.Models.Enums.ItemSubType;
-import org.example.Models.Enums.ItemType;
-import org.example.Models.Enums.TileType;
+import org.example.Models.Enums.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -127,7 +125,100 @@ public class ShopController {
         }
         return shopCache.get(type);
     }
+    public Building hasFreeSpace(Game game, AnimalType animalType) {
+        if(animalType.equals(AnimalType.CHICKEN)){
+            for (Building building :game.currentPlayer.playerBuildings){
+                if(building.hasSpace() && (building.name.equalsIgnoreCase("Coop") || building.name.equalsIgnoreCase("Big Coop") || building.name.equalsIgnoreCase("Deluxe Coop"))) {
+                    return building;
+                }
+            }
+            return null;
+        }
+        else if(animalType.equals(AnimalType.DUCK)){
+            for (Building building :game.currentPlayer.playerBuildings){
+                if(building.hasSpace() && ( building.name.equalsIgnoreCase("Big Coop") || building.name.equalsIgnoreCase("Deluxe Coop"))) {
+                    return building;
+                }
+            }
+            return null;
+        }
+        else if(animalType.equals(AnimalType.RABBIT)){
+            for (Building building :game.currentPlayer.playerBuildings){
+                if(building.hasSpace() && (building.name.equalsIgnoreCase("Deluxe Coop"))) {
+                    return building;
+                }
+            }
+            return null;
+        }
+        else if(animalType.equals(AnimalType.DINOSAUR)){
+            for (Building building :game.currentPlayer.playerBuildings){
+                if(building.hasSpace() && ( building.name.equalsIgnoreCase("Big Coop") )) {
+                    return building;
+                }
+            }
+            return null;
+        }
+        else if(animalType.equals(AnimalType.COW)){
+            for (Building building :game.currentPlayer.playerBuildings){
+                if(building.hasSpace() && ( building.name.equalsIgnoreCase("Big Barn") || building.name.equalsIgnoreCase("Deluxe Barn") || building.name.equalsIgnoreCase("Barn"))) {
+                    return building;
+                }
+            }
+            return null;
+        }
+        else if(animalType.equals(AnimalType.GOAT)){
+            for (Building building :game.currentPlayer.playerBuildings){
+                if(building.hasSpace() && ( building.name.equalsIgnoreCase("Big Barn") || building.name.equalsIgnoreCase("Deluxe Barn"))) {
+                    return building;
+                }
+            }
+            return null;
+        }
+        else if(animalType.equals(AnimalType.SHEEP)){
+            for (Building building :game.currentPlayer.playerBuildings){
+                if(building.hasSpace() && (  building.name.equalsIgnoreCase("Deluxe Barn"))) {
+                    return building;
+                }
+            }
+            return null;
+        }
+        else if(animalType.equals(AnimalType.PIG)){
+            for (Building building :game.currentPlayer.playerBuildings){
+                if(building.hasSpace() && ( building.name.equalsIgnoreCase("Deluxe Barn") )) {
+                    return building;
+                }
+            }
+            return null;
+        }
+        return null;
 
+    }
+    public void BuyAnimal(Game game, String animalName,String animalNickName ,GameController controller) {
+        Shop shop = getNearbyShop(game);
+
+        if (shop == null || !(shop.getName().equalsIgnoreCase("Marnie's Ranch"))) {
+            System.out.println("You must be in Marnie's Ranch.");
+            return;
+        }
+
+        for(Animal animal : game.AllAnimalInfo){
+            if(animal.name.equalsIgnoreCase(animalName)){
+                Animal newAnimal = new Animal(animal);
+                newAnimal.name = animalNickName;
+                if(animal.price > game.currentPlayer.money){
+                    System.out.println("You are not enough money to buy this animal.");
+                    return;
+                }
+                if(hasFreeSpace(game,newAnimal.animalType)==null){
+                    System.out.println("You need to free space for this animal.");
+                    return;
+                }
+                Building building = hasFreeSpace(game,newAnimal.animalType);
+                building.animals.add(newAnimal);
+                System.out.println("You bought the animal successfully.");
+            }
+        }
+    }
     public void purchaseItem(Game game, String productName, int count,GameController controller) {
         BuildingController buildingController = new BuildingController();
         if (count <= 0) {

@@ -10,6 +10,11 @@ public class CarpenterShop implements Shop {
     private List<ShopItem> unlimitedItems;
     private List<LimitedShopItem> limitedItems;
 
+    @Override
+    public String getName() {
+        return "Carpenter's Shop";
+    }
+
     public CarpenterShop() {
         unlimitedItems = new ArrayList<>();
         limitedItems = new ArrayList<>();

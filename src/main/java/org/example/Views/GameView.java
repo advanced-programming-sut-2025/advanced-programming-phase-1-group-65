@@ -183,6 +183,15 @@ public class GameView {
                 int y = Integer.parseInt(matcher.group(3));
                 controller.BuildBarnOrCoop(game,name,x,y);
             }
+            else if((matcher = GameCommands.ANIMALS.matcher(input)) != null) {
+                controller.AnimalsShow(game);
+            }
+            else if((matcher = GameCommands.BUYANIMAL.matcher(input)) != null) {
+                String name = matcher.group(1);
+                String nickname= matcher.group(2);
+                shopController.BuyAnimal(game,name,nickname,controller);
+
+            }
 
 
             else {

@@ -1,5 +1,6 @@
 package org.example.Models;
 
+import org.example.Models.Enums.AnimalType;
 import org.example.Models.Enums.ItemSubType;
 import org.example.Models.Enums.TileType;
 import org.example.Views.GameView;
@@ -19,7 +20,7 @@ public class Game {
     public ArrayList<Foraging> AllCropInfo = new ArrayList<>();
     public ArrayList<Trees> AllTreesInfo = new ArrayList<>();
     public ArrayList<Rock> AllRocksInfo = new ArrayList<>();
-    public ArrayList<Building> AllBuildings = new ArrayList<>();
+    public ArrayList<Animal> AllAnimalInfo = new ArrayList<>();
     public java.util.Map<TileType, Shop> shops = new java.util.HashMap<>();
     public User user1 = null;
     public User user2 = null;
@@ -39,6 +40,57 @@ public class Game {
         this.users = List.of(user1, user2, user3);
         this.gameClock = new GameClock();
         this.weatherSystem = new WeatherSystem("spring");
+    }
+    public void creatAllAnimals(Game game){
+        Food ChickenEgg = new Food(3,ItemSubType.EGG,"Chicken Egg",60,50,true);
+        Food ChickenBigEgg = new Food(1,ItemSubType.EGG,"Chicken Big Egg",105,95,true);
+        Animal Chicken = new Animal("Chicken", AnimalType.CHICKEN,1,800);
+        Chicken.foodProduct.add(ChickenEgg);
+        Chicken.foodProduct.add(ChickenBigEgg);
+        game.AllAnimalInfo.add(Chicken);
+
+        Food DuckEgg = new Food(3,ItemSubType.EGG,"Duck Egg",60,95,true);
+        Food DuckBigEgg = new Food (1,ItemSubType.EGG,"Duck Big Egg",105,250,true);
+        Animal Duck = new Animal("Duck", AnimalType.DUCK,2,1200);
+        Duck.foodProduct.add(DuckEgg);
+        Duck.foodProduct.add(DuckBigEgg);
+        game.AllAnimalInfo.add(Duck);
+
+        Material RabbitFur = new Material(5,ItemSubType.FURR,"Rabbit Furr",340);
+        Animal Rabbit = new Animal("Rabbit", AnimalType.RABBIT,4,8000);
+        Rabbit.materialProduct.add(RabbitFur);
+        game.AllAnimalInfo.add(Rabbit);
+
+        Food DinosaurEgg = new Food(1,ItemSubType.EGG,"Dinosaur Egg",200,350,true);
+        Animal Dinosaur = new Animal("Dinosaur", AnimalType.DINOSAUR,7,14000);
+        Dinosaur.foodProduct.add(DinosaurEgg);
+        game.AllAnimalInfo.add(Dinosaur);
+
+        Food CowMilk = new Food(2,ItemSubType.MILK,"Cow Milk", 110,125,true);
+        Food CowBigMilk = new Food(1,ItemSubType.MILK,"Cow Big Milk",130,190,true);
+        Animal Cow = new Animal("Cow", AnimalType.COW,1,1500);
+        Cow.foodProduct.add(CowMilk);
+        Cow.foodProduct.add(CowBigMilk);
+        game.AllAnimalInfo.add(Cow);
+
+        Food GoatMilk = new Food(2,ItemSubType.MILK,"Goat Milk",95,225,true);
+        Food GoatBigMilk = new Food(1,ItemSubType.MILK,"Goat Big Milk",160,345,true);
+        Animal Goat = new Animal("Goat", AnimalType.GOAT,2,4000);
+        Goat.foodProduct.add(GoatMilk);
+        Goat.foodProduct.add(GoatBigMilk);
+        game.AllAnimalInfo.add(Goat);
+
+        Material SheepFurr = new Material(3,ItemSubType.FURR,"Sheep Furr",340);
+        Animal Sheep = new Animal("Sheep", AnimalType.SHEEP,3,8000);
+        Sheep.materialProduct.add(SheepFurr);
+        game.AllAnimalInfo.add(Sheep);
+
+        Food Truffle = new Food(5,ItemSubType.TRUFFLE,"Truffle",10,620,true);
+        Animal Pig = new Animal("Pig", AnimalType.PIG,0,16000);
+        Pig.foodProduct.add(Truffle);
+        game.AllAnimalInfo.add(Pig);
+
+
     }
 
     public void createAllTrees(Game game){
@@ -501,6 +553,7 @@ public class Game {
             creatAllCrops(this);
             createAllTrees(this);
             creatAllRocks(this);
+            creatAllAnimals(this);
             map.generateShippingBins(Map,this);
             FishManager.createAllFish();
             map.GenerateRandomForagingDaily(Map,this);

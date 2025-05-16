@@ -9,6 +9,11 @@ public class JojaMart implements Shop {
     private List<ShopItem> unlimitedItems;
     private List<LimitedShopItem> limitedItems;
 
+    @Override
+    public String getName() {
+        return "JojaMart";
+    }
+
     public JojaMart(GameClock gameClock) {
         unlimitedItems = new ArrayList<>();
         limitedItems = new ArrayList<>();

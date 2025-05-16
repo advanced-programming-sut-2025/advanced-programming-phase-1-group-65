@@ -19,6 +19,7 @@ public class Player {
         foragingSkill = new Skill();
         fishingSkill = new Skill();
     }
+    public ArrayList<Building> playerBuildings = new ArrayList<>();
     public int FarmNumber;
     public ArrayList<Item> SoldItems = new ArrayList<>();
     public void gainFarmingXP(int amount) {

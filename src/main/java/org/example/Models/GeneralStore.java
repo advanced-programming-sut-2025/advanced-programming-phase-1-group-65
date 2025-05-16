@@ -10,6 +10,11 @@ public class GeneralStore implements Shop {
     private List<ShopItem> unlimitedItems;
     private List<LimitedShopItem> limitedItems;
 
+    @Override
+    public String getName() {
+        return "Pierre's General Store";
+    }
+
     public GeneralStore() {
         unlimitedItems = new ArrayList<>();
         limitedItems = new ArrayList<>();

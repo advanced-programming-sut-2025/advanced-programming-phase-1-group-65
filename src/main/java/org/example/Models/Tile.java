@@ -58,6 +58,8 @@ public class Tile {
                 return '&';
             case BUILDING:
                 return '=';
+            case ANIMAL:
+                return 'U';
 
 
                         default:

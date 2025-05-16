@@ -1093,6 +1093,15 @@ public class GameController {
             CraftInfo(game,tree.name);
         }
     }
+    public void AnimalsShow(Game game) {
+        for(Building building:game.currentPlayer.playerBuildings){
+            for(Animal animal:building.animals){
+                String fedToday = TrueOrFalse(animal.FedToday);
+                String petToday = TrueOrFalse(animal.petToday);
+                System.out.println(animal.name+" Fed Today: " + fedToday+" Pet Today: " + petToday+" FriendSheepPoint: " + animal.FriendSheepPoint);
+            }
+        }
+    }
     public void GoHome(Game game) {
         Player currentPlayerTemp = game.currentPlayer;
         for(User user : game.users){

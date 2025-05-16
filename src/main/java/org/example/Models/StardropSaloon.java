@@ -7,6 +7,11 @@ public class StardropSaloon implements Shop {
     private List<ShopItem> unlimitedItems;
     private List<LimitedShopItem> limitedItems;
 
+    @Override
+    public String getName() {
+        return "The Stardrop Saloon";
+    }
+
     public StardropSaloon() {
         unlimitedItems = new ArrayList<>();
         limitedItems = new ArrayList<>();
