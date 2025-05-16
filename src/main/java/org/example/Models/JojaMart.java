@@ -30,7 +30,7 @@ public class JojaMart implements Shop {
 
         switch (season) {
             case "Spring":
-                // آیتم‌های محدود به فصل بهار
+
                 limitedItems.add(new LimitedShopItem("Parsnip Seeds", "Plant these in the spring. Takes 4 days to mature.", 25, 1,ItemType.MATERIAL,ItemSubType.SEED));
                 limitedItems.add(new LimitedShopItem("Bean Starter", "Plant these in the spring. Takes 10 days to mature, but keeps producing after that. Grows on a trellis.", 75, 1,ItemType.MATERIAL,ItemSubType.SEED));
                 limitedItems.add(new LimitedShopItem("Cauliflower Seeds", "Plant these in the spring. Takes 12 days to produce a large cauliflower.", 100, 1,ItemType.MATERIAL,ItemSubType.SEED));

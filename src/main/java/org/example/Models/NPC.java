@@ -12,9 +12,11 @@ import java.util.HashSet;
 public class NPC {
     private String name;
     private int x, y;
-    private int friendshipLevel;
+    private int friendshipLevel = 0;
     private Set<Integer> daysTalked;
     private Map<String, List<String>> dialogues;
+    private Set<String> favoriteItems = new HashSet<>();
+    private int lastGiftDay = -1;
 
     public NPC(String name, int x, int y) {
         this.name = name;
@@ -37,15 +39,28 @@ public class NPC {
     public int getY() {
         return y;
     }
+    public int getLastGiftDay() {
+        return lastGiftDay;
+    }
+    public void setFavoriteItems(Set<String> favoriteItems) {
+        this.favoriteItems = favoriteItems;
+    }
+    public void setLastGiftDay(int lastGiftDay) {
+        this.lastGiftDay = lastGiftDay;
+    }
 
     public int getFriendshipLevel() {
         return friendshipLevel;
     }
-
+    public void setFriendshipLevel(int friendshipLevel) {
+        this.friendshipLevel = friendshipLevel;
+    }
+    public Set<String> getFavoriteItems() {
+        return favoriteItems;
+    }
     public void increaseFriendship(int amount) {
         friendshipLevel = Math.min(100, friendshipLevel + amount);
     }
-
     private void loadDefaultDialogues() {
         // --- Spring Morning Sunny ---
         dialogues.put("morning_spring_sunny_low", Arrays.asList(
