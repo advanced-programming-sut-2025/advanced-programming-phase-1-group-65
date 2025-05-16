@@ -192,6 +192,19 @@ public class GameView {
                 shopController.BuyAnimal(game,name,nickname,controller);
 
             }
+            else if((matcher = GameCommands.CHEATANIMALFRIEND.matcher(input)) != null) {
+                String name = matcher.group(1);
+                int amount = Integer.parseInt(matcher.group(2));
+                controller.cheatAnimal(game,name,amount);
+            }
+            else if((matcher = GameCommands.FEEDHAY.matcher(input)) != null) {
+                String name = matcher.group(1);
+                controller.FeedAnimal(game,name);
+            }
+            else if((matcher = GameCommands.COLLECTPRODUCE.matcher(input)) != null) {
+                String name = matcher.group(1);
+                controller.CollectProduce(game,name);
+            }
 
 
             else {

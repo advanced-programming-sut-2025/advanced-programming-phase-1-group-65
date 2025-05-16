@@ -25,6 +25,10 @@ public class Animal {
     public boolean Inside = true;
     public boolean petToday = false;
     public int price;
+    public int day=0;
+    public boolean isHarvestable = false;
+    public Food FinalFoodProduct;
+    public Material FinalMaterialProduct;
     public Animal (Animal Other){
         this.name = Other.name;
         this.FriendSheepPoint = Other.FriendSheepPoint;

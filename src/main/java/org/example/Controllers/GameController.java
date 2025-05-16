@@ -552,13 +552,13 @@ public class GameController {
             if(!foraging.HarvestedFirstTime){
                 if (foraging.day >= days){
                     foraging.isHarvestable = true;
-                    foraging.day = -1;
+                    foraging.day = 0;
                 }
             }
             if (foraging.RegrowthTime > 0 && foraging.HarvestedFirstTime){
                 if (foraging.day >= foraging.RegrowthTime){
                     foraging.isHarvestable = true;
-                    foraging.day = -1;
+                    foraging.day = 0;
                 }
             }
             foraging.day++;
@@ -594,19 +594,67 @@ public class GameController {
             if (!tree.HarvestedFirstTime){
                 if (tree.day >= days){
                     tree.isHarvestable = true;
-                    tree.day = -1;
+                    tree.day = 0;
                 }
             }
             if (tree.HarvestingCycle>0 && tree.HarvestedFirstTime){
                 if (tree.day >= tree.HarvestingCycle){
                     tree.isHarvestable = true;
-                    tree.day = -1;
+                    tree.day = 0;
                 }
             }
             tree.day++;
             tree.WateredToday = false;
         }
 
+    }
+    public void TendToAnimalsDaily(Game game){
+        for(User user : game.users){
+            for(Building building: user.player.playerBuildings){
+                for(Animal animal: building.animals){
+                    if(!animal.FedToday){
+                        animal.isHarvestable =false;
+                        animal.FinalFoodProduct = null;
+                        animal.day = 0;
+                    }
+                    Random rand = new Random();
+                    boolean produceSecondary = false;
+                    if(animal.FriendSheepPoint>=100){
+                        double chance = (rand.nextDouble() * 150 + animal.FriendSheepPoint) / 1500.0;
+                        produceSecondary = rand.nextDouble() < chance;
+                    }
+                    double R = rand.nextDouble();
+                    double quality = (R*0.5*0.5)*(animal.FriendSheepPoint/1000.0);
+                    if (animal.day >= animal.ProductionCycle && animal.day!=0){
+                        animal.isHarvestable=true;
+                        animal.day = 0;
+                    }
+                    if (animal.isHarvestable && (animal.animalType==AnimalType.DINOSAUR|| animal.animalType==AnimalType.CHICKEN|| animal.animalType==AnimalType.COW
+                    || animal.animalType==AnimalType.DUCK||animal.animalType==AnimalType.GOAT||animal.animalType==AnimalType.SHEEP)){
+                        if (produceSecondary){
+                            animal.FinalFoodProduct = new Food(animal.foodProduct.get(1));
+                        }
+                        else if(!produceSecondary){
+                            animal.FinalFoodProduct = new Food(animal.foodProduct.get(0));
+                        }
+                        if(quality <=0.7 && 0.5<quality){
+                            animal.FinalFoodProduct.price= (int) Math.floor(1.25*animal.FinalFoodProduct.price);
+                        }
+                        else if(quality <=0.9 && 0.7<quality){
+                            animal.FinalFoodProduct.price= (int) Math.floor(1.5*animal.FinalFoodProduct.price);
+                        }
+                        else if(0.9<quality){
+                            animal.FinalFoodProduct.price= (int) Math.floor(2*animal.FinalFoodProduct.price);
+                        }
+
+                    }
+                    animal.day++;
+                    animal.FedToday = false;
+                    animal.petToday = false;
+
+                }
+            }
+        }
     }
     public void Fishing(Game game, String toolName) {
         int bonusEnergy = 0;
@@ -932,6 +980,57 @@ public class GameController {
         System.out.println("You can't fertilize this tile.");
         return;
 
+    }
+    public void FeedAnimal(Game game , String name){
+        if(!HasItem(game,"Hay",1)){
+            System.out.println("You don't have Hay.");
+            return;
+        }
+        for(Building building : game.currentPlayer.playerBuildings){
+            for(Animal animal : building.animals){
+                if(animal.name.equals(name)){
+                    System.out.println(animal.name +" was fed");
+                    removeItem(game,"Hay",1);
+                    animal.FedToday = true;
+                    return;
+                }
+            }
+        }
+        System.out.println("Animal was not found.");
+        return;
+
+    }
+    public void CollectProduce(Game game, String name){
+        for(Building building : game.currentPlayer.playerBuildings){
+            for(Animal animal : building.animals){
+                if(animal.name.equals(name)){
+                    if (animal.isHarvestable && animal.animalType!=AnimalType.RABBIT && animal.animalType!=AnimalType.SHEEP){
+                        Food newFood = new Food(animal.FinalFoodProduct);
+                        AddItem(game,newFood);
+                        System.out.println("You have collected "+animal.FinalFoodProduct.name);
+                        return;
+                    }
+                    System.out.println("Animal is not harvestable yet");
+                    return;
+
+                }
+            }
+        }
+        System.out.println("Animal was not found.");
+        return;
+    }
+    public void cheatAnimal(Game game,String name , int friendshipPoint){
+        for(Building building : game.currentPlayer.playerBuildings){
+            for(Animal animal : building.animals){
+                if(animal.name.equals(name)){
+                    animal.FriendSheepPoint = friendshipPoint;
+                    System.out.println("friendship point added.");
+                    return;
+                }
+            }
+        }
+        System.out.println("Animal not found.");
+        return;
     }
 
     public void Sell(String name,Game game,int count){

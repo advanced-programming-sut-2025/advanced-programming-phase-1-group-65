@@ -587,7 +587,7 @@ public class Game {
                 user.player.items.add(new Material(1, ItemSubType.SEED,"Test Seed",25));
                 user.player.items.add(new Material(1000,ItemSubType.WOOD,"Wood",10));
                 user.player.items.add(new Material(1000,ItemSubType.STONE,"Stone",10));
-
+                user.player.items.add(new Material(1000,ItemSubType.HAY,"Hay",10));
 
 
 

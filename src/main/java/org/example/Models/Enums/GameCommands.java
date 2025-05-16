@@ -43,7 +43,10 @@ public enum GameCommands {
     SHOWMONEY("show money"),
     BUILD("^build -a\\s+(.+)\\s+-l (\\d+),(\\d+)$"),
     ANIMALS("^animals$"),
-    BUYANIMAL("^buy animal -a (.+) -n (.+)");
+    BUYANIMAL("^buy animal -a (.+) -n (.+)"),
+    CHEATANIMALFRIEND("^cheat set friendship -n (.+) -c (\\d)"),
+    FEEDHAY("^feed hay -n (.+)"),
+    COLLECTPRODUCE("^collect produce -n (.+)$");
 
     private final String pattern;
 
