@@ -10,6 +10,8 @@ import org.example.Models.Enums.TileType.*;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static java.awt.Color.GRAY;
+
 public class Map {
 
 
@@ -438,13 +440,13 @@ public class Map {
 //ROW 34
             , ".................................W.W.........W................................................W.........W.W................................."
 //ROW 35
-            , ".................................W.W.........W................................................W.........W.W................................."
+            , ".................................W.W.........W.........111...........222............333.......W.........W.W................................."
 //ROW 36
-            , ".................................W.W.........W................................................W.........W.W................................."
+            , ".................................W.W.........W.........111...........222............333........W.........W.W................................."
 //ROW 37
-            , ".................................W.W.........W................................................W.........W.W................................."
+            , ".................................W.W.........W.........111...........222............333.......W.........W.W................................."
 //ROW 38
-            , ".................................W.W.........W................................................W.........W.W................................."
+            , ".................................W.W.........W..........s.............a.............h........W.........W.W................................."
 //ROW 39
             , ".................................W.W.........W................................................W.........W.W................................."
 //ROW 40
@@ -464,13 +466,13 @@ public class Map {
 // ROW 47
             , ".............................................W................................................W............................................."
 // ROW 48
-            , ".............................................W................................................W............................................."
+            , ".............................................W..........444..................555..............W............................................."
 // ROW 49
-            , ".............................................W................................................W............................................."
+            , ".............................................W..........444..................555..............W............................................."
 // ROW 50
-            , ".............................................W................................................W............................................."
+            , ".............................................W..........444..................555..............W............................................."
 // ROW 51
-            , ".............................................W................................................W............................................."
+            , ".............................................W..........l.....................r.............W............................................."
 // ROW 52
             , ".............................................W................................................W............................................."
 // ROW 53
@@ -644,6 +646,36 @@ public class Map {
                     case 'J':
                         tile = new Tile(TileType.JOJAMART);
                         break;
+                    case '1':
+                        tile = new Tile(TileType.SEBASTIAN_HOUSE);
+                        break;
+                    case '2':
+                        tile = new Tile(TileType.ABIGAIL_HOUSE);
+                        break;
+                    case '3':
+                        tile = new Tile(TileType.HARVEY_HOUSE);
+                        break;
+                    case '4':
+                        tile = new Tile(TileType.LEAH_HOUSE);
+                        break;
+                    case '5':
+                        tile = new Tile(TileType.ROBIN_HOUSE);
+                        break;
+                    case 's':
+                        tile = new Tile(TileType.SEBASTIAN_NPC);
+                        break;
+                    case 'a':
+                        tile = new Tile(TileType.ABIGAIL_NPC);
+                        break;
+                    case 'h':
+                        tile = new Tile(TileType.HARVEY_NPC);
+                        break;
+                    case 'l':
+                        tile = new Tile(TileType.LEAH_NPC);
+                        break;
+                    case 'r':
+                        tile = new Tile(TileType.ROBIN_NPC);
+                        break;
                     default:
                         tile = new Tile(TileType.EMPTY);
                         break;
@@ -707,6 +739,36 @@ public class Map {
                     case 'J':
                         tile = new Tile(TileType.JOJAMART);
                         break;
+                    case '1':
+                        tile = new Tile(TileType.SEBASTIAN_HOUSE);
+                        break;
+                    case '2':
+                        tile = new Tile(TileType.ABIGAIL_HOUSE);
+                        break;
+                    case '3':
+                        tile = new Tile(TileType.HARVEY_HOUSE);
+                        break;
+                    case '4':
+                        tile = new Tile(TileType.LEAH_HOUSE);
+                        break;
+                    case '5':
+                        tile = new Tile(TileType.ROBIN_HOUSE);
+                        break;
+                    case 's':
+                        tile = new Tile(TileType.SEBASTIAN_NPC);
+                        break;
+                    case 'a':
+                        tile = new Tile(TileType.ABIGAIL_NPC);
+                        break;
+                    case 'h':
+                        tile = new Tile(TileType.HARVEY_NPC);
+                        break;
+                    case 'l':
+                        tile = new Tile(TileType.LEAH_NPC);
+                        break;
+                    case 'r':
+                        tile = new Tile(TileType.ROBIN_NPC);
+                        break;
                     default:
                         tile = new Tile(TileType.EMPTY);
                         break;
@@ -724,12 +786,45 @@ public class Map {
 
 
     public void printMap(ArrayList<ArrayList<Tile>> map) {
+        final String RESET = "\u001B[0m";
+        final String BLUE = "\u001B[34m";
+        final String BLACK = "\u001B[30m";
+        final String GREEN = "\u001B[32m";
+        final String BRIGHT_GREEN = "\u001B[92m";
+        final String BROWN = "\u001B[33m";
+        final String RED = "\u001B[31m";
+        final String STONE_GRAY = "\u001B[38;2;128;128;128m";
+        final String SHACK_BROWN = "\u001B[38;2;139;69;19m";
+        final String GREENHOUSE_GREEN = "\u001B[38;2;50;205;50m";
         for (ArrayList<Tile> row : map) {
             for (Tile tile : row) {
-                System.out.print(tile.getSymbol() + " ");
+                String color;
+                switch (tile.getType()) {
+                    case LAKE -> color = BLUE;
+                    case WALL -> color = BLACK;
+                    case TREE -> color = GREEN;
+                    case QUARRY -> color = BROWN;
+                    case PLAYER -> color = RED;
+                    case FORAGING -> color = BRIGHT_GREEN;
+                    case ROCK -> color = STONE_GRAY;
+                    case SHACK -> color = SHACK_BROWN;
+                    case GREENHOUSE -> color = GREENHOUSE_GREEN;
+                    case SEBASTIAN_HOUSE -> color = "\u001B[35m";
+                    case ABIGAIL_HOUSE -> color = "\u001B[95m";   // Pink
+                    case HARVEY_HOUSE -> color = "\u001B[36m";    // Cyan
+                    case LEAH_HOUSE -> color = "\u001B[32m";      // Green
+                    case ROBIN_HOUSE -> color = "\u001B[33m";
+                    case SEBASTIAN_NPC -> color = "\u001B[35m";  // بنفش
+                    case ABIGAIL_NPC -> color = "\u001B[95m";   // صورتی
+                    case HARVEY_NPC -> color = "\u001B[36m";    // آبی روشن
+                    case LEAH_NPC -> color = "\u001B[32m";      // سبز
+                    case ROBIN_NPC -> color = "\u001B[33m";     // زرد// Yellow
+                    default -> color = RESET;
+                }
+
+                System.out.print(color + tile.getSymbol() + RESET + " ");
             }
             System.out.println();
         }
     }
-
 }

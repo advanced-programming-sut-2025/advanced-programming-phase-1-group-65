@@ -17,6 +17,9 @@ public class GameClock {
         this.currentSeasonIndex = 0;
         this.year = 1;
     }
+    public int getDay() {
+        return day;
+    }
     public int getCurrentSeasonIndex(){
         return this.currentSeasonIndex+1;
     }

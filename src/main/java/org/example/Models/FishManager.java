@@ -27,5 +27,6 @@ public class FishManager {
         allFish.add(new FishWithSeason(new Food(1, ItemSubType.FISH, "Dorado", 33, 100, true), "Summer"));
         allFish.add(new FishWithSeason(new Food(1, ItemSubType.FISH, "Sunfish", 15, 30, true), "Summer"));
         allFish.add(new FishWithSeason(new Food(1, ItemSubType.FISH, "Rainbow Trout", 22, 65, true), "Summer"));
+
     }
 }

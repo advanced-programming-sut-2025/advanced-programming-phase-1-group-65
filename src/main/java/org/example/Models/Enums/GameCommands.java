@@ -37,6 +37,7 @@ public enum GameCommands {
     HOWMUCHWATER("^howmuch water$"),
     SHOWPLANT("^show plant -l (\\d+),(\\d+)$"),
     FISHING("^fishing\\s+-p\\s+(.+)$"),
+    MEET_NPC("^meet NPC (\\w+)$"),
     TRASHCAN("^inventory trash\\s+(.+?)(?:\\s+-n\\s+(\\d+))?"),
     FERTILIZE("^fertilize\\s+-f\\s+(.+) -d (0|1|-1),(0|1|-1)$"),
     SELL("^sell\\s+(.+?)(?:\\s+-n\\s+(\\d+))?$"),

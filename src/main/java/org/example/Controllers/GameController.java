@@ -98,8 +98,16 @@ public class GameController {
         int width = 140;
         boolean[][] visited = new boolean[height][width];
         int[][] distance = new int[height][width];
+        int[][] turns = new int[height][width];
         int startX = game.currentPlayer.PositionX;
         int startY = game.currentPlayer.PositionY;
+
+        final int[][] DIRECTIONS = {
+                {0, -1}, // 0: up
+                {0, 1},  // 1: down
+                {-1, 0}, // 2: left
+                {1, 0}   // 3: right
+        };
 
         TileType destType = game.Map.get(desty).get(destx).type;
 
@@ -109,63 +117,46 @@ public class GameController {
                 destType == TileType.STARDROPSALOON) {
 
             int hour = game.gameClock.getHour();
-            boolean isOpen = false;
-
-            switch (destType) {
-                case BLACKSMITH:
-                    if (hour >= 9 && hour < 16) isOpen = true;
-                    break;
-                case CARPENTERSHOP:
-                    if (hour >= 9 && hour < 20) isOpen = true;
-                    break;
-                case GENERALSTORE:
-                    if (hour >= 9 && hour < 17) isOpen = true;
-                    break;
-                case RANCH:
-                    if (hour >= 9 && hour < 16) isOpen = true;
-                    break;
-                case JOJAMART:
-                    if (hour >= 9 && hour < 23) isOpen = true;
-                    break;
-                case FISHSHOP:
-                    if (hour >= 9 && hour < 17) isOpen = true;
-                    break;
-                case STARDROPSALOON:
-                    if (hour >= 12 && hour < 24) isOpen = true;
-                    break;
-            }
+            boolean isOpen = switch (destType) {
+                case BLACKSMITH -> hour >= 9 && hour < 16;
+                case CARPENTERSHOP -> hour >= 9 && hour < 20;
+                case GENERALSTORE -> hour >= 9 && hour < 17;
+                case RANCH -> hour >= 9 && hour < 16;
+                case JOJAMART -> hour >= 9 && hour < 23;
+                case FISHSHOP -> hour >= 9 && hour < 17;
+                case STARDROPSALOON -> hour >= 12 && hour < 24;
+                default -> false;
+            };
 
             if (!isOpen) return "This place is currently closed.";
         }
 
         if (!(destType == TileType.EMPTY ||
-                destType == TileType.BLACKSMITH ||
-                destType == TileType.JOJAMART ||
-                destType == TileType.GENERALSTORE ||
-                destType == TileType.CARPENTERSHOP ||
-                destType == TileType.FISHSHOP ||
-                destType == TileType.RANCH ||
-                destType == TileType.STARDROPSALOON||
-                destType == TileType.GREENHOUSE||
-                destType == TileType.QUARRY||destType==TileType.SHACK)) {
+                destType == TileType.BLACKSMITH || destType == TileType.JOJAMART ||
+                destType == TileType.GENERALSTORE || destType == TileType.CARPENTERSHOP ||
+                destType == TileType.FISHSHOP || destType == TileType.RANCH ||
+                destType == TileType.STARDROPSALOON || destType == TileType.GREENHOUSE ||
+                destType == TileType.QUARRY || destType==TileType.SHACK)) {
             return "You can not walk to this position";
         }
 
         Queue<int[]> queue = new LinkedList<>();
-        queue.add(new int[]{startX, startY});
+        queue.add(new int[]{startX, startY, -1}); // x, y, prevDirection
         visited[startY][startX] = true;
         distance[startY][startX] = 0;
+        turns[startY][startX] = 0;
 
         while (!queue.isEmpty()) {
             int[] current = queue.poll();
             int x = current[0];
             int y = current[1];
+            int prevDir = current[2];
 
             if (x == destx && y == desty) break;
 
-            for (int[] dir : DIRECTIONS) {
-                int newX = x + dir[0];
-                int newY = y + dir[1];
+            for (int dir = 0; dir < 4; dir++) {
+                int newX = x + DIRECTIONS[dir][0];
+                int newY = y + DIRECTIONS[dir][1];
 
                 if (newX >= 0 && newY >= 0 && newX < width && newY < height && !visited[newY][newX]) {
                     TileType nextType = game.Map.get(newY).get(newX).type;
@@ -174,35 +165,34 @@ public class GameController {
                             nextType == TileType.BLACKSMITH || nextType == TileType.JOJAMART ||
                             nextType == TileType.GENERALSTORE || nextType == TileType.CARPENTERSHOP ||
                             nextType == TileType.FISHSHOP || nextType == TileType.RANCH ||
-                            nextType == TileType.STARDROPSALOON||nextType==TileType.GREENHOUSE||nextType==TileType.QUARRY||nextType==TileType.SHACK) {
+                            nextType == TileType.STARDROPSALOON || nextType == TileType.GREENHOUSE ||
+                            nextType == TileType.QUARRY || nextType==TileType.SHACK) {
 
                         visited[newY][newX] = true;
                         distance[newY][newX] = distance[y][x] + 1;
-
-
-
-                        queue.add(new int[]{newX, newY});
+                        turns[newY][newX] = turns[y][x] + ((prevDir != -1 && prevDir != dir) ? 1 : 0);
+                        queue.add(new int[]{newX, newY, dir});
                     }
                 }
             }
         }
 
-        int minsteps = distance[desty][destx];
         if (!visited[desty][destx]) {
             return "You can not walk to this position";
         }
 
+        int minsteps = distance[desty][destx];
+        int numTurns = turns[desty][destx];
+        double energyNeeded = (minsteps + 10 * numTurns)/20.0;
 
-        double modifier;
         WeatherType currentWeather = game.weatherSystem.getTodayWeather();
+        double modifier = switch (currentWeather) {
+            case RAIN -> 1.5;
+            case SNOW -> 2.0;
+            default -> 1.0;
+        };
 
-        switch (currentWeather) {
-            case RAIN: modifier = 1.5; break;
-            case SNOW: modifier = 2.0; break;
-            default: modifier = 1.0; break;
-        }
-
-        double energyNeeded = ((minsteps / 20) + 1) * modifier;
+        energyNeeded *= modifier;
 
         System.out.println("You need " + energyNeeded + " energy to walk to this position.\nDo you wish to proceed? (y/n)");
         String ch = temp.nextLine();
@@ -764,9 +754,11 @@ public class GameController {
         if (game.currentPlayer.fishingSkill.getLevel()==4){
             bonusEnergy=-1;
         }
+
         Tool tool = null;
         for (Item item : game.currentPlayer.items) {
-            if (item.name.equalsIgnoreCase(toolName) && item instanceof Tool && ((Tool) item).subtype == ItemSubType.FISHINGPOLE) {
+            if (item.name.equalsIgnoreCase(toolName) && item instanceof Tool &&
+                    ((Tool) item).subtype == ItemSubType.FISHINGPOLE) {
                 tool = (Tool) item;
                 break;
             }
@@ -820,13 +812,24 @@ public class GameController {
             }
         }
 
+        if (game.currentPlayer.fishingSkill.getLevel() >= 4) {
+            if (currentSeason.equalsIgnoreCase("spring"))
+                seasonalFish.add(new Food(1, ItemSubType.FISH, "Legend", 50, 5000, true));
+            if (currentSeason.equalsIgnoreCase("winter"))
+                seasonalFish.add(new Food(1, ItemSubType.FISH, "Glacierfish", 45, 1000, true));
+            if (currentSeason.equalsIgnoreCase("fall"))
+                seasonalFish.add(new Food(1, ItemSubType.FISH, "Angler", 30, 900, true));
+            if (currentSeason.equalsIgnoreCase("summer"))
+                seasonalFish.add(new Food(1, ItemSubType.FISH, "Crimsonfish", 40, 1500, true));
+        }
+
         if (seasonalFish.isEmpty()) {
             System.out.println("There are no fish available in this season.");
             return;
         }
 
         String weather = game.weatherSystem.getTodayWeatherName();
-        double M = switch (weather) {
+        double M = switch (weather.toLowerCase()) {
             case "sunny" -> 1.5;
             case "rain" -> 1.2;
             case "storm" -> 0.5;
@@ -839,24 +842,49 @@ public class GameController {
 
         if (fishCount == 0) {
             System.out.println("You didn’t catch any fish this time.");
-            game.currentPlayer.Energy -= 8+bonusEnergy;
-            bonusEnergy = 0;
+            game.currentPlayer.Energy -= 8 + bonusEnergy;
             return;
         }
 
         System.out.println("You caught " + fishCount + " fish:");
+
         for (int i = 0; i < fishCount; i++) {
             int randomIndex = new Random().nextInt(seasonalFish.size());
             Food caughtFish = seasonalFish.get(randomIndex);
 
+            double poleMultiplier = 0.1;
+            String toolNameLower = tool.name.toLowerCase();
+            if (toolNameLower.contains("bamboo")) poleMultiplier = 0.5;
+            else if (toolNameLower.contains("fiberglass")) poleMultiplier = 0.9;
+            else if (toolNameLower.contains("iridium")) poleMultiplier = 1.2;
+
+            double qualityScore = (Math.random() * (game.currentPlayer.fishingSkill.getLevel() + 2)  * poleMultiplier)/(7-M);
+
+            String quality;
+            double priceMultiplier;
+
+            if (qualityScore <= 0.5) {
+                quality = "Normal";
+                priceMultiplier = 1.0;
+            } else if (qualityScore > 0.5 && qualityScore <= 0.7) {
+                quality = "Silver";
+                priceMultiplier = 1.25;
+            } else if (qualityScore > 0.7 && qualityScore <= 0.9) {
+                quality = "Gold";
+                priceMultiplier = 1.5;
+            } else {
+                quality = "Iridium";
+                priceMultiplier = 2.0;
+            }
+            caughtFish.price *= (int)priceMultiplier;
+
             AddItem(game, caughtFish);
-            System.out.println("- " + caughtFish.name + " (Quality: Normal)");
+            System.out.println("- " + caughtFish.name + " (Quality: " + quality + ")");
             game.currentPlayer.gainFishingXP(5);
         }
         seasonalFish=null;
 
-        game.currentPlayer.Energy -= 8+bonusEnergy;
-        bonusEnergy = 0;
+        game.currentPlayer.Energy -= 8 + bonusEnergy;
     }
     public void AddItem(Game game, Item newitem) {
         for (Item item : game.currentPlayer.items) {

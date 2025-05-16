@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public enum LoginMenuCommands {
-    LOGIN("^login -u (\\S+) -p (\\S+)( --stay-logged-in)?$"),
+    LOGIN("^login -u (\\S+) -p (\\S+)( -stay-logged-in)?$"),
     SHOW_CURRENT_MENU("^show current menu$"),
     MENU_EXIT("^menu exit$"),
     FORGOTPASSWORD("^forgot-password -u (\\S+)$"),
