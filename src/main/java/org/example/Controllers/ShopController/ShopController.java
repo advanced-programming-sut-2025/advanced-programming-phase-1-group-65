@@ -367,6 +367,14 @@ public class ShopController {
                         Item building = new Item(ItemType.MATERIAL,ItemSubType.BARN,1, item.name, item.getPrice());
                         controller.AddItem(game,building);
                     }
+
+                }
+                else if (item.type == ItemType.RECIPE){
+                    for (Recipe recipe : game.AllRecipes){
+                        if (item.name.equalsIgnoreCase(recipe.name)) {
+                            game.currentPlayer.KnownRecipes.add(recipe);
+                        }
+                    }
                 }
 
                 System.out.println("You bought " + count + " x " + item.getName() + " for " + totalPrice + "g.");
