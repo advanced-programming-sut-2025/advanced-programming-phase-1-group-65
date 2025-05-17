@@ -22,12 +22,11 @@ public class Player {
     public ArrayList<Building> playerBuildings = new ArrayList<>();
     public int FarmNumber;
     public ArrayList<Item> SoldItems = new ArrayList<>();
-    public HashMap<String, Integer> npcFriendships = new HashMap<>();
+    public HashMap<String, Integer> npcFriendships =  new HashMap<>();
     public void gainFarmingXP(int amount) {
         farmingSkill.gainXP(amount);
     }
-    public ArrayList<Recipe> KnownRecipes = new ArrayList<>();
-    public int MaxEnergy = 200;
+    public List<Integer> completedQuestIds = new ArrayList<>();
     public void gainMiningXP(int amount) {
         miningSkill.gainXP(amount);
     }
@@ -63,9 +62,6 @@ public class Player {
         this.game = game;
     }
 
-    public int getMoney() {
-        return money;
-    }
 
     public void addMoney(int amount) {
         this.money += amount;

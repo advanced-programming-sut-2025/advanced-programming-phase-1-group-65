@@ -1307,7 +1307,7 @@ public class GameController {
                 } else {
                     System.out.println("This amount is more than you have.");
                     return ;
-                    // به اندازه ی کافی نداشته یعنی
+
                 }
             }
         }

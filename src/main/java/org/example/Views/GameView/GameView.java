@@ -178,7 +178,6 @@ public class GameView {
                 System.out.println(list);
             }
 
-
             else if((matcher = GameCommands.TRASHCAN.matcher(input)) != null) {
                 String itemName = matcher.group(1).trim();
                 int count = matcher.group(2) != null ? Integer.parseInt(matcher.group(2)) : 1;
@@ -244,8 +243,16 @@ public class GameView {
                 int y = Integer.parseInt(matcher.group(3));
                 controller.Pet(game,name,x,y);
             }
-
-
+            else if ((matcher = GameCommands.QUESTS_LIST.matcher(input)) != null) {
+                NPCController npcController = new NPCController(game);
+                npcController.showAllQuests();
+            }
+            else if ((matcher = GameCommands.QUESTS_FINISH.matcher(input)) != null) {
+                int questId = Integer.parseInt(matcher.group(1));
+                NPCController npcController = new NPCController(game);
+                String result = npcController.finishQuestById(questId);
+                System.out.println(result);
+            }
             else {
                 System.out.println("Invalid input");
             }
