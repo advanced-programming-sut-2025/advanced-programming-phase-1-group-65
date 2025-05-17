@@ -115,7 +115,7 @@ public class ShopController {
         if (!shopCache.containsKey(type)) {
             switch (type) {
                 case BLACKSMITH: shopCache.put(type, new Blacksmith()); break;
-                case GENERALSTORE: shopCache.put(type, new GeneralStore(gameClock)); break;
+                case GENERALSTORE: shopCache.put(type, new GeneralStore()); break;
                 case JOJAMART: shopCache.put(type, new JojaMart(gameClock)); break;
                 case CARPENTERSHOP: shopCache.put(type, new CarpenterShop()); break;
                 case FISHSHOP: shopCache.put(type, new FishShop()); break;

@@ -3,6 +3,7 @@ package org.example.Models;
 import org.example.Models.Enums.AnimalType;
 import org.example.Models.Enums.ItemSubType;
 import org.example.Models.Enums.TileType;
+import org.example.Models.Shops.FishManager;
 import org.example.Views.GameView;
 
 import java.util.ArrayList;

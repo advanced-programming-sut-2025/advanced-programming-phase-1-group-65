@@ -1,5 +1,6 @@
 package org.example.Controllers;
 
+import org.example.Controllers.MenuController.ProfileMenuController;
 import org.example.Models.App;
 import org.example.Models.Enums.Menu;
 import org.example.Models.User;

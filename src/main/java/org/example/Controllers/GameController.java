@@ -4,11 +4,10 @@ import org.example.Models.*;
 import org.example.Models.Enums.*;
 import org.example.Models.Game;
 import org.example.Models.Player;
+import org.example.Models.Shops.FishManager;
 import org.example.Models.Tile;
 
-import java.awt.event.FocusAdapter;
 import java.util.*;
-import java.util.regex.MatchResult;
 
 public class GameController {
     private static final int[][] DIRECTIONS = {

@@ -1,12 +1,12 @@
 package org.example.Controllers;
 
+import org.example.Controllers.MenuController.SignUpMenuController;
 import org.example.Models.App;
 import org.example.Models.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
