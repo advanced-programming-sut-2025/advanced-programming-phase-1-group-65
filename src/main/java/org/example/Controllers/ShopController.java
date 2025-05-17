@@ -2,6 +2,7 @@ package org.example.Controllers;
 
 import org.example.Models.*;
 import org.example.Models.Enums.*;
+import org.example.Models.Shops.*;
 
 import java.util.HashMap;
 import java.util.Map;

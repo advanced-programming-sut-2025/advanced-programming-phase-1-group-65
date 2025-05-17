@@ -1,12 +1,12 @@
 package org.example.Models.Enums;
 
 import org.example.Views.AppMenu;
-import org.example.Views.GameMenuView;
-import org.example.Views.LoginMenuView;
-import org.example.Views.SignUpMenuView;
-import org.example.Views.MainMenuView;
-import org.example.Views.ProfileMenuView;
-import org.example.Views.LoginRegisterMenuView;
+import org.example.Views.MenuView.GameMenuView;
+import org.example.Views.MenuView.LoginMenuView;
+import org.example.Views.MenuView.SignUpMenuView;
+import org.example.Views.MenuView.MainMenuView;
+import org.example.Views.MenuView.ProfileMenuView;
+import org.example.Views.MenuView.LoginRegisterMenuView;
 
 import java.util.Scanner;
 

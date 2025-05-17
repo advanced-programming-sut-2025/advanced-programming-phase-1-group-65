@@ -1,6 +1,5 @@
 package org.example.Models;
 
-import org.example.Models.Enums.SkillType;
 import org.example.Models.Enums.TileType;
 
 import java.util.ArrayList;
