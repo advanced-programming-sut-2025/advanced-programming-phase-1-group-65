@@ -18,12 +18,9 @@ public class GeneralStore implements Shop {
         return "Pierre's General Store";
     }
 
-    public GeneralStore(GameClock gameClock) {
+    public GeneralStore() {
         unlimitedItems = new ArrayList<>();
         limitedItems = new ArrayList<>();
-
-        String season = gameClock.getCurrentSeason();
-
 
 
 
