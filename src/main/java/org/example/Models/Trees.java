@@ -1,6 +1,5 @@
 package org.example.Models;
 
-import org.example.Models.Enums.TileSubType;
 import org.example.Models.Enums.TileType;
 
 public class Trees extends Tile{

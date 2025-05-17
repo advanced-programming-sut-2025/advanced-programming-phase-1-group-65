@@ -1,9 +1,8 @@
-package org.example.Controllers;
+package org.example.Controllers.BuildingController;
 
+import org.example.Controllers.GameController.GameController;
 import org.example.Models.Building;
 import org.example.Models.Enums.BuildingType;
-import org.example.Models.Enums.ItemSubType;
-import org.example.Models.Enums.ItemType;
 import org.example.Models.Enums.TileType;
 import org.example.Models.Game;
 import org.example.Models.Tile;
@@ -37,7 +36,7 @@ public class BuildingController {
         return null;
 
     }
-    public void Build(String name,Game game,int startX,int startY,GameController controller) {
+    public void Build(String name, Game game, int startX, int startY, GameController controller) {
         if(getBuilding(name,startX,startY,game) == null){
             System.out.println("Building dose not exist");
             return;

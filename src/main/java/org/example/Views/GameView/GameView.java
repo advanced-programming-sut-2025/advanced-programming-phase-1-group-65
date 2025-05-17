@@ -1,13 +1,13 @@
-package org.example.Views;
+package org.example.Views.GameView;
 
-import org.example.Controllers.GameController;
-import org.example.Controllers.NPCController;
+import org.example.Controllers.GameController.GameController;
+import org.example.Controllers.NPCController.NPCController;
 import org.example.Models.App;
 import org.example.Models.Enums.GameCommands;
 import org.example.Models.Enums.Menu;
 import org.example.Models.Enums.WeatherType;
 import org.example.Models.Game;
-import org.example.Controllers.ShopController;
+import org.example.Controllers.ShopController.ShopController;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
@@ -243,6 +243,16 @@ public class GameView {
                 int x = Integer.parseInt(matcher.group(2));
                 int y = Integer.parseInt(matcher.group(3));
                 controller.Pet(game,name,x,y);
+            }
+            else if ((matcher = GameCommands.QUESTS_LIST.matcher(input)) != null) {
+                NPCController npcController = new NPCController(game);
+                npcController.showAllQuests();
+            }
+            else if ((matcher = GameCommands.QUESTS_FINISH.matcher(input)) != null) {
+                int questId = Integer.parseInt(matcher.group(1));
+                NPCController npcController = new NPCController(game);
+                String result = npcController.finishQuestById(questId);
+                System.out.println(result);
             }
             else if((matcher = GameCommands.SELLANIMAL.matcher(input)) != null) {
                 String name = matcher.group(1);

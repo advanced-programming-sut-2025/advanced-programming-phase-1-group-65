@@ -26,7 +26,8 @@ public class Player {
     public ArrayList<Item> Refrigerator = new ArrayList<>();
     public void gainFarmingXP(int amount) {
         farmingSkill.gainXP(amount);
-    }
+    }    public List<Integer> completedQuestIds = new ArrayList<>();
+
     public ArrayList<Recipe> KnownRecipes = new ArrayList<>();
     public int MaxEnergy = 200;
     public void gainMiningXP(int amount) {

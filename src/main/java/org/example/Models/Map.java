@@ -1,16 +1,11 @@
 package org.example.Models;
 
-import com.sun.source.tree.Tree;
-import org.example.Controllers.GameController;
+import org.example.Controllers.GameController.GameController;
 import org.example.Models.Enums.ItemSubType;
-import org.example.Models.Enums.TileSubType;
 import org.example.Models.Enums.TileType;
-import org.example.Models.Enums.TileType.*;
 
 import java.util.ArrayList;
 import java.util.Random;
-
-import static java.awt.Color.GRAY;
 
 public class Map {
 

@@ -1,5 +1,4 @@
 package org.example.Models;
-import org.example.Models.Enums.FoodType;
 import org.example.Models.Enums.ItemSubType;
 import org.example.Models.Enums.ItemType;
 

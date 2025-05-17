@@ -1,5 +1,6 @@
-package org.example.Controllers;
+package org.example.Controllers.GameController;
 
+import org.example.Controllers.BuildingController.BuildingController;
 import org.example.Models.*;
 import org.example.Models.Enums.*;
 import org.example.Models.Game;
@@ -1636,7 +1637,7 @@ public class GameController {
                 } else {
                     System.out.println("This amount is more than you have.");
                     return ;
-                    // به اندازه ی کافی نداشته یعنی
+
                 }
             }
         }

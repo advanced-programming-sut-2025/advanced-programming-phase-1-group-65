@@ -10,8 +10,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import org.example.Models.Enums.Menu;
-import org.example.Models.User;
-import org.example.Views.*;
+
 
 public class App {
     private static Menu currentMenu = Menu.LOGINREGISTERMENU;

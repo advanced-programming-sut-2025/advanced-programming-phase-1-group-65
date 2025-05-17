@@ -1,5 +1,7 @@
-package org.example.Controllers;
+package org.example.Controllers.ShopController;
 
+import org.example.Controllers.BuildingController.BuildingController;
+import org.example.Controllers.GameController.GameController;
 import org.example.Models.*;
 import org.example.Models.Enums.*;
 import org.example.Models.Shops.*;
@@ -194,7 +196,7 @@ public class ShopController {
         return null;
 
     }
-    public void BuyAnimal(Game game, String animalName,String animalNickName ,GameController controller) {
+    public void BuyAnimal(Game game, String animalName, String animalNickName , GameController controller) {
         Shop shop = getNearbyShop(game);
 
         if (shop == null || !(shop.getName().equalsIgnoreCase("Marnie's Ranch"))) {

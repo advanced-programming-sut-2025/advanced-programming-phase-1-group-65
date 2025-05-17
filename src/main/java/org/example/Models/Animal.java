@@ -3,7 +3,6 @@ package org.example.Models;
 import org.example.Models.Enums.AnimalType;
 import org.example.Models.Enums.TileType;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Animal extends Tile{

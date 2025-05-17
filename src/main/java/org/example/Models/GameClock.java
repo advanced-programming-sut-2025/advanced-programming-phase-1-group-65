@@ -1,7 +1,6 @@
 package org.example.Models;
 
-import org.example.Controllers.GameController;
-import org.example.Models.Enums.GameCommands;
+import org.example.Controllers.GameController.GameController;
 
 public class GameClock {
     private int hour;

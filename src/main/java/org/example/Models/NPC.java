@@ -14,6 +14,7 @@ public class NPC {
     private int x, y;
     private int friendshipLevel = 0;
     private Set<Integer> daysTalked;
+    private Map<Integer, Quest> friendshipQuests;
     private Map<String, List<String>> dialogues;
     private Set<String> favoriteItems = new HashSet<>();
     private int lastGiftDay = -1;
@@ -25,6 +26,7 @@ public class NPC {
         this.friendshipLevel = 0;
         this.daysTalked = new HashSet<>();
         this.dialogues = new HashMap<>();
+        this.friendshipQuests = new HashMap<>();
         loadDefaultDialogues();
     }
 
@@ -32,6 +34,9 @@ public class NPC {
         return name;
     }
 
+    public int getFriendshipLevel() {
+        return friendshipLevel;
+    }
     public int getX() {
         return x;
     }
@@ -50,6 +55,16 @@ public class NPC {
     }
 
 
+    public void setFriendshipQuests(Map<Integer, Quest> quests) {
+        this.friendshipQuests = quests;
+    }
+    public void addFriendshipQuest(int friendshipLevel, Quest quest) {
+        friendshipQuests.put(friendshipLevel, quest);
+    }
+
+    public Map<Integer, Quest> getFriendshipQuests() {
+        return friendshipQuests;
+    }
     public void setFriendshipPoints(int points) {
         this.friendshipPoints = Math.min(799, points);
     }

@@ -55,8 +55,9 @@ public enum GameCommands {
     GIFT_NPC("^gift NPC (\\w+) -i (.+)$"),
     FRIENDSHIP_NPC_LIST("^friendship NPC list$"),
     SELLANIMAL("sell animal -n (.+)"),
-    HOMEKITCHEN("^enter kitchen$");
-
+    HOMEKITCHEN("^enter kitchen$"),
+    QUESTS_LIST("^quests list$"),
+    QUESTS_FINISH("^quests finish -i (\\d+)$");
     private final String pattern;
 
     GameCommands(String pattern) {

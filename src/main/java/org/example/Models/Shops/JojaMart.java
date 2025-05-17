@@ -1,7 +1,11 @@
-package org.example.Models;
+package org.example.Models.Shops;
 
 import org.example.Models.Enums.ItemSubType;
 import org.example.Models.Enums.ItemType;
+import org.example.Models.GameClock;
+import org.example.Models.LimitedShopItem;
+import org.example.Models.Shop;
+import org.example.Models.ShopItem;
 
 import java.util.ArrayList;
 import java.util.List;

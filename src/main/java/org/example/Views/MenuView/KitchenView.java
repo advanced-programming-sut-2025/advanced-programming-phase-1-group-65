@@ -1,6 +1,6 @@
 package org.example.Views.MenuView;
 
-import org.example.Controllers.GameController;
+import org.example.Controllers.GameController.GameController;
 import org.example.Models.Enums.GameCommands;
 import org.example.Models.Enums.KitchenCommands;
 import org.example.Models.Game;
