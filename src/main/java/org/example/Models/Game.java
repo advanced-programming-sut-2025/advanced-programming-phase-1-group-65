@@ -22,7 +22,9 @@ public class Game {
     public ArrayList<Trees> AllTreesInfo = new ArrayList<>();
     public ArrayList<Rock> AllRocksInfo = new ArrayList<>();
     public ArrayList<Animal> AllAnimalInfo = new ArrayList<>();
+    public ArrayList<Recipe> AllRecipes = new ArrayList<>();
     public java.util.Map<TileType, Shop> shops = new java.util.HashMap<>();
+
     public User user1 = null;
     public User user2 = null;
     public User user3 = null;
@@ -42,6 +44,12 @@ public class Game {
         this.gameClock = new GameClock();
         this.weatherSystem = new WeatherSystem("spring");
     }
+    public void CreatAllRecipes(Game game) {
+        Recipe FriedEgg = new Recipe("Fried egg","1 Egg");
+        game.AllRecipes.add(FriedEgg);
+
+    }
+
     public void creatAllAnimals(Game game){
         Food ChickenEgg = new Food(3,ItemSubType.EGG,"Chicken Egg",60,50,true);
         Food ChickenBigEgg = new Food(1,ItemSubType.EGG,"Chicken Big Egg",105,95,true);

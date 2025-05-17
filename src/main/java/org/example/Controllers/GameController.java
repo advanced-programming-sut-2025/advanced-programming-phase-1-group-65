@@ -100,6 +100,9 @@ public class GameController {
         int[][] turns = new int[height][width];
         int startX = game.currentPlayer.PositionX;
         int startY = game.currentPlayer.PositionY;
+        if (destx <=0 || destx >= width || desty <=0 || desty >= height) {
+           return "Invalid coordinates entered.";
+        }
 
         final int[][] DIRECTIONS = {
                 {0, -1}, // 0: up

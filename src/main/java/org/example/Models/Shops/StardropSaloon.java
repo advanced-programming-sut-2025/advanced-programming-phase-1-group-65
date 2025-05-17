@@ -4,6 +4,9 @@ import org.example.Models.LimitedShopItem;
 import org.example.Models.Shop;
 import org.example.Models.ShopItem;
 
+import org.example.Models.Enums.ItemSubType;
+import org.example.Models.Enums.ItemType;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,24 +23,24 @@ public class StardropSaloon implements Shop {
         unlimitedItems = new ArrayList<>();
         limitedItems = new ArrayList<>();
 
-        /*unlimitedItems.add(new ShopItem("Beer", "Drink in moderation.", 400));
-        unlimitedItems.add(new ShopItem("Salad", "A healthy garden salad.", 220));
-        unlimitedItems.add(new ShopItem("Bread", "A crusty baguette.", 120));
-        unlimitedItems.add(new ShopItem("Spaghetti", "An old favorite.", 240));
-        unlimitedItems.add(new ShopItem("Pizza", "It's popular for all the right reasons.", 600));
-        unlimitedItems.add(new ShopItem("Coffee", "It smells delicious. This is sure to give you a boost.", 300));
+        unlimitedItems.add(new ShopItem("Beer", "Drink in moderation.", 400, ItemType.FOOD, ItemSubType.UNKNOWN));
+        unlimitedItems.add(new ShopItem("Salad", "A healthy garden salad.", 220,ItemType.FOOD,ItemSubType.UNKNOWN));
+        unlimitedItems.add(new ShopItem("Bread", "A crusty baguette.", 120,ItemType.FOOD,ItemSubType.UNKNOWN));
+        unlimitedItems.add(new ShopItem("Spaghetti", "An old favorite.", 240,ItemType.FOOD,ItemSubType.UNKNOWN));
+        unlimitedItems.add(new ShopItem("Pizza", "It's popular for all the right reasons.", 600,ItemType.FOOD,ItemSubType.UNKNOWN));
+        unlimitedItems.add(new ShopItem("Coffee", "It smells delicious. This is sure to give you a boost.", 300,ItemType.FOOD,ItemSubType.UNKNOWN));
 
-        limitedItems.add(new LimitedShopItem("Hashbrowns Recipe", "A recipe to make Hashbrowns.", 50, 1));
-        limitedItems.add(new LimitedShopItem("Omelet Recipe", "A recipe to make Omelet.", 100, 1));
-        limitedItems.add(new LimitedShopItem("Pancakes Recipe", "A recipe to make Pancakes.", 100, 1));
-        limitedItems.add(new LimitedShopItem("Bread Recipe", "A recipe to make Bread.", 100, 1));
-        limitedItems.add(new LimitedShopItem("Tortilla Recipe", "A recipe to make Tortilla.", 100, 1));
-        limitedItems.add(new LimitedShopItem("Pizza Recipe", "A recipe to make Pizza.", 150, 1));
-        limitedItems.add(new LimitedShopItem("Maki Roll Recipe", "A recipe to make Maki Roll.", 300, 1));
-        limitedItems.add(new LimitedShopItem("Triple Shot Espresso Recipe", "A recipe to make Triple Shot Espresso.", 5000, 1));
-        limitedItems.add(new LimitedShopItem("Cookie Recipe", "A recipe to make Cookie.", 300, 1));
+        limitedItems.add(new LimitedShopItem("Hashbrowns Recipe", "A recipe to make Hashbrowns.", 50, 1,ItemType.RECIPE, ItemSubType.UNKNOWN));
+        limitedItems.add(new LimitedShopItem("Omelet Recipe", "A recipe to make Omelet.", 100, 1,ItemType.RECIPE, ItemSubType.UNKNOWN));
+        limitedItems.add(new LimitedShopItem("Pancakes Recipe", "A recipe to make Pancakes.", 100, 1,ItemType.RECIPE, ItemSubType.UNKNOWN));
+        limitedItems.add(new LimitedShopItem("Bread Recipe", "A recipe to make Bread.", 100, 1,ItemType.RECIPE, ItemSubType.UNKNOWN));
+        limitedItems.add(new LimitedShopItem("Tortilla Recipe", "A recipe to make Tortilla.", 100, 1,ItemType.RECIPE, ItemSubType.UNKNOWN));
+        limitedItems.add(new LimitedShopItem("Pizza Recipe", "A recipe to make Pizza.", 150, 1,ItemType.RECIPE, ItemSubType.UNKNOWN));
+        limitedItems.add(new LimitedShopItem("Maki Roll Recipe", "A recipe to make Maki Roll.", 300, 1,ItemType.RECIPE, ItemSubType.UNKNOWN));
+        limitedItems.add(new LimitedShopItem("Triple Shot Espresso Recipe", "A recipe to make Triple Shot Espresso.", 5000, 1,ItemType.RECIPE, ItemSubType.UNKNOWN));
+        limitedItems.add(new LimitedShopItem("Cookie Recipe", "A recipe to make Cookie.", 300, 1,ItemType.RECIPE, ItemSubType.UNKNOWN));
 
-         */
+
 
 
     }
