@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="48e1a6b4-5b89-4eff-83d0-53a12ceaa23c" name="Changes" comment="some debug" />
+    <list default="true" id="48e1a6b4-5b89-4eff-83d0-53a12ceaa23c" name="Changes" comment="Phase 1" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -104,7 +104,7 @@
     "Repository.Attach.JavaDocs": "false",
     "Repository.Attach.Sources": "false",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "Phase1",
+    "git-widget-placeholder": "Phase-1",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/Administrator/Desktop/advanced-programming-phase-1-group-65-master 2",
     "node.js.detected.package.eslint": "true",
@@ -180,7 +180,7 @@
       <workItem from="1746525198265" duration="1262000" />
       <workItem from="1746553957667" duration="32714000" />
       <workItem from="1747220118703" duration="36178000" />
-      <workItem from="1747324890508" duration="82550000" />
+      <workItem from="1747324890508" duration="82902000" />
     </task>
     <task id="LOCAL-00001" summary="sign up controller fixed">
       <option name="closed" value="true" />
@@ -486,7 +486,23 @@
       <option name="project" value="LOCAL" />
       <updated>1747523763059</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="Phase 1">
+      <option name="closed" value="true" />
+      <created>1747524148064</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1747524148064</updated>
+    </task>
+    <task id="LOCAL-00040" summary="Phase 1">
+      <option name="closed" value="true" />
+      <created>1747524221556</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1747524221556</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -526,7 +542,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="map template half done" />
     <MESSAGE value="M" />
     <MESSAGE value="Game menu" />
     <MESSAGE value="Game menu fixed" />
@@ -551,18 +566,9 @@
     <MESSAGE value="animals completed exept selling them" />
     <MESSAGE value="mergedwith ilia" />
     <MESSAGE value="some debug" />
-    <option name="LAST_COMMIT_MESSAGE" value="some debug" />
+    <MESSAGE value="Phase 1" />
+    <option name="LAST_COMMIT_MESSAGE" value="Phase 1" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <breakpoint enabled="true" type="java-exception">
-          <properties class="java.lang.NullPointerException" package="java.lang" />
-          <option name="timeStamp" value="1" />
-        </breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/projectstar$projectstar__run_.ic" NAME="projectstar [run] Coverage Results" MODIFIED="1745597033218" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
