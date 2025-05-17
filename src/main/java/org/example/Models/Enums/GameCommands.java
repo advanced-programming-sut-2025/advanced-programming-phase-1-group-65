@@ -53,7 +53,9 @@ public enum GameCommands {
     PET("^pet -n (.+) -d (0|1|-1),(0|1|-1)$"),
     SHEPHERD("shepherd animals -n (.+) -l (\\d+),(\\d+)$"),
     GIFT_NPC("^gift NPC (\\w+) -i (.+)$"),
-    FRIENDSHIP_NPC_LIST("^friendship NPC list$");
+    FRIENDSHIP_NPC_LIST("^friendship NPC list$"),
+    SELLANIMAL("sell animal -n (.+)"),
+    HOMEKITCHEN("^enter kitchen$");
 
     private final String pattern;
 

@@ -19,10 +19,11 @@ public class Player {
         fishingSkill = new Skill();
         npcFriendships = new HashMap<>();
     }
-    public ArrayList<Building> playerBuildings = new ArrayList<>();
     public int FarmNumber;
+    public ArrayList<Building> playerBuildings = new ArrayList<>();
     public ArrayList<Item> SoldItems = new ArrayList<>();
     public HashMap<String, Integer> npcFriendships = new HashMap<>();
+    public ArrayList<Item> Refrigerator = new ArrayList<>();
     public void gainFarmingXP(int amount) {
         farmingSkill.gainXP(amount);
     }

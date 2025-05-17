@@ -44,10 +44,53 @@ public class Game {
         this.gameClock = new GameClock();
         this.weatherSystem = new WeatherSystem("spring");
     }
-    public void CreatAllRecipes(Game game) {
-        Recipe FriedEgg = new Recipe("Fried egg","1 Egg");
+    public void creatAllRecipes(Game game) {
+        Recipe FriedEgg = new Recipe("Fried Egg","1 Egg");
         game.AllRecipes.add(FriedEgg);
-
+        Recipe BakedFish = new Recipe("Baked Fish","1 Sardine + 1 Salmon + 1 Wheat");
+        game.AllRecipes.add(BakedFish);
+        Recipe Salad = new Recipe("Salad","1 Leek + 1 Dandelion");
+        game.AllRecipes.add(Salad);
+        Recipe Omelet = new Recipe("Omelet" , "1 Egg + 1 Milk");
+        game.AllRecipes.add(Omelet);
+        Recipe PumpkinPie = new Recipe("Pumpkin Pie" , "1 Pumpkin + 1 Wheat Flour + 1 Milk + 1 Sugar");
+        game.AllRecipes.add(PumpkinPie);
+        Recipe Spaghetti = new Recipe( "Spaghetti" , "1 Wheat Flour + 1 Tomato");
+        game.AllRecipes.add(Spaghetti);
+        Recipe Pizza = new Recipe( "Pizza" , "1 Wheat Flour + 1 Tomato + 1 Cheese");
+        game.AllRecipes.add(Pizza);
+        Recipe Tortilla = new Recipe( "Tortilla" , "1 Corn");
+        game.AllRecipes.add(Tortilla);
+        Recipe MakiRoll = new Recipe("Maki Roll" , "1 Any Fish + 1 Rice + 1 Fiber");
+        game.AllRecipes.add(MakiRoll);
+        Recipe TripleShotEspresso = new Recipe("Triple Shot Espresso", "3 Coffee");
+        game.AllRecipes.add(TripleShotEspresso);
+        Recipe Cookie = new Recipe("Cookie", "1 Wheat Flour + 1 Sugar + 1 Egg");
+        game.AllRecipes.add(Cookie);
+        Recipe HashBrowns = new Recipe("Hash Browns","1 Potato + 1 Oil");
+        game.AllRecipes.add(HashBrowns);
+        Recipe Pancakes = new Recipe("Pancakes" , "1 Wheat Flour + 1 Egg");
+        game.AllRecipes.add(Pancakes);
+        Recipe FruitSalad = new Recipe("Fruit Salad" , "1 Blueberry + 1 Melon + 1 Apricot");
+        game.AllRecipes.add(FruitSalad);
+        Recipe RedPlate = new Recipe("Red Plate" , "1 Red Cabbage + 1 Radish");
+        game.AllRecipes.add(RedPlate);
+        Recipe Bread = new Recipe("Bread" , "1 Wheat Flour");
+        game.AllRecipes.add(Bread);
+        Recipe SalmonDinner = new Recipe("Salmon Dinner" , "1 Salmon + 1 Amaranth + 1 Kale");
+        game.AllRecipes.add(SalmonDinner);
+        Recipe VegetableMedley = new Recipe("Vegetable Medley" , "1 Tomato + 1 beet");
+        game.AllRecipes.add(VegetableMedley);
+        Recipe FarmerLunch = new Recipe("Farmer Lunch" , "1 Omelet + 1 Parsnip");
+        game.AllRecipes.add(FarmerLunch);
+        Recipe SurvivalBurger = new Recipe("Survival Burger" , "1 Bread + 1 Carrot + 1 Eggplant");
+        game.AllRecipes.add(SurvivalBurger);
+        Recipe DishOfTheSea = new Recipe("Dish Of The Sea", "2 Sardines + 1 Hash Browns");
+        game.AllRecipes.add(DishOfTheSea);
+        Recipe SeaFormPudding = new Recipe("Seaform Pudding" , "1 Flounder + 1 Midnight Carp ");
+        game.AllRecipes.add(SeaFormPudding);
+        Recipe MinerTreat = new Recipe("Miner Treat" , "1 Milk + 1 Sugar + 2 Carrot");
+        game.AllRecipes.add(MinerTreat);
     }
 
     public void creatAllAnimals(Game game){
@@ -563,10 +606,12 @@ public class Game {
             createAllTrees(this);
             creatAllRocks(this);
             creatAllAnimals(this);
+            creatAllRecipes(this);
             map.generateShippingBins(Map,this);
             FishManager.createAllFish();
             map.GenerateRandomForagingDaily(Map,this);
             map.GenerateRandomRockDaily(Map,this);
+
 
             for (User user : users) {
                 if (user.player.getFarmNumber() == 1) {
@@ -593,12 +638,19 @@ public class Game {
                 user.player.items.add(new Tool(1, ItemSubType.TRASH_CAN,"TrashCan",0));
                 user.player.items.add(new Tool(1, ItemSubType.HOE,"Hoe",0));
                 user.player.items.add(new Tool(1, ItemSubType.PICKAXE,"Pickaxe",0));
+                user.player.KnownRecipes.add(AllRecipes.get(0));
+                user.player.KnownRecipes.add(AllRecipes.get(1));
+                user.player.KnownRecipes.add(AllRecipes.get(2));
+                //tester
                 user.player.items.add(new Material(1, ItemSubType.SEED,"Test Seed",25));
                 user.player.items.add(new Material(1000,ItemSubType.WOOD,"Wood",10));
                 user.player.items.add(new Material(1000,ItemSubType.STONE,"Stone",10));
                 user.player.items.add(new Material(1000,ItemSubType.HAY,"Hay",10));
-
-
+                user.player.items.add(new Material(1,ItemSubType.FISH,"Sardine",10));
+                user.player.items.add(new Material(1,ItemSubType.FIBER,"Fiber",10));
+                user.player.items.add(new Material(1,ItemSubType.UNKNOWN,"Rice",10));
+                user.player.items.add(new Food(3,ItemSubType.MILK,"Test Milk",12,12,true));
+                user.player.items.add(new Food(3,ItemSubType.EGG,"Test Egg",12,12,true));
 
                 user.player.game.Map.get(user.player.PositionY)
                         .set(user.player.PositionX, new Tile(TileType.PLAYER));

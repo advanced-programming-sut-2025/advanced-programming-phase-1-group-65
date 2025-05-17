@@ -6,6 +6,7 @@ import org.example.Models.Game;
 import org.example.Models.Player;
 import org.example.Models.Shops.FishManager;
 import org.example.Models.Tile;
+import org.example.Views.MenuView.KitchenView;
 
 import java.util.*;
 
@@ -20,7 +21,7 @@ public class GameController {
 
     private boolean[][] visited;
     public void processNextTurn(Game game) {
-        if (game.currentPlayer == game.user1.player) {
+        if (game.currentPlayer.equals(game.user1.player)) {
             if (game.user2.player.Fainted) {
                 if (game.user3.player.Fainted) {
                     if (game.user1.player.Fainted) {
@@ -87,9 +88,6 @@ public class GameController {
         }
     }
 
-    public void DailySpawner(ArrayList<ArrayList<Tile>> map, Game game){
-
-    }
 
     public String Walk(int destx, int desty, Game game) {
         Scanner temp = new Scanner(System.in);
@@ -1088,6 +1086,329 @@ public class GameController {
         System.out.println("Animal Was moved outside.");
 
     }
+    public void SellAnimal(Game game,String name){
+
+        Animal Target =null;
+        for(Building building:game.currentPlayer.playerBuildings){
+            for (Animal animal : building.animals) {
+                if(animal.name.equals(name)){
+                    Target = animal;
+                }
+            }
+        }
+        if(Target==null){
+            System.out.println("Animal was not found.");
+            return;
+        }
+
+        int AnimalWorth = (int) (Target.price * ((Target.FriendSheepPoint/1000)+0.3));
+        game.currentPlayer.money += AnimalWorth;
+        System.out.println("You have sold "+Target.name + " and got " + AnimalWorth + " dollars");
+        return;
+    }
+
+    public void Kitchen(Game game,Scanner sc){
+        int posX = game.currentPlayer.PositionX;
+        int posY = game.currentPlayer.PositionY;
+        if (!game.MapClone.get(posY).get(posX).type.equals(TileType.SHACK)) {
+            System.out.println("You can't enter the kitchen out side your home.");
+            return;
+        }
+        System.out.println("You are inside the kitchen.");
+        KitchenView kitchenView = new KitchenView();
+        kitchenView.check(sc,game,this);
+        System.out.println("You have exited the kitchen.");
+        return;
+    }
+    public void RefrigeratorPick(Game game,String name){
+        for (Item item : game.currentPlayer.Refrigerator){
+            if(item.name.equals(name)){
+                game.currentPlayer.Refrigerator.remove(item);
+                AddItem(game,item);
+                System.out.println("You have removed "+item.name + " from the Refrigerator.");
+                return;
+
+            }
+        }
+        System.out.println("You dont have this item in your refrigerator.");
+        return;
+    }
+    public void RefrigeratorPut(Game game,String name){
+        Item Target =null;
+        for (Item item : game.currentPlayer.items){
+            if(item.name.equals(name)){
+                Target = item;
+            }
+        }
+        if (Target == null) {
+            System.out.println("You dont have this item in your inventory.");
+            return;
+        }
+        if(!Target.type.equals(ItemType.FOOD)){
+            System.out.println("You cant put a non food item in refrigerator.");
+            return;
+        }
+        Food TargetFood = (Food) Target;
+        if (!TargetFood.isEdible) {
+            System.out.println("You cant put a non edible item in refrigerator.");
+            return;
+        }
+        removeItem(game,TargetFood.name,1);
+        game.currentPlayer.Refrigerator.add(TargetFood);
+    }
+    public void ShowRecipe(Game game){
+        for (Recipe recipe : game.currentPlayer.KnownRecipes){
+            System.out.println(recipe.name + " " + recipe.description);
+        }
+        return;
+    }
+    public void PrepareRecipe(Game game,String name){
+        Recipe Target = null;
+        for (Recipe recipe : game.currentPlayer.KnownRecipes){
+            if (recipe.name.equals(name)) {
+                Target = recipe;
+            }
+        }
+        if(Target==null){
+            System.out.println("You don't have this recipe or it dosen't exist.");
+            return;
+        }
+
+        Food newfood = new Food(checkRecipe(game,Target.name));
+        if (newfood.name.equalsIgnoreCase("Test")) {
+            System.out.println("You don't have the required ingredients for this recipe");
+            return;
+        }
+        AddItem(game,newfood);
+        System.out.println("You have successfully cooked " + newfood.name);
+        return;
+
+
+    }
+    public void Eat (Game game,String name){
+        Item Target =null;
+        for (Item item : game.currentPlayer.items){
+            if(item.name.equals(name)){
+                Target = item;
+            }
+        }
+        if(Target==null){
+            System.out.println("You don't have this Item in your inventory.");
+            return;
+        }
+        if (!Target.type.equals(ItemType.FOOD)) {
+            System.out.println("You cant eat a non food.");
+            return;
+        }
+        Food TargetFood = (Food) Target;
+        game.currentPlayer.Energy+=TargetFood.energy;
+        if (game.currentPlayer.Energy>= game.currentPlayer.MaxEnergy){
+            game.currentPlayer.Energy = game.currentPlayer.MaxEnergy;
+        }
+        removeItem(game,TargetFood.name,1);
+        System.out.println("You have successfully eaten " + Target.name);
+        return;
+    }
+    public Food checkRecipe(Game game,String name){
+            Food TestFood = new Food(1,ItemSubType.UNKNOWN,"Test",0,0,false);
+        switch (name){
+
+            case "Fried Egg" :
+                if (HasItemType(game,ItemSubType.EGG)){
+                    Item removable = getItemType(game,ItemSubType.EGG);
+                    Food FriedEgg = new Food(1,ItemSubType.DISH,"Fried Egg",50,35,true);
+                    removeItem(game,removable.name,1);
+                    return FriedEgg;
+                }
+                return TestFood;
+            case "Baked Fish" :
+                if (HasItem(game,"Sardine",1)&& HasItem(game,"Salmon",1)&&HasItem(game ,"Wheat",1)){
+                    Food BakedFish = new Food(1,ItemSubType.DISH,"Baked Fish",75,100,true);
+                    removeItem(game,"Sardine",1);
+                    removeItem(game,"Salmon",1);
+                    removeItem(game,"Wheat",1);
+                    return BakedFish;
+                }
+                    return TestFood;
+            case "Salad" :
+                if (HasItem(game,"Leek",1)&& HasItem(game,"Dandelion",1)){
+                    Food Salad = new Food(1,ItemSubType.DISH,"Salad",113,110,true);
+                    removeItem(game,"Leek",1);
+                    removeItem(game,"Dandelion",1);
+                    return Salad;
+                }
+                return TestFood;
+            case "Omelet" :
+                if (HasItemType(game,ItemSubType.EGG) && HasItemType(game,ItemSubType.MILK)){
+                    Item removable = getItemType(game,ItemSubType.EGG);
+                    Item removable2 = getItemType(game,ItemSubType.MILK);
+                    Food Omelet = new Food (1,ItemSubType.DISH,"Omelet",100,125,true);
+                    removeItem(game,removable.name,1);
+                    removeItem(game,removable2.name,1);
+                    return Omelet;
+                }
+                return TestFood;
+            case "Pumpkin Pie" :
+                if (HasItemType(game,ItemSubType.MILK) && HasItem(game,"Pumpkin",1) && HasItem(game,"Sugar",1)&& HasItem(game , "Wheat Flour",1)){
+                    Food PumpkinPie = new Food (1,ItemSubType.DISH,"Pumpkin",225,385,true);
+                    Item removable = getItemType(game,ItemSubType.MILK);
+                    removeItem(game,removable.name,1);
+                    removeItem(game,"Pumpkin",1);
+                    removeItem(game,"Sugar",1);
+                    removeItem(game,"Wheat Flour",1);
+                    return PumpkinPie;
+                }
+                return TestFood;
+            case "Pizza" :
+                if (HasItem(game,"Wheat Flour",1)&& HasItem(game,"Tomato",1) && HasItem(game,"Cheese",1)){
+                    Food Pizza = new Food (1,ItemSubType.DISH,"Pizza",150,300,true);
+                    removeItem(game,"Wheat Flour",1);
+                    removeItem(game,"Tomato",1);
+                    removeItem(game,"Cheese",1);
+                    return Pizza;
+                }
+                return TestFood;
+            case "Tortilla" :
+                if (HasItem(game,"Corn",1)){
+                    Food Tortilla = new Food(1,ItemSubType.DISH,"Tortilla",50,50,true);
+                    removeItem(game,"Corn",1);
+                    return Tortilla;
+                }
+                return TestFood;
+            case "Maki Roll" :
+                if (HasItemType(game,ItemSubType.FISH) && HasItem(game,"Rice",1)&& HasItem(game,"Fiber", 1)){
+                    Food MakiRoll = new Food(1,ItemSubType.DISH,"Maki Roll",100,220,true);
+                    Item removable = getItemType(game,ItemSubType.FISH);
+                    removeItem(game,removable.name,1);
+                    removeItem(game,"Fiber",1);
+                    removeItem(game,"Rice",1);
+                    return MakiRoll;
+                }
+                return TestFood;
+            case "Triple Shot Espresso" :
+                if (HasItem(game,"Coffee",3)){
+                    Food TripleShotEspresso = new Food (1,ItemSubType.DISH,"Triple Shot Espresso",200,450,true);
+                    removeItem(game,"Coffee",3);
+                    return TripleShotEspresso;
+                }
+                return TestFood;
+            case "Cookie" :
+                if (HasItem(game,"Wheat Flour",1)&& HasItem(game,"Sugar",1)&& HasItemType(game,ItemSubType.EGG)){
+                    Item removable = getItemType(game,ItemSubType.EGG);
+                    removable = getItemType(game,ItemSubType.EGG);
+                    removeItem(game,"Sugar",1);
+                    removeItem(game,"Wheat Flour",1);
+                    removeItem(game, removable.name, 1);
+                    Food Cookie = new Food (1,ItemSubType.DISH,"Cookie",90,140,true);
+                    return Cookie;
+                }
+                return TestFood;
+            case "Hash Browns" :
+                if (HasItem(game,"Potato",1)&& HasItem(game,"Oil",1)){
+                    removeItem(game,"Potato",1);
+                    removeItem(game,"Oil",1);
+                    Food HashBrowns = new Food(1,ItemSubType.DISH,"Hash Browns",90,120,true);
+                    return HashBrowns;
+                }
+                return TestFood;
+            case "Pancakes" :
+                if (HasItem(game,"Wheat Flour",1)&& HasItemType(game,ItemSubType.EGG)){
+                    Item removable = getItemType(game,ItemSubType.EGG);
+                    removable = getItemType(game,ItemSubType.EGG);
+                    removeItem(game,"Wheat Flour",1);
+                    removeItem(game, removable.name, 1);
+                    Food Pancakes = new Food (1,ItemSubType.DISH,"Pancakes",90,80,true);
+                    return Pancakes;
+                }
+                return TestFood;
+            case "Fruit Salad" :
+                if (HasItem(game , "Blueberry",1)&& HasItem(game,"Melon",1)&& HasItem(game,"Apricot",1)){
+                    removeItem(game , "Blueberry",1);
+                    removeItem(game, "Melon",1);
+                    removeItem(game, "Apricot",1);
+                    Food FruitSalad = new Food(1,ItemSubType.DISH,"Fruit Salad",263,450,true);
+                    return FruitSalad;
+                }
+                return TestFood;
+            case "Red Plate" :
+                if (HasItem(game, "Red Cabbage",1)&&HasItem(game , "Radish",1)){
+                    removeItem(game, "Red Cabbage",1);
+                    removeItem(game, "Radish",1);
+                    Food RedPlate = new Food(1,ItemSubType.DISH,"Red Cabbage",240,400,true);
+                    return RedPlate;
+                }
+                return TestFood;
+            case "Bread" :
+                if (HasItem(game,"Wheat Flour",1)){
+                    removeItem(game,"Wheat Flour",1);
+                    Food Bread = new Food(1,ItemSubType.DISH,"Bread",50,60,true);
+                    return Bread;
+                }
+                return TestFood;
+            case "Salmon Dinner" :
+                if (HasItem(game,"Salmon",1)&&HasItem(game,"Amaranth",1)&&HasItem(game,"Kale",1)){
+                    removeItem(game,"Salmon",1);
+                    removeItem(game,"Amaranth",1);
+                    removeItem(game,"Kale",1);
+                    Food SalmonDinner = new Food(1,ItemSubType.DISH,"Salmon Dinner",50,60,true);
+                    return SalmonDinner;
+                }
+                return TestFood;
+            case "Vegetable Medley" :
+                if (HasItem(game,"Tomato",1) && HasItem(game,"Beet",1)){
+                    removeItem(game,"Tomato",1);
+                    removeItem(game,"Beet",1);
+                    Food FarmerLunch = new Food(1,ItemSubType.DISH,"Farmer Lunch",200,150,true);
+                    return FarmerLunch;
+                }
+                return TestFood;
+            case "Survival Burger" :
+                if (HasItem(game , "Bread", 1) && HasItem(game ,"Carrot",1) && HasItem(game,"Eggplant",1)){
+                    removeItem(game,"Bread",1);
+                    removeItem(game,"Carrot",1);
+                    removeItem(game,"Eggplant",1);
+                    Food SurvivalBurger = new Food(1,ItemSubType.DISH,"Survival Burger",120,180,true);
+                    return SurvivalBurger;
+                }
+                return TestFood;
+            case "Dish Of The Sea" :
+                if (HasItem(game , "Sardine", 2) && HasItem(game,"Hash Browns",1)){
+                    removeItem(game,"Sardine",2);
+                    removeItem(game,"Hash Browns",1);
+                    Food DishOfTheSea = new Food(1,ItemSubType.DISH,"Dish Of The Sea",150,220,true);
+                    return DishOfTheSea;
+                }
+                return TestFood;
+            case "Seaform Pudding" :
+                if (HasItem(game,"Flounder",1) && HasItem(game,"Midnight Carp",1)){
+                    removeItem(game,"Flounder",1);
+                    removeItem(game,"Midnight Carp",1);
+                    Food SeaformDish = new Food(1,ItemSubType.DISH,"Seaform Pudding",175,300,true);
+                    return SeaformDish;
+                }
+                return TestFood;
+            case "Miner Treat" :
+                if (HasItem(game,"Carrot",2) && HasItem(game,"Sugar",1) && HasItemType(game , ItemSubType.MILK)){
+                    Item removable = getItemType(game , ItemSubType.MILK);
+                    removeItem(game,"Carrot",2);
+                    removeItem(game,"Sugar",1);
+                    Food MinerTreat = new Food(1,ItemSubType.DISH,"Miner Treat",125,200,true);
+                    return MinerTreat;
+                }
+                return TestFood;
+        }
+        return TestFood;
+    }
+
+    public boolean HasItemType(Game game,ItemSubType type){
+        for (Item item : game.currentPlayer.items){
+            if (item.subtype.equals(type)){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void Fertilize(Game game , int x, int y, String name) {
         int posx = game.currentPlayer.PositionX+x;
         int posy = game.currentPlayer.PositionY-y;
@@ -1275,6 +1596,15 @@ public class GameController {
         for (Item item : game.currentPlayer.items){
             if(item.name.equalsIgnoreCase(name)){
                 return item;
+            }
+        }
+        return null;
+    }
+    public Item getItemType(Game game,ItemSubType subtype){
+        for (Item item : game.currentPlayer.items){
+            if(item.subtype.equals(subtype)){
+                return item;
+
             }
         }
         return null;

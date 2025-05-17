@@ -244,6 +244,13 @@ public class GameView {
                 int y = Integer.parseInt(matcher.group(3));
                 controller.Pet(game,name,x,y);
             }
+            else if((matcher = GameCommands.SELLANIMAL.matcher(input)) != null) {
+                String name = matcher.group(1);
+                controller.SellAnimal(game,name);
+            }
+            else if((matcher = GameCommands.HOMEKITCHEN.matcher(input)) != null) {
+                controller.Kitchen(game,scanner);
+            }
 
 
             else {
