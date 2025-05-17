@@ -1,13 +1,13 @@
-package org.example.Views;
+package org.example.Views.GameView;
 
-import org.example.Controllers.GameController;
-import org.example.Controllers.NPCController;
+import org.example.Controllers.GameController.GameController;
+import org.example.Controllers.NPCController.NPCController;
 import org.example.Models.App;
 import org.example.Models.Enums.GameCommands;
 import org.example.Models.Enums.Menu;
 import org.example.Models.Enums.WeatherType;
 import org.example.Models.Game;
-import org.example.Controllers.ShopController;
+import org.example.Controllers.ShopController.ShopController;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 

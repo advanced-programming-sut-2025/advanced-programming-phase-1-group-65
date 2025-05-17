@@ -1,4 +1,4 @@
-package org.example.Controllers;
+package org.example.Controllers.NPCController;
 
 import org.example.Models.*;
 import org.example.Models.Enums.TileType;

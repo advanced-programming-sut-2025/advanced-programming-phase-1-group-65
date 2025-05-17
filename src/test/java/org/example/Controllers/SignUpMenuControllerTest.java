@@ -16,7 +16,7 @@ public class SignUpMenuControllerTest {
     @BeforeEach
     void setUp() {
         controller = new SignUpMenuController();
-        App.clearUsers(); // Clear user list before each test
+        App.clearUsers();
 
         String simulatedInput = "1\nblue\n";
         System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));

@@ -4,7 +4,7 @@ import org.example.Models.Enums.AnimalType;
 import org.example.Models.Enums.ItemSubType;
 import org.example.Models.Enums.TileType;
 import org.example.Models.Shops.FishManager;
-import org.example.Views.GameView;
+import org.example.Views.GameView.GameView;
 
 import java.util.ArrayList;
 import java.util.List;
