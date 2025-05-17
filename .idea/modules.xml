@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/projectstar.iml" filepath="$PROJECT_DIR$/projectstar.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/projectstar.main.iml" filepath="$PROJECT_DIR$/.idea/modules/projectstar.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/projectstar.test.iml" filepath="$PROJECT_DIR$/.idea/modules/projectstar.test.iml" />
     </modules>
   </component>
