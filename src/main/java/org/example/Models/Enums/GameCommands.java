@@ -31,7 +31,7 @@ public enum GameCommands {
     SHOW_ALL_AVAILABLE_PRODUCTS("^show all available products$"),
     PURCHASE_ITEM("^purchase\\s+(.+?)(?:\\s+-n\\s+(\\d+))?$"),
     CRAFTINFO("^craftinfo\\s+-n\\s+(.+)$"),
-    SHOWINVNETORY("show inventory"),
+    SHOWINVNETORY("inventory show"),
     PLANTING("^plant -s\\s+(.+) -d (0|1|-1),(0|1|-1)$"),
     CHEATWATER("^cheat water$"),
     HOWMUCHWATER("^howmuch water$"),
@@ -51,8 +51,9 @@ public enum GameCommands {
     GREENHOUSE("^greenhouse build"),
     PRODUCES("^produces"),
     PET("^pet -n (.+) -d (0|1|-1),(0|1|-1)$"),
-    SHEPHERD("shepherd animals -n (.+) -l (\\d+),(\\d+)$");
-
+    SHEPHERD("shepherd animals -n (.+) -l (\\d+),(\\d+)$"),
+    GIFT_NPC("^gift NPC (\\w+) -i (.+)$"),
+    FRIENDSHIP_NPC_LIST("^friendship NPC list$");
 
     private final String pattern;
 

@@ -4,6 +4,9 @@ import org.example.Models.*;
 import org.example.Models.Enums.TileType;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Map;
 
 public class NPCController {
 
@@ -70,7 +73,47 @@ public class NPCController {
 
     private NPC getNPCByTileType(TileType type, int x, int y) {
         String name = getNameByTileType(type);
-        return new NPC(name, x, y);
+        NPC npc = new NPC(name, x, y);
+
+        initializeNPCData(npc);
+
+        return npc;
+    }
+
+    private void initializeNPCData(NPC npc) {
+        switch (npc.getName().toLowerCase()) {
+            case "sebastian":
+                npc.setFavoriteItems(new HashSet<>(Arrays.asList(
+                        "Wool", "Pumpkin Pie", "Pizza"
+                )));
+                break;
+            case "abigail":
+                npc.setFavoriteItems(new HashSet<>(Arrays.asList(
+                        "Stone", "Iron Ore", "Coffee"
+                )));
+                break;
+            case "harvey":
+                npc.setFavoriteItems(new HashSet<>(Arrays.asList(
+                        "Coffee", "Grape", "Wine"
+                )));
+                break;
+            case "leah":
+                npc.setFavoriteItems(new HashSet<>(Arrays.asList(
+                        "Salad", "Grape", "Wine"
+                )));
+                break;
+            case "robin":
+                npc.setFavoriteItems(new HashSet<>(Arrays.asList(
+                        "Spaghetti", "Wood", "Iron Bar"
+                )));
+                break;
+            default:
+                npc.setFavoriteItems(new HashSet<>());
+                break;
+        }
+
+        npc.setFriendshipLevel(0);
+        npc.setLastGiftDay(-1);
     }
 
     public String talkToNPCByName(String npcName) {
@@ -89,6 +132,83 @@ public class NPCController {
         String currentWeather = game.weatherSystem.getTodayWeatherName();
 
         return npc.meet(currentDay, hour, currentSeason, currentWeather, npc.getX(), npc.getY());
+    }
+
+    public String giftNPC(String npcName, String itemName) {
+        if (!isValidNPCName(npcName)) {
+            return "There is no NPC with the name '" + npcName + "' in the game.";
+        }
+
+        NPC npc = findNearbyNPCByName(npcName);
+        if (npc == null) {
+            return "There is no NPC named '" + npcName + "' nearby.";
+        }
+
+        Player player = game.currentPlayer;
+
+        Item itemToGive = null;
+        for (Item item : player.items) {
+            if (item.name.equalsIgnoreCase(itemName)) {
+                itemToGive = item;
+                break;
+            }
+        }
+
+        if (itemToGive == null) {
+            return "You don't have any '" + itemName + "' in your inventory.";
+        }
+
+        if (itemToGive instanceof Tool) {
+            return "You cannot gift tools.";
+        }
+
+        if (npc.getLastGiftDay() == game.gameClock.getDay()) {
+            return "You've already gifted " + npcName + " today.";
+        }
+
+        itemToGive.Count--;
+        if (itemToGive.Count == 0) {
+            player.items.remove(itemToGive);
+        }
+
+        int friendshipPoints = 50;
+        if (npc.getFavoriteItems().contains(itemToGive.name)) {
+            friendshipPoints = 200;
+        }
+
+        int currentPoints = player.npcFriendships.getOrDefault(npc.getName(), 0);
+        int newPoints = currentPoints + friendshipPoints;
+        if (newPoints > 799) {
+            newPoints = 799;
+        }
+
+        player.npcFriendships.put(npc.getName(), newPoints);
+
+        npc.setFriendshipPoints(newPoints);
+
+        int newLevel = newPoints / 200;
+        if (newLevel > 3) newLevel = 3;
+        npc.setFriendshipLevel(newLevel);
+
+        npc.setLastGiftDay(game.gameClock.getDay());
+
+        return "You gave " + itemName + " to " + npcName + ". Friendship +" + friendshipPoints + ".";
+    }
+    public String getAllNPCFriendships() {
+        StringBuilder sb = new StringBuilder("NPC Friendships:\n");
+        for (Map.Entry<String, Integer> entry : game.currentPlayer.npcFriendships.entrySet()) {
+            String npcName = entry.getKey();
+            int points = entry.getValue();
+            int level = points / 200;
+            if (level > 3) {
+                level = 3;
+            }
+
+            sb.append("- ").append(npcName)
+                    .append(": ").append(points).append(" points")
+                    .append(" (Level ").append(level).append(")\n");
+        }
+        return sb.toString();
     }
 
     private boolean isValidNPCName(String npcName) {

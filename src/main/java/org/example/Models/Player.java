@@ -18,10 +18,12 @@ public class Player {
         miningSkill = new Skill();
         foragingSkill = new Skill();
         fishingSkill = new Skill();
+        npcFriendships = new HashMap<>();
     }
     public ArrayList<Building> playerBuildings = new ArrayList<>();
     public int FarmNumber;
     public ArrayList<Item> SoldItems = new ArrayList<>();
+    public HashMap<String, Integer> npcFriendships = new HashMap<>();
     public void gainFarmingXP(int amount) {
         farmingSkill.gainXP(amount);
     }

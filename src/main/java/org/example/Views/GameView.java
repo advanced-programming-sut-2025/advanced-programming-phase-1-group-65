@@ -161,10 +161,23 @@ public class GameView {
             }
             else if ((matcher = GameCommands.MEET_NPC.matcher(input)) != null) {
                 String npcName = matcher.group(1);
-                NPCController npcController = new NPCController(game); // اگر از قبل داری، نیازی نیست اینجا بسازی
+                NPCController npcController = new NPCController(game);
                 String response = npcController.talkToNPCByName(npcName);
-                System.out.println(response); // نمایش خروجی صحبت با NPC
+                System.out.println(response);
             }
+            else if ((matcher = GameCommands.GIFT_NPC.matcher(input)) != null) {
+                String npcName = matcher.group(1);
+                String itemName = matcher.group(2).trim();
+                NPCController npcController = new NPCController(game);
+                String result = npcController.giftNPC(npcName, itemName);
+                System.out.println(result);
+            }
+            else if ((matcher = GameCommands.FRIENDSHIP_NPC_LIST.matcher(input)) != null) {
+                NPCController npcController = new NPCController(game);
+                String list = npcController.getAllNPCFriendships();
+                System.out.println(list);
+            }
+
 
             else if((matcher = GameCommands.TRASHCAN.matcher(input)) != null) {
                 String itemName = matcher.group(1).trim();
