@@ -1,0 +1,570 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="48e1a6b4-5b89-4eff-83d0-53a12ceaa23c" name="Changes" comment="some debug" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="projectstar" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="projectstar" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Enum" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <favorite-branches>
+      <branch-storage>
+        <map>
+          <entry type="REMOTE">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="origin/Ilia" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </favorite-branches>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Arya6785&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/advanced-programming-sut-2025/advanced-programming-phase-1-group-65&quot;,
+    &quot;accountId&quot;: &quot;ebf1a6fb-21aa-497a-8cb8-ce0fd0f99bf9&quot;
+  }
+}</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="2w94lgHGlWKNfjWuP36uCS6PFrv" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Downloaded.Files.Path.Enabled": "false",
+    "Gradle.projectstar [:org.example.Main.main()].executor": "Run",
+    "Gradle.projectstar [run].executor": "Run",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "Phase1",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Administrator/Desktop/advanced-programming-phase-1-group-65-master 2",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveInnerDialog.RECENTS_KEY">
+      <recent name="org.example.Models.Enums" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="projectstar [run]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="--stacktrace" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="run" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.projectstar [run]" />
+        <item itemvalue="Gradle.projectstar [run]" />
+        <item itemvalue="Gradle.projectstar [run]" />
+        <item itemvalue="Gradle.projectstar [run]" />
+        <item itemvalue="Gradle.projectstar [run]" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-a94e463ab2e7-intellij.indexing.shared.core-IU-243.26053.27" />
+        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-IU-243.26053.27" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="48e1a6b4-5b89-4eff-83d0-53a12ceaa23c" name="Changes" comment="" />
+      <created>1745440610965</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1745440610965</updated>
+      <workItem from="1745440612297" duration="1759000" />
+      <workItem from="1745494169296" duration="18188000" />
+      <workItem from="1745867527132" duration="31447000" />
+      <workItem from="1746300489339" duration="33132000" />
+      <workItem from="1746522934764" duration="2164000" />
+      <workItem from="1746525198265" duration="1262000" />
+      <workItem from="1746553957667" duration="32714000" />
+      <workItem from="1747220118703" duration="36178000" />
+      <workItem from="1747324890508" duration="82550000" />
+    </task>
+    <task id="LOCAL-00001" summary="sign up controller fixed">
+      <option name="closed" value="true" />
+      <created>1745613850404</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1745613850404</updated>
+    </task>
+    <task id="LOCAL-00002" summary="sign up controller fixed">
+      <option name="closed" value="true" />
+      <created>1745870718406</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1745870718406</updated>
+    </task>
+    <task id="LOCAL-00003" summary="nothing">
+      <option name="closed" value="true" />
+      <created>1746098857427</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1746098857427</updated>
+    </task>
+    <task id="LOCAL-00004" summary="merged with Ilia">
+      <option name="closed" value="true" />
+      <created>1746099831028</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1746099831028</updated>
+    </task>
+    <task id="LOCAL-00005" summary="map template half done">
+      <option name="closed" value="true" />
+      <created>1746207530882</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1746207530882</updated>
+    </task>
+    <task id="LOCAL-00006" summary="M">
+      <option name="closed" value="true" />
+      <created>1746258599200</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1746258599200</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Game menu">
+      <option name="closed" value="true" />
+      <created>1746300113768</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1746300113768</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Game menu">
+      <option name="closed" value="true" />
+      <created>1746301815897</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1746301815897</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Game menu fixed">
+      <option name="closed" value="true" />
+      <created>1746304964858</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1746304964858</updated>
+    </task>
+    <task id="LOCAL-00010" summary="bugs fixed">
+      <option name="closed" value="true" />
+      <created>1746350847929</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1746350847929</updated>
+    </task>
+    <task id="LOCAL-00011" summary="game started">
+      <option name="closed" value="true" />
+      <created>1746375730385</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1746375730385</updated>
+    </task>
+    <task id="LOCAL-00012" summary="walking function added">
+      <option name="closed" value="true" />
+      <created>1746436946339</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1746436946339</updated>
+    </task>
+    <task id="LOCAL-00013" summary="merged with ilia">
+      <option name="closed" value="true" />
+      <created>1746438843867</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1746438843867</updated>
+    </task>
+    <task id="LOCAL-00014" summary="merged with Hossein">
+      <option name="closed" value="true" />
+      <created>1746554411026</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1746554411026</updated>
+    </task>
+    <task id="LOCAL-00015" summary="merged with Hossein">
+      <option name="closed" value="true" />
+      <created>1746876486984</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1746876486984</updated>
+    </task>
+    <task id="LOCAL-00016" summary="merged with Ilia">
+      <option name="closed" value="true" />
+      <created>1746884390804</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1746884390804</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Tools">
+      <option name="closed" value="true" />
+      <created>1746916484327</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1746916484327</updated>
+    </task>
+    <task id="LOCAL-00018" summary="weather merged">
+      <option name="closed" value="true" />
+      <created>1746964174938</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1746964174938</updated>
+    </task>
+    <task id="LOCAL-00019" summary="axe">
+      <option name="closed" value="true" />
+      <created>1746980114218</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1746980114218</updated>
+    </task>
+    <task id="LOCAL-00020" summary="you can plant trees and foragings and water and harvest them">
+      <option name="closed" value="true" />
+      <created>1747228273095</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1747228273095</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Skills added">
+      <option name="closed" value="true" />
+      <created>1747242565530</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1747242565530</updated>
+    </task>
+    <task id="LOCAL-00022" summary="help map">
+      <option name="closed" value="true" />
+      <created>1747243798148</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1747243798148</updated>
+    </task>
+    <task id="LOCAL-00023" summary="merged with ilia">
+      <option name="closed" value="true" />
+      <created>1747244332581</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1747244332581</updated>
+    </task>
+    <task id="LOCAL-00024" summary="fixed fishing skills">
+      <option name="closed" value="true" />
+      <created>1747244749553</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1747244749553</updated>
+    </task>
+    <task id="LOCAL-00025" summary="bugs fixed fertilize added">
+      <option name="closed" value="true" />
+      <created>1747263119413</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1747263119413</updated>
+    </task>
+    <task id="LOCAL-00026" summary="Selling fixed">
+      <option name="closed" value="true" />
+      <created>1747335395874</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1747335395874</updated>
+    </task>
+    <task id="LOCAL-00027" summary="you can now buid barn and coop">
+      <option name="closed" value="true" />
+      <created>1747350664943</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1747350664943</updated>
+    </task>
+    <task id="LOCAL-00028" summary="you can now buy animals">
+      <option name="closed" value="true" />
+      <created>1747359481136</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1747359481136</updated>
+    </task>
+    <task id="LOCAL-00029" summary="you can now feed animals and collect product">
+      <option name="closed" value="true" />
+      <created>1747366218302</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1747366218302</updated>
+    </task>
+    <task id="LOCAL-00030" summary="animals completed exept selling them">
+      <option name="closed" value="true" />
+      <created>1747385003686</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1747385003686</updated>
+    </task>
+    <task id="LOCAL-00031" summary="mergedwith ilia">
+      <option name="closed" value="true" />
+      <created>1747413777419</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1747413777419</updated>
+    </task>
+    <task id="LOCAL-00032" summary="some debug">
+      <option name="closed" value="true" />
+      <created>1747490306385</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1747490306385</updated>
+    </task>
+    <task id="LOCAL-00033" summary="some debug">
+      <option name="closed" value="true" />
+      <created>1747491797586</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1747491797586</updated>
+    </task>
+    <task id="LOCAL-00034" summary="some debug">
+      <option name="closed" value="true" />
+      <created>1747492206941</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1747492206942</updated>
+    </task>
+    <task id="LOCAL-00035" summary="some debug">
+      <option name="closed" value="true" />
+      <created>1747492322360</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1747492322360</updated>
+    </task>
+    <task id="LOCAL-00036" summary="some debug">
+      <option name="closed" value="true" />
+      <created>1747522596345</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1747522596345</updated>
+    </task>
+    <task id="LOCAL-00037" summary="some debug">
+      <option name="closed" value="true" />
+      <created>1747522970061</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1747522970061</updated>
+    </task>
+    <task id="LOCAL-00038" summary="some debug">
+      <option name="closed" value="true" />
+      <created>1747523763059</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1747523763059</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="OPEN_GENERIC_TABS">
+      <map>
+        <entry key="f3161faa-27d7-4fea-a7af-51b9c0b0356a" value="TOOL_WINDOW" />
+      </map>
+    </option>
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/Ilia" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+        <entry key="f3161faa-27d7-4fea-a7af-51b9c0b0356a">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="map template half done" />
+    <MESSAGE value="M" />
+    <MESSAGE value="Game menu" />
+    <MESSAGE value="Game menu fixed" />
+    <MESSAGE value="bugs fixed" />
+    <MESSAGE value="game started" />
+    <MESSAGE value="walking function added" />
+    <MESSAGE value="merged with Hossein" />
+    <MESSAGE value="merged with Ilia" />
+    <MESSAGE value="Tools" />
+    <MESSAGE value="weather merged" />
+    <MESSAGE value="axe" />
+    <MESSAGE value="you can plant trees and foragings and water and harvest them" />
+    <MESSAGE value="Skills added" />
+    <MESSAGE value="help map" />
+    <MESSAGE value="merged with ilia" />
+    <MESSAGE value="fixed fishing skills" />
+    <MESSAGE value="bugs fixed fertilize added" />
+    <MESSAGE value="Selling fixed" />
+    <MESSAGE value="you can now buid barn and coop" />
+    <MESSAGE value="you can now buy animals" />
+    <MESSAGE value="you can now feed animals and collect product" />
+    <MESSAGE value="animals completed exept selling them" />
+    <MESSAGE value="mergedwith ilia" />
+    <MESSAGE value="some debug" />
+    <option name="LAST_COMMIT_MESSAGE" value="some debug" />
+    <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.NullPointerException" package="java.lang" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/projectstar$projectstar__run_.ic" NAME="projectstar [run] Coverage Results" MODIFIED="1745597033218" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
+  </component>
+</project>
