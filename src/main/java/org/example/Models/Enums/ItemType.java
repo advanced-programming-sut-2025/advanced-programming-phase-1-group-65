@@ -4,5 +4,6 @@ public enum ItemType {
     FOOD,
     TOOL,
     MATERIAL,
+    RECIPE,
     SHOPITEM;
 }

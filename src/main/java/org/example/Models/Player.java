@@ -25,7 +25,8 @@ public class Player {
     public void gainFarmingXP(int amount) {
         farmingSkill.gainXP(amount);
     }
-
+    public ArrayList<Recipe> KnownRecipes = new ArrayList<>();
+    public int MaxEnergy = 200;
     public void gainMiningXP(int amount) {
         miningSkill.gainXP(amount);
     }

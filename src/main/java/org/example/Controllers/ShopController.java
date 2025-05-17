@@ -101,7 +101,7 @@ public class ShopController {
                 if (newX >= 0 && newY >= 0 && newY < game.Map.size() && newX < game.Map.get(0).size()) {
                     Tile tile = game.Map.get(newY).get(newX);
                     if (isShopTile(tile)) {
-                        return getShopFromTile(tile);
+                        return getShopFromTile(tile,game);
                     }
                 }
             }
@@ -109,13 +109,13 @@ public class ShopController {
         return null;
     }
 
-    private Shop getShopFromTile(Tile tile) {
+    private Shop getShopFromTile(Tile tile,Game game) {
         TileType type = tile.getType();
-        GameClock gameClock = new GameClock();
+        GameClock gameClock = game.gameClock;
         if (!shopCache.containsKey(type)) {
             switch (type) {
                 case BLACKSMITH: shopCache.put(type, new Blacksmith()); break;
-                case GENERALSTORE: shopCache.put(type, new GeneralStore()); break;
+                case GENERALSTORE: shopCache.put(type, new GeneralStore(gameClock)); break;
                 case JOJAMART: shopCache.put(type, new JojaMart(gameClock)); break;
                 case CARPENTERSHOP: shopCache.put(type, new CarpenterShop()); break;
                 case FISHSHOP: shopCache.put(type, new FishShop()); break;
