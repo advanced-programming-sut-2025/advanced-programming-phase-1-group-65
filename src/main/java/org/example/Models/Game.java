@@ -642,7 +642,7 @@ public class Game {
                 user.player.KnownRecipes.add(AllRecipes.get(1));
                 user.player.KnownRecipes.add(AllRecipes.get(2));
                 //tester
-              /*
+
               user.player.items.add(new Material(1, ItemSubType.SEED,"Test Seed",25));
                 user.player.items.add(new Material(1000,ItemSubType.WOOD,"Wood",10));
                 user.player.items.add(new Material(1000,ItemSubType.STONE,"Stone",10));
@@ -653,7 +653,7 @@ public class Game {
                 user.player.items.add(new Food(3,ItemSubType.MILK,"Test Milk",12,12,true));
                 user.player.items.add(new Food(3,ItemSubType.EGG,"Test Egg",12,12,true));
 
-               */
+
                 user.player.game.Map.get(user.player.PositionY)
                         .set(user.player.PositionX, new Tile(TileType.PLAYER));
             }
