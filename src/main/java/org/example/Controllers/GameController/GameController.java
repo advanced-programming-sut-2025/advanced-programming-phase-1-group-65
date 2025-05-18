@@ -90,7 +90,7 @@ public class GameController {
     }
 
 
-    public String Walk(int destx, int desty, Game game) {
+    public String Walk(int destx, int desty, Game game, boolean GoHome) {
         Scanner temp = new Scanner(System.in);
         int height = 112;
         int width = 140;
@@ -194,17 +194,34 @@ public class GameController {
         };
 
         energyNeeded *= modifier;
+        if (!GoHome) {
+            System.out.println("You need " + energyNeeded + " energy to walk to this position.\nDo you wish to proceed? (y/n)");
+            String ch = temp.nextLine();
 
-        System.out.println("You need " + energyNeeded + " energy to walk to this position.\nDo you wish to proceed? (y/n)");
-        String ch = temp.nextLine();
+            if (ch.equalsIgnoreCase("y") || ch.equalsIgnoreCase("yes")) {
+                if (energyNeeded > game.currentPlayer.Energy) {
+                    game.currentPlayer.Fainted = true;
+                    processNextTurn(game);
+                    return "Last player has fainted.";
+                }
 
-        if (ch.equalsIgnoreCase("y") || ch.equalsIgnoreCase("yes")) {
-            if (energyNeeded > game.currentPlayer.Energy) {
-                game.currentPlayer.Fainted = true;
-                processNextTurn(game);
-                return "Last player has fainted.";
+                int prevX = game.currentPlayer.PositionX;
+                int prevY = game.currentPlayer.PositionY;
+
+                game.currentPlayer.Energy -= energyNeeded;
+                game.currentPlayer.PositionX = destx;
+                game.currentPlayer.PositionY = desty;
+
+                game.Map.get(prevY).set(prevX, game.MapClone.get(prevY).get(prevX));
+                game.Map.get(desty).set(destx, new Tile(TileType.PLAYER));
+
+                return "You have reached your destination";
             }
 
+
+            return "Command cancelled";
+        }
+        else if (GoHome) {
             int prevX = game.currentPlayer.PositionX;
             int prevY = game.currentPlayer.PositionY;
 
@@ -215,10 +232,8 @@ public class GameController {
             game.Map.get(prevY).set(prevX, game.MapClone.get(prevY).get(prevX));
             game.Map.get(desty).set(destx, new Tile(TileType.PLAYER));
 
-            return "You have reached your destination";
         }
-
-        return "Command cancelled";
+        return null;
     }
 
     public void processAdvanceHours(Game game, int hours) {
@@ -1717,16 +1732,16 @@ public class GameController {
         for(User user : game.users){
             game.currentPlayer = user.player;
             if (user.player.FarmNumber==1){
-                Walk(36,2,game);
+                Walk(36,2,game,true);
             }
             else if (user.player.FarmNumber==2){
-                Walk(102,2,game);
+                Walk(102,2,game,true);
             }
             else if (user.player.FarmNumber==3){
-                Walk(2,109,game);
+                Walk(2,109,game,true);
             }
             else if (user.player.FarmNumber==4){
-                Walk(102,85,game);
+                Walk(102,85,game,true);
             }
         }
         game.currentPlayer = currentPlayerTemp;

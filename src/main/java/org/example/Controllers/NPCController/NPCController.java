@@ -159,14 +159,11 @@ public class NPCController {
             case "leah":
                 npc.setFavoriteItems(new HashSet<>(Arrays.asList("Salad", "Grape", "Wine")));
 
-                Quest lq1 = new Quest(13, "Deliver 1 Cooking Recipe (Dinner Salmon)", "Deliver 1 Cooking Recipe (Dinner Salmon)", 0);
+                Quest lq1 = new Quest(13, "Deliver 1 Cooking Recipe", "Deliver 1 Cooking Recipe (Dinner Salmon)", 0);
                 lq1.addRequiredItem("Cooking Recipe - Dinner Salmon", 1);
 
                 Quest lq2 = new Quest(14, "Deliver 1 Healthy Salmon", "Deliver 1 Healthy Salmon", 1);
                 lq2.addRequiredItem("Healthy Salmon", 1);
-
-                Quest lq3 = new Quest(15, "Deliver 3 Deluxe Scarecrows", "Deliver 3 Deluxe Scarecrows", 2);
-                lq3.addRequiredItem("Deluxe Scarecrow", 3);
 
                 Quest lq4 = new Quest(16, "Deliver 200 Wood", "Deliver 200 Wood", 3);
                 lq4.addRequiredItem("Wood", 200);
@@ -177,7 +174,6 @@ public class NPCController {
 
                 quests.put(0, lq1);
                 quests.put(1, lq2);
-                quests.put(2, lq3);
                 quests.put(3, lq4);
                 quests.put(4, lq5);
                 break;
@@ -445,12 +441,16 @@ public class NPCController {
                 npc.setFriendshipLevel(newLevel);
             } else if (rewardName.equalsIgnoreCase("Gold")) {
                 player.money += rewardCount;
-            } else {
+            }
+            else if (rewardName.equalsIgnoreCase("Cooking Recipe - Dinner Salmon")) {
+                game.currentPlayer.KnownRecipes.add(game.AllRecipes.get(17));
+            }
+            else {
                 ItemType type = ItemType.MATERIAL;
                 ItemSubType subtype = ItemSubType.NONE;
                 int count = rewardCount;
                 String name = rewardName;
-                Integer price = 0;
+                Integer price = 20;
 
                 Item newItem = new Item(type, subtype, count, name, price);
                 AddItem(game, newItem);

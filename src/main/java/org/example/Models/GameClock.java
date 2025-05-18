@@ -81,9 +81,8 @@ public class GameClock {
         controller.TendToCropsDaily(game);
         controller.TendToTreesDaily(game);
         controller.TendToShippingBins(game);
-        //controller.GoHome(game);
+        controller.GoHome(game);
         controller.TendToAnimalsDaily(game);
-
         day++;
         hour=9;
         if (day > 28) {

@@ -75,7 +75,7 @@ public class GameView {
             else if((matcher= GameCommands.WALK.matcher(input))!=null){
                 int x = Integer.parseInt(matcher.group(1));
                 int y = Integer.parseInt(matcher.group(2));
-                System.out.println(controller.Walk(x,y,game));
+                System.out.println(controller.Walk(x,y,game,false));
             }
             else if ((matcher= GameCommands.TOOL_EQUIP.matcher(input))!=null){
                 String name = matcher.group(1);
