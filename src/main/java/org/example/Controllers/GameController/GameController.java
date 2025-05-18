@@ -921,6 +921,12 @@ public class GameController {
     public void triggerLightning(Game game, int x, int y) {
 
         System.out.println("Lightning triggered at position (" + x + ", " + y + ")!");
+        if (game.Map.get(y).get(x).type == TileType.TREE){
+            AddItem(game,new Material(2,ItemSubType.COAL,"Coal",15));
+            game.Map.get(y).set(x,new Tile(TileType.EMPTY));
+            return;
+        }
+        return;
 
     }
     public void cheatAddDollars(Game game, int amount) {
