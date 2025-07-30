@@ -1,5 +1,6 @@
 package org.example.Models;
 
+import com.badlogic.gdx.graphics.Texture;
 import org.example.Models.Enums.ItemSubType;
 import org.example.Models.Enums.ItemType;
 
@@ -9,6 +10,13 @@ public class Item {
     public int Count;
     public String name;
     public Integer price;
+    public Texture texture;
+
+
+
+    public Texture getTexture() {
+        return texture;
+    }
     public Item(ItemType type, ItemSubType subtype , int count,String name, Integer price) {
         this.type = type;
         this.subtype = subtype;

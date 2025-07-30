@@ -15,6 +15,9 @@ public class GameScreen implements Screen {
     private final Game game;
     GameController controller = new GameController();
     private OrthographicCamera camera;
+    private InventoryUI inventoryUI;
+    private boolean isInventoryOpen = false;
+
 
 
     private final MapRenderer mapRenderer;
@@ -31,6 +34,8 @@ public class GameScreen implements Screen {
     public void show() {
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
+        inventoryUI = new InventoryUI(game, batch); // ✅ این خطو اضافه کن
+
         camera = new OrthographicCamera(320, 240);
         camera.zoom = 1f; // یا هر بزرگنمایی دلخواه
         camera.update();
@@ -51,6 +56,10 @@ public class GameScreen implements Screen {
         batch.begin();
         mapRenderer.render(batch);
         batch.end();
+        if (isInventoryOpen) {
+            inventoryUI.act(delta);
+            inventoryUI.draw();
+        }
     }
     private void handleInput() {
         if (Gdx.input.isKeyJustPressed(Input.Keys.W))
@@ -61,6 +70,13 @@ public class GameScreen implements Screen {
             controller.Walk(game,'a');
         if (Gdx.input.isKeyJustPressed(Input.Keys.D))
             controller.Walk(game,'d');
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            isInventoryOpen = !isInventoryOpen;
+            if (isInventoryOpen) {
+                inventoryUI.rebuildUI(); // به‌روزرسانی موجودی
+            }
+        }
+
     }
 
     @Override

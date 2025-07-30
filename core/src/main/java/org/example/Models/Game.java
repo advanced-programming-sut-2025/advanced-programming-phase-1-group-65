@@ -1,5 +1,7 @@
 package org.example.Models;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import org.example.Models.Enums.AnimalType;
 import org.example.Models.Enums.ItemSubType;
 import org.example.Models.Enums.TileType;
@@ -587,6 +589,7 @@ public class Game {
 
         Food Fiber = new Food(5,ItemSubType.FRUIT,"Fiber",0,0,false);
         Foraging GRASS = new Foraging(0,"Grass",1234,true,Fiber,true,NoSeed,0);
+        game.AllCropInfo.add(GRASS);
     }
 
 
@@ -629,31 +632,29 @@ public class Game {
                 }
 
                 user.player.game.Map.get(user.player.PositionY).set(user.player.PositionX, new Tile(TileType.PLAYER));
-                user.player.items.add(new Tool(1, ItemSubType.AXE,"Axe",0));
-                user.player.items.add(new Tool(1, ItemSubType.WATERINGCAN,"WateringCan",0));
-                user.player.items.add(new Tool(1, ItemSubType.FISHINGPOLE,"FishingPole",0));
-                user.player.items.add(new Tool(1, ItemSubType.SCYTHE,"Scythe",0));
-                user.player.items.add(new Tool(1, ItemSubType.MILKPAIL,"MilkPail",0));
-                user.player.items.add(new Tool(1, ItemSubType.SHEAR,"Shear",0));
-                user.player.items.add(new Tool(1, ItemSubType.TRASH_CAN,"TrashCan",0));
-                user.player.items.add(new Tool(1, ItemSubType.HOE,"Hoe",0));
-                user.player.items.add(new Tool(1, ItemSubType.PICKAXE,"Pickaxe",0));
+                user.player.items.add(new Tool(1, ItemSubType.AXE,"Axe",0,new Texture(Gdx.files.internal("Tools/Axe.png"))));
+
+                user.player.items.add(new Tool(1, ItemSubType.WATERINGCAN,"WateringCan",0,new Texture(Gdx.files.internal("Tools/Watering_Can.png"))));
+                user.player.items.add(new Tool(1, ItemSubType.FISHINGPOLE,"FishingPole",0,new Texture(Gdx.files.internal("Tools/Bamboo_Pole.png"))));
+                user.player.items.add(new Tool(1, ItemSubType.SCYTHE,"Scythe",0,new Texture(Gdx.files.internal("Tools/Scythe.png"))));
+                user.player.items.add(new Tool(1, ItemSubType.MILKPAIL,"MilkPail",0,new Texture(Gdx.files.internal("Tools/Milk_Pail.png"))));
+                user.player.items.add(new Tool(1, ItemSubType.SHEAR,"Shear",0,new Texture(Gdx.files.internal("Tools/Shears.png"))));
+                user.player.items.add(new Tool(1, ItemSubType.TRASH_CAN,"TrashCan",0,new Texture(Gdx.files.internal("Tools/Trash_Can.png"))));
+                user.player.items.add(new Tool(1, ItemSubType.HOE,"Hoe",0,new Texture(Gdx.files.internal("Tools/Hoe.png"))));
+                user.player.items.add(new Tool(1, ItemSubType.PICKAXE,"Pickaxe",0,new Texture(Gdx.files.internal("Tools/Pickaxe.png"))));
                 user.player.KnownRecipes.add(AllRecipes.get(0));
                 user.player.KnownRecipes.add(AllRecipes.get(1));
                 user.player.KnownRecipes.add(AllRecipes.get(2));
                 //tester
 
-              user.player.items.add(new Material(1, ItemSubType.SEED,"Test Seed",25));
+             /* user.player.items.add(new Material(1, ItemSubType.SEED,"Test Seed",25));
                 user.player.items.add(new Material(1000,ItemSubType.WOOD,"Wood",10));
                 user.player.items.add(new Material(1000,ItemSubType.STONE,"Stone",10));
                 user.player.items.add(new Material(1000,ItemSubType.HAY,"Hay",10));
                 user.player.items.add(new Material(1,ItemSubType.FISH,"Sardine",10));
                 user.player.items.add(new Material(1,ItemSubType.FIBER,"Fiber",10));
                 user.player.items.add(new Material(1,ItemSubType.UNKNOWN,"Rice",10));
-                user.player.items.add(new Food(3,ItemSubType.MILK,"Test Milk",12,12,true));
-                user.player.items.add(new Food(3,ItemSubType.EGG,"Test Egg",12,12,true));
-
-
+*/
                 user.player.game.Map.get(user.player.PositionY)
                         .set(user.player.PositionX, new Tile(TileType.PLAYER));
             }

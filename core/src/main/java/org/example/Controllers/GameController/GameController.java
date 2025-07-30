@@ -1,5 +1,7 @@
 package org.example.Controllers.GameController;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import org.example.Controllers.BuildingController.BuildingController;
 import org.example.Models.*;
 import org.example.Models.Enums.*;
@@ -852,16 +854,18 @@ public class GameController {
             }
         }
 
-        if (game.currentPlayer.fishingSkill.getLevel() >= 4) {
+       /* if (game.currentPlayer.fishingSkill.getLevel() >= 4) {
             if (currentSeason.equalsIgnoreCase("spring"))
-                seasonalFish.add(new Food(1, ItemSubType.FISH, "Legend", 50, 5000, true));
+                seasonalFish.add(new Food(1, ItemSubType.FISH, "Legend", 50, 5000, true , new Texture(Gdx.files.internal("Fish/Legend.png"))));
             if (currentSeason.equalsIgnoreCase("winter"))
-                seasonalFish.add(new Food(1, ItemSubType.FISH, "Glacierfish", 45, 1000, true));
+                seasonalFish.add(new Food(1, ItemSubType.FISH, "Glacierfish", 45, 1000, true, new Texture(Gdx.files.internal("Fish/Glacierfish.png"))));
             if (currentSeason.equalsIgnoreCase("fall"))
-                seasonalFish.add(new Food(1, ItemSubType.FISH, "Angler", 30, 900, true));
+                seasonalFish.add(new Food(1, ItemSubType.FISH, "Angler", 30, 900, true, new Texture(Gdx.files.internal("Fish/Angler.png"))));
             if (currentSeason.equalsIgnoreCase("summer"))
-                seasonalFish.add(new Food(1, ItemSubType.FISH, "Crimsonfish", 40, 1500, true));
+                seasonalFish.add(new Food(1, ItemSubType.FISH, "Crimsonfish", 40, 1500, true, new Texture(Gdx.files.internal("Fish/Crimsonfish.png"))));
         }
+
+        */
 
         if (seasonalFish.isEmpty()) {
             System.out.println("There are no fish available in this season.");
