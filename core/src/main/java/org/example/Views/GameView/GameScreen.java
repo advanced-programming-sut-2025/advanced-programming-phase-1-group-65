@@ -8,7 +8,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.example.Controllers.GameController.GameController;
+import org.example.Models.Enums.ItemType;
 import org.example.Models.Game;
+import org.example.Models.Item;
 import org.example.Views.MapRenderer;
 
 public class GameScreen implements Screen {
@@ -62,22 +64,31 @@ public class GameScreen implements Screen {
         }
     }
     private void handleInput() {
-        if (Gdx.input.isKeyJustPressed(Input.Keys.W))
-            controller.Walk(game, 'w');
-        if (Gdx.input.isKeyJustPressed(Input.Keys.S))
-            controller.Walk(game,'s');
-        if (Gdx.input.isKeyJustPressed(Input.Keys.A))
-            controller.Walk(game,'a');
-        if (Gdx.input.isKeyJustPressed(Input.Keys.D))
-            controller.Walk(game,'d');
+        if (!isInventoryOpen) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.W))
+                controller.Walk(game, 'w');
+            if (Gdx.input.isKeyJustPressed(Input.Keys.S))
+                controller.Walk(game,'s');
+            if (Gdx.input.isKeyJustPressed(Input.Keys.A))
+                controller.Walk(game,'a');
+            if (Gdx.input.isKeyJustPressed(Input.Keys.D))
+                controller.Walk(game,'d');
+        }
+
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             isInventoryOpen = !isInventoryOpen;
             if (isInventoryOpen) {
-                inventoryUI.rebuildUI(); // به‌روزرسانی موجودی
+                inventoryUI.rebuildUI();
             }
         }
 
+        if (Gdx.input.isKeyJustPressed(Input.Keys.T) && isInventoryOpen) {
+            inventoryUI.showToolsOnly();
+        }
+
     }
+
+
 
     @Override
     public void dispose() {
