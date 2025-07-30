@@ -108,7 +108,22 @@ public class InventoryUI extends Stage {
 
                 updated = true;
             }
+
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+            // وقتی Enter زده شد، اگر آیتم انتخاب شده Tool بود انتخابش کن
+            if (selectedIndex >= 0 && selectedIndex < displayedItems.size()) {
+                Item selectedItem = displayedItems.get(selectedIndex);
+                if (selectedItem.type == ItemType.TOOL) {
+                    player.CurrentTool = (org.example.Models.Tool) selectedItem;
+                    System.out.println("Current tool selected: " + selectedItem.getName());
+                }
+            }
         }
+
+        if (updated) {
+            rebuildUI();
+        }
+
 
         // **حالا selectedIndex را به محدوده صفحه جدید محدود کنیم**
         int start = currentPage * pageSize;
