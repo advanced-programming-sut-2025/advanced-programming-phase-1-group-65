@@ -72,11 +72,13 @@ public class GameView {
                 game.map.printMap(game.Map);
 
             }
-            else if((matcher= GameCommands.WALK.matcher(input))!=null){
+            /*else if((matcher= GameCommands.WALK.matcher(input))!=null){
                 int x = Integer.parseInt(matcher.group(1));
                 int y = Integer.parseInt(matcher.group(2));
-                System.out.println(controller.Walk(x,y,game,false));
+                controller.Walk(x,y,game,false);
             }
+
+             */
             else if ((matcher= GameCommands.TOOL_EQUIP.matcher(input))!=null){
                 String name = matcher.group(1);
                 System.out.println(controller.EquipTool(game,name));

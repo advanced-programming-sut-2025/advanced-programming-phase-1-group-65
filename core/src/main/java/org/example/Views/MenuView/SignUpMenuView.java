@@ -9,7 +9,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import org.example.Main;
 import org.example.Controllers.MenuController.SignUpMenuController;
+import org.example.Models.Game;
+import org.example.Models.Player;
+import org.example.Models.User;
 import org.example.Views.AppMenu;
+import org.example.Views.GameView.GameScreen;
 
 import java.util.Scanner;
 
@@ -21,7 +25,7 @@ public class SignUpMenuView extends ScreenAdapter implements AppMenu {
 
     private TextField usernameField, passwordField, confirmPasswordField, nicknameField, emailField, genderField;
     private Label messageLabel;
-    private TextButton signUpButton, backButton, generatePasswordButton;
+    private TextButton signUpButton, backButton, generatePasswordButton,StartTest;
 
     private SignUpMenuController controller;
 
@@ -60,6 +64,7 @@ public class SignUpMenuView extends ScreenAdapter implements AppMenu {
         signUpButton = new TextButton("Sign Up", skin);
         backButton = new TextButton("Back to Login/Register Menu", skin);
         generatePasswordButton = new TextButton("Generate", skin);
+        StartTest = new TextButton("Start Test", skin);
 
         table.add(new Label("Username:", skin)).right().padRight(10);
         table.add(usernameField).width(500).padBottom(10);
@@ -94,6 +99,35 @@ public class SignUpMenuView extends ScreenAdapter implements AppMenu {
         table.row();
 
         table.add(messageLabel).colspan(2).padTop(10);
+        table.row();
+        table.add(StartTest).colspan(2).padTop(10);
+        StartTest.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                User user1 = new User("Arya", "Arya@9057" , "Arya@gmail.com" , "Male" , "Arya");
+                user1.player = new Player();
+                user1.player.FarmNumber =1;
+                User user2 = new User("Aryo", "Aryo@9057" , "Aryo@gmail.com" , "Male" , "Aryo");
+                user2.player = new Player();
+                user2.player.FarmNumber =2;
+                User user3 = new User("Aryi", "Aryi@9057" , "Aryi@gmail.com" , "Male" , "Aryi");
+                user3.player = new Player();
+                user3.player.FarmNumber =3;
+                Game TestGame = new Game(user1, user2, user3);
+
+                user1.player.game = TestGame;
+                user2.player.game = TestGame;
+                user3.player.game = TestGame;
+                TestGame.currentPlayer=user3.player;
+
+                TestGame.GameRun();
+                Gdx.app.postRunnable(() -> Main.getInstance().setScreen(new GameScreen(TestGame)));
+
+
+
+            }
+
+        });
 
         signUpButton.addListener(new ChangeListener() {
             @Override
@@ -117,6 +151,7 @@ public class SignUpMenuView extends ScreenAdapter implements AppMenu {
                 showSecurityQuestionDialog(username, password, confirmPassword, nickname, email, gender);
             }
         });
+
 
         backButton.addListener(new ChangeListener() {
             @Override

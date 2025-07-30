@@ -592,7 +592,7 @@ public class Game {
 
 
     public void GameRun() {
-        Scanner sc = new Scanner(System.in);
+        //Scanner sc = new Scanner(System.in);
 
         if (timesLoaded == 0) {
             map = new Map();
@@ -661,7 +661,7 @@ public class Game {
 
 
         GameView gameView = new GameView();
-        gameView.check(sc, this);
+       // gameView.check(sc, this);
     }
 
 

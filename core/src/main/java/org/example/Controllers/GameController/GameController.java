@@ -90,8 +90,8 @@ public class GameController {
     }
 
 
-    public String Walk(int destx, int desty, Game game, boolean GoHome) {
-        Scanner temp = new Scanner(System.in);
+    public void Walk1(int destx, int desty, Game game, boolean GoHome) {
+        /*Scanner temp = new Scanner(System.in);
         int height = 112;
         int width = 140;
         boolean[][] visited = new boolean[height][width];
@@ -232,10 +232,34 @@ public class GameController {
             game.Map.get(prevY).set(prevX, game.MapClone.get(prevY).get(prevX));
             game.Map.get(desty).set(destx, new Tile(TileType.PLAYER));
 
-        }
-        return null;
-    }
+        }*/
 
+    }
+    public void Walk (Game game, char direction){
+        int newX = game.currentPlayer.PositionX;
+        int newY = game.currentPlayer.PositionY;
+
+        switch (direction){
+            case 'w' -> newY++;
+            case 's' -> newY--;
+            case 'd' -> newX++;
+            case 'a' -> newX--;
+            default -> {return;}
+        }
+        if (newY >= 0 && newY < game.Map.size() &&
+            newX >= 0 && newX < game.Map.get(0).size() && game.Map.get(newY).get(newX).type.equals(TileType.EMPTY)) {
+
+            // پاک‌کردن موقعیت قبلی
+            game.Map.get(game.currentPlayer.PositionY).set(game.currentPlayer.PositionX, new Tile(TileType.EMPTY));
+
+            // قرار دادن بازیکن در موقعیت جدید
+            game.currentPlayer.PositionX = newX;
+            game.currentPlayer.PositionY = newY;
+            game.Map.get(newY).set(newX, new Tile(TileType.PLAYER));
+        }
+
+
+    }
     public void processAdvanceHours(Game game, int hours) {
         for (int i = 0; i < hours; i++) {
             game.gameClock.advanceTimeByOneHour(game,this);
@@ -1733,7 +1757,7 @@ public class GameController {
             }
         }
     }
-    public void GoHome(Game game) {
+    /*public void GoHome(Game game) {
         Player currentPlayerTemp = game.currentPlayer;
         for(User user : game.users){
             game.currentPlayer = user.player;
@@ -1752,6 +1776,8 @@ public class GameController {
         }
         game.currentPlayer = currentPlayerTemp;
     }
+
+     */
 
     public static String numberWithDashes(int number) {
         String numStr = String.valueOf(Math.abs(number));
