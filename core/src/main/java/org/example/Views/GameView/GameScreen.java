@@ -1,11 +1,7 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
 package org.example.Views.GameView;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -40,6 +36,7 @@ public class GameScreen implements Screen {
         this.mapRenderer = new MapRenderer(game.Map);
     }
 
+    @Override
     public void show() {
         this.batch = new SpriteBatch();
         this.camera = new OrthographicCamera(320.0F, 240.0F);
@@ -51,67 +48,78 @@ public class GameScreen implements Screen {
         this.font.getData().setScale(1.5F);
     }
 
+    @Override
     public void render(float delta) {
         this.timeAccumulator += delta;
-        if (this.timeAccumulator >= 5.0F) {
-            this.timeAccumulator -= 5.0F;
+        if (this.timeAccumulator >= this.timePerGameHour) {
+            this.timeAccumulator -= this.timePerGameHour;
             this.game.gameClock.advanceTimeByOneHour(this.game, this.controller);
         }
 
         this.handleInput();
         this.updateCamera();
-        Gdx.gl.glClearColor(0.0F, 0.0F, 0.0F, 1.0F);
+
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(16384);
+
         this.batch.setProjectionMatrix(this.camera.combined);
         this.batch.begin();
+
         this.mapRenderer.render(this.batch);
+
         TextureRegion frame = this.playerAnim.getCurrentFrame(this.currentDirection, delta);
         int px = this.game.currentPlayer.PositionX;
         int py = this.game.currentPlayer.PositionY;
         int tileSize = 16;
-        this.batch.draw(frame, (float)(px * tileSize), (float)(py * tileSize), (float)tileSize, (float)tileSize);
+        this.batch.draw(frame, px * tileSize, py * tileSize, tileSize, tileSize);
+
         this.batch.end();
+
         this.drawClockUI();
     }
 
     private void handleInput() {
-        if (Gdx.input.isKeyJustPressed(51)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.W)) {
             this.controller.Walk(this.game, 'w');
             this.currentDirection = Direction.UP;
-        } else if (Gdx.input.isKeyJustPressed(47)) {
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.S)) {
             this.controller.Walk(this.game, 's');
             this.currentDirection = Direction.DOWN;
-        } else if (Gdx.input.isKeyJustPressed(29)) {
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.A)) {
             this.controller.Walk(this.game, 'a');
             this.currentDirection = Direction.LEFT;
-        } else if (Gdx.input.isKeyJustPressed(32)) {
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.D)) {
             this.controller.Walk(this.game, 'd');
             this.currentDirection = Direction.RIGHT;
-        } else if (Gdx.input.isKeyJustPressed(48)) {
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
             this.game.gameClock.advanceTimeByOneHour(this.game, this.controller);
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            this.controller.processNextTurn(this.game);
         }
-
     }
 
     private void updateCamera() {
         int tileSize = 16;
-        float px = (float)(this.game.currentPlayer.PositionX * tileSize) + (float)tileSize / 2.0F;
-        float py = (float)(this.game.currentPlayer.PositionY * tileSize) + (float)tileSize / 2.0F;
-        this.camera.position.set(px, py, 0.0F);
+        float px = this.game.currentPlayer.PositionX * tileSize + tileSize / 2f;
+        float py = this.game.currentPlayer.PositionY * tileSize + tileSize / 2f;
+        this.camera.position.set(px, py, 0);
         this.camera.update();
     }
 
     private void drawClockUI() {
-        this.batch.setProjectionMatrix((new Matrix4()).setToOrtho2D(0.0F, 0.0F, (float)Gdx.graphics.getWidth(), (float)Gdx.graphics.getHeight()));
+        this.batch.setProjectionMatrix(new Matrix4().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         this.batch.begin();
-        float screenWidth = (float)Gdx.graphics.getWidth();
-        float screenHeight = (float)Gdx.graphics.getHeight();
-        float clockWidth = (float)this.clockTexture.getWidth();
-        float clockHeight = (float)this.clockTexture.getHeight();
-        float clockX = screenWidth - clockWidth - 10.0F;
-        float clockY = screenHeight - clockHeight - 10.0F;
+
+        float screenWidth = Gdx.graphics.getWidth();
+        float screenHeight = Gdx.graphics.getHeight();
+        float clockWidth = this.clockTexture.getWidth();
+        float clockHeight = this.clockTexture.getHeight();
+        float clockX = screenWidth - clockWidth - 10f;
+        float clockY = screenHeight - clockHeight - 10f;
+
         this.batch.draw(this.clockTexture, clockX, clockY, clockWidth, clockHeight);
-        this.font.setColor(0.1F, 0.1F, 0.1F, 1.0F);
+
+        this.font.setColor(0.1f, 0.1f, 0.1f, 1f);
         int hour = this.game.gameClock.getHour();
         String ampm = hour >= 12 ? "PM" : "AM";
         int displayHour = hour % 12;
@@ -120,27 +128,29 @@ public class GameScreen implements Screen {
         }
 
         String time = String.format("%02d:00 %s", displayHour, ampm);
-        String var10000 = this.game.gameClock.getDayOfWeek().substring(0, 3);
-        String day = var10000 + ". " + this.game.gameClock.getDay() + " - " + this.game.gameClock.getCurrentSeason();
+        String day = this.game.gameClock.getDayOfWeek().substring(0, 3) + ". " + this.game.gameClock.getDay() + " - " + this.game.gameClock.getCurrentSeason();
         String money = "$" + this.game.currentPlayer.money;
-        this.font.draw(this.batch, day, clockX + 120.0F, clockY + clockHeight - 20.0F);
-        this.font.draw(this.batch, time, clockX + 130.0F, clockY + clockHeight - 115.0F);
-        this.font.draw(this.batch, money, clockX + clockWidth - 120.0F, clockY + 42.0F);
+
+        this.font.draw(this.batch, day, clockX + 120f, clockY + clockHeight - 20f);
+        this.font.draw(this.batch, time, clockX + 130f, clockY + clockHeight - 115f);
+        this.font.draw(this.batch, money, clockX + clockWidth - 120f, clockY + 42f);
+
         this.batch.end();
     }
 
-    public void resize(int width, int height) {
-    }
+    @Override
+    public void resize(int width, int height) { }
 
-    public void pause() {
-    }
+    @Override
+    public void pause() { }
 
-    public void resume() {
-    }
+    @Override
+    public void resume() { }
 
-    public void hide() {
-    }
+    @Override
+    public void hide() { }
 
+    @Override
     public void dispose() {
         this.batch.dispose();
         this.clockTexture.dispose();

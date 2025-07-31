@@ -13,6 +13,7 @@ import org.example.Models.App;
 import org.example.Models.User;
 import org.example.Models.Enums.Menu;
 import org.example.Views.AppMenu;
+import org.example.Views.GameView.GameSetupView;
 
 public class GameMenuView extends ScreenAdapter implements AppMenu {
     private Stage stage;
@@ -126,15 +127,12 @@ public class GameMenuView extends ScreenAdapter implements AppMenu {
                 String username2 = user2Field.getText().trim();
                 String username3 = user3Field.getText().trim();
 
-                String result = controller.newGame(user1.getUsername(), username2, username3);
-                messageLabel.setText(result);
-                if (result.equals("New game was successfully created")) {
-                    messageLabel.setColor(Color.GREEN);
-                    // TODO: بعد از ساخت بازی به صفحه انتخاب نقشه یا بازی منتقل شو
-                    // Main.getInstance().setScreen(new MapSelectionView());
-                } else {
-                    messageLabel.setColor(Color.RED);
-                }
+                Main.getInstance().setScreen(new GameSetupView(
+                        App.getCurrentUser().getUsername(),
+                        username2,
+                        username3,
+                        controller
+                ));
             }
         });
 
