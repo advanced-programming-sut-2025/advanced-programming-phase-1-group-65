@@ -2,6 +2,8 @@ package org.example.Controllers.GameController;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import org.example.Controllers.BuildingController.BuildingController;
 import org.example.Models.*;
 import org.example.Models.Enums.*;
@@ -14,6 +16,12 @@ import org.example.Views.MenuView.KitchenView;
 import java.util.*;
 
 public class GameController {
+
+    public Skin skin;
+
+    public GameController (){
+    }
+
     private static final int[][] DIRECTIONS = {
             {-1, 0}, // up
             {1, 0},  // down
@@ -1836,6 +1844,10 @@ public class GameController {
         }
         return sum;
     }
+
+
+
+
 
 
 

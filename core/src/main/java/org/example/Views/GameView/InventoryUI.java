@@ -4,14 +4,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import org.example.Controllers.GameController.GameController;
 import org.example.Models.Enums.ItemType;
 import org.example.Models.Game;
 import org.example.Models.Item;
@@ -20,11 +22,15 @@ import org.example.Models.Player;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class InventoryUI extends Stage {
+    private final GameController controller;
     private final Player player;
     private final Table inventoryTable;
     private final List<Item> displayedItems = new ArrayList<>();
     private final Image background;
+    private final Label.LabelStyle labelStyle;
+    private Skin skin;
 
     private static final int CELL_SIZE = 75;
     private static final int COLUMNS = 5;
@@ -35,11 +41,12 @@ public class InventoryUI extends Stage {
     private int selectedIndex = 0;
     private int currentPage = 0;
 
-    public InventoryUI(Game game, SpriteBatch batch) {
+    public InventoryUI(Game game, SpriteBatch batch, GameController controller) {
         super(new ScreenViewport(), batch);
         this.player = game.currentPlayer;
         displayedItems.addAll(player.items);
-
+        skin = new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"));
+        this.controller = controller;
         Texture bgTexture = new Texture(Gdx.files.internal("Inventory.png"));
         background = new Image(bgTexture);
         background.setSize(GRID_WIDTH, GRID_HEIGHT);
@@ -47,7 +54,8 @@ public class InventoryUI extends Stage {
         float centerY = (Gdx.graphics.getHeight() - GRID_HEIGHT) / 2f;
         background.setPosition(centerX, centerY);
         addActor(background);
-
+        BitmapFont font = new BitmapFont(); // فونت پیش‌فرض
+        labelStyle = new Label.LabelStyle(font, Color.WHITE); // رنگ متن سفید
         inventoryTable = new Table();
         inventoryTable.setSize(GRID_WIDTH, GRID_HEIGHT);
         inventoryTable.setPosition(centerX, centerY);
@@ -66,7 +74,8 @@ public class InventoryUI extends Stage {
     private void handleInput() {
         boolean updated = false;
         int totalItems = displayedItems.size();
-        int pageSize = COLUMNS * 5;  // 5 ردیف در صفحه (طبق rebuildUI)
+        int pageSize = COLUMNS * 5;
+        // 5 ردیف در صفحه (طبق rebuildUI)
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
             if (selectedIndex < totalItems - 1) {
@@ -116,6 +125,8 @@ public class InventoryUI extends Stage {
                 if (selectedItem.type == ItemType.TOOL) {
                     player.CurrentTool = (org.example.Models.Tool) selectedItem;
                     System.out.println("Current tool selected: " + selectedItem.getName());
+                   showMessage("You Have Equiped " + selectedItem.getName() );
+
                 }
             }
         }
@@ -148,15 +159,32 @@ public class InventoryUI extends Stage {
             Image img = new Image(item.getTexture());
             img.setSize(CELL_SIZE, CELL_SIZE);
 
+            Stack stack = new Stack();
+            stack.setSize(CELL_SIZE, CELL_SIZE);
+            stack.add(img);
+
             if (i == selectedIndex) {
                 img.setColor(Color.YELLOW);
+
+                String labelText = item.getName() + " x" + item.Count;
+                Label itemLabel = new Label(labelText, labelStyle);
+                itemLabel.setFontScale(1.5f);
+                itemLabel.setColor(Color.WHITE);
+
+                // برای قرار دادن متن بالای آیتم
+                Table labelContainer = new Table();
+                labelContainer.top(); // متن در بالا قرار بگیرد
+                labelContainer.add(itemLabel).padTop(5);
+
+                stack.add(labelContainer);
             }
 
-            inventoryTable.add(img).size(CELL_SIZE, CELL_SIZE).pad(65,40,-2,30);
+            inventoryTable.add(stack).size(CELL_SIZE, CELL_SIZE).pad(65, 40, -2, 30);
 
             if ((i - start + 1) % COLUMNS == 0) {
                 inventoryTable.row().padTop(10);
             }
+
         }
 
         // پر کردن خانه‌های خالی برای حفظ ساختار جدول
@@ -184,6 +212,25 @@ public class InventoryUI extends Stage {
         selectedIndex = 0;
         rebuildUI();
     }
+    private void showMessage(String message) {
+        Table messageTable = new Table();
+        messageTable.setFillParent(true);
+        messageTable.top(); // متن بالا نمایش داده شود
+
+        Label.LabelStyle messageStyle = new Label.LabelStyle(new BitmapFont(), Color.GOLD);
+        Label messageLabel = new Label(message, messageStyle);
+        messageLabel.setFontScale(4f);
+        messageTable.add(messageLabel).padTop(20);
+
+        addActor(messageTable); // اضافه به stage
+
+        // بعد از 2 ثانیه حذف شود
+        addAction(Actions.sequence(
+            Actions.delay(2f),
+            Actions.run(() -> messageTable.remove())
+        ));
+    }
+
 
     public void showAllItems() {
         displayedItems.clear();

@@ -19,7 +19,8 @@ public class MapRenderer {
     private TextureRegion LakeTileRegion;
     private Texture WallTileTexture;
     private TextureRegion WallTileRegion;
-
+    private Texture FertileTileTexture;
+    private TextureRegion FertileTileRegion;
 
     // سایر تکسچرها مثل treeTexture, wallTexture و ...
 
@@ -33,6 +34,8 @@ public class MapRenderer {
         LakeTileRegion = new TextureRegion(LakeTileTexture);
         WallTileTexture = new Texture("map/Hardwood_Fence.png");
         WallTileRegion = new TextureRegion(WallTileTexture);
+        FertileTileTexture = new Texture("map/Dirt Hoed.png");
+        FertileTileRegion = new TextureRegion(FertileTileTexture);
         // همینطور تکسچرهای دیگه رو بارگذاری کن
     }
 
@@ -57,6 +60,7 @@ public class MapRenderer {
             case EMPTY -> outdoorTileRegion;
             case PLAYER -> LakeTileRegion;
             case WALL -> WallTileRegion;
+            case FERTILE -> FertileTileRegion;
             // case های دیگر برای هر نوع Tile
             // مثلا WALL -> wallTextureRegion
             default -> null;
