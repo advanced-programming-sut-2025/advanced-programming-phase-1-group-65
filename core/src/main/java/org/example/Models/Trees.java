@@ -1,5 +1,6 @@
 package org.example.Models;
 
+import com.badlogic.gdx.graphics.Texture;
 import org.example.Models.Enums.TileType;
 
 public class Trees extends Tile{
@@ -7,7 +8,7 @@ public class Trees extends Tile{
     public Food Fruit ;
     public int Season;
     public Material seed;
-    public Trees( String name, Food Fruit, int Season,int HarvestingCycle,Material seed) {
+    public Trees(String name, Food Fruit, int Season, int HarvestingCycle, Material seed) {
         super(TileType.TREE);
         this.name = name;
         this.Fruit = Fruit;

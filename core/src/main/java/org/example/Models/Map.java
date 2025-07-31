@@ -49,15 +49,7 @@ public class Map {
             Random rand = new Random();
             int index = rand.nextInt(Trees.length);
             switch (index){
-                case 0:
-                     seed = new Material(1,ItemSubType.SEED,"Apricot Sapling",1000);
-                    break;
-                case 1:
-                    seed = new Material(1,ItemSubType.SEED,"Cherry Sapling",4000);
-                    break;
-                case 2:
-                    seed = new Material(1,ItemSubType.SEED,"Mystic Tree Seeds",5000);
-                    break;
+
                 case 3:
                     seed = new Material(1,ItemSubType.SEED,"Mushroom Tree Seeds",6000);
                     break;
@@ -70,9 +62,7 @@ public class Map {
                  case 6:
                      seed = new Material(1,ItemSubType.SEED,"Maple Seeds",3000);
                      break;
-                     case 7:
-                         seed = new Material(1,ItemSubType.SEED,"Acorns",4000);
-                         break;
+
                 default:
                     seed = new Material(1,ItemSubType.SEED,"Maple Seeds",4000);
             }
@@ -84,18 +74,7 @@ public class Map {
             Random rand = new Random();
             int index = rand.nextInt(Trees.length);
             switch (index){
-                case 0:
-                    seed = new Material(1,ItemSubType.SEED,"Banana Sapling",4000);
-                    break;
-                case 1:
-                    seed = new Material(1,ItemSubType.SEED,"Mango Sapling",4000);
-                    break;
-                case 2:
-                    seed = new Material(1,ItemSubType.SEED,"Mystic Tree Seeds",5000);
-                    break;
-                case 3:
-                    seed = new Material(1,ItemSubType.SEED,"Mushroom Tree Seeds",4000);
-                    break;
+
                 case 4:
                     seed = new Material(1,ItemSubType.SEED,"Mahogany Seeds",3000);
                     break;
@@ -105,17 +84,9 @@ public class Map {
                 case 6:
                     seed = new Material(1,ItemSubType.SEED,"Maple Seeds",3000);
                     break;
-                case 7:
-                    seed = new Material(1,ItemSubType.SEED,"Acorns",4000);
-                    break;
-                    case 8:
-                        seed = new Material(1,ItemSubType.SEED,"Orange Sapling",4000);
-                        break;
-                        case 9:
-                            seed = new Material(1,ItemSubType.SEED,"Peach Sapling",4000);
-                            break;
+
                 default:
-                    seed = new Material(1,ItemSubType.SEED,"Banana Sapling",4000);
+                    seed = new Material(1,ItemSubType.SEED,"Mahogany Seeds",4000);
 
 
             }
@@ -126,18 +97,7 @@ public class Map {
             Random rand = new Random();
             int index = rand.nextInt(Trees.length);
             switch (index){
-                case 0:
-                    seed = new Material(1,ItemSubType.SEED,"Apple Sapling",4000);
-                    break;
-                case 1:
-                    seed = new Material(1,ItemSubType.SEED,"Pomegranate Sapling",4000);
-                    break;
-                case 2:
-                    seed = new Material(1,ItemSubType.SEED,"Mystic Tree Seeds",4000);
-                    break;
-                case 3:
-                    seed = new Material(1,ItemSubType.SEED,"Mushroom Tree Seeds",4000);
-                    break;
+
                 case 4:
                     seed = new Material(1,ItemSubType.SEED,"Mahogany Seeds",4000);
                     break;
@@ -147,9 +107,7 @@ public class Map {
                 case 6:
                     seed = new Material(1,ItemSubType.SEED,"Maple Seeds",4000);
                     break;
-                case 7:
-                    seed = new Material(1,ItemSubType.SEED,"Acorns",4000);
-                    break;
+
                 default:
                     seed = new Material(1,ItemSubType.SEED,"Pine Cones",4000);
             }
@@ -176,9 +134,6 @@ public class Map {
                     break;
                 case 4:
                     seed = new Material(1,ItemSubType.SEED,"Maple Tree Seeds",4000);
-                    break;
-                case 5:
-                    seed = new Material(1,ItemSubType.SEED,"Acorns",4000);
                     break;
                     default:
                         seed = new Material(1,ItemSubType.SEED,"Acorns",4000);

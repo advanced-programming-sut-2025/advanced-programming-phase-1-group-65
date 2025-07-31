@@ -245,31 +245,41 @@ public class GameController {
         }*/
 
     }
-    public void Walk (Game game, char direction){
+    public void Walk(Game game, char direction) {
         int newX = game.currentPlayer.PositionX;
         int newY = game.currentPlayer.PositionY;
 
-        switch (direction){
+        switch (direction) {
             case 'w' -> newY++;
             case 's' -> newY--;
             case 'd' -> newX++;
             case 'a' -> newX--;
-            default -> {return;}
+            default -> {
+                return;
+            }
         }
+
         if (newY >= 0 && newY < game.Map.size() &&
-            newX >= 0 && newX < game.Map.get(0).size() && game.Map.get(newY).get(newX).type.equals(TileType.EMPTY)) {
+            newX >= 0 && newX < game.Map.get(0).size()) {
 
-            // پاک‌کردن موقعیت قبلی
-            game.Map.get(game.currentPlayer.PositionY).set(game.currentPlayer.PositionX, new Tile(TileType.EMPTY));
+            TileType targetType = game.Map.get(newY).get(newX).type;
 
-            // قرار دادن بازیکن در موقعیت جدید
-            game.currentPlayer.PositionX = newX;
-            game.currentPlayer.PositionY = newY;
-            game.Map.get(newY).set(newX, new Tile(TileType.PLAYER));
+            if (targetType.equals(TileType.EMPTY) || targetType.equals(TileType.QUARRY)) {
+
+                // بازگرداندن نوع قبلی در موقعیت فعلی بازیکن
+                game.Map.get(game.currentPlayer.PositionY)
+                    .set(game.currentPlayer.PositionX, new Tile(game.currentPlayer.lastTileType));
+
+                // به‌روزرسانی موقعیت بازیکن
+                game.currentPlayer.lastTileType = targetType;
+                game.currentPlayer.PositionX = newX;
+                game.currentPlayer.PositionY = newY;
+
+                game.Map.get(newY).set(newX, new Tile(TileType.PLAYER));
+            }
         }
-
-
     }
+
     public void processAdvanceHours(Game game, int hours) {
         for (int i = 0; i < hours; i++) {
             game.gameClock.advanceTimeByOneHour(game,this);
@@ -367,7 +377,6 @@ public class GameController {
                     else if (!tree.isHarvestable){
                         System.out.println("This Tree is not harvestable yer\ndo you wish to proceed?(y/n)");
                         String ch = temp.nextLine();
-                        if (ch.equals("y")) {
                             Material seed= tree2.seed;
                             Material wood= new Material(12, ItemSubType.WOOD,"Wood",1);
                             AddItem(game,seed);
@@ -380,11 +389,8 @@ public class GameController {
 
                             System.out.println("You have chopped the tree");
                             return;
-                        }
-                        else {
-                            System.out.println("Command Cancelled");
-                            return;
-                        }
+
+
                     }
 
 

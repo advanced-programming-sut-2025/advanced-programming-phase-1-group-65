@@ -11,6 +11,7 @@ public class Player {
     public Skill miningSkill;
     public Skill foragingSkill;
     public Skill fishingSkill;
+    public TileType lastTileType = TileType.EMPTY;
 
     public Player() {
         farmingSkill = new Skill();
