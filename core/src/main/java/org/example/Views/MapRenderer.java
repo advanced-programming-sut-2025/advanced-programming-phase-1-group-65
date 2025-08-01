@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.example.Models.Enums.TileType;
 import org.example.Models.Rock;
 import org.example.Models.Tile;
+import org.example.Models.Trees;
 
 import java.util.ArrayList;
 
@@ -36,6 +37,8 @@ public class MapRenderer {
     private TextureRegion IronTileRegion;
     private Texture IriduimTileTexture;
     private TextureRegion IriduimTileRegion;
+    private Texture WildTreeTexture;
+    private TextureRegion WildTreeRegion;
 
     // سایر تکسچرها مثل treeTexture, wallTexture و ...
 
@@ -65,24 +68,30 @@ public class MapRenderer {
         IronTileRegion = new TextureRegion(IronTileTexture);
         IriduimTileTexture = new Texture("Material/Iridium_Node.png");
         IriduimTileRegion = new TextureRegion(IriduimTileTexture);
-
+        WildTreeTexture = new Texture("Trees/Wild_Tree.png");
+        WildTreeRegion = new TextureRegion(WildTreeTexture);
         // همینطور تکسچرهای دیگه رو بارگذاری کن
     }
 
     public void render(SpriteBatch batch) {
-        int tileSize = 16;
         for (int y = 0; y < map.size(); y++) {
             for (int x = 0; x < map.get(0).size(); x++) {
                 Tile tile = map.get(y).get(x);
+
+                // 1. ابتدا پس‌زمینه‌ی پایه رو برای همه رسم کن
+                batch.draw(outdoorTileRegion, x * tileSize, y * tileSize, tileSize, tileSize);
+
+                // 2. حالا اگر tile تصویر خاص خودش رو داره، اون رو رسم کن
                 TextureRegion regionToDraw = getTextureForTile(tile);
 
-                if (regionToDraw != null) {
-                    // توجه کن y معکوس حساب میشه یا نه
+                // outdoorTileRegion رو دوباره نکش، چون همین الان کشیدی
+                if (regionToDraw != null && regionToDraw != outdoorTileRegion) {
                     batch.draw(regionToDraw, x * tileSize, y * tileSize, tileSize, tileSize);
                 }
             }
         }
     }
+
 
 
     private TextureRegion getTextureForTile(Tile tile) {
@@ -97,6 +106,14 @@ public class MapRenderer {
                 case "Copper Ore" -> QuarryTileRegion;
                 default -> null;
             };
+        }
+        if (tile instanceof Trees) {
+            Trees tree = (Trees) tile;
+            return switch (tree.name) {
+                case "Wild" -> WildTreeRegion;
+                default -> null;
+            };
+
         }
         return switch (tile.type) {
             case EMPTY -> outdoorTileRegion;
@@ -113,6 +130,17 @@ public class MapRenderer {
 
     public void dispose() {
         outdoorTileTexture.dispose();
-        // dispose سایر تکسچرها
+        LakeTileTexture.dispose();
+        WallTileTexture.dispose();
+        FertileTileTexture.dispose();
+        QuarryTileTexture.dispose();
+        DiamondTileTexture.dispose();
+        GoldTileTexture.dispose();
+        CoalTileTexture.dispose();
+        CopperTileTexture.dispose();
+        IronTileTexture.dispose();
+        IriduimTileTexture.dispose();
+        WildTreeTexture.dispose();
     }
+
 }

@@ -46,7 +46,7 @@ public class GameScreen implements Screen {
         shapeRenderer = new ShapeRenderer();
         inventoryUI = new InventoryUI(game, batch, controller);
 
-        camera = new OrthographicCamera(320, 240);
+        camera = new OrthographicCamera(320, 160);
         camera.zoom = 1f;
         camera.update();
 
