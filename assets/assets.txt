@@ -19,7 +19,13 @@ Material/Maple_Seed.png
 Material/Mushroom_Tree_Seed.png
 Material/Mystic_Tree_Seed.png
 Material/Pine_Cone.png
+Material/Wood.png
+Rocks/Coal.png
+Rocks/Copper_Ore.png
+Rocks/Diamond.png
 Rocks/Gold_Ore.png
+Rocks/Iridium_Ore.png
+Rocks/Iron_Ore.png
 Tools/Axe.png
 Tools/Bamboo_Pole.png
 Tools/Hoe.png

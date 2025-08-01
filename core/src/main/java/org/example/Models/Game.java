@@ -190,7 +190,9 @@ public class Game {
     }
     public void creatAllRocks(Game game) {
 
+
         Material Diamond = new Material(1,ItemSubType.DIAMOND,"Diamond",750);
+        Diamond.texture = new Texture(Gdx.files.internal("Rocks/Diamond.png"));
         Rock DiamondRock = new Rock(Diamond);
         game.AllRocksInfo.add(DiamondRock);
 
@@ -201,19 +203,22 @@ public class Game {
         game.AllRocksInfo.add(GoldRock);
 
         Material Coal = new Material(1,ItemSubType.COAL,"Coal",15);
-        Coal.price = 15;
+        Coal.texture= new Texture("Rocks/Coal.png");
         Rock CoalRock = new Rock(Coal);
         game.AllRocksInfo.add(CoalRock);
 
         Material Copper = new Material(1,ItemSubType.COOPER,"Copper Ore",5);
+        Copper.texture= new Texture("Rocks/Copper_Ore.png");
         Rock CopperRock = new Rock(Copper);
         game.AllRocksInfo.add(CopperRock);
 
         Material Iron = new Material(1,ItemSubType.IRON,"Iron Ore",10);
+        Iron.texture= new Texture("Rocks/Iron_Ore.png");
         Rock IronRock = new Rock(Iron);
         game.AllRocksInfo.add(IronRock);
 
         Material Iriduim = new Material(1,ItemSubType.IRIDUIM,"Iriduim Ore",100);
+        Iriduim.texture= new Texture("Rocks/Iridium_Ore.png");
         Rock IriduimRock = new Rock(Iriduim);
         game.AllRocksInfo.add(IriduimRock);
 

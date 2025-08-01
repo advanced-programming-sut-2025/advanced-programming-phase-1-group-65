@@ -12,6 +12,7 @@ public class Material extends Item{
     public Material(Material Other){
         super(Other.type,Other.subType, Other.Count, Other.name, Other.price);
         this.subType = Other.subType;
+        this.texture = Other.texture;
 
     }
 

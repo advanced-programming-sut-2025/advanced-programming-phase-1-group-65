@@ -357,7 +357,9 @@ public class GameController {
                 Trees tree2 = new Trees(tree);
                     if (tree.name.equalsIgnoreCase("Wild")) {
                         Material seed= tree2.seed;
+
                         Material wood= new Material(12, ItemSubType.WOOD,"Wood",1);
+                        wood.texture= new Texture("Material/Wood.png");
                         AddItem(game,seed);
                         AddItem(game,wood);
 
@@ -382,6 +384,7 @@ public class GameController {
                         String ch = temp.nextLine();
                             Material seed= tree2.seed;
                             Material wood= new Material(12, ItemSubType.WOOD,"Wood",1);
+                            wood.texture= new Texture("Material/Wood.png");
                             AddItem(game,seed);
                             AddItem(game,wood);
 

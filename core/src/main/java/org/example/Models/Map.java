@@ -1,5 +1,6 @@
 package org.example.Models;
 
+import com.badlogic.gdx.graphics.Texture;
 import org.example.Controllers.GameController.GameController;
 import org.example.Models.Enums.ItemSubType;
 import org.example.Models.Enums.TileType;
@@ -52,18 +53,23 @@ public class Map {
 
                 case 3:
                     seed = new Material(1,ItemSubType.SEED,"Mushroom Tree Seeds",6000);
+                    seed.texture = new Texture("Material/Mushroom_Tree_Seed.png");
                     break;
                 case 4:
                     seed = new Material(1,ItemSubType.SEED,"Mahogany Seeds",5000);
+                    seed.texture = new Texture("Material/Mahogany_Seed.png");
                     break;
                 case 5:
                     seed = new Material(1,ItemSubType.SEED,"Pine Cones",4000);
+                    seed.texture = new Texture("Material/Pine_Cone.png");
                     break;
                  case 6:
                      seed = new Material(1,ItemSubType.SEED,"Maple Seeds",3000);
+                     seed.texture = new Texture("Material/Maple_Seed.png");
                      break;
                 default:
                     seed = new Material(1,ItemSubType.SEED,"Maple Seeds",4000);
+                    seed.texture = new Texture("Material/Maple_Seed.png");
             }
 
         }
@@ -75,15 +81,23 @@ public class Map {
             switch (index){
                 case 4:
                     seed = new Material(1,ItemSubType.SEED,"Mahogany Seeds",3000);
+                    seed.texture = new Texture("Material/Mahogany_Seed.png");
+
                     break;
                 case 5:
                     seed = new Material(1,ItemSubType.SEED,"Pine Cones",4000);
+                    seed.texture = new Texture("Material/Pine_Cone.png");
+
                     break;
                 case 6:
                     seed = new Material(1,ItemSubType.SEED,"Maple Seeds",3000);
+                    seed.texture = new Texture("Material/Maple_Seed.png");
+
                     break;
                 default:
                     seed = new Material(1,ItemSubType.SEED,"Mahogany Seeds",4000);
+                    seed.texture = new Texture("Material/Mahogany_Seed.png");
+
 
 
             }
@@ -97,16 +111,23 @@ public class Map {
 
                 case 4:
                     seed = new Material(1,ItemSubType.SEED,"Mahogany Seeds",4000);
+                    seed.texture = new Texture("Material/Mahogany_Seed.png");
                     break;
                 case 5:
                     seed = new Material(1,ItemSubType.SEED,"Pine Cones",4000);
+                    seed.texture = new Texture("Material/Pine_Cone.png");
+
                     break;
                 case 6:
                     seed = new Material(1,ItemSubType.SEED,"Maple Seeds",4000);
+                    seed.texture = new Texture("Material/Maple_Seed.png");
+
                     break;
 
                 default:
                     seed = new Material(1,ItemSubType.SEED,"Pine Cones",4000);
+                    seed.texture = new Texture("Material/Pine_Cone.png");
+
             }
 
         }
@@ -117,23 +138,31 @@ public class Map {
             int index = rand.nextInt(Trees.length);
             switch (index){
 
-                case 0:
-                    seed = new Material(1,ItemSubType.SEED,"Mystic Tree Seeds",4000);
-                    break;
+
                 case 1:
                     seed = new Material(1,ItemSubType.SEED,"Mushroom Tree Seeds",4000);
+                    seed.texture = new Texture("Material/Mushroom_Tree_Seed.png");
+
                     break;
                 case 2:
                     seed = new Material(1,ItemSubType.SEED,"Mahogany Seeds",4000);
+                    seed.texture = new Texture("Material/Mahogany_Seed.png");
+
                     break;
                 case 3:
                     seed = new Material(1,ItemSubType.SEED,"Pine Cones",4000);
+                    seed.texture = new Texture("Material/Pine_Cone.png");
+
                     break;
                 case 4:
                     seed = new Material(1,ItemSubType.SEED,"Maple Tree Seeds",4000);
+                    seed.texture = new Texture("Material/Maple_Seed.png");
+
                     break;
                     default:
-                        seed = new Material(1,ItemSubType.SEED,"Acorns",4000);
+                        seed = new Material(1,ItemSubType.SEED,"Pine Cones",4000);
+                        seed.texture = new Texture("Material/Pine_Cone.png");
+
             }
         }
         return seed;
