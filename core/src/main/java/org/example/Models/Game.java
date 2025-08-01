@@ -6,6 +6,7 @@ import org.example.Models.Enums.AnimalType;
 import org.example.Models.Enums.ItemSubType;
 import org.example.Models.Enums.TileType;
 import org.example.Models.Shops.FishManager;
+import org.example.Views.GameView.GameScreen;
 import org.example.Views.GameView.GameView;
 
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class Game {
     public ArrayList<Animal> AllAnimalInfo = new ArrayList<>();
     public ArrayList<Recipe> AllRecipes = new ArrayList<>();
     public java.util.Map<TileType, Shop> shops = new java.util.HashMap<>();
+    public GameScreen gameScreen;
 
     public User user1 = null;
     public User user2 = null;

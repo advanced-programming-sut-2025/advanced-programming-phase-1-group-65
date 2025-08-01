@@ -11,6 +11,7 @@ import org.example.Models.Game;
 import org.example.Models.Player;
 import org.example.Models.Shops.FishManager;
 import org.example.Models.Tile;
+import org.example.Views.GameView.InventoryUI;
 import org.example.Views.MenuView.KitchenView;
 
 import java.util.*;
@@ -18,8 +19,10 @@ import java.util.*;
 public class GameController {
 
     public Skin skin;
+    private InventoryUI inventoryUI;
 
-    public GameController (){
+
+    public GameController () {
     }
 
     private static final int[][] DIRECTIONS = {
@@ -944,15 +947,23 @@ public class GameController {
 
         game.currentPlayer.Energy -= 8 + bonusEnergy;
     }
-    public void AddItem(Game game, Item newitem) {
+    public void AddItem(Game game,Item newitem) {
         for (Item item : game.currentPlayer.items) {
             if(item.name.equalsIgnoreCase(newitem.name) && item.subtype.equals(newitem.subtype)){
                 item.Count = item.Count + newitem.Count;
+                updateInventoryUI(game);
                 return;
             }
         }
         game.currentPlayer.items.add(newitem);
-        return;
+        updateInventoryUI(game);
+    }
+
+    private void updateInventoryUI(Game game) {
+        inventoryUI = game.gameScreen.inventoryUI;
+        if (inventoryUI != null) {
+            inventoryUI.showAllItems();  // باعث رفرش شدن UI می‌شود
+        }
     }
 
     public void setWeatherCheat(Game game, WeatherType weather) {

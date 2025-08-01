@@ -23,9 +23,9 @@ import org.example.Views.PlayerAnimation;
 
 public class GameScreen implements Screen {
     final Game game;
-    GameController controller = new GameController();
     OrthographicCamera camera;
-    private InventoryUI inventoryUI;
+    GameController controller = new GameController();
+    public InventoryUI inventoryUI;
     boolean isInventoryOpen = false;
     private Skin skin;
     public boolean selectingDirection = false;
