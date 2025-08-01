@@ -117,7 +117,6 @@ public class MapRenderer {
         }
         return switch (tile.type) {
             case EMPTY -> outdoorTileRegion;
-            case PLAYER -> LakeTileRegion;
             case WALL -> WallTileRegion;
             case FERTILE -> FertileTileRegion;
             case QUARRY -> QuarryTileRegion;

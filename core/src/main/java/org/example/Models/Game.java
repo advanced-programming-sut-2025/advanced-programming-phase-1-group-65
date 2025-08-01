@@ -194,6 +194,7 @@ public class Game {
 
 
         Material Gold = new Material(1,ItemSubType.GOLD,"Gold Ore",25);
+        Gold.texture= new Texture("Rocks/Gold_Ore.png");
         Rock GoldRock = new Rock(Gold);
         game.AllRocksInfo.add(GoldRock);
 
@@ -260,7 +261,6 @@ public class Game {
 
 
         Material NoSeed = new Material(1, ItemSubType.SEED, "No Seeds",0);
-
 
         Food CommonMushroom  = new Food(2,ItemSubType.FRUIT,"Common Mushroom",38,40,true);
         Foraging CommonMushroomCrop = new Foraging(0,"Common Mushroom",1234,true,CommonMushroom,true,NoSeed,0);

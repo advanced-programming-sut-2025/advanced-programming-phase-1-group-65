@@ -653,7 +653,6 @@ public class Game {
                 user.player.items.add(new Food(3,ItemSubType.MILK,"Test Milk",12,12,true));
                 user.player.items.add(new Food(3,ItemSubType.EGG,"Test Egg",12,12,true));
 
-
                 user.player.game.Map.get(user.player.PositionY)
                         .set(user.player.PositionX, new Tile(TileType.PLAYER));
             }

@@ -245,11 +245,11 @@ public class GameController {
         }*/
 
     }
-    public void Walk(Game game, char direction) {
+    public void Walk (Game game, char direction){
         int newX = game.currentPlayer.PositionX;
         int newY = game.currentPlayer.PositionY;
 
-        switch (direction) {
+        switch (direction){
             case 'w' -> newY++;
             case 's' -> newY--;
             case 'd' -> newX++;

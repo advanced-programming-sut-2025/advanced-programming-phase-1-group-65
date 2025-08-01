@@ -62,7 +62,6 @@ public class Map {
                  case 6:
                      seed = new Material(1,ItemSubType.SEED,"Maple Seeds",3000);
                      break;
-
                 default:
                     seed = new Material(1,ItemSubType.SEED,"Maple Seeds",4000);
             }
@@ -74,7 +73,6 @@ public class Map {
             Random rand = new Random();
             int index = rand.nextInt(Trees.length);
             switch (index){
-
                 case 4:
                     seed = new Material(1,ItemSubType.SEED,"Mahogany Seeds",3000);
                     break;
@@ -84,7 +82,6 @@ public class Map {
                 case 6:
                     seed = new Material(1,ItemSubType.SEED,"Maple Seeds",3000);
                     break;
-
                 default:
                     seed = new Material(1,ItemSubType.SEED,"Mahogany Seeds",4000);
 
@@ -166,7 +163,7 @@ public class Map {
             for (int j = 0; j < Map.get(i).size(); j++) {
                 if (Map.get(i).get(j).type.equals(TileType.QUARRY)) {
                     chance = rand.nextInt(100);
-                    if (chance ==0) {
+                    if (chance <=100) {
                        selected = rand.nextInt(game.AllRocksInfo.size());
                        Rock newRock = new Rock (game.AllRocksInfo.get(selected));
                        game.Map.get(i).set(j, newRock);
