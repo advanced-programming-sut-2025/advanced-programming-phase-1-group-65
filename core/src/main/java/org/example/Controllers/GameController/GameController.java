@@ -701,13 +701,14 @@ public class GameController {
                     tree.day = 0;
                 }
             }
-            if (tree.HarvestingCycle>0 && tree.HarvestedFirstTime){
+            if (tree.HarvestingCycle>0 ){
                 if (tree.day >= tree.HarvestingCycle){
                     tree.isHarvestable = true;
                     tree.day = 0;
                 }
             }
             tree.day++;
+            System.out.println(tree.name + " " + tree.day);
             tree.WateredToday = false;
         }
 

@@ -62,10 +62,14 @@ avatars/avatar4.png
 libgdx.png
 map/Dirt Hoed.png
 map/Farm.tmx
+map/GreenhouseBig.png
 map/Hardwood_Fence.png
+map/JojaMartBig.png
+map/LakeBig.png
 map/LakeTile.jpg
 map/OutDoorTile.png
 map/Quarry_Boulder.png
+map/StardropSaloonBig.png
 map/paths.png
 map/spring_outdoorTileSheet_extra.png
 map/spring_outdoorsTileSheet.png

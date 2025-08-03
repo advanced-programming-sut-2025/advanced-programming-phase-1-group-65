@@ -4,20 +4,14 @@ import org.example.Models.App;
 import org.example.Models.Game;
 import org.example.Models.User;
 
-import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class GameMenuController {
+    private Game currentGame;
 
-    public String newGame(String username1, String username2, String username3) {
-        User user1 = null;
-        User user2 = null;
-        User user3 = null;
-
-        user1 = App.getUser(username1);
-        user2 = App.getUser(username2);
-        user3 = App.getUser(username3);
+    public String newGame(String username1, String username2, String username3, int[] mapNumbers) {
+        User user1 = App.getUser(username1);
+        User user2 = App.getUser(username2);
+        User user3 = App.getUser(username3);
 
         if (user1 == null || user2 == null || user3 == null) {
             return "One or more of usernames do not exist";
@@ -27,7 +21,17 @@ public class GameMenuController {
             return "One of the Users has another active game";
         }
 
+        for (int mapNum : mapNumbers) {
+            if (mapNum < 1 || mapNum > 4) {
+                return "Invalid map number: " + mapNum;
+            }
+        }
+        user1.player.setFarmNumber(mapNumbers[0]);
+        user2.player.setFarmNumber(mapNumbers[1]);
+        user3.player.setFarmNumber(mapNumbers[2]);
+
         Game game = new Game(user1, user2, user3);
+        currentGame = game;
 
         user1.player.game = game;
         user2.player.game = game;
@@ -37,41 +41,10 @@ public class GameMenuController {
         user2.game = game;
         user3.game = game;
 
-        System.out.println("Choose your map number\nCommand : game map <map_number>");
-
-        int[] mapnum = GameMapChoose();
-
-        user1.player.setFarmNumber(mapnum[0]);
-        user2.player.setFarmNumber(mapnum[1]);
-        user3.player.setFarmNumber(mapnum[2]);
 
         return "New game was successfully created";
     }
 
-    public int[] GameMapChoose() {
-        int i = 0;
-        int[] GameMap = new int[3];
-        Scanner sc = new Scanner(System.in);
-
-        while (i < 3) {
-            String input = sc.nextLine();
-            Pattern pattern = Pattern.compile("^game map (\\d+)$");
-            Matcher matcher = pattern.matcher(input);
-
-            if (matcher.matches()) {
-                int mapNumber = Integer.parseInt(matcher.group(1));
-                if (mapNumber >= 1 && mapNumber <= 4) {
-                    GameMap[i] = mapNumber;
-                    i++;
-                } else {
-                    System.out.println("Invalid map number");
-                }
-            } else {
-                System.out.println("Invalid input! choose your map number");
-            }
-        }
-        return GameMap;
-    }
     public String checkPlayers(String username1, String username2, String username3) {
         if (username2.isEmpty() || username3.isEmpty()) {
             return "Please enter both second and third player usernames.";
@@ -86,5 +59,8 @@ public class GameMenuController {
             return "One or more users have an active game.";
         }
         return "Players validated. Ready to start.";
+    }
+    public Game getCurrentGame() {
+        return currentGame;
     }
 }
