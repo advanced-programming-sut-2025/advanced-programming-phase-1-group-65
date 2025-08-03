@@ -1039,7 +1039,7 @@ public class GameController {
                     }
                     for(Trees tree : game.AllTreesInfo){
 
-                        if(tree.seed.name.equals(name)){
+                        if(tree.seed.name.equals.Ig(name)){
                             if (!containsDigit(game.gameClock.getCurrentSeasonIndex(),tree.Season)){
                                 System.out.println("This Tree can not be planted during this season");
                                 return;

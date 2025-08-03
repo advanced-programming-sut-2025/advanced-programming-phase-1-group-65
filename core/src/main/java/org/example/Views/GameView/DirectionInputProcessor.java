@@ -36,7 +36,7 @@ public class DirectionInputProcessor extends InputAdapter {
                 // بذر انتخاب شده باشد → Plant
                 else if (gameScreen.game.currentPlayer.CurrentItem != null &&
                     gameScreen.game.currentPlayer.CurrentItem.subtype == ItemSubType.SEED) {
-                    String seedName = gameScreen.game.currentPlayer.CurrentItem.getName();
+                    String seedName = gameScreen.game.currentPlayer.CurrentItem.name;
                     gameScreen.controller.Plant(gameScreen.game, dx, dy, seedName);
                 }
 

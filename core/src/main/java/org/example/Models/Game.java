@@ -187,7 +187,7 @@ public class Game {
         MahoganyTree.texture2 = new Texture("Trees/Mahogany_Stage_5_Fruit.png");
         game.AllTreesInfo.add(MahoganyTree);
 
-        Material MushroomSeeds = new Material(1,ItemSubType.SEED,"Mushroom Seeds",1500);
+        Material MushroomSeeds = new Material(1,ItemSubType.SEED,"Mushroom Tree Seeds",1500);
         MushroomSeeds.texture = new Texture("Material/Mushroom_Tree_Seed.png");
         Food CommonMushroom = new Food(4,ItemSubType.FRUIT,"Common Mushroom",38,40,true);
         CommonMushroom.texture = new Texture("Material/Common_Mushroom.png");
