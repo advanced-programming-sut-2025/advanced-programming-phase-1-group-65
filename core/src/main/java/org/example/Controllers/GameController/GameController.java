@@ -1107,6 +1107,7 @@ public class GameController {
                             game.AllTrees.add(newTree);
                             System.out.println("Tree added.");
                             removeItem(game,tempSeed.name,1);
+                            game.currentPlayer.CurrentItem = null;
                             return;
                         }
                     }
@@ -1706,10 +1707,14 @@ public class GameController {
                 if (item.Count > countToRemove) {
                     item.Count -= countToRemove;
                     System.out.println("You removed "+countToRemove+" from "+name);
+                    updateInventoryUI(game);
+
                     return;
                 } else if (item.Count == countToRemove) {
                     game.currentPlayer.items.remove(item);
                     System.out.println("You removed "+name);
+                    updateInventoryUI(game);
+
                     return;
                 } else {
                     System.out.println("This amount is more than you have.");

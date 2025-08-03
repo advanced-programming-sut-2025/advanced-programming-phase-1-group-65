@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import org.example.Controllers.GameController.GameController;
+import org.example.Models.Enums.ItemSubType;
 import org.example.Models.Enums.ItemType;
 import org.example.Models.Game;
 import org.example.Models.Item;
@@ -124,9 +125,16 @@ public class InventoryUI extends Stage {
                 Item selectedItem = displayedItems.get(selectedIndex);
                 if (selectedItem.type == ItemType.TOOL) {
                     player.CurrentTool = (org.example.Models.Tool) selectedItem;
+                    player.CurrentItem = null;
                     System.out.println("Current tool selected: " + selectedItem.getName());
                    showMessage("You Have Equiped " + selectedItem.getName() );
 
+                }
+                else if (selectedItem.subtype == ItemSubType.SEED){
+                    player.CurrentTool = null;
+                    player.CurrentItem =  selectedItem;
+                    System.out.println("Current Seed selected: " + selectedItem.getName());
+                    showMessage("You Have Equiped " + selectedItem.getName() );
                 }
             }
         }

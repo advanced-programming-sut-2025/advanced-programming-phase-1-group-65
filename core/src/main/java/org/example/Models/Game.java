@@ -151,39 +151,58 @@ public class Game {
 
     public void createAllTrees(Game game){
         Material ApricotSapling = new Material(1,ItemSubType.SEED,"Apricot Sapling",2000);
+        ApricotSapling.texture = new Texture("Material/Apricot_Sapling.png");
         Food Apricot = new Food(4,ItemSubType.FRUIT,"Apricot",38,59,true);
+        Apricot.texture = new Texture("Material/Apricot.png");
         Trees ApricotTree = new Trees("Apricot Tree",Apricot,1,1,ApricotSapling);
+        ApricotTree.texture1 = new Texture("Trees/Apricot_Stage_5.png");
+        ApricotTree.texture2 = new Texture("Trees/Apricot_Stage_5_Fruit.png");
         game.AllTreesInfo.add(ApricotTree);
 
 
-        Material Acorns = new Material(1,ItemSubType.SEED,"Acorns",6200);
-        Food OakResin = new Food(4,ItemSubType.SYRUP,"Oak Resin",0,150,false);
-        Trees OakTree = new Trees("Oak Tree",OakResin,1234,7,Acorns);
-        game.AllTreesInfo.add(OakTree);
-
         Material MapleSeeds = new Material(1,ItemSubType.SEED,"Maple Seeds",3000);
+        MapleSeeds.texture = new Texture("Material/Maple_Seed.png");
         Food MapleSyrup = new Food(2,ItemSubType.SYRUP,"Maple Syrup",0,200,false);
+        MapleSyrup.texture = new Texture("Material/Maple_Syrup.png");
         Trees MapleTree = new Trees("Maple Tree",MapleSyrup,1234,9,MapleSeeds);
+        MapleTree.texture1 = new Texture("Trees/Maple_Stage_5.png");
+        MapleTree.texture2 = new Texture("Trees/Maple_Stage_5_Fruit.png");
         game.AllTreesInfo.add(MapleTree);
 
         Material PineCones = new Material(1,ItemSubType.SEED,"Pine Cones",4000);
+        PineCones.texture = new Texture("Material/Pine_Cone.png");
         Food PineTar = new Food(4,ItemSubType.SYRUP,"Pine Tar",0,100,false);
+        PineTar.texture = new Texture("Material/Pine_Tar.png");
         Trees PineTree = new Trees("Pine Tree",PineTar,1234,5,PineCones);
+        PineTree.texture1 = new Texture("Trees/Pine_Stage_5.png");
+        PineTree.texture2 = new Texture("Trees/Pine_Stage_5_Fruit.png");
         game.AllTreesInfo.add(PineTree);
 
         Material MahoganySeeds = new Material(1,ItemSubType.SEED,"Mahogany Seeds",40000);
-        Food Sap = new Food(4,ItemSubType.SYRUP,"Sap",-2,2,false);
+        MahoganySeeds.texture = new Texture("Material/Mahogany_Seed.png");
+        Food Sap = new Food(4,ItemSubType.SYRUP,"Sap",-2,1000,false);
+        Sap.texture = new Texture("Material/Sap.png");
         Trees MahoganyTree = new Trees("Mahogany Tree",Sap,1234,1,MahoganySeeds);
+        MahoganyTree.texture1 = new Texture("Trees/Mahogany_Stage_5.png");
+        MahoganyTree.texture2 = new Texture("Trees/Mahogany_Stage_5_Fruit.png");
         game.AllTreesInfo.add(MahoganyTree);
 
         Material MushroomSeeds = new Material(1,ItemSubType.SEED,"Mushroom Seeds",1500);
+        MushroomSeeds.texture = new Texture("Material/Mushroom_Tree_Seed.png");
         Food CommonMushroom = new Food(4,ItemSubType.FRUIT,"Common Mushroom",38,40,true);
+        CommonMushroom.texture = new Texture("Material/Common_Mushroom.png");
         Trees MushroomTree = new Trees("Mushroom Tree",CommonMushroom,1,1,MushroomSeeds);
+        MushroomTree.texture1 = new Texture("Trees/Mushroom_Stage_5.png");
+        MushroomTree.texture2 = new Texture("Trees/Mushroom_Stage_5_Fruit.png");
         game.AllTreesInfo.add(MushroomTree);
 
         Material MysticTreeSeeds = new Material(1,ItemSubType.SEED,"Mystic Tree Seeds",10000);
-        Food MysticSyrup = new Food(4,ItemSubType.SYRUP,"Sap",500,1000,true);
+        MysticTreeSeeds.texture = new Texture("Material/Mystic_Tree_Seed.png");
+        Food MysticSyrup = new Food(4,ItemSubType.SYRUP,"Mystic Syrup",-2,1000,true);
+        MysticSyrup.texture = new Texture("Material/Mystic_Syrup.png");
         Trees MysticTree = new Trees("Mystic Tree",MysticSyrup,1234,7,MysticTreeSeeds);
+        MysticTree.texture1 = new Texture("Trees/Mystic_Tree_Stage_4.png");
+        MysticTree.texture2 = new Texture("Trees/Mystic_Tree_Stage_5.png");
         game.AllTreesInfo.add(MysticTree);
 
 

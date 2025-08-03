@@ -73,8 +73,8 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         this.timeAccumulator += delta;
-        if (this.timeAccumulator >= 5.0F) {
-            this.timeAccumulator -= 5.0F;
+        if (this.timeAccumulator >= 20.0f) {
+            this.timeAccumulator -=20.0F;
             this.game.gameClock.advanceTimeByOneHour(this.game, this.controller);
         }
 

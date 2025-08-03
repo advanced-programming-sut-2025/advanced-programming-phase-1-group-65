@@ -68,8 +68,8 @@ public class Map {
                      seed.texture = new Texture("Material/Maple_Seed.png");
                      break;
                 default:
-                    seed = new Material(1,ItemSubType.SEED,"Maple Seeds",4000);
-                    seed.texture = new Texture("Material/Maple_Seed.png");
+                    seed = new Material(1,ItemSubType.SEED,"Mystic Tree Seeds",10000);
+                    seed.texture = new Texture("Material/Mystic_Tree_Seed.png");
             }
 
         }
@@ -192,7 +192,7 @@ public class Map {
             for (int j = 0; j < Map.get(i).size(); j++) {
                 if (Map.get(i).get(j).type.equals(TileType.QUARRY)) {
                     chance = rand.nextInt(100);
-                    if (chance <=100) {
+                    if (chance ==0) {
                        selected = rand.nextInt(game.AllRocksInfo.size());
                        Rock newRock = new Rock (game.AllRocksInfo.get(selected));
                        game.Map.get(i).set(j, newRock);

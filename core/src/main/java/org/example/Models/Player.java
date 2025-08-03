@@ -12,6 +12,7 @@ public class Player {
     public Skill foragingSkill;
     public Skill fishingSkill;
     public TileType lastTileType = TileType.EMPTY;
+    public Item CurrentItem = null;
 
     public Player() {
         farmingSkill = new Skill();

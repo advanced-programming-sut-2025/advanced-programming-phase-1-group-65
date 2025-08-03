@@ -109,10 +109,13 @@ public class MapRenderer {
         }
         if (tile instanceof Trees) {
             Trees tree = (Trees) tile;
-            return switch (tree.name) {
-                case "Wild" -> WildTreeRegion;
-                default -> null;
-            };
+           if (tree.name.equalsIgnoreCase("Wild")) {
+               return WildTreeRegion;
+           }
+           else {
+               return tree.isHarvestable ? new TextureRegion(tree.texture2) : new TextureRegion(tree.texture1);
+
+           }
 
         }
         return switch (tile.type) {
