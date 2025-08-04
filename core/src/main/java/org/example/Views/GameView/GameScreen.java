@@ -58,7 +58,7 @@ public class GameScreen implements Screen {
         inventoryUI = new InventoryUI(game, batch, controller);
 
         camera = new OrthographicCamera(320, 160);
-        camera.zoom = 1f;
+        camera.zoom = 1.7f;
         camera.update();
 
         // تنظیم ورودی برای مدیریت جهت انتخابی
@@ -123,7 +123,7 @@ public class GameScreen implements Screen {
 
         int px = this.game.currentPlayer.PositionX;
         int py = this.game.currentPlayer.PositionY;
-        int playerSize = 12;
+        int playerSize = 8;
         int tileSize = 16;
         int offset = (tileSize - playerSize) / 2;
         this.batch.draw(frame, (float)(px * tileSize + offset), (float)(py * tileSize ), (float)playerSize, (float)playerSize);

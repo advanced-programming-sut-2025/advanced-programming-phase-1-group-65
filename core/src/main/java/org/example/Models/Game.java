@@ -244,43 +244,71 @@ public class Game {
     public void creatAllCrops(Game game) {
 
         Material CarrotSeeds = new Material(1, ItemSubType.SEED, "Carrot Seeds",35);
+        CarrotSeeds.texture = new Texture("Material/Carrot_Seeds.png");
         Food Carrot = new Food(3, ItemSubType.FRUIT, "Carrot", 75, 35, true);
+        Carrot.texture = new Texture("Material/Carrot.png");
         Foraging CarrotCrop = new Foraging(111, "Carrot", 1, false, Carrot, true, CarrotSeeds,0);
+        CarrotCrop.texture1 = new Texture("Foraging/Carrot_Stage_3.png");
+        CarrotCrop.texture2 = new Texture("Foraging/Carrot_Stage_4.png");
         game.AllCropInfo.add(CarrotCrop);
 
 
         Material ParsnipSeeds = new Material(1, ItemSubType.SEED, "Parsnip Seeds",35);
+        ParsnipSeeds.texture = new Texture("Material/Parsnip_Seeds.png");
         Food Parsnip = new Food(3, ItemSubType.FRUIT, "Parsnip", 25, 35, true);
+        Parsnip.texture = new Texture("Material/Parsnip.png");
         Foraging ParsnipCrop = new Foraging(1111, "Parsnip", 1, false, Parsnip, true, ParsnipSeeds,0);
+        ParsnipCrop.texture1 = new Texture("Foraging/Parsnip_Stage_4.png");
+        ParsnipCrop.texture2 = new Texture("Foraging/Parsnip_Stage_5.png");
         game.AllCropInfo.add(ParsnipCrop);
 
 
 
 
 
-        Material SpainSeeds = new Material(1, ItemSubType.SEED, "Spain Seeds",90);
+        Material SpangleSeeds = new Material(1, ItemSubType.SEED, "Spangle Seeds",90);
+        SpangleSeeds.texture = new Texture("Material/Spangle_Seeds.png");
         Food SummerSpangle = new Food(3, ItemSubType.FRUIT, "Summer Spangle", 45, 90, true);
-        Foraging SummerSpangleCrop = new Foraging(1231,"Summer Spangle",2,false,SummerSpangle,true,SpainSeeds,0);
+        SummerSpangle.texture = new Texture("Material/Summer_Spangle.png");
+        Foraging SummerSpangleCrop = new Foraging(1231,"Summer Spangle",2,false,SummerSpangle,true,SpangleSeeds,0);
+        SummerSpangleCrop.texture1 = new Texture("Foraging/Summer_Spangle_Stage_4.png");
+        SummerSpangleCrop.texture2 = new Texture("Foraging/Summer_Spangle_Stage_5.png");
         game.AllCropInfo.add(SummerSpangleCrop);
 
         Material SummerSquashSeeds = new Material(1, ItemSubType.SEED, "Summer Squash Seeds",45);
+        SummerSquashSeeds.texture = new Texture("Material/Summer_Squash_Seeds.png");
         Food SummerSquash = new Food(3,ItemSubType.FRUIT, "Summer Squash", 63, 45, true);
+        SummerSquash.texture = new Texture("Material/Summer_Squash.png");
         Foraging SummerSquashCrop = new Foraging(11121,"Summer Squash",2,false,SummerSquash,false,SummerSquashSeeds,3);
+        SummerSquashCrop.texture1 = new Texture("Foraging/Summer_Squash_Stage_6.png");
+        SummerSquashCrop.texture2 = new Texture("Foraging/Summer_Squash_Stage_7.png");
         game.AllCropInfo.add(SummerSquashCrop);
 
         Material SunflowerSeeds = new Material(1, ItemSubType.SEED, "Sunflower Seeds",80);
+        SunflowerSeeds.texture = new Texture("Material/Sunflower_Seeds.png");
         Food Sunflower = new Food(3, ItemSubType.FRUIT, "Sunflower", 45, 80, true);
+        Sunflower.texture = new Texture("Material/Sunflower.png");
         Foraging SunflowerCrop = new Foraging(1232,"Sunflower",23,false,Sunflower,true,SunflowerSeeds,0);
+        SunflowerCrop.texture1 = new Texture("Foraging/Sunflower_Stage_4.png");
+        SunflowerCrop.texture2 = new Texture("Foraging/Sunflower_Stage_5.png");
         game.AllCropInfo.add(SunflowerCrop);
 
         Material TomatoSeeds = new Material(1, ItemSubType.SEED, "Tomato Seeds",60);
+        TomatoSeeds.texture = new Texture("Material/Tomato_Seeds.png");
         Food Tomato = new Food(3, ItemSubType.FRUIT, "Tomato", 20, 60, true);
+        Tomato.texture = new Texture("Material/Tomato.png");
         Foraging TomatoCrop = new Foraging(22233,"Tomato",2,false,Tomato,false,TomatoSeeds,4);
+        TomatoCrop.texture1 = new Texture("Foraging/Tomato_Stage_6.png");
+        TomatoCrop.texture2 = new Texture("Foraging/Tomato_Stage_7.png");
         game.AllCropInfo.add(TomatoCrop);
 
         Material WheatSeeds = new Material(1, ItemSubType.SEED, "Wheat Seeds",25);
+        WheatSeeds.texture = new Texture("Material/Wheat_Seeds.png");
         Food Wheat = new Food(3, ItemSubType.FRUIT, "Wheat", 0, 25, false);
+        Wheat.texture = new Texture("Material/Wheat.png");
         Foraging WheatCrop = new Foraging(1111,"Wheat",23,false,Wheat,true,WheatSeeds,0);
+        WheatCrop.texture1 = new Texture("Foraging/Wheat_Stage_4.png");
+        WheatCrop.texture2 = new Texture("Foraging/Wheat_Stage_5.png");
         game.AllCropInfo.add(WheatCrop);
 
 
@@ -288,20 +316,29 @@ public class Game {
         Material NoSeed = new Material(1, ItemSubType.SEED, "No Seeds",0);
 
         Food CommonMushroom  = new Food(2,ItemSubType.FRUIT,"Common Mushroom",38,40,true);
+        CommonMushroom.texture = new Texture("Material/Common_Mushroom.png");
         Foraging CommonMushroomCrop = new Foraging(0,"Common Mushroom",1234,true,CommonMushroom,true,NoSeed,0);
+        CommonMushroomCrop.texture2 = new Texture("Foraging/Mushroom_Cap.png");
+
         game.AllCropInfo.add(CommonMushroomCrop);
 
 
         Food Blackberry  = new Food(2,ItemSubType.FRUIT,"Blackberry",25,25,true);
-        Foraging BlackberryCrop = new Foraging(0,"Blackberry",3,true,Blackberry,true,NoSeed,0);
+        Blackberry.texture = new Texture("Material/Blackberry.png");
+        Foraging BlackberryCrop = new Foraging(0,"Blackberry",13,true,Blackberry,true,NoSeed,0);
+        BlackberryCrop.texture2 = new Texture("Foraging/Blackberry.png");
         game.AllCropInfo.add(BlackberryCrop);
 
         Food Chanterelle  = new Food(2,ItemSubType.FRUIT,"Chanterelle",75,160,true);
-        Foraging ChanterelleCrop = new Foraging(0,"Chanterelle",3,true,Chanterelle,true,NoSeed,0);
+        Chanterelle.texture = new Texture("Material/Chanterelle.png");
+        Foraging ChanterelleCrop = new Foraging(0,"Chanterelle",243,true,Chanterelle,true,NoSeed,0);
+        ChanterelleCrop.texture2 = new Texture("Foraging/Chanterelle.png");
         game.AllCropInfo.add(ChanterelleCrop);
 
         Food Hazelnut  = new Food(2,ItemSubType.FRUIT,"Hazelnut",38,40,true);
-        Foraging HazelnutCrop = new Foraging(0,"Hazelnut",3,true,Hazelnut,true,NoSeed,0);
+        Hazelnut.texture = new Texture("Material/Hazelnut.png");
+        Foraging HazelnutCrop = new Foraging(0,"Hazelnut",1243,true,Hazelnut,true,NoSeed,0);
+        HazelnutCrop.texture2 = new Texture("Foraging/Hazelnut.png");
         game.AllCropInfo.add(HazelnutCrop);
 
 

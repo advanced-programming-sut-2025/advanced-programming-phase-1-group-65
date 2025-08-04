@@ -444,17 +444,11 @@ public class GameController {
                 }
                 else if(!foraging.isHarvestable){
                     System.out.println("This Foraging is not harvestable yet\ndo you wish to proceed?(y/n)");
-                    String ch = temp.nextLine();
-                    if (ch.equalsIgnoreCase("y") || ch.equalsIgnoreCase("yes")) {
                         game.Map.get(disty).set(distx , new Tile(TileType.EMPTY));
                         game.currentPlayer.Energy-=2;
                         System.out.println("You have chopped the foraging");
                         return;
-                    }
-                    else if (ch.equalsIgnoreCase("n") || ch.equalsIgnoreCase("no")) {
-                        System.out.println("Command Cancelled");
-                        return;
-                    }
+
                 }
 
 
@@ -643,7 +637,7 @@ public class GameController {
                if(!foraging.WateredToday && foraging.daysWithOutWater < 2){
                    foraging.daysWithOutWater++;
                }
-               if (foraging.daysWithOutWater >= 2){
+               if (foraging.daysWithOutWater >= 8 && !foraging.isHarvestable){
                    game.Map.get(foraging.posy).set(foraging.posx, new Tile(TileType.EMPTY));
                    System.out.println(foraging.name + " has withered due to lack of water");
                    iterator.remove();
@@ -683,7 +677,7 @@ public class GameController {
                 if (!tree.WateredToday && tree.daysWithoutWater<2){
                     tree.daysWithoutWater++;
                 }
-                if (tree.daysWithoutWater >= 2){
+                if (tree.daysWithoutWater >= 10 && !tree.isHarvestable){
                     game.Map.get(tree.posy).set(tree.posx, new Tile(TileType.EMPTY));
                     System.out.println(tree.name + " has withered due to lack of water");
                     iterator.remove();

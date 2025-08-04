@@ -15,6 +15,7 @@ public class Foraging extends Tile{
         this.Seed = Seed;
         this.RegrowthTime = RegrowthTime;
     }
+
     public Foraging(Foraging Other){
         super(TileType.FORAGING);
         this.Stage = Other.Stage;

@@ -7,11 +7,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.example.Models.Game;
-import org.example.Models.Rock;
-import org.example.Models.Tile;
+import org.example.Models.*;
 import org.example.Models.Enums.TileType;
-import org.example.Models.Trees;
 
 public class MapRenderer {
     private final ArrayList<ArrayList<Tile>> map;
@@ -134,7 +131,7 @@ public class MapRenderer {
             return switch (rock.Mineral.name) {
                 case "Diamond" -> DiamondTileRegion;
                 case "Gold Ore" -> GoldTileRegion;
-                case "Coal " -> CoalTileRegion;
+                case "Coal" -> CoalTileRegion;
                 case "Iron Ore" -> IronTileRegion;
                 case "Iriduim Ore" -> IriduimTileRegion;
                 case "Copper Ore" -> QuarryTileRegion;
@@ -150,6 +147,12 @@ public class MapRenderer {
                 return tree.isHarvestable ? new TextureRegion(tree.texture2) : new TextureRegion(tree.texture1);
 
             }
+
+        }
+        if (tile instanceof Foraging){
+            Foraging foraging = (Foraging) tile;
+            return foraging.isHarvestable ? new TextureRegion(foraging.texture2) : new TextureRegion(foraging.texture1);
+
 
         }
 
@@ -230,14 +233,25 @@ public class MapRenderer {
                         width * tileSize, height * tileSize);
 
                 } else {
-                    // رسم تایل‌های معمولی
+                    // رسم بک‌گراند پایه
                     batch.draw(outdoorTileRegion, x * tileSize, y * tileSize, tileSize, tileSize);
 
                     TextureRegion region = getTextureForTile(tile);
                     if (region != null) {
-                        batch.draw(region, x * tileSize, y * tileSize, tileSize, tileSize);
+                        if (tile instanceof Foraging) {
+                            // کوچک‌تر کشیدن Foraging، مثلاً نصف اندازه و مرکز شده
+                            int smallSize = tileSize / 3;
+                            float offsetX = x * tileSize + (tileSize - smallSize) / 2f;
+                            float offsetY = y * tileSize;
+                            batch.draw(region, offsetX, offsetY, smallSize, smallSize);
+                        }
+
+                        else {
+                            batch.draw(region, x * tileSize, y * tileSize, tileSize, tileSize);
+                        }
                     }
                 }
+
             }
         }
     }
