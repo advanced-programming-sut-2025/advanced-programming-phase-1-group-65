@@ -13,7 +13,7 @@ public class ShopController {
 
     private final Map<TileType, Shop> shopCache = new HashMap<>();
 
-    private boolean isPlayerInShop(Game game) {
+    public boolean isPlayerInShop(Game game) {
         int playerX = game.currentPlayer.PositionX;
         int playerY = game.currentPlayer.PositionY;
 
@@ -92,7 +92,7 @@ public class ShopController {
         }
     }
 
-    private Shop getNearbyShop(Game game) {
+    public Shop getNearbyShop(Game game) {
         int playerX = game.currentPlayer.PositionX;
         int playerY = game.currentPlayer.PositionY;
 

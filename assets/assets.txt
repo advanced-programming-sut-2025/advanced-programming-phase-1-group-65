@@ -76,7 +76,7 @@ map/OutDoorTileNight.png
 map/Quarry_Boulder.png
 map/RanchBig.png
 map/Shed.png
-map/StarDropSaloonBig.png
+map/StardropSaloonBig.png
 map/fishShopBig.png
 map/lightning.png
 map/paths.png

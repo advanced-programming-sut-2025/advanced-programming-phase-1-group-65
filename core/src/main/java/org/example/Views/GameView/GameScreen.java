@@ -2,7 +2,6 @@ package org.example.Views.GameView;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -14,16 +13,20 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import org.example.Controllers.GameController.GameController;
+import org.example.Controllers.ShopController.ShopController;
 import org.example.Models.Game;
 import org.example.Views.MapRenderer;
 import org.example.Views.PlayerAnimation;
+import org.example.Views.UI.ShopUI;
 
 public class GameScreen implements Screen {
     final Game game;
     OrthographicCamera camera;
     GameController controller = new GameController();
     public InventoryUI inventoryUI;
+    public ShopUI shopUI; // اضافه کردن فروشگاه
     boolean isInventoryOpen = false;
+    boolean isShopOpen = false;  // وضعیت باز بودن فروشگاه
     private Skin skin;
     public boolean selectingDirection = false;
     private final MapRenderer mapRenderer;
@@ -36,6 +39,8 @@ public class GameScreen implements Screen {
     private float timeAccumulator;
     private final float timePerGameHour;
     private boolean isMiniMapOpen = false;
+    private GameController gameController;
+    private ShopController shopController;
 
     private OrthographicCamera miniMapCamera;
     private BitmapFont miniMapFont;
@@ -54,6 +59,9 @@ public class GameScreen implements Screen {
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
         inventoryUI = new InventoryUI(game, batch, controller);
+        gameController = new GameController();
+        shopController = new ShopController();
+        shopUI = new ShopUI(game);
 
         camera = new OrthographicCamera(320, 160);
         camera.zoom = 1.5f;
@@ -77,7 +85,7 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
 
-        if (!isMiniMapOpen) {
+        if (!isMiniMapOpen && !isInventoryOpen && !isShopOpen) {
             this.timeAccumulator += delta;
             if (this.timeAccumulator >= 20.0f) {
                 this.timeAccumulator -= 20.0F;
@@ -87,12 +95,11 @@ public class GameScreen implements Screen {
 
         handleInput();
 
-        if (!isMiniMapOpen) {
+        if (!isMiniMapOpen && !isShopOpen) {
             updateCamera();
             mapRenderer.update(delta);
             camera.update();
-        } else {
-
+        } else if (isMiniMapOpen) {
             updateMiniMapCamera();
             miniMapCamera.update();
         }
@@ -101,7 +108,6 @@ public class GameScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if (isMiniMapOpen) {
-
             batch.setProjectionMatrix(miniMapCamera.combined);
             batch.begin();
             mapRenderer.render(batch);
@@ -115,15 +121,13 @@ public class GameScreen implements Screen {
             batch.draw(frame, (float)(px * tileSize + offset), (float)(py * tileSize ), (float)playerSize, (float)playerSize);
             batch.end();
 
-            // نمایش پیام بالای صفحه mini map
             batch.setProjectionMatrix((new Matrix4()).setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
             batch.begin();
             String msg = "Mini Map - Press M to return to game";
-            float textWidth = miniMapFont.getRegion().getRegionWidth(); // این مقدار تقریبی است ولی کافی است
             miniMapFont.draw(batch, msg, Gdx.graphics.getWidth() / 2f - 150, Gdx.graphics.getHeight() - 20);
             batch.end();
-        } else {
-
+        }
+         else {
             batch.setProjectionMatrix(camera.combined);
             batch.begin();
             mapRenderer.render(batch);
@@ -132,7 +136,7 @@ public class GameScreen implements Screen {
             if (selectingDirection) {
                 shapeRenderer.setProjectionMatrix(camera.combined);
                 shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-                shapeRenderer.setColor(1, 1, 0, 0.5f); // زرد شفاف
+                shapeRenderer.setColor(1, 1, 0, 0.5f);
 
                 int playerX = game.currentPlayer.PositionX;
                 int playerY = game.currentPlayer.PositionY;
@@ -167,6 +171,12 @@ public class GameScreen implements Screen {
                 inventoryUI.act(delta);
                 inventoryUI.draw();
             }
+            if (shopUI.isVisible()) {
+                Gdx.gl.glClearColor(0, 0, 0, 1);
+                Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+                shopUI.act(delta);
+                shopUI.draw();
+            }
         }
     }
 
@@ -174,30 +184,39 @@ public class GameScreen implements Screen {
         if (isMiniMapOpen) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
                 isMiniMapOpen = false;
-                camera.zoom = 1.5f;  // برگردوندن زوم دوربین بازی به حالت اولیه
+                camera.zoom = 1.5f;
                 camera.update();
                 Gdx.input.setInputProcessor(new DirectionInputProcessor(this));
             }
             return;
         }
 
+        if (isShopOpen) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.Z)) {
+                isShopOpen = false;
+                Gdx.input.setInputProcessor(new DirectionInputProcessor(this));
+
+            }
+            return;
+        }
+
         if (!isInventoryOpen) {
-            if (Gdx.input.isKeyJustPressed(51)) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.W)) {
                 this.controller.Walk(this.game, 'w');
                 this.currentDirection = PlayerAnimation.Direction.UP;
-            } else if (Gdx.input.isKeyJustPressed(47)) {
+            } else if (Gdx.input.isKeyJustPressed(Input.Keys.S)) {
                 this.controller.Walk(this.game, 's');
                 this.currentDirection = PlayerAnimation.Direction.DOWN;
-            } else if (Gdx.input.isKeyJustPressed(29)) {
+            } else if (Gdx.input.isKeyJustPressed(Input.Keys.A)) {
                 this.controller.Walk(this.game, 'a');
                 this.currentDirection = PlayerAnimation.Direction.LEFT;
-            } else if (Gdx.input.isKeyJustPressed(32)) {
+            } else if (Gdx.input.isKeyJustPressed(Input.Keys.D)) {
                 this.controller.Walk(this.game, 'd');
                 this.currentDirection = PlayerAnimation.Direction.RIGHT;
-            } else if (Gdx.input.isKeyJustPressed(48)) {
+            } else if (Gdx.input.isKeyJustPressed(Input.Keys.H)) {
                 this.game.gameClock.advanceTimeByOneHour(this.game, this.controller);
             } else if (Gdx.input.isKeyJustPressed(Input.Keys.G)) {
-                game.currentPlayer.GreenHouseFixed =true;
+                game.currentPlayer.GreenHouseFixed = true;
             } else if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
                 this.controller.processNextTurn(this.game);
             }
@@ -212,6 +231,15 @@ public class GameScreen implements Screen {
                 Gdx.input.setInputProcessor(new DirectionInputProcessor(this));
             }
         }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.Z)) {
+            isShopOpen = !isShopOpen;
+            if (isShopOpen) {
+                shopUI.show();
+                Gdx.input.setInputProcessor(shopUI);
+            } else {
+                Gdx.input.setInputProcessor(new DirectionInputProcessor(this));
+            }
+        }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.T) && isInventoryOpen) {
             inventoryUI.showToolsOnly();
@@ -219,13 +247,17 @@ public class GameScreen implements Screen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.C) && !isInventoryOpen) {
             selectingDirection = !selectingDirection;
         }
-
         if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
-            if (!isMiniMapOpen) {
-                isMiniMapOpen = true;
+            isMiniMapOpen = !isMiniMapOpen;
+            if (isMiniMapOpen) {
+
+                updateMiniMapCamera();
             } else {
-                isMiniMapOpen = false;
+
+                camera.zoom = 1.5f;
+                camera.update();
             }
+            Gdx.input.setInputProcessor(new DirectionInputProcessor(this));
         }
     }
 
@@ -241,7 +273,7 @@ public class GameScreen implements Screen {
         this.batch.draw(this.clockTexture, clockX, clockY, clockWidth, clockHeight);
         this.font.setColor(0.1F, 0.1F, 0.1F, 1.0F);
         int hour = this.game.gameClock.getHour();
-       mapRenderer.setNight(hour >= 18 || hour < 6);
+        mapRenderer.setNight(hour >= 18 || hour < 6);
         String ampm = hour >= 12 ? "PM" : "AM";
         int displayHour = hour % 12;
         if (displayHour == 0) {
@@ -307,6 +339,7 @@ public class GameScreen implements Screen {
         miniMapCamera.position.set(centerX, centerY, 0);
         miniMapCamera.update();
     }
+
     @Override
     public void dispose() {
         batch.dispose();

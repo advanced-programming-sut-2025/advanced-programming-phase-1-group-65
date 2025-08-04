@@ -6,17 +6,29 @@ import org.example.Models.Enums.ItemType;
 
 public class ShopItem extends Item {
     private String description;
-    private int price;
-    public Texture texture;
+    private boolean available;  // وضعیت موجود بودن کالا
 
-    public ShopItem(String name, String description, int price,ItemType type, ItemSubType subType) {
-
-        super(type,subType,1,name,price);
+    // سازنده با 6 پارامتر
+    public ShopItem(String name, String description, int price, ItemType type, ItemSubType subType, boolean available) {
+        super(type, subType, 1, name, price);
         this.description = description;
-        this.price = price;
+        this.available = available;
     }
 
-    public String getName() { return name; }
-    public String getDescription() { return description; }
-    public Integer getPrice() { return price; }
+    // سازنده با 5 پارامتر (مقدار پیش‌فرض available = true)
+    public ShopItem(String name, String description, int price, ItemType type, ItemSubType subType) {
+        this(name, description, price, type, subType, true);
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
 }

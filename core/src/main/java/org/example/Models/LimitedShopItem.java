@@ -43,4 +43,8 @@ public class LimitedShopItem extends Item {
     public String getDescription() {
         return description;
     }
+
+    public boolean isAvailable() {
+        return (dailyLimit - purchasedToday) > 0;
+    }
 }
