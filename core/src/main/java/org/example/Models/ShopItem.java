@@ -1,11 +1,13 @@
 package org.example.Models;
 
+import com.badlogic.gdx.graphics.Texture;
 import org.example.Models.Enums.ItemSubType;
 import org.example.Models.Enums.ItemType;
 
 public class ShopItem extends Item {
     private String description;
     private int price;
+    public Texture texture;
 
     public ShopItem(String name, String description, int price,ItemType type, ItemSubType subType) {
 

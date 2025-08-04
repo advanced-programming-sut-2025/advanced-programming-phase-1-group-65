@@ -119,9 +119,11 @@ public class SignUpMenuView extends ScreenAdapter implements AppMenu {
                 user2.player.game = TestGame;
                 user3.player.game = TestGame;
                 TestGame.currentPlayer=user3.player;
-
                 TestGame.GameRun();
-                Gdx.app.postRunnable(() -> Main.getInstance().setScreen(new GameScreen(TestGame)));
+
+                GameScreen gameScreen = new GameScreen(TestGame);
+                TestGame.gameScreen = gameScreen;
+                Gdx.app.postRunnable(() -> Main.getInstance().setScreen(gameScreen));
 
 
 

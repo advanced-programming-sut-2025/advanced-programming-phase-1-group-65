@@ -1,5 +1,6 @@
 package org.example.Models;
 
+import com.badlogic.gdx.graphics.Texture;
 import org.example.Models.Enums.TileType;
 
 public class Foraging extends Tile{
@@ -24,7 +25,11 @@ public class Foraging extends Tile{
         this.OneTime = Other.OneTime;
         this.Seed = Other.Seed;
         this.RegrowthTime = Other.RegrowthTime;
+        this.texture1=Other.texture1;
+        this.texture2=Other.texture2;
     }
+    public Texture texture1;
+    public Texture texture2;
     public int Stage;
     public String name;
     public Food Fruit;

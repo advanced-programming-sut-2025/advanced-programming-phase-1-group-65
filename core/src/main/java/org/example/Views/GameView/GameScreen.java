@@ -2,125 +2,246 @@ package org.example.Views.GameView;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import org.example.Controllers.GameController.GameController;
 import org.example.Models.Game;
 import org.example.Views.MapRenderer;
 import org.example.Views.PlayerAnimation;
-import org.example.Views.PlayerAnimation.Direction;
 
 public class GameScreen implements Screen {
-    private final Game game;
-    private final GameController controller = new GameController();
-    private OrthographicCamera camera;
+    final Game game;
+    OrthographicCamera camera;
+    GameController controller = new GameController();
+    public InventoryUI inventoryUI;
+    boolean isInventoryOpen = false;
+    private Skin skin;
+    public boolean selectingDirection = false;
     private final MapRenderer mapRenderer;
     private SpriteBatch batch;
+    private ShapeRenderer shapeRenderer;
     private PlayerAnimation playerAnim;
     private PlayerAnimation.Direction currentDirection;
     private Texture clockTexture;
     private BitmapFont font;
     private float timeAccumulator;
     private final float timePerGameHour;
+    private boolean isMiniMapOpen = false;
+
+    private OrthographicCamera miniMapCamera;
+    private BitmapFont miniMapFont;
 
     public GameScreen(Game game) {
-        this.currentDirection = Direction.DOWN;
+        this.game = game;
+        this.mapRenderer = new MapRenderer(game.Map , game);
+        skin = new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"));
+        this.currentDirection = PlayerAnimation.Direction.DOWN;
         this.timeAccumulator = 0.0F;
         this.timePerGameHour = 5.0F;
-        this.game = game;
-        this.mapRenderer = new MapRenderer(game.Map);
     }
 
     @Override
     public void show() {
-        this.batch = new SpriteBatch();
-        this.camera = new OrthographicCamera(320.0F, 240.0F);
-        this.camera.zoom = 1.7F;
-        this.camera.update();
+        batch = new SpriteBatch();
+        shapeRenderer = new ShapeRenderer();
+        inventoryUI = new InventoryUI(game, batch, controller);
+
+        camera = new OrthographicCamera(320, 160);
+        camera.zoom = 1.5f;
+        camera.update();
+
+        miniMapCamera = new OrthographicCamera(320, 160);
+        miniMapCamera.zoom = 5f;
+        miniMapCamera.update();
+
+        Gdx.input.setInputProcessor(new DirectionInputProcessor(this));
         this.playerAnim = new PlayerAnimation(0.2F);
         this.clockTexture = new Texture(Gdx.files.internal("ui/Clock.png"));
         this.font = new BitmapFont();
         this.font.getData().setScale(1.5F);
+
+        this.miniMapFont = new BitmapFont();
+        this.miniMapFont.getData().setScale(2f);
+        this.miniMapFont.setColor(1f, 1f, 1f, 1f);
     }
 
     @Override
     public void render(float delta) {
-        this.timeAccumulator += delta;
-        if (this.timeAccumulator >= this.timePerGameHour) {
-            this.timeAccumulator -= this.timePerGameHour;
-            this.game.gameClock.advanceTimeByOneHour(this.game, this.controller);
+
+        if (!isMiniMapOpen) {
+            this.timeAccumulator += delta;
+            if (this.timeAccumulator >= 20.0f) {
+                this.timeAccumulator -= 20.0F;
+                this.game.gameClock.advanceTimeByOneHour(this.game, this.controller);
+            }
         }
 
-        this.handleInput();
-        this.updateCamera();
+        handleInput();
+
+        if (!isMiniMapOpen) {
+            updateCamera();
+            mapRenderer.update(delta);
+            camera.update();
+        } else {
+
+            updateMiniMapCamera();
+            miniMapCamera.update();
+        }
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(16384);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        this.batch.setProjectionMatrix(this.camera.combined);
-        this.batch.begin();
+        if (isMiniMapOpen) {
 
-        this.mapRenderer.render(this.batch);
+            batch.setProjectionMatrix(miniMapCamera.combined);
+            batch.begin();
+            mapRenderer.render(batch);
 
-        TextureRegion frame = this.playerAnim.getCurrentFrame(this.currentDirection, delta);
-        int px = this.game.currentPlayer.PositionX;
-        int py = this.game.currentPlayer.PositionY;
-        int tileSize = 16;
-        this.batch.draw(frame, px * tileSize, py * tileSize, tileSize, tileSize);
+            TextureRegion frame = this.playerAnim.getCurrentFrame(this.currentDirection, delta);
+            int px = this.game.currentPlayer.PositionX;
+            int py = this.game.currentPlayer.PositionY;
+            int playerSize = 12;
+            int tileSize = 16;
+            int offset = (tileSize - playerSize) / 2;
+            batch.draw(frame, (float)(px * tileSize + offset), (float)(py * tileSize ), (float)playerSize, (float)playerSize);
+            batch.end();
 
-        this.batch.end();
+            // نمایش پیام بالای صفحه mini map
+            batch.setProjectionMatrix((new Matrix4()).setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+            batch.begin();
+            String msg = "Mini Map - Press M to return to game";
+            float textWidth = miniMapFont.getRegion().getRegionWidth(); // این مقدار تقریبی است ولی کافی است
+            miniMapFont.draw(batch, msg, Gdx.graphics.getWidth() / 2f - 150, Gdx.graphics.getHeight() - 20);
+            batch.end();
+        } else {
 
-        this.drawClockUI();
+            batch.setProjectionMatrix(camera.combined);
+            batch.begin();
+            mapRenderer.render(batch);
+            TextureRegion frame = this.playerAnim.getCurrentFrame(this.currentDirection, delta);
+
+            if (selectingDirection) {
+                shapeRenderer.setProjectionMatrix(camera.combined);
+                shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+                shapeRenderer.setColor(1, 1, 0, 0.5f); // زرد شفاف
+
+                int playerX = game.currentPlayer.PositionX;
+                int playerY = game.currentPlayer.PositionY;
+                int tileSize = 16;
+                for (int dx = -1; dx <= 1; dx++) {
+                    for (int dy = -1; dy <= 1; dy++) {
+                        int tileX = playerX + dx;
+                        int tileY = playerY + dy;
+                        if (tileX == playerX && tileY == playerY) continue;
+                        shapeRenderer.rect(
+                                tileX * tileSize,
+                                tileY * tileSize,
+                                tileSize,
+                                tileSize
+                        );
+                    }
+                }
+                shapeRenderer.end();
+            }
+
+            int px = this.game.currentPlayer.PositionX;
+            int py = this.game.currentPlayer.PositionY;
+            int playerSize = 12;
+            int tileSize = 16;
+            int offset = (tileSize - playerSize) / 2;
+            this.batch.draw(frame, (float)(px * tileSize + offset), (float)(py * tileSize ), (float)playerSize, (float)playerSize);
+
+            batch.end();
+            this.drawClockUI();
+
+            if (isInventoryOpen) {
+                inventoryUI.act(delta);
+                inventoryUI.draw();
+            }
+        }
     }
 
     private void handleInput() {
-        if (Gdx.input.isKeyJustPressed(Input.Keys.W)) {
-            this.controller.Walk(this.game, 'w');
-            this.currentDirection = Direction.UP;
-        } else if (Gdx.input.isKeyJustPressed(Input.Keys.S)) {
-            this.controller.Walk(this.game, 's');
-            this.currentDirection = Direction.DOWN;
-        } else if (Gdx.input.isKeyJustPressed(Input.Keys.A)) {
-            this.controller.Walk(this.game, 'a');
-            this.currentDirection = Direction.LEFT;
-        } else if (Gdx.input.isKeyJustPressed(Input.Keys.D)) {
-            this.controller.Walk(this.game, 'd');
-            this.currentDirection = Direction.RIGHT;
-        } else if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
-            this.game.gameClock.advanceTimeByOneHour(this.game, this.controller);
-        } else if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            this.controller.processNextTurn(this.game);
+        if (isMiniMapOpen) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
+                isMiniMapOpen = false;
+                camera.zoom = 1.5f;  // برگردوندن زوم دوربین بازی به حالت اولیه
+                camera.update();
+                Gdx.input.setInputProcessor(new DirectionInputProcessor(this));
+            }
+            return;
+        }
+
+        if (!isInventoryOpen) {
+            if (Gdx.input.isKeyJustPressed(51)) {
+                this.controller.Walk(this.game, 'w');
+                this.currentDirection = PlayerAnimation.Direction.UP;
+            } else if (Gdx.input.isKeyJustPressed(47)) {
+                this.controller.Walk(this.game, 's');
+                this.currentDirection = PlayerAnimation.Direction.DOWN;
+            } else if (Gdx.input.isKeyJustPressed(29)) {
+                this.controller.Walk(this.game, 'a');
+                this.currentDirection = PlayerAnimation.Direction.LEFT;
+            } else if (Gdx.input.isKeyJustPressed(32)) {
+                this.controller.Walk(this.game, 'd');
+                this.currentDirection = PlayerAnimation.Direction.RIGHT;
+            } else if (Gdx.input.isKeyJustPressed(48)) {
+                this.game.gameClock.advanceTimeByOneHour(this.game, this.controller);
+            } else if (Gdx.input.isKeyJustPressed(Input.Keys.G)) {
+                game.currentPlayer.GreenHouseFixed =true;
+            } else if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+                this.controller.processNextTurn(this.game);
+            }
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            isInventoryOpen = !isInventoryOpen;
+            if (isInventoryOpen) {
+                inventoryUI.rebuildUI();
+                Gdx.input.setInputProcessor(inventoryUI);
+            } else {
+                Gdx.input.setInputProcessor(new DirectionInputProcessor(this));
+            }
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.T) && isInventoryOpen) {
+            inventoryUI.showToolsOnly();
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.C) && !isInventoryOpen) {
+            selectingDirection = !selectingDirection;
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
+            if (!isMiniMapOpen) {
+                isMiniMapOpen = true;
+            } else {
+                isMiniMapOpen = false;
+            }
         }
     }
 
-    private void updateCamera() {
-        int tileSize = 16;
-        float px = this.game.currentPlayer.PositionX * tileSize + tileSize / 2f;
-        float py = this.game.currentPlayer.PositionY * tileSize + tileSize / 2f;
-        this.camera.position.set(px, py, 0);
-        this.camera.update();
-    }
-
     private void drawClockUI() {
-        this.batch.setProjectionMatrix(new Matrix4().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        this.batch.setProjectionMatrix((new Matrix4()).setToOrtho2D(0.0F, 0.0F, (float)Gdx.graphics.getWidth(), (float)Gdx.graphics.getHeight()));
         this.batch.begin();
-
-        float screenWidth = Gdx.graphics.getWidth();
-        float screenHeight = Gdx.graphics.getHeight();
-        float clockWidth = this.clockTexture.getWidth();
-        float clockHeight = this.clockTexture.getHeight();
-        float clockX = screenWidth - clockWidth - 10f;
-        float clockY = screenHeight - clockHeight - 10f;
-
+        float screenWidth = (float)Gdx.graphics.getWidth();
+        float screenHeight = (float)Gdx.graphics.getHeight();
+        float clockWidth = (float)this.clockTexture.getWidth();
+        float clockHeight = (float)this.clockTexture.getHeight();
+        float clockX = screenWidth - clockWidth - 10.0F;
+        float clockY = screenHeight - clockHeight - 10.0F;
         this.batch.draw(this.clockTexture, clockX, clockY, clockWidth, clockHeight);
-
-        this.font.setColor(0.1f, 0.1f, 0.1f, 1f);
+        this.font.setColor(0.1F, 0.1F, 0.1F, 1.0F);
         int hour = this.game.gameClock.getHour();
+       mapRenderer.setNight(hour >= 18 || hour < 6);
         String ampm = hour >= 12 ? "PM" : "AM";
         int displayHour = hour % 12;
         if (displayHour == 0) {
@@ -128,33 +249,81 @@ public class GameScreen implements Screen {
         }
 
         String time = String.format("%02d:00 %s", displayHour, ampm);
-        String day = this.game.gameClock.getDayOfWeek().substring(0, 3) + ". " + this.game.gameClock.getDay() + " - " + this.game.gameClock.getCurrentSeason();
+        String var10000 = this.game.gameClock.getDayOfWeek().substring(0, 3);
+        String day = var10000 + ". " + this.game.gameClock.getDay() + " - " + this.game.gameClock.getCurrentSeason();
         String money = "$" + this.game.currentPlayer.money;
-
-        this.font.draw(this.batch, day, clockX + 120f, clockY + clockHeight - 20f);
-        this.font.draw(this.batch, time, clockX + 130f, clockY + clockHeight - 115f);
-        this.font.draw(this.batch, money, clockX + clockWidth - 120f, clockY + 42f);
-
+        this.font.draw(this.batch, day, clockX + 120.0F, clockY + clockHeight - 20.0F);
+        this.font.draw(this.batch, time, clockX + 130.0F, clockY + clockHeight - 115.0F);
+        this.font.draw(this.batch, money, clockX + clockWidth - 120.0F, clockY + 42.0F);
         this.batch.end();
     }
 
-    @Override
-    public void resize(int width, int height) { }
+    private void updateCamera() {
+        int tileSize = 16;
+        float playerX = game.currentPlayer.PositionX * tileSize + tileSize / 2f;
+        float playerY = game.currentPlayer.PositionY * tileSize + tileSize / 2f;
 
-    @Override
-    public void pause() { }
+        float cameraHalfWidth = camera.viewportWidth / 2f;
+        float cameraHalfHeight = camera.viewportHeight / 2f;
 
-    @Override
-    public void resume() { }
+        float mapWidth = game.Map.get(0).size() * tileSize;
+        float mapHeight = game.Map.size() * tileSize;
 
-    @Override
-    public void hide() { }
+        float camX = Math.min(Math.max(playerX, cameraHalfWidth), mapWidth - cameraHalfWidth);
+        float camY = Math.min(Math.max(playerY, cameraHalfHeight), mapHeight - cameraHalfHeight);
 
+        camera.position.set(camX, camY, 0);
+        camera.update();
+    }
+
+    private void updateMiniMapCamera() {
+        int tileSize = 16;
+        int mapWidthInTiles = game.Map.get(0).size();
+        int mapHeightInTiles = game.Map.size();
+
+        float mapWidth = mapWidthInTiles * tileSize;
+        float mapHeight = mapHeightInTiles * tileSize;
+
+        float centerX = mapWidth / 2f;
+        float centerY = mapHeight / 2f;
+
+        float viewportWidth = mapWidth * 2f;
+        float viewportHeight = mapHeight * 2f;
+
+        float screenRatio = (float) Gdx.graphics.getWidth() / Gdx.graphics.getHeight();
+        float mapRatio = viewportWidth / viewportHeight;
+
+        if (screenRatio > mapRatio) {
+            viewportWidth = viewportHeight * screenRatio;
+        } else {
+            viewportHeight = viewportWidth / screenRatio;
+        }
+
+        miniMapCamera.viewportWidth = viewportWidth;
+        miniMapCamera.viewportHeight = viewportHeight;
+
+        miniMapCamera.zoom = 0.55f;
+
+        miniMapCamera.position.set(centerX, centerY, 0);
+        miniMapCamera.update();
+    }
     @Override
     public void dispose() {
-        this.batch.dispose();
-        this.clockTexture.dispose();
-        this.font.dispose();
-        this.mapRenderer.dispose();
+        batch.dispose();
+        shapeRenderer.dispose();
+        clockTexture.dispose();
+        font.dispose();
+        miniMapFont.dispose();
+    }
+
+    @Override public void resize(int width, int height) {}
+    @Override public void pause() {}
+    @Override public void resume() {}
+    @Override public void hide() {}
+
+    public void update(float delta) {
+        if (!isMiniMapOpen) {
+            mapRenderer.update(delta);
+        }
     }
 }

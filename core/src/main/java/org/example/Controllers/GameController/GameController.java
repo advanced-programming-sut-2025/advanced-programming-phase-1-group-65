@@ -2,6 +2,8 @@ package org.example.Controllers.GameController;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import org.example.Controllers.BuildingController.BuildingController;
 import org.example.Models.*;
 import org.example.Models.Enums.*;
@@ -9,11 +11,20 @@ import org.example.Models.Game;
 import org.example.Models.Player;
 import org.example.Models.Shops.FishManager;
 import org.example.Models.Tile;
+import org.example.Views.GameView.InventoryUI;
 import org.example.Views.MenuView.KitchenView;
 
 import java.util.*;
 
 public class GameController {
+
+    public Skin skin;
+    private InventoryUI inventoryUI;
+
+
+    public GameController () {
+    }
+
     private static final int[][] DIRECTIONS = {
             {-1, 0}, // up
             {1, 0},  // down
@@ -246,22 +257,32 @@ public class GameController {
             case 's' -> newY--;
             case 'd' -> newX++;
             case 'a' -> newX--;
-            default -> {return;}
+            default -> {
+                return;
+            }
         }
+
         if (newY >= 0 && newY < game.Map.size() &&
-            newX >= 0 && newX < game.Map.get(0).size() && game.Map.get(newY).get(newX).type.equals(TileType.EMPTY)) {
+            newX >= 0 && newX < game.Map.get(0).size()) {
 
-            // پاک‌کردن موقعیت قبلی
-            game.Map.get(game.currentPlayer.PositionY).set(game.currentPlayer.PositionX, new Tile(TileType.EMPTY));
+            TileType targetType = game.Map.get(newY).get(newX).type;
 
-            // قرار دادن بازیکن در موقعیت جدید
-            game.currentPlayer.PositionX = newX;
-            game.currentPlayer.PositionY = newY;
-            game.Map.get(newY).set(newX, new Tile(TileType.PLAYER));
+            if (targetType.equals(TileType.EMPTY) || targetType.equals(TileType.QUARRY)) {
+
+                // بازگرداندن نوع قبلی در موقعیت فعلی بازیکن
+                game.Map.get(game.currentPlayer.PositionY)
+                    .set(game.currentPlayer.PositionX, new Tile(game.currentPlayer.lastTileType));
+
+                // به‌روزرسانی موقعیت بازیکن
+                game.currentPlayer.lastTileType = targetType;
+                game.currentPlayer.PositionX = newX;
+                game.currentPlayer.PositionY = newY;
+
+                game.Map.get(newY).set(newX, new Tile(TileType.PLAYER));
+            }
         }
-
-
     }
+
     public void processAdvanceHours(Game game, int hours) {
         for (int i = 0; i < hours; i++) {
             game.gameClock.advanceTimeByOneHour(game,this);
@@ -336,7 +357,9 @@ public class GameController {
                 Trees tree2 = new Trees(tree);
                     if (tree.name.equalsIgnoreCase("Wild")) {
                         Material seed= tree2.seed;
+
                         Material wood= new Material(12, ItemSubType.WOOD,"Wood",1);
+                        wood.texture= new Texture("Material/Wood.png");
                         AddItem(game,seed);
                         AddItem(game,wood);
 
@@ -359,9 +382,9 @@ public class GameController {
                     else if (!tree.isHarvestable){
                         System.out.println("This Tree is not harvestable yer\ndo you wish to proceed?(y/n)");
                         String ch = temp.nextLine();
-                        if (ch.equals("y")) {
                             Material seed= tree2.seed;
                             Material wood= new Material(12, ItemSubType.WOOD,"Wood",1);
+                            wood.texture= new Texture("Material/Wood.png");
                             AddItem(game,seed);
                             AddItem(game,wood);
 
@@ -372,11 +395,8 @@ public class GameController {
 
                             System.out.println("You have chopped the tree");
                             return;
-                        }
-                        else {
-                            System.out.println("Command Cancelled");
-                            return;
-                        }
+
+
                     }
 
 
@@ -681,13 +701,14 @@ public class GameController {
                     tree.day = 0;
                 }
             }
-            if (tree.HarvestingCycle>0 && tree.HarvestedFirstTime){
+            if (tree.HarvestingCycle>0 ){
                 if (tree.day >= tree.HarvestingCycle){
                     tree.isHarvestable = true;
                     tree.day = 0;
                 }
             }
             tree.day++;
+            System.out.println(tree.name + " " + tree.day);
             tree.WateredToday = false;
         }
 
@@ -776,6 +797,7 @@ public class GameController {
             return;
         }
         System.out.println("GreenHouse Built successfully");
+        game.currentPlayer.GreenHouseFixed = true;
 
     }
     public void Pet(Game game, String name,int x,int y){
@@ -930,15 +952,23 @@ public class GameController {
 
         game.currentPlayer.Energy -= 8 + bonusEnergy;
     }
-    public void AddItem(Game game, Item newitem) {
+    public void AddItem(Game game,Item newitem) {
         for (Item item : game.currentPlayer.items) {
             if(item.name.equalsIgnoreCase(newitem.name) && item.subtype.equals(newitem.subtype)){
                 item.Count = item.Count + newitem.Count;
+                updateInventoryUI(game);
                 return;
             }
         }
         game.currentPlayer.items.add(newitem);
-        return;
+        updateInventoryUI(game);
+    }
+
+    private void updateInventoryUI(Game game) {
+        inventoryUI = game.gameScreen.inventoryUI;
+        if (inventoryUI != null) {
+            inventoryUI.showAllItems();  // باعث رفرش شدن UI می‌شود
+        }
     }
 
     public void setWeatherCheat(Game game, WeatherType weather) {
@@ -1067,7 +1097,7 @@ public class GameController {
                     }
                     for(Trees tree : game.AllTreesInfo){
 
-                        if(tree.seed.name.equals(name)){
+                        if(tree.seed.name.equalsIgnoreCase(name)){
                             if (!containsDigit(game.gameClock.getCurrentSeasonIndex(),tree.Season)){
                                 System.out.println("This Tree can not be planted during this season");
                                 return;
@@ -1079,6 +1109,7 @@ public class GameController {
                             game.AllTrees.add(newTree);
                             System.out.println("Tree added.");
                             removeItem(game,tempSeed.name,1);
+                            game.currentPlayer.CurrentItem = null;
                             return;
                         }
                     }
@@ -1678,10 +1709,14 @@ public class GameController {
                 if (item.Count > countToRemove) {
                     item.Count -= countToRemove;
                     System.out.println("You removed "+countToRemove+" from "+name);
+                    updateInventoryUI(game);
+
                     return;
                 } else if (item.Count == countToRemove) {
                     game.currentPlayer.items.remove(item);
                     System.out.println("You removed "+name);
+                    updateInventoryUI(game);
+
                     return;
                 } else {
                     System.out.println("This amount is more than you have.");
@@ -1836,6 +1871,10 @@ public class GameController {
         }
         return sum;
     }
+
+
+
+
 
 
 
