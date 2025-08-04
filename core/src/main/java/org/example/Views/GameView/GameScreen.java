@@ -43,7 +43,7 @@ public class GameScreen implements Screen {
     public GameScreen(Game game) {
         this.game = game;
         // وقتی mapRenderer از جنس خودت هست نیازی به پاس دادنش نیست
-        this.mapRenderer = new MapRenderer(game.Map);
+        this.mapRenderer = new MapRenderer(game.Map , game);
         skin = new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"));
         this.currentDirection = PlayerAnimation.Direction.DOWN;
         this.timeAccumulator = 0.0F;
@@ -152,6 +152,12 @@ public class GameScreen implements Screen {
                 this.currentDirection = PlayerAnimation.Direction.RIGHT;
             } else if (Gdx.input.isKeyJustPressed(48)) {
                 this.game.gameClock.advanceTimeByOneHour(this.game, this.controller);
+            }
+            else if (Gdx.input.isKeyJustPressed(Input.Keys.G)) {
+                game.currentPlayer.GreenHouseFixed =true;
+            }
+            else if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+                this.controller.processNextTurn(this.game);
             }
         }
 

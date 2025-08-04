@@ -28,7 +28,6 @@ public class Game {
     public ArrayList<Recipe> AllRecipes = new ArrayList<>();
     public java.util.Map<TileType, Shop> shops = new java.util.HashMap<>();
     public GameScreen gameScreen;
-
     public User user1 = null;
     public User user2 = null;
     public User user3 = null;

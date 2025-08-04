@@ -797,6 +797,7 @@ public class GameController {
             return;
         }
         System.out.println("GreenHouse Built successfully");
+        game.currentPlayer.GreenHouseFixed = true;
 
     }
     public void Pet(Game game, String name,int x,int y){

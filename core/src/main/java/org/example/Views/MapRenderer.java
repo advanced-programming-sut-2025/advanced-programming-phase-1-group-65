@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.example.Models.Game;
 import org.example.Models.Rock;
 import org.example.Models.Tile;
 import org.example.Models.Enums.TileType;
@@ -19,13 +20,15 @@ public class MapRenderer {
     private final Map<TileType, TextureRegion> regionMap = new HashMap<>();
 
     // تکسچرهای بزرگ برای ساختمان‌ها
-    private final Texture greenhouseBigTexture;
+    private  Texture greenhousebroken;
+   // private final Texture greenhousefixed;
     private final Texture lakeBigTexture;
-    // private final Texture blacksmithBigTexture;
-    // private final Texture generalStoreBigTexture;
-    // private final Texture carpentersShopBigTexture;
-    //private final Texture fishShopBigTexture;
-    //private final Texture ranchBigTexture;
+    private final Texture ShedTexture;
+     private final Texture blacksmithBigTexture;
+     private final Texture generalStoreBigTexture;
+    private final Texture carpentersShopBigTexture;
+    private final Texture fishShopBigTexture;
+    private final Texture ranchBigTexture;
     private final Texture stardropSaloonBigTexture;
     private final Texture jojaMartBigTexture;
     private Texture outdoorTileTexture;
@@ -53,28 +56,37 @@ public class MapRenderer {
     private Texture WildTreeTexture;
     private TextureRegion WildTreeRegion;
 
-    public MapRenderer(ArrayList<ArrayList<Tile>> map) {
+    public MapRenderer(ArrayList<ArrayList<Tile>> map, Game game) {
         this.map = map;
         this.loadTextures();
 
         // بارگذاری تکسچرهای بزرگ
-        this.greenhouseBigTexture = new Texture("map/GreenhouseBig.png");
+
+            this.greenhousebroken = new Texture("map/GreenHouseFixed.png");
+
+            if (game.currentPlayer.GreenHouseFixed) {
+                this.greenhousebroken = new Texture("map/GreenHouseFixed.png");
+
+            }
+
         this.lakeBigTexture = new Texture("map/LakeBig.png");
-        // this.blacksmithBigTexture = new Texture("map/BlacksmithBig.png");
-        //this.generalStoreBigTexture = new Texture("map/GeneralStoreBig.png");
-        //this.carpentersShopBigTexture = new Texture("map/CarpentersShopBig.png");
-        //this.fishShopBigTexture = new Texture("map/FishShopBig.png");
-        //this.ranchBigTexture = new Texture("map/RanchBig.png");
+        this.blacksmithBigTexture = new Texture("map/BlacksmithBig.png");
+        this.generalStoreBigTexture = new Texture("map/GeneralStoreBig.png");
+        this.carpentersShopBigTexture = new Texture("map/CarpentersShopBig.png");
+        this.fishShopBigTexture = new Texture("map/FishShopBig.png");
+        this.ranchBigTexture = new Texture("map/RanchBig.png");
         this.stardropSaloonBigTexture = new Texture("map/StardropSaloonBig.png");
         this.jojaMartBigTexture = new Texture("map/JojaMartBig.png");
+        ShedTexture = new Texture("map/Shed.png");
 
-        regionMap.put(TileType.GREENHOUSE, new TextureRegion(greenhouseBigTexture));
+        regionMap.put(TileType.GREENHOUSE, new TextureRegion(greenhousebroken));
         regionMap.put(TileType.LAKE, new TextureRegion(lakeBigTexture));
-        //regionMap.put(TileType.BLACKSMITH, new TextureRegion(blacksmithBigTexture));
-        //regionMap.put(TileType.GENERALSTORE, new TextureRegion(generalStoreBigTexture));
-        //regionMap.put(TileType.CARPENTERSHOP, new TextureRegion(carpentersShopBigTexture));
-        //regionMap.put(TileType.FISHSHOP, new TextureRegion(fishShopBigTexture));
-        //regionMap.put(TileType.RANCH, new TextureRegion(ranchBigTexture));
+        regionMap.put(TileType.SHACK , new TextureRegion(ShedTexture));
+        regionMap.put(TileType.BLACKSMITH, new TextureRegion(blacksmithBigTexture));
+        regionMap.put(TileType.GENERALSTORE, new TextureRegion(generalStoreBigTexture));
+        regionMap.put(TileType.CARPENTERSHOP, new TextureRegion(carpentersShopBigTexture));
+        regionMap.put(TileType.FISHSHOP, new TextureRegion(fishShopBigTexture));
+        regionMap.put(TileType.RANCH, new TextureRegion(ranchBigTexture));
         regionMap.put(TileType.STARDROPSALOON, new TextureRegion(stardropSaloonBigTexture));
         regionMap.put(TileType.JOJAMART, new TextureRegion(jojaMartBigTexture));
         outdoorTileTexture = new Texture("map/OutDoorTile.png");
@@ -140,16 +152,18 @@ public class MapRenderer {
             }
 
         }
+
         return switch (tile.type) {
             case EMPTY -> outdoorTileRegion;
             case WALL -> WallTileRegion;
             case FERTILE -> FertileTileRegion;
             case QUARRY -> QuarryTileRegion;
-            case LAKE -> LakeTileRegion;
+
             // case های دیگر برای هر نوع Tile
             // مثلا WALL -> wallTextureRegion
             default -> null;
         };
+
     }
 
     public void render(SpriteBatch batch) {
@@ -172,7 +186,8 @@ public class MapRenderer {
                     || type == TileType.FISHSHOP
                     || type == TileType.RANCH
                     || type == TileType.STARDROPSALOON
-                    || type == TileType.JOJAMART;
+                    || type == TileType.JOJAMART
+                    || type == TileType.SHACK;
 
                 if (isBigTile) {
                     TextureRegion baseRegion = regionMap.get(TileType.EMPTY);
@@ -231,7 +246,6 @@ public class MapRenderer {
         for (Texture tex : textureMap.values()) {
             tex.dispose();
         }
-        greenhouseBigTexture.dispose();
         lakeBigTexture.dispose();
         //blacksmithBigTexture.dispose();
         //generalStoreBigTexture.dispose();
