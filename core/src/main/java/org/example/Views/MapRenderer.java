@@ -52,6 +52,8 @@ public class MapRenderer {
     private TextureRegion IriduimTileRegion;
     private Texture WildTreeTexture;
     private TextureRegion WildTreeRegion;
+    private Texture ShippingTileTexture;
+    private TextureRegion ShippingTileRegion;
 
     public MapRenderer(ArrayList<ArrayList<Tile>> map, Game game) {
         this.map = map;
@@ -110,6 +112,8 @@ public class MapRenderer {
         IriduimTileRegion = new TextureRegion(IriduimTileTexture);
         WildTreeTexture = new Texture("Trees/Wild_Tree.png");
         WildTreeRegion = new TextureRegion(WildTreeTexture);
+        ShippingTileTexture = new Texture("Map/ShippingBin.jpg");
+        ShippingTileRegion = new TextureRegion(ShippingTileTexture);
     }
 
     private void loadTextures() {
@@ -161,6 +165,7 @@ public class MapRenderer {
             case WALL -> WallTileRegion;
             case FERTILE -> FertileTileRegion;
             case QUARRY -> QuarryTileRegion;
+            case SHIPPINGBIN ->  ShippingTileRegion;
 
             // case های دیگر برای هر نوع Tile
             // مثلا WALL -> wallTextureRegion

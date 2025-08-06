@@ -1,31 +1,38 @@
 package org.example.Views.GameView;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.*;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import org.example.Controllers.GameController.GameController;
 import org.example.Models.Enums.ItemType;
+import org.example.Models.Enums.TileType;
 import org.example.Models.Game;
 import org.example.Models.Item;
 import org.example.Views.MapRenderer;
 import org.example.Views.PlayerAnimation;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+
 
 public class GameScreen implements Screen {
     final Game game;
     OrthographicCamera camera;
     GameController controller = new GameController();
     public InventoryUI inventoryUI;
+    public RefrigeratorUI refrigeratorUI;
     boolean isInventoryOpen = false;
     private Skin skin;
     public boolean selectingDirection = false;
@@ -38,6 +45,14 @@ public class GameScreen implements Screen {
     private BitmapFont font;
     private float timeAccumulator;
     private final float timePerGameHour;
+    private Stage uiStage;
+    public boolean isRefrigeratorOpen = false;
+    public boolean RefrigeratorPick = false;
+public InputMultiplexer multiplexer;
+    private String messageToShow = null;
+    private float messageDisplayTime = 0f;  // ثانیه
+    private final float MESSAGE_DURATION = 3f; // مدت نمایش پیام به ثانیه
+
 
 
     public GameScreen(Game game) {
@@ -48,6 +63,7 @@ public class GameScreen implements Screen {
         this.currentDirection = PlayerAnimation.Direction.DOWN;
         this.timeAccumulator = 0.0F;
         this.timePerGameHour = 5.0F;
+
 // اینجا باید map رو بدی
     }
 
@@ -56,13 +72,21 @@ public class GameScreen implements Screen {
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
         inventoryUI = new InventoryUI(game, batch, controller);
+        refrigeratorUI = new RefrigeratorUI(game, batch, controller);
 
         camera = new OrthographicCamera(320, 160);
-        camera.zoom = 1.7f;
+        camera.zoom = 1f;
         camera.update();
+        uiStage = new Stage(new ScreenViewport());
+        uiStage = new Stage(new ScreenViewport());
+        DirectionInputProcessor directionInput = new DirectionInputProcessor(this);
 
-        // تنظیم ورودی برای مدیریت جهت انتخابی
-        Gdx.input.setInputProcessor(new DirectionInputProcessor(this));
+         multiplexer = new InputMultiplexer();
+        multiplexer.addProcessor(uiStage);            // UI Stage اول باشه
+        multiplexer.addProcessor(directionInput);     // بعد ورودی سفارشی
+        multiplexer.addProcessor(inventoryUI);
+        Gdx.input.setInputProcessor(multiplexer);
+
         this.playerAnim = new PlayerAnimation(0.2F);
         this.clockTexture = new Texture(Gdx.files.internal("ui/Clock.png"));
         this.font = new BitmapFont();
@@ -129,15 +153,44 @@ public class GameScreen implements Screen {
         this.batch.draw(frame, (float)(px * tileSize + offset), (float)(py * tileSize ), (float)playerSize, (float)playerSize);
 
         batch.end();
+        batch.setProjectionMatrix(new Matrix4().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        batch.begin();
+
+        int padding = 10;
+        int iconSize = 100;
+
+        if (game.currentPlayer.CurrentItem != null) {
+            TextureRegion itemTexture = new TextureRegion(game.currentPlayer.CurrentItem.texture);
+            batch.draw(itemTexture, padding, Gdx.graphics.getHeight() - iconSize - padding, iconSize, iconSize);
+        }
+
+        if (game.currentPlayer.CurrentTool != null) {
+            TextureRegion toolTexture = new TextureRegion(game.currentPlayer.CurrentTool.texture);
+            batch.draw(toolTexture, padding + iconSize + padding, Gdx.graphics.getHeight() - iconSize - padding, iconSize, iconSize);
+        }
+
+        batch.end();
+
         this.drawClockUI();
 
         if (isInventoryOpen) {
             inventoryUI.act(delta);
             inventoryUI.draw();
         }
+        if (RefrigeratorPick) {
+            refrigeratorUI.act(delta);
+            refrigeratorUI.draw();
+        }
+        uiStage.act(delta);
+        uiStage.draw();
+        Gdx.input.setInputProcessor(multiplexer);
+
+
     }
+
+
     private void handleInput() {
-        if (!isInventoryOpen) {
+        if (!isInventoryOpen && !isRefrigeratorOpen) {
             if (Gdx.input.isKeyJustPressed(51)) {
                 this.controller.Walk(this.game, 'w');
                 this.currentDirection = PlayerAnimation.Direction.UP;
@@ -161,13 +214,13 @@ public class GameScreen implements Screen {
             }
         }
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) && !isRefrigeratorOpen) {
             isInventoryOpen = !isInventoryOpen;
             if (isInventoryOpen) {
                 inventoryUI.rebuildUI();
-                Gdx.input.setInputProcessor(inventoryUI); // ✅ ورودی به این مرحله بره
+                Gdx.input.setInputProcessor(multiplexer); // ✅ ورودی به این مرحله بره
             } else {
-                Gdx.input.setInputProcessor(new DirectionInputProcessor(this)); // ✅ غیرفعال‌سازی، یا اگه Stage دیگه‌ای دارید تنظیمش کنید
+                Gdx.input.setInputProcessor(multiplexer); // ✅ غیرفعال‌سازی، یا اگه Stage دیگه‌ای دارید تنظیمش کنید
             }
         }
 
@@ -178,8 +231,59 @@ public class GameScreen implements Screen {
             selectingDirection = !selectingDirection;
             // می‌تونی اینجا مثلا یک صدای کوچک هم پخش کنی یا پیام بده
         }
+        if (Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT)) {
+            int tileSize = 16;
+            int mouseX = Gdx.input.getX();
+            int mouseY = Gdx.input.getY();
+
+            // تبدیل مختصات صفحه به مختصات جهان
+            Vector3 worldCoords = camera.unproject(new Vector3(mouseX, mouseY, 0));
+            int tileX = (int)(worldCoords.x / tileSize);
+            int tileY = (int)(worldCoords.y / tileSize);
+
+            if (game.Map.get(tileY).get(tileX).type.equals(TileType.SHACK)) {
+                isRefrigeratorOpen = true;
+                showKitchenMenu(tileX, tileY);
+                if (RefrigeratorPick){
+                    refrigeratorUI.rebuildUI();
+                }
+            }
+        }
+
 
     }
+    private void showKitchenMenu(int tileX, int tileY) {
+        Dialog dialog = new Dialog("Kitchen Options", skin) {
+            @Override
+            protected void result(Object object) {
+                switch (object.toString()) {
+                    case "put":
+                        isInventoryOpen = !isInventoryOpen;
+                        break;
+                    case "pick":
+                        RefrigeratorPick = !RefrigeratorPick;
+                      //  controller.RefrigeratorPick(game, "Apple"); // یا SelectBox در نسخه بعدی
+                        break;
+                    case "cook":
+                       // controller.PrepareRecipe(game, "Fried Egg");
+                        break;
+                    case "cancel":
+                        isRefrigeratorOpen = !isRefrigeratorOpen;
+                        break;
+                }
+            }
+        };
+
+        dialog.text("What do you want to do?");
+        dialog.button("Put Food in Refrigerator", "put");
+        dialog.button("Pick Food from Refrigerator", "pick");
+        dialog.button("Cook Food", "cook");
+        dialog.button("Cancel", "cancel");
+
+        dialog.show(uiStage);
+    }
+
+
     private void drawClockUI() {
         this.batch.setProjectionMatrix((new Matrix4()).setToOrtho2D(0.0F, 0.0F, (float)Gdx.graphics.getWidth(), (float)Gdx.graphics.getHeight()));
         this.batch.begin();
@@ -233,6 +337,23 @@ public class GameScreen implements Screen {
 
         camera.position.set(camX, camY, 0);
     }
+    public void showMessage(String message) {
+        Dialog dialog = new Dialog("Message", skin) {
+            @Override
+            protected void result(Object object) {
+                // وقتی دکمه OK زده شد اینجا اجرا میشه
+                if ("ok".equals(object)) {
+                    this.hide(); // دیالوگ را ببند
+                }
+            }
+        };
+
+        dialog.text(message);
+        dialog.button("OK", "ok");
+
+        dialog.show(uiStage);
+    }
+
 
 
 

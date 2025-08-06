@@ -105,11 +105,14 @@ map/GreenHouseFixed.png
 map/Hardwood_Fence.png
 map/JojaMartBig.png
 map/LakeBig.png
+map/LakeBig1.png
 map/LakeTile.jpg
 map/OutDoorTile.png
+map/OutDoorTile1.png
 map/Quarry_Boulder.png
 map/RanchBig.png
 map/Shed.png
+map/ShippingBin.jpg
 map/StarDropSaloonBig.png
 map/fishShopBig.png
 map/paths.png

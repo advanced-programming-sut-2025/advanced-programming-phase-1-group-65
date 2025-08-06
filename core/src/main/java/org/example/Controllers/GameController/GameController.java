@@ -1199,8 +1199,10 @@ public class GameController {
         for (Item item : game.currentPlayer.Refrigerator){
             if(item.name.equals(name)){
                 game.currentPlayer.Refrigerator.remove(item);
+                game.gameScreen.refrigeratorUI.rebuildUI();
                 AddItem(game,item);
                 System.out.println("You have removed "+item.name + " from the Refrigerator.");
+
                 return;
 
             }
@@ -1221,15 +1223,25 @@ public class GameController {
         }
         if(!Target.type.equals(ItemType.FOOD)){
             System.out.println("You cant put a non food item in refrigerator.");
+            game.gameScreen.showMessage("You cant put a non food item in refrigerator.");
             return;
         }
-        Food TargetFood = (Food) Target;
+        Food TargetFood = new Food((Food) Target);
+        TargetFood.Count =1;
         if (!TargetFood.isEdible) {
             System.out.println("You cant put a non edible item in refrigerator.");
+            game.gameScreen.showMessage("You cant put a non edible item in refrigerator.");
+
             return;
         }
         removeItem(game,TargetFood.name,1);
         game.currentPlayer.Refrigerator.add(TargetFood);
+        game.gameScreen.refrigeratorUI.rebuildUI();
+
+
+        game.gameScreen.showMessage(TargetFood.name + " has been added to the Refrigerator.");
+
+
     }
     public void ShowRecipe(Game game){
         for (Recipe recipe : game.currentPlayer.KnownRecipes){

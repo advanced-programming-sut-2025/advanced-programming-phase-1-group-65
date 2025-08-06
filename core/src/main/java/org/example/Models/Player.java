@@ -20,7 +20,10 @@ public class Player {
         foragingSkill = new Skill();
         fishingSkill = new Skill();
         npcFriendships = new HashMap<>();
+
     }
+    public boolean RefrigeratorOpen =false;
+
     public int FarmNumber;
     public ArrayList<Building> playerBuildings = new ArrayList<>();
     public ArrayList<Item> SoldItems = new ArrayList<>();

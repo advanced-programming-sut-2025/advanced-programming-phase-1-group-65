@@ -1,5 +1,4 @@
 package org.example.Views.GameView;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
@@ -18,13 +17,14 @@ import org.example.Models.Enums.ItemSubType;
 import org.example.Models.Enums.ItemType;
 import org.example.Models.Game;
 import org.example.Models.Item;
+import org.example.Models.Food;
 import org.example.Models.Player;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class InventoryUI extends Stage {
+public class RefrigeratorUI extends Stage {
     private final GameController controller;
     private final Player player;
     private final Table inventoryTable;
@@ -42,11 +42,11 @@ public class InventoryUI extends Stage {
     private int selectedIndex = 0;
     private int currentPage = 0;
 
-    public InventoryUI(Game game, SpriteBatch batch, GameController controller) {
+    public RefrigeratorUI(Game game, SpriteBatch batch, GameController controller) {
         super(new ScreenViewport(), batch);
         this.game = game;
         this.player = game.currentPlayer;
-        displayedItems.addAll(player.items);
+        displayedItems.addAll(player.Refrigerator);
         skin = new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"));
         this.controller = controller;
         Texture bgTexture = new Texture(Gdx.files.internal("Inventory.png"));
@@ -66,13 +66,11 @@ public class InventoryUI extends Stage {
 
         rebuildUI();
     }
-
     @Override
     public void act(float delta) {
         super.act(delta);
         handleInput();
     }
-
     private void handleInput() {
         boolean updated = false;
         int totalItems = displayedItems.size();
@@ -120,61 +118,30 @@ public class InventoryUI extends Stage {
                 updated = true;
             }
 
-        } else if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER) && !game.gameScreen.isRefrigeratorOpen) {
-            // وقتی Enter زده شد، اگر آیتم انتخاب شده Tool بود انتخابش کن
-            if (selectedIndex >= 0 && selectedIndex < displayedItems.size()) {
-                Item selectedItem = displayedItems.get(selectedIndex);
-                if (selectedItem.type == ItemType.TOOL) {
-                    player.CurrentTool = (org.example.Models.Tool) selectedItem;
-                    player.CurrentItem = null;
-                    System.out.println("Current tool selected: " + selectedItem.getName());
-                   showMessage("You Have Equiped " + selectedItem.getName() );
-
-                }
-                else if (selectedItem.subtype == ItemSubType.SEED){
-                    player.CurrentTool = null;
-                    player.CurrentItem =  selectedItem;
-                    System.out.println("Current Seed selected: " + selectedItem.getName());
-                    showMessage("You Have Equiped " + selectedItem.getName() );
-                }
-            }
-
         }
-        else if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER) && game.gameScreen.isRefrigeratorOpen){
+        else if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            game.gameScreen.RefrigeratorPick = false;
+            game.gameScreen.isRefrigeratorOpen =false;
+        }
+        else if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
             if (selectedIndex >= 0 && selectedIndex < displayedItems.size()) {
                 Item selectedItem = displayedItems.get(selectedIndex);
                 System.out.println("selectedIndex: " + selectedIndex);
                 System.out.println("selectedItem: " + displayedItems.get(selectedIndex).name);
 
-                game.gameScreen.controller.RefrigeratorPut(game , selectedItem.name);
-                game.gameScreen.isInventoryOpen = false;
-                game.gameScreen.isRefrigeratorOpen = false;
-
+                game.gameScreen.controller.RefrigeratorPick(game, selectedItem.name);
             }
         }
-        else if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) && game.gameScreen.isRefrigeratorOpen){
-            game.gameScreen.isInventoryOpen = false;
-            game.gameScreen.isRefrigeratorOpen = false;
-        }
-
-        if (updated) {
-            rebuildUI();
-        }
-
-
-        // **حالا selectedIndex را به محدوده صفحه جدید محدود کنیم**
-        int start = currentPage * pageSize;
-        int end = Math.min(start + pageSize, totalItems);
-        if (selectedIndex < start) selectedIndex = start;
-        if (selectedIndex >= end) selectedIndex = end - 1;
-
         if (updated) {
             rebuildUI();
         }
     }
-
     public void rebuildUI() {
         inventoryTable.clearChildren();
+
+        // هم‌زمان‌سازی با لیست اصلی یخچال
+        displayedItems.clear();
+        displayedItems.addAll(player.Refrigerator);
 
         int pageSize = COLUMNS * 5;
         int start = currentPage * pageSize;
@@ -182,7 +149,7 @@ public class InventoryUI extends Stage {
 
         for (int i = start; i < end; i++) {
             Item item = displayedItems.get(i);
-            Image img = new Image(item.getTexture());
+            Image img = new Image(item.texture);
             img.setSize(CELL_SIZE, CELL_SIZE);
 
             Stack stack = new Stack();
@@ -197,11 +164,9 @@ public class InventoryUI extends Stage {
                 itemLabel.setFontScale(1.5f);
                 itemLabel.setColor(Color.WHITE);
 
-                // برای قرار دادن متن بالای آیتم
                 Table labelContainer = new Table();
-                labelContainer.top(); // متن در بالا قرار بگیرد
+                labelContainer.top();
                 labelContainer.add(itemLabel).padTop(5);
-
                 stack.add(labelContainer);
             }
 
@@ -210,10 +175,8 @@ public class InventoryUI extends Stage {
             if ((i - start + 1) % COLUMNS == 0) {
                 inventoryTable.row().padTop(10);
             }
-
         }
 
-        // پر کردن خانه‌های خالی برای حفظ ساختار جدول
         int remainingSlots = pageSize - (end - start);
         for (int i = 0; i < remainingSlots; i++) {
             Actor emptySlot = new Actor();
@@ -227,42 +190,7 @@ public class InventoryUI extends Stage {
     }
 
 
-    public void showToolsOnly() {
-        displayedItems.clear();
-        for (Item item : player.items) {
-            if (item.type == ItemType.TOOL) {
-                displayedItems.add(item);
-            }
-        }
-        currentPage = 0;
-        selectedIndex = 0;
-        rebuildUI();
-    }
-    public void showMessage(String message) {
-        Table messageTable = new Table();
-        messageTable.setFillParent(true);
-        messageTable.top(); // متن بالا نمایش داده شود
-
-        Label.LabelStyle messageStyle = new Label.LabelStyle(new BitmapFont(), Color.GOLD);
-        Label messageLabel = new Label(message, messageStyle);
-        messageLabel.setFontScale(4f);
-        messageTable.add(messageLabel).padTop(20);
-
-        addActor(messageTable); // اضافه به stage
-
-        // بعد از 2 ثانیه حذف شود
-        addAction(Actions.sequence(
-            Actions.delay(2f),
-            Actions.run(() -> messageTable.remove())
-        ));
-    }
 
 
-    public void showAllItems() {
-        displayedItems.clear();
-        displayedItems.addAll(player.items);
-        currentPage = 0;
-        selectedIndex = 0;
-        rebuildUI();
-    }
+
 }
