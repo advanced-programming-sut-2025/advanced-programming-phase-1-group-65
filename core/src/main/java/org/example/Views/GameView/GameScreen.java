@@ -33,6 +33,7 @@ public class GameScreen implements Screen {
     GameController controller = new GameController();
     public InventoryUI inventoryUI;
     public RefrigeratorUI refrigeratorUI;
+    public KitchenUI kitchenUI;
     boolean isInventoryOpen = false;
     private Skin skin;
     public boolean selectingDirection = false;
@@ -48,6 +49,7 @@ public class GameScreen implements Screen {
     private Stage uiStage;
     public boolean isRefrigeratorOpen = false;
     public boolean RefrigeratorPick = false;
+    public boolean KitchenOpen = false;
 public InputMultiplexer multiplexer;
     private String messageToShow = null;
     private float messageDisplayTime = 0f;  // ثانیه
@@ -73,7 +75,7 @@ public InputMultiplexer multiplexer;
         shapeRenderer = new ShapeRenderer();
         inventoryUI = new InventoryUI(game, batch, controller);
         refrigeratorUI = new RefrigeratorUI(game, batch, controller);
-
+        kitchenUI = new KitchenUI(game, batch, controller);
         camera = new OrthographicCamera(320, 160);
         camera.zoom = 1f;
         camera.update();
@@ -181,6 +183,10 @@ public InputMultiplexer multiplexer;
             refrigeratorUI.act(delta);
             refrigeratorUI.draw();
         }
+        if (KitchenOpen) {
+            kitchenUI.act(delta);
+            kitchenUI.draw();
+        }
         uiStage.act(delta);
         uiStage.draw();
         Gdx.input.setInputProcessor(multiplexer);
@@ -265,6 +271,7 @@ public InputMultiplexer multiplexer;
                       //  controller.RefrigeratorPick(game, "Apple"); // یا SelectBox در نسخه بعدی
                         break;
                     case "cook":
+                        KitchenOpen = !KitchenOpen;
                        // controller.PrepareRecipe(game, "Fried Egg");
                         break;
                     case "cancel":

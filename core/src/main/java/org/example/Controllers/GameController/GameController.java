@@ -1257,17 +1257,20 @@ public class GameController {
             }
         }
         if(Target==null){
-            System.out.println("You don't have this recipe or it dosen't exist.");
+            System.out.println("You don't have this recipe Unlocked yet");
+            game.gameScreen.showMessage("You don't have this recipe Unlocked yet");
             return;
         }
 
         Food newfood = new Food(checkRecipe(game,Target.name));
         if (newfood.name.equalsIgnoreCase("Test")) {
             System.out.println("You don't have the required ingredients for this recipe");
+            game.gameScreen.showMessage("You don't have the required ingredients for this recipe");
             return;
         }
         AddItem(game,newfood);
         System.out.println("You have successfully cooked " + newfood.name);
+        game.gameScreen.showMessage("You have successfully cooked " + newfood.name);
         return;
 
 

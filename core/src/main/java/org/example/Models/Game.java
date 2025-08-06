@@ -417,11 +417,18 @@ public class Game {
                 //user.player.items.add(new Material(1, ItemSubType.SEED,"Test Seed",25));
 
                 //tester
-
+                user.player.KnownRecipes.add(this.AllRecipes.get(0));
+                user.player.KnownRecipes.add(this.AllRecipes.get(1));
+                user.player.KnownRecipes.add(this.AllRecipes.get(2));
+                user.player.KnownRecipes.add(this.AllRecipes.get(3));
+                user.player.KnownRecipes.add(this.AllRecipes.get(4));
+                 Food egg1=new Food (1,ItemSubType.EGG,"Chicken Egg" , 1,1,true );
+                    egg1.texture = new Texture(Gdx.files.internal("Food/Egg.png"));
+                user.player.items.add(egg1);
              /* user.player.items.add(new Material(1, ItemSubType.SEED,"Test Seed",25));
                 user.player.items.add(new Material(1000,ItemSubType.WOOD,"Wood",10));
                 user.player.items.add(new Material(1000,ItemSubType.STONE,"Stone",10));
-                user.player.items.add(new Material(1000,ItemSubType.HAY,"Hay",10));
+             e   user.player.items.add(new Material(1000,ItemSubType.HAY,"Hay",10));
                 user.player.items.add(new Material(1,ItemSubType.FISH,"Sardine",10));
                 user.player.items.add(new Material(1,ItemSubType.FIBER,"Fiber",10));
                 user.player.items.add(new Material(1,ItemSubType.UNKNOWN,"Rice",10));

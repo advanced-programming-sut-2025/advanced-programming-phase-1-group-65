@@ -5,11 +5,14 @@ Fish/Legend.png
 Food/Baked_Fish.png
 Food/Bread.png
 Food/Cookie.png
+Food/Dish_Of_The_Sea.png
+Food/Egg.png
 Food/Farmer_Lunch.png
 Food/Fried_Egg.png
 Food/Fruit_Salad.png
 Food/Hashbrowns.png
 Food/Maki_Roll.png
+Food/Miner_Treat.png
 Food/Omelet.png
 Food/Pancakes.png
 Food/Pizza.png
@@ -17,6 +20,7 @@ Food/Pumpkin_Pie.png
 Food/Red_Plate.png
 Food/Salad.png
 Food/Salmon_Dinner.png
+Food/Seaform_Pudding.png
 Food/Spaghetti.png
 Food/Survival_Burger.png
 Food/Tortilla.png
