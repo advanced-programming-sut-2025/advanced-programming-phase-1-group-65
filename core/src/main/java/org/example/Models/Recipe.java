@@ -1,5 +1,7 @@
 package org.example.Models;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import org.example.Models.Enums.ItemSubType;
 import org.example.Models.Enums.ItemType;
 
@@ -12,4 +14,5 @@ public class Recipe{
         this.name = name;
         this.description = description;
     }
+    public Texture texture;
 }

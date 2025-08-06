@@ -1304,6 +1304,7 @@ public class GameController {
                 if (HasItemType(game,ItemSubType.EGG)){
                     Item removable = getItemType(game,ItemSubType.EGG);
                     Food FriedEgg = new Food(1,ItemSubType.DISH,"Fried Egg",50,35,true);
+                    FriedEgg.texture = new Texture("Food/Fried_Egg.png");
                     removeItem(game,removable.name,1);
                     return FriedEgg;
                 }
@@ -1311,6 +1312,7 @@ public class GameController {
             case "Baked Fish" :
                 if (HasItem(game,"Sardine",1)&& HasItem(game,"Salmon",1)&&HasItem(game ,"Wheat",1)){
                     Food BakedFish = new Food(1,ItemSubType.DISH,"Baked Fish",75,100,true);
+                    BakedFish.texture = new Texture("Food/Baked_Fish.png");
                     removeItem(game,"Sardine",1);
                     removeItem(game,"Salmon",1);
                     removeItem(game,"Wheat",1);
@@ -1320,6 +1322,7 @@ public class GameController {
             case "Salad" :
                 if (HasItem(game,"Leek",1)&& HasItem(game,"Dandelion",1)){
                     Food Salad = new Food(1,ItemSubType.DISH,"Salad",113,110,true);
+                    Salad.texture = new Texture("Food/Salad.png");
                     removeItem(game,"Leek",1);
                     removeItem(game,"Dandelion",1);
                     return Salad;
@@ -1330,6 +1333,7 @@ public class GameController {
                     Item removable = getItemType(game,ItemSubType.EGG);
                     Item removable2 = getItemType(game,ItemSubType.MILK);
                     Food Omelet = new Food (1,ItemSubType.DISH,"Omelet",100,125,true);
+                    Omelet.texture = new Texture("Food/Omelet.png");
                     removeItem(game,removable.name,1);
                     removeItem(game,removable2.name,1);
                     return Omelet;
@@ -1338,6 +1342,7 @@ public class GameController {
             case "Pumpkin Pie" :
                 if (HasItemType(game,ItemSubType.MILK) && HasItem(game,"Pumpkin",1) && HasItem(game,"Sugar",1)&& HasItem(game , "Wheat Flour",1)){
                     Food PumpkinPie = new Food (1,ItemSubType.DISH,"Pumpkin",225,385,true);
+                    PumpkinPie.texture = new Texture("Food/Pumpkin_Pie.png");
                     Item removable = getItemType(game,ItemSubType.MILK);
                     removeItem(game,removable.name,1);
                     removeItem(game,"Pumpkin",1);
@@ -1349,6 +1354,7 @@ public class GameController {
             case "Pizza" :
                 if (HasItem(game,"Wheat Flour",1)&& HasItem(game,"Tomato",1) && HasItem(game,"Cheese",1)){
                     Food Pizza = new Food (1,ItemSubType.DISH,"Pizza",150,300,true);
+                    Pizza.texture = new Texture("Food/Pizza.png");
                     removeItem(game,"Wheat Flour",1);
                     removeItem(game,"Tomato",1);
                     removeItem(game,"Cheese",1);
@@ -1358,6 +1364,7 @@ public class GameController {
             case "Tortilla" :
                 if (HasItem(game,"Corn",1)){
                     Food Tortilla = new Food(1,ItemSubType.DISH,"Tortilla",50,50,true);
+                    Tortilla.texture = new Texture("Food/Tortilla.png");
                     removeItem(game,"Corn",1);
                     return Tortilla;
                 }
@@ -1365,6 +1372,7 @@ public class GameController {
             case "Maki Roll" :
                 if (HasItemType(game,ItemSubType.FISH) && HasItem(game,"Rice",1)&& HasItem(game,"Fiber", 1)){
                     Food MakiRoll = new Food(1,ItemSubType.DISH,"Maki Roll",100,220,true);
+                    MakiRoll.texture = new Texture("Food/Maki_Roll.png");
                     Item removable = getItemType(game,ItemSubType.FISH);
                     removeItem(game,removable.name,1);
                     removeItem(game,"Fiber",1);
@@ -1375,6 +1383,7 @@ public class GameController {
             case "Triple Shot Espresso" :
                 if (HasItem(game,"Coffee",3)){
                     Food TripleShotEspresso = new Food (1,ItemSubType.DISH,"Triple Shot Espresso",200,450,true);
+                    TripleShotEspresso.texture = new Texture("Food/Triple_Shot_Espresso.png");
                     removeItem(game,"Coffee",3);
                     return TripleShotEspresso;
                 }
@@ -1382,11 +1391,11 @@ public class GameController {
             case "Cookie" :
                 if (HasItem(game,"Wheat Flour",1)&& HasItem(game,"Sugar",1)&& HasItemType(game,ItemSubType.EGG)){
                     Item removable = getItemType(game,ItemSubType.EGG);
-                    removable = getItemType(game,ItemSubType.EGG);
                     removeItem(game,"Sugar",1);
                     removeItem(game,"Wheat Flour",1);
                     removeItem(game, removable.name, 1);
                     Food Cookie = new Food (1,ItemSubType.DISH,"Cookie",90,140,true);
+                    Cookie.texture = new Texture("Food/Cookie.png");
                     return Cookie;
                 }
                 return TestFood;
@@ -1395,16 +1404,17 @@ public class GameController {
                     removeItem(game,"Potato",1);
                     removeItem(game,"Oil",1);
                     Food HashBrowns = new Food(1,ItemSubType.DISH,"Hash Browns",90,120,true);
+                    HashBrowns.texture = new Texture("Food/Hashbrowns.png");
                     return HashBrowns;
                 }
                 return TestFood;
             case "Pancakes" :
                 if (HasItem(game,"Wheat Flour",1)&& HasItemType(game,ItemSubType.EGG)){
                     Item removable = getItemType(game,ItemSubType.EGG);
-                    removable = getItemType(game,ItemSubType.EGG);
                     removeItem(game,"Wheat Flour",1);
                     removeItem(game, removable.name, 1);
                     Food Pancakes = new Food (1,ItemSubType.DISH,"Pancakes",90,80,true);
+                    Pancakes.texture = new Texture("Food/Pancakes.png");
                     return Pancakes;
                 }
                 return TestFood;
@@ -1414,6 +1424,7 @@ public class GameController {
                     removeItem(game, "Melon",1);
                     removeItem(game, "Apricot",1);
                     Food FruitSalad = new Food(1,ItemSubType.DISH,"Fruit Salad",263,450,true);
+                    FruitSalad.texture = new Texture("Food/Fruit_Salad.png");
                     return FruitSalad;
                 }
                 return TestFood;
@@ -1422,6 +1433,7 @@ public class GameController {
                     removeItem(game, "Red Cabbage",1);
                     removeItem(game, "Radish",1);
                     Food RedPlate = new Food(1,ItemSubType.DISH,"Red Cabbage",240,400,true);
+                    RedPlate.texture = new Texture("Food/Red_Plate.png");
                     return RedPlate;
                 }
                 return TestFood;
@@ -1429,6 +1441,7 @@ public class GameController {
                 if (HasItem(game,"Wheat Flour",1)){
                     removeItem(game,"Wheat Flour",1);
                     Food Bread = new Food(1,ItemSubType.DISH,"Bread",50,60,true);
+                    Bread.texture = new Texture("Food/Bread.png");
                     return Bread;
                 }
                 return TestFood;
@@ -1438,6 +1451,7 @@ public class GameController {
                     removeItem(game,"Amaranth",1);
                     removeItem(game,"Kale",1);
                     Food SalmonDinner = new Food(1,ItemSubType.DISH,"Salmon Dinner",50,60,true);
+                    SalmonDinner.texture = new Texture("Food/Salmon_Dinner.png");
                     return SalmonDinner;
                 }
                 return TestFood;
@@ -1446,6 +1460,7 @@ public class GameController {
                     removeItem(game,"Tomato",1);
                     removeItem(game,"Beet",1);
                     Food FarmerLunch = new Food(1,ItemSubType.DISH,"Farmer Lunch",200,150,true);
+                    FarmerLunch.texture = new Texture("Food/Farmer_Lunch.png");
                     return FarmerLunch;
                 }
                 return TestFood;
@@ -1455,6 +1470,7 @@ public class GameController {
                     removeItem(game,"Carrot",1);
                     removeItem(game,"Eggplant",1);
                     Food SurvivalBurger = new Food(1,ItemSubType.DISH,"Survival Burger",120,180,true);
+                    SurvivalBurger.texture = new Texture("Food/Survival_Burger.png");
                     return SurvivalBurger;
                 }
                 return TestFood;
@@ -1463,6 +1479,7 @@ public class GameController {
                     removeItem(game,"Sardine",2);
                     removeItem(game,"Hash Browns",1);
                     Food DishOfTheSea = new Food(1,ItemSubType.DISH,"Dish Of The Sea",150,220,true);
+                    DishOfTheSea.texture = new Texture("Food/Dish_of_The_Sea.png");
                     return DishOfTheSea;
                 }
                 return TestFood;
@@ -1471,6 +1488,7 @@ public class GameController {
                     removeItem(game,"Flounder",1);
                     removeItem(game,"Midnight Carp",1);
                     Food SeaformDish = new Food(1,ItemSubType.DISH,"Seaform Pudding",175,300,true);
+                    SeaformDish.texture = new Texture("Food/Seaform_Dish.png");
                     return SeaformDish;
                 }
                 return TestFood;
@@ -1480,6 +1498,7 @@ public class GameController {
                     removeItem(game,"Carrot",2);
                     removeItem(game,"Sugar",1);
                     Food MinerTreat = new Food(1,ItemSubType.DISH,"Miner Treat",125,200,true);
+                    MinerTreat.texture = new Texture("Food/Miner_Treat.png");
                     return MinerTreat;
                 }
                 return TestFood;
