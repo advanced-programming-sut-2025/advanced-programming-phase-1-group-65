@@ -240,10 +240,76 @@ public class GameScreen implements Screen {
                         break;
                     }
                 }
+
+
             }
 
 
 
+
+
+
+            float barWidth = 20; // عرض نوار
+            float barHeight = 150; // ارتفاع کل نوار
+            float x2 = Gdx.graphics.getWidth() - barWidth - 40; // 20 پیکسل فاصله از سمت راست صفحه
+            float y2 = 100; // فاصله از پایین صفحه
+
+// درصد انرژی
+            float energyPercent = (float)(game.currentPlayer.Energy / game.currentPlayer.MaxEnergy);
+            if (energyPercent > 1) energyPercent = 1;
+            if (energyPercent < 0) energyPercent = 0;
+
+// رسم پس‌زمینه نوار (مثلاً خاکستری روشن)
+            // --- آماده‌سازی پروجکشن صفحه‌ای برای UI ---
+            Matrix4 uiProj = new Matrix4().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+            shapeRenderer.setProjectionMatrix(uiProj);
+
+// فعال کردن blending برای آلفا (اگر لازم است)
+            Gdx.gl.glEnable(GL20.GL_BLEND);
+            Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+
+// رسم پس‌زمینه نوار
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            shapeRenderer.setColor(Color.DARK_GRAY);
+            shapeRenderer.rect(x2, y2, barWidth, barHeight);
+
+// رسم مقدار انرژی (پر شده)
+            shapeRenderer.setColor(Color.YELLOW);
+            shapeRenderer.rect(x2, y2, barWidth, barHeight * energyPercent);
+            shapeRenderer.end();
+
+            Gdx.gl.glDisable(GL20.GL_BLEND);
+
+// متن عددی انرژی — حتماً batch با همان پروجکشن صفحه‌ای باشد
+            batch.setProjectionMatrix(uiProj);
+            batch.begin();
+            font.draw(batch, (int)game.currentPlayer.Energy + " / " + (int)game.currentPlayer.maxEnergy, x2 - 40, y2 + barHeight / 2);
+            batch.end();
+
+// در انتها اگر قرار است دوباره world را با batch بر اساس دوربین رسم کنی،
+// projection آن را به camera.combined برگردان (یا هر جا که لازم است).
+            batch.setProjectionMatrix(camera.combined);
+// تنظیم پروجکشن UI
+            batch.setProjectionMatrix(uiProj);
+            batch.begin();
+
+            int padding = 10;
+            int iconSize = 60; // اندازه آیکون ابزار/آیتم
+            int textOffsetX = iconSize + 10;
+            int startY = Gdx.graphics.getHeight() - padding; // شروع از بالا صفحه
+
+// نمایش ابزار فعلی
+            if (game.currentPlayer.CurrentTool != null && game.currentPlayer.CurrentTool.texture != null) {
+                batch.draw(game.currentPlayer.CurrentTool.texture, padding, startY - iconSize, iconSize, iconSize);
+            }
+
+// نمایش آیتم فعلی (پایین‌تر از ابزار)
+            int itemY = startY - iconSize - 40;
+            if (game.currentPlayer.CurrentItem != null && game.currentPlayer.CurrentItem.texture != null) {
+                batch.draw(game.currentPlayer.CurrentItem.texture, padding, itemY - iconSize, iconSize, iconSize);
+            }
+
+            batch.end();
 
             if (selectingDirection) {
                 // فعال کردن شفافیت
@@ -277,13 +343,12 @@ public class GameScreen implements Screen {
                 shapeRenderer.end();
                 Gdx.gl.glDisable(GL20.GL_BLEND);
             }
-
-
-
+            uiStage.act(delta);
+            uiStage.draw();
+            Gdx.input.setInputProcessor(multiplexer);
         }
-        uiStage.act(delta);
-        uiStage.draw();
-        Gdx.input.setInputProcessor(multiplexer);
+
+
     }
 
 
@@ -302,15 +367,22 @@ public class GameScreen implements Screen {
         if (!isInventoryOpen && !isRefrigeratorOpen) {
             if (Gdx.input.isKeyJustPressed(51)) {
                 this.controller.Walk(this.game, 'w');
+                game.currentPlayer.Energy -=1;
                 this.currentDirection = PlayerAnimation.Direction.UP;
             } else if (Gdx.input.isKeyJustPressed(47)) {
                 this.controller.Walk(this.game, 's');
+                game.currentPlayer.Energy -=1;
+
                 this.currentDirection = PlayerAnimation.Direction.DOWN;
             } else if (Gdx.input.isKeyJustPressed(29)) {
                 this.controller.Walk(this.game, 'a');
+                game.currentPlayer.Energy -=1;
+
                 this.currentDirection = PlayerAnimation.Direction.LEFT;
             } else if (Gdx.input.isKeyJustPressed(32)) {
                 this.controller.Walk(this.game, 'd');
+                game.currentPlayer.Energy -=1;
+
                 this.currentDirection = PlayerAnimation.Direction.RIGHT;
             } else if (Gdx.input.isKeyJustPressed(48)) {
                 this.game.gameClock.advanceTimeByOneHour(this.game, this.controller);

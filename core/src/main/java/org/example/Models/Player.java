@@ -64,6 +64,7 @@ public class Player {
     public int PositionX;
     public int PositionY;
     public double Energy = 200;
+    public double maxEnergy = 200;
     public boolean Fainted = false;
 
     public List<Item> items = new ArrayList<>();
