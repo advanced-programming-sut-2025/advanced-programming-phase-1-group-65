@@ -387,6 +387,7 @@ public class GameScreen implements Screen {
         this.batch.draw(this.clockTexture, clockX, clockY, clockWidth, clockHeight);
         this.font.setColor(0.1F, 0.1F, 0.1F, 1.0F);
         int hour = this.game.gameClock.getHour();
+        mapRenderer.setNight(hour >= 18 || hour < 6);
         String ampm = hour >= 12 ? "PM" : "AM";
         int displayHour = hour % 12;
         if (displayHour == 0) {
@@ -402,7 +403,6 @@ public class GameScreen implements Screen {
         this.font.draw(this.batch, money, clockX + clockWidth - 120.0F, clockY + 42.0F);
         this.batch.end();
     }
-
 
 
 
