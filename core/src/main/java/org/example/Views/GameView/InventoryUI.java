@@ -26,7 +26,6 @@ import java.util.List;
 
 public class InventoryUI extends Stage {
     private final GameController controller;
-    private final Player player;
     private final Table inventoryTable;
     private final List<Item> displayedItems = new ArrayList<>();
     private final Image background;
@@ -45,8 +44,6 @@ public class InventoryUI extends Stage {
     public InventoryUI(Game game, SpriteBatch batch, GameController controller) {
         super(new ScreenViewport(), batch);
         this.game = game;
-        this.player = game.currentPlayer;
-        displayedItems.addAll(player.items);
         skin = new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"));
         this.controller = controller;
         Texture bgTexture = new Texture(Gdx.files.internal("Inventory.png"));
@@ -125,15 +122,15 @@ public class InventoryUI extends Stage {
             if (selectedIndex >= 0 && selectedIndex < displayedItems.size()) {
                 Item selectedItem = displayedItems.get(selectedIndex);
                 if (selectedItem.type == ItemType.TOOL) {
-                    player.CurrentTool = (org.example.Models.Tool) selectedItem;
-                    player.CurrentItem = null;
+                    game.currentPlayer.CurrentTool = (org.example.Models.Tool) selectedItem;
+                    game.currentPlayer.CurrentItem = null;
                     System.out.println("Current tool selected: " + selectedItem.getName());
-                   showMessage("You Have Equiped " + selectedItem.getName() );
+                    showMessage("You Have Equiped " + selectedItem.getName() );
 
                 }
                 else if (selectedItem.subtype == ItemSubType.SEED){
-                    player.CurrentTool = null;
-                    player.CurrentItem =  selectedItem;
+                    game.currentPlayer.CurrentTool = null;
+                    game.currentPlayer.CurrentItem =  selectedItem;
                     System.out.println("Current Seed selected: " + selectedItem.getName());
                     showMessage("You Have Equiped " + selectedItem.getName() );
                 }
@@ -175,6 +172,9 @@ public class InventoryUI extends Stage {
 
     public void rebuildUI() {
         inventoryTable.clearChildren();
+        displayedItems.clear();
+        displayedItems.addAll(game.currentPlayer.items);
+
 
         int pageSize = COLUMNS * 5;
         int start = currentPage * pageSize;
@@ -229,7 +229,7 @@ public class InventoryUI extends Stage {
 
     public void showToolsOnly() {
         displayedItems.clear();
-        for (Item item : player.items) {
+        for (Item item : game.currentPlayer.items) {
             if (item.type == ItemType.TOOL) {
                 displayedItems.add(item);
             }
@@ -260,7 +260,7 @@ public class InventoryUI extends Stage {
 
     public void showAllItems() {
         displayedItems.clear();
-        displayedItems.addAll(player.items);
+        displayedItems.addAll(game.currentPlayer.items);
         currentPage = 0;
         selectedIndex = 0;
         rebuildUI();

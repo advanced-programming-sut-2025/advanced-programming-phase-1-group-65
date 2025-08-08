@@ -130,12 +130,14 @@ map/LakeBig1.png
 map/LakeTile.jpg
 map/OutDoorTile.png
 map/OutDoorTile1.png
+map/OutDoorTileNight.png
 map/Quarry_Boulder.png
 map/RanchBig.png
 map/Shed.png
 map/ShippingBin.jpg
 map/StarDropSaloonBig.png
 map/fishShopBig.png
+map/lightning.png
 map/paths.png
 map/spring_outdoorTileSheet_extra.png
 player/d1.png

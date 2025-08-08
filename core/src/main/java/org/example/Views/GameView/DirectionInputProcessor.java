@@ -1,7 +1,10 @@
 package org.example.Views.GameView;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.example.Models.Enums.ItemSubType;
 
 import static org.example.Models.Enums.ItemSubType.SEED;
@@ -46,8 +49,6 @@ public class DirectionInputProcessor extends InputAdapter {
         }
         return false;
     }
-
-
 
 
 }

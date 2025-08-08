@@ -1,15 +1,24 @@
 package org.example.Views;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.example.Models.*;
-import org.example.Models.Enums.TileType;
 
+import org.example.Models.Game;
+import org.example.Models.Rock;
+import org.example.Models.Tile;
+import org.example.Models.Enums.TileType;
+import org.example.Models.Trees;
+import com.badlogic.gdx.math.MathUtils;
 public class MapRenderer {
     private final ArrayList<ArrayList<Tile>> map;
     private final int tileSize = 16;
@@ -54,10 +63,22 @@ public class MapRenderer {
     private TextureRegion WildTreeRegion;
     private Texture ShippingTileTexture;
     private TextureRegion ShippingTileRegion;
+    private Texture lightningTexture;
+    private final ArrayList<Vector2> lightningPositions = new ArrayList<>();
+    private boolean showLightning = false;
+    private float lightningTimer = 0f;
+    private final float lightningDuration = 1.0f;
+    private CameraShake cameraShake;
+    private Texture outdoorTileNightTexture;
+    private TextureRegion outdoorTileNightRegion;
+    private boolean showMiniMap = false;
+    private boolean isNight = false;
 
     public MapRenderer(ArrayList<ArrayList<Tile>> map, Game game) {
         this.map = map;
         this.loadTextures();
+        cameraShake = new CameraShake();
+        this.greenhousebroken = new Texture("map/GreenHouseFixed.png");
 
         // بارگذاری تکسچرهای بزرگ
 
@@ -67,6 +88,10 @@ public class MapRenderer {
                 this.greenhousebroken = new Texture("map/GreenHouseFixed.png");
 
             }
+
+        if (game.currentPlayer.GreenHouseFixed) {
+            this.greenhousebroken = new Texture("map/GreenHouseFixed.png");
+        }
 
         this.lakeBigTexture = new Texture("map/LakeBig.png");
         this.blacksmithBigTexture = new Texture("map/BlacksmithBig.png");
@@ -114,6 +139,10 @@ public class MapRenderer {
         WildTreeRegion = new TextureRegion(WildTreeTexture);
         ShippingTileTexture = new Texture("Map/ShippingBin.jpg");
         ShippingTileRegion = new TextureRegion(ShippingTileTexture);
+        outdoorTileNightTexture = new Texture("map/OutDoorTileNight.png");
+        outdoorTileNightRegion = new TextureRegion(outdoorTileNightTexture);
+        lightningTexture = new Texture("map/lightning.png");
+
     }
 
     private void loadTextures() {
@@ -129,13 +158,14 @@ public class MapRenderer {
         textureMap.put(type, tex);
         regionMap.put(type, new TextureRegion(tex));
     }
+
     private TextureRegion getTextureForTile(Tile tile) {
         if (tile instanceof Rock) {
             Rock rock = (Rock) tile;
             return switch (rock.Mineral.name) {
                 case "Diamond" -> DiamondTileRegion;
                 case "Gold Ore" -> GoldTileRegion;
-                case "Coal" -> CoalTileRegion;
+                case "Coal " -> CoalTileRegion;
                 case "Iron Ore" -> IronTileRegion;
                 case "Iriduim Ore" -> IriduimTileRegion;
                 case "Copper Ore" -> QuarryTileRegion;
@@ -146,12 +176,9 @@ public class MapRenderer {
             Trees tree = (Trees) tile;
             if (tree.name.equalsIgnoreCase("Wild")) {
                 return WildTreeRegion;
-            }
-            else {
+            } else {
                 return tree.isHarvestable ? new TextureRegion(tree.texture2) : new TextureRegion(tree.texture1);
-
             }
-
         }
         if (tile instanceof Foraging){
             Foraging foraging = (Foraging) tile;
@@ -159,25 +186,66 @@ public class MapRenderer {
 
 
         }
-
         return switch (tile.type) {
             case EMPTY -> outdoorTileRegion;
             case WALL -> WallTileRegion;
             case FERTILE -> FertileTileRegion;
             case QUARRY -> QuarryTileRegion;
             case SHIPPINGBIN ->  ShippingTileRegion;
-
-            // case های دیگر برای هر نوع Tile
-            // مثلا WALL -> wallTextureRegion
             default -> null;
         };
-
     }
 
+    public void update(float delta) {
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.L)) {
+            showLightning = true;
+            lightningTimer = 0f;
+            cameraShake.shake(lightningDuration, 5f);
+
+            lightningPositions.clear();
+            int count = MathUtils.random(3, 5);
+
+            float screenWidth = Gdx.graphics.getWidth();
+            float lightningWidth = 64f;
+
+            for (int i = 0; i < count; i++) {
+                float x = MathUtils.random(0, screenWidth - lightningWidth);
+                float y = Gdx.graphics.getHeight() - 256f;
+                lightningPositions.add(new Vector2(x, y));
+            }
+        }
+
+        if (showLightning) {
+            lightningTimer += delta;
+            if (lightningTimer >= lightningDuration) {
+                showLightning = false;
+                lightningPositions.clear();
+            }
+        }
+
+        cameraShake.update(delta);
+    }
+    public void setNight(boolean night) {
+        this.isNight = night;
+    }
     public void render(SpriteBatch batch) {
         int rows = map.size();
         int cols = map.get(0).size();
         boolean[][] drawn = new boolean[rows][cols];
+
+        Vector2 shakeOffset = cameraShake.update(Gdx.graphics.getDeltaTime());
+
+        com.badlogic.gdx.math.Matrix4 originalProj = batch.getProjectionMatrix().cpy();
+
+        com.badlogic.gdx.math.Matrix4 shakenProj = new com.badlogic.gdx.math.Matrix4(originalProj);
+        shakenProj.translate(shakeOffset.x, shakeOffset.y, 0);
+        batch.end();
+        batch.setProjectionMatrix(shakenProj);
+
+        batch.begin();
+
+        TextureRegion currentOutdoorRegion = isNight ? outdoorTileNightRegion : outdoorTileRegion;
 
         for (int y = 0; y < rows; y++) {
             for (int x = 0; x < cols; x++) {
@@ -227,7 +295,7 @@ public class MapRenderer {
                     // کشیدن پس‌زمینه EMPTY زیر ناحیه
                     for (int dy = 0; dy < height; dy++) {
                         for (int dx = 0; dx < width; dx++) {
-                            batch.draw(baseRegion, (x + dx) * tileSize, (y + dy) * tileSize, tileSize, tileSize);
+                            batch.draw(currentOutdoorRegion, (x + dx) * tileSize, (y + dy) * tileSize, tileSize, tileSize);
                             drawn[y + dy][x + dx] = true;
                         }
                     }
@@ -238,10 +306,16 @@ public class MapRenderer {
                         width * tileSize, height * tileSize);
 
                 } else {
-                    // رسم بک‌گراند پایه
-                    batch.draw(outdoorTileRegion, x * tileSize, y * tileSize, tileSize, tileSize);
+                    // برای کاشی‌های معمولی از currentOutdoorRegion استفاده می‌کنیم
+                    batch.draw(currentOutdoorRegion, x * tileSize, y * tileSize, tileSize, tileSize);
 
                     TextureRegion region = getTextureForTile(tile);
+
+                    // اگر منطقه مربوط به کاشی خالی (EMPTY) است، آن را با currentOutdoorRegion جایگزین کن
+                    if (region == outdoorTileRegion) {
+                        region = currentOutdoorRegion;
+                    }
+
                     if (region != null) {
                         if (tile instanceof Foraging) {
                             // کوچک‌تر کشیدن Foraging، مثلاً نصف اندازه و مرکز شده
@@ -259,19 +333,53 @@ public class MapRenderer {
 
             }
         }
+        batch.end();
+
+        batch.setProjectionMatrix(new com.badlogic.gdx.math.Matrix4().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+
+        batch.begin();
+        if (showLightning) {
+            float lightningWidth = 300;
+            float lightningHeight = 900;
+            for (Vector2 pos : lightningPositions) {
+                batch.draw(lightningTexture, pos.x, pos.y-450, lightningWidth, lightningHeight);
+            }
+        }
+        batch.end();
+
+        batch.setProjectionMatrix(originalProj);
+        batch.begin();
     }
+
 
     public void dispose() {
         for (Texture tex : textureMap.values()) {
             tex.dispose();
         }
         lakeBigTexture.dispose();
-        //blacksmithBigTexture.dispose();
-        //generalStoreBigTexture.dispose();
-        //carpentersShopBigTexture.dispose();
-        //fishShopBigTexture.dispose();
-        //ranchBigTexture.dispose();
+        greenhousebroken.dispose();
+        blacksmithBigTexture.dispose();
+        generalStoreBigTexture.dispose();
+        carpentersShopBigTexture.dispose();
+        fishShopBigTexture.dispose();
+        ranchBigTexture.dispose();
         stardropSaloonBigTexture.dispose();
         jojaMartBigTexture.dispose();
+        ShedTexture.dispose();
+
+        outdoorTileTexture.dispose();
+        LakeTileTexture.dispose();
+        WallTileTexture.dispose();
+        FertileTileTexture.dispose();
+        QuarryTileTexture.dispose();
+        DiamondTileTexture.dispose();
+        GoldTileTexture.dispose();
+        CoalTileTexture.dispose();
+        CopperTileTexture.dispose();
+        IronTileTexture.dispose();
+        IriduimTileTexture.dispose();
+        WildTreeTexture.dispose();
+
+        lightningTexture.dispose();
     }
 }

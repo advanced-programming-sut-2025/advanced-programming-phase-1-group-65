@@ -33,7 +33,6 @@ public class GameScreen implements Screen {
     GameController controller = new GameController();
     public InventoryUI inventoryUI;
     public RefrigeratorUI refrigeratorUI;
-    public KitchenUI kitchenUI;
     boolean isInventoryOpen = false;
     private Skin skin;
     public boolean selectingDirection = false;
@@ -49,11 +48,13 @@ public class GameScreen implements Screen {
     private Stage uiStage;
     public boolean isRefrigeratorOpen = false;
     public boolean RefrigeratorPick = false;
+    public KitchenUI kitchenUI;
     public boolean KitchenOpen = false;
-public InputMultiplexer multiplexer;
-    private String messageToShow = null;
-    private float messageDisplayTime = 0f;  // ثانیه
-    private final float MESSAGE_DURATION = 3f; // مدت نمایش پیام به ثانیه
+    public InputMultiplexer multiplexer;
+    private boolean isMiniMapOpen = false;
+    private OrthographicCamera miniMapCamera;
+    private BitmapFont miniMapFont;
+
 
 
 
@@ -75,7 +76,7 @@ public InputMultiplexer multiplexer;
         shapeRenderer = new ShapeRenderer();
         inventoryUI = new InventoryUI(game, batch, controller);
         refrigeratorUI = new RefrigeratorUI(game, batch, controller);
-        kitchenUI = new KitchenUI(game, batch, controller);
+        kitchenUI  = new KitchenUI(game, batch, controller);
         camera = new OrthographicCamera(320, 160);
         camera.zoom = 1f;
         camera.update();
@@ -83,119 +84,163 @@ public InputMultiplexer multiplexer;
         uiStage = new Stage(new ScreenViewport());
         DirectionInputProcessor directionInput = new DirectionInputProcessor(this);
 
-         multiplexer = new InputMultiplexer();
+        multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(uiStage);            // UI Stage اول باشه
         multiplexer.addProcessor(directionInput);     // بعد ورودی سفارشی
         multiplexer.addProcessor(inventoryUI);
         Gdx.input.setInputProcessor(multiplexer);
 
+        miniMapCamera = new OrthographicCamera(320, 160);
+        miniMapCamera.zoom = 5f;
+        miniMapCamera.update();
+
+
         this.playerAnim = new PlayerAnimation(0.2F);
         this.clockTexture = new Texture(Gdx.files.internal("ui/Clock.png"));
         this.font = new BitmapFont();
         this.font.getData().setScale(1.5F);
+
+        this.miniMapFont = new BitmapFont();
+        this.miniMapFont.getData().setScale(2f);
+        this.miniMapFont.setColor(1f, 1f, 1f, 1f);
     }
 
 
     @Override
     public void render(float delta) {
-        this.timeAccumulator += delta;
-        if (this.timeAccumulator >= 20.0f) {
-            this.timeAccumulator -=20.0F;
-            this.game.gameClock.advanceTimeByOneHour(this.game, this.controller);
+
+        if (!isMiniMapOpen) {
+            this.timeAccumulator += delta;
+            if (this.timeAccumulator >= 20.0f) {
+                this.timeAccumulator -= 20.0F;
+                this.game.gameClock.advanceTimeByOneHour(this.game, this.controller);
+            }
         }
 
         handleInput();
-        updateCamera();
 
-        camera.update();
-        batch.setProjectionMatrix(camera.combined);
+        if (!isMiniMapOpen) {
+            updateCamera();
+            mapRenderer.update(delta);
+            camera.update();
+        } else {
 
+            updateMiniMapCamera();
+            miniMapCamera.update();
+        }
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.setProjectionMatrix(camera.combined);
-        batch.begin();
-        mapRenderer.render(batch);
-        TextureRegion frame = this.playerAnim.getCurrentFrame(this.currentDirection, delta);
 
-        if (selectingDirection) {
-            shapeRenderer.setProjectionMatrix(camera.combined);
-            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-            shapeRenderer.setColor(1, 1, 0, 0.5f); // زرد شفاف
+        if (isMiniMapOpen) {
 
-            int playerX = game.currentPlayer.PositionX;
-            int playerY = game.currentPlayer.PositionY;
+            batch.setProjectionMatrix(miniMapCamera.combined);
+            batch.begin();
+            mapRenderer.render(batch);
+
+            TextureRegion frame = this.playerAnim.getCurrentFrame(this.currentDirection, delta);
+            int px = this.game.currentPlayer.PositionX;
+            int py = this.game.currentPlayer.PositionY;
+            int playerSize = 8;
             int tileSize = 16;
-            for (int dx = -1; dx <= 1; dx++) {
-                for (int dy = -1; dy <= 1; dy++) {
+            int offset = (tileSize - playerSize) / 2;
+            batch.draw(frame, (float)(px * tileSize + offset), (float)(py * tileSize ), (float)playerSize, (float)playerSize);
+            batch.end();
 
-                    // فقط 8 خانه‌ی اطراف (نه وسط)
+            // نمایش پیام بالای صفحه mini map
+            batch.setProjectionMatrix((new Matrix4()).setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+            batch.begin();
+            String msg = "Mini Map - Press M to return to game";
+            float textWidth = miniMapFont.getRegion().getRegionWidth(); // این مقدار تقریبی است ولی کافی است
+            miniMapFont.draw(batch, msg, Gdx.graphics.getWidth() / 2f - 150, Gdx.graphics.getHeight() - 20);
+            batch.end();
+        } else {
+            batch.setProjectionMatrix(camera.combined);
+
+            batch.begin();
+
+            mapRenderer.render(batch);
+            TextureRegion frame = this.playerAnim.getCurrentFrame(this.currentDirection, delta);
 
 
-                    int tileX = playerX + dx;
-                    int tileY = playerY + dy;
-                    if ( tileX== playerX &&tileY == playerY) continue;
-                    shapeRenderer.rect(
-                        tileX * tileSize,
-                        tileY * tileSize,
-                        tileSize,
-                        tileSize
-                    );
-                }
+            int px = this.game.currentPlayer.PositionX;
+            int py = this.game.currentPlayer.PositionY;
+            int playerSize = 12;
+            int tileSize = 16;
+            int offset = (tileSize - playerSize) / 2;
+            this.batch.draw(frame, (float)(px * tileSize + offset), (float)(py * tileSize ), (float)playerSize, (float)playerSize);
+
+            batch.end();
+            this.drawClockUI();
+
+            if (isInventoryOpen) {
+                inventoryUI.act(delta);
+                inventoryUI.draw();
+            }
+            if (RefrigeratorPick){
+                refrigeratorUI.act(delta);
+                refrigeratorUI.draw();
+            }
+            if (KitchenOpen){
+                kitchenUI.act(delta);
+                kitchenUI.draw();
             }
 
-            shapeRenderer.end();
-        }
 
-        int px = this.game.currentPlayer.PositionX;
-        int py = this.game.currentPlayer.PositionY;
-        int playerSize = 8;
-        int tileSize = 16;
-        int offset = (tileSize - playerSize) / 2;
-        this.batch.draw(frame, (float)(px * tileSize + offset), (float)(py * tileSize ), (float)playerSize, (float)playerSize);
+            if (selectingDirection) {
+                // فعال کردن شفافیت
+                Gdx.gl.glEnable(GL20.GL_BLEND);
+                Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
-        batch.end();
-        batch.setProjectionMatrix(new Matrix4().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-        batch.begin();
+                shapeRenderer.setProjectionMatrix(camera.combined);
+                shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+                shapeRenderer.setColor(1, 1, 0, 0.5f); // زرد شفاف
 
-        int padding = 10;
-        int iconSize = 100;
+                int playerX = game.currentPlayer.PositionX;
+                int playerY = game.currentPlayer.PositionY;
 
-        if (game.currentPlayer.CurrentItem != null) {
-            TextureRegion itemTexture = new TextureRegion(game.currentPlayer.CurrentItem.texture);
-            batch.draw(itemTexture, padding, Gdx.graphics.getHeight() - iconSize - padding, iconSize, iconSize);
-        }
+                for (int dx = -1; dx <= 1; dx++) {
+                    for (int dy = -1; dy <= 1; dy++) {
+                        // خونه‌ی وسط رو نکش
+                        if (dx == 0 && dy == 0) continue;
 
-        if (game.currentPlayer.CurrentTool != null) {
-            TextureRegion toolTexture = new TextureRegion(game.currentPlayer.CurrentTool.texture);
-            batch.draw(toolTexture, padding + iconSize + padding, Gdx.graphics.getHeight() - iconSize - padding, iconSize, iconSize);
-        }
+                        int tileX = playerX + dx;
+                        int tileY = playerY + dy;
 
-        batch.end();
+                        shapeRenderer.rect(
+                            tileX * tileSize,
+                            tileY * tileSize,
+                            tileSize,
+                            tileSize
+                        );
+                    }
+                }
 
-        this.drawClockUI();
+                shapeRenderer.end();
+                Gdx.gl.glDisable(GL20.GL_BLEND);
+            }
 
-        if (isInventoryOpen) {
-            inventoryUI.act(delta);
-            inventoryUI.draw();
-        }
-        if (RefrigeratorPick) {
-            refrigeratorUI.act(delta);
-            refrigeratorUI.draw();
-        }
-        if (KitchenOpen) {
-            kitchenUI.act(delta);
-            kitchenUI.draw();
+
+
         }
         uiStage.act(delta);
         uiStage.draw();
         Gdx.input.setInputProcessor(multiplexer);
-
-
     }
 
 
+
     private void handleInput() {
+        if (isMiniMapOpen) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
+                isMiniMapOpen = false;
+                camera.zoom = 1f;  // برگردوندن زوم دوربین بازی به حالت اولیه
+                camera.update();
+                Gdx.input.setInputProcessor(new DirectionInputProcessor(this));
+            }
+            return;
+        }
+
         if (!isInventoryOpen && !isRefrigeratorOpen) {
             if (Gdx.input.isKeyJustPressed(51)) {
                 this.controller.Walk(this.game, 'w');
@@ -237,6 +282,13 @@ public InputMultiplexer multiplexer;
             selectingDirection = !selectingDirection;
             // می‌تونی اینجا مثلا یک صدای کوچک هم پخش کنی یا پیام بده
         }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
+            if (!isMiniMapOpen) {
+                isMiniMapOpen = true;
+            } else {
+                isMiniMapOpen = false;
+            }
+        }
         if (Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT)) {
             int tileSize = 16;
             int mouseX = Gdx.input.getX();
@@ -258,7 +310,39 @@ public InputMultiplexer multiplexer;
 
 
     }
+    private void updateMiniMapCamera() {
+        int tileSize = 16;
+        int mapWidthInTiles = game.Map.get(0).size();
+        int mapHeightInTiles = game.Map.size();
+
+        float mapWidth = mapWidthInTiles * tileSize;
+        float mapHeight = mapHeightInTiles * tileSize;
+
+        float centerX = mapWidth / 2f;
+        float centerY = mapHeight / 2f;
+
+        float viewportWidth = mapWidth * 2f;
+        float viewportHeight = mapHeight * 2f;
+
+        float screenRatio = (float) Gdx.graphics.getWidth() / Gdx.graphics.getHeight();
+        float mapRatio = viewportWidth / viewportHeight;
+
+        if (screenRatio > mapRatio) {
+            viewportWidth = viewportHeight * screenRatio;
+        } else {
+            viewportHeight = viewportWidth / screenRatio;
+        }
+
+        miniMapCamera.viewportWidth = viewportWidth;
+        miniMapCamera.viewportHeight = viewportHeight;
+
+        miniMapCamera.zoom = 0.55f;
+
+        miniMapCamera.position.set(centerX, centerY, 0);
+        miniMapCamera.update();
+    }
     private void showKitchenMenu(int tileX, int tileY) {
+        System.out.println("showKitchenMenu");
         Dialog dialog = new Dialog("Kitchen Options", skin) {
             @Override
             protected void result(Object object) {
@@ -268,11 +352,11 @@ public InputMultiplexer multiplexer;
                         break;
                     case "pick":
                         RefrigeratorPick = !RefrigeratorPick;
-                      //  controller.RefrigeratorPick(game, "Apple"); // یا SelectBox در نسخه بعدی
+                        //  controller.RefrigeratorPick(game, "Apple"); // یا SelectBox در نسخه بعدی
                         break;
                     case "cook":
                         KitchenOpen = !KitchenOpen;
-                       // controller.PrepareRecipe(game, "Fried Egg");
+                        // controller.PrepareRecipe(game, "Fried Egg");
                         break;
                     case "cancel":
                         isRefrigeratorOpen = !isRefrigeratorOpen;

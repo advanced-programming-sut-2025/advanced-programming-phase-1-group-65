@@ -115,82 +115,81 @@ public class KitchenUI extends Stage {
                 updated = true;
             }
 
-        }
-        else if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             game.gameScreen.RefrigeratorPick = false;
-            game.gameScreen.isRefrigeratorOpen =false;
-            game.gameScreen.KitchenOpen =false;
-        }
-        else if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+            game.gameScreen.isRefrigeratorOpen = false;
+            game.gameScreen.KitchenOpen = false;
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
             if (selectedIndex >= 0 && selectedIndex < displayedItems.size()) {
                 Recipe recipe = displayedItems.get(selectedIndex);
                 controller.PrepareRecipe(game, recipe.name);
+
             }
+
 
         }
         if (updated) {
             rebuildUI();
         }
-
     }
-    public void rebuildUI() {
-        inventoryTable.clearChildren();
+        public void rebuildUI () {
+            inventoryTable.clearChildren();
 
-        // هم‌زمان‌سازی با لیست اصلی یخچال
-        displayedItems.clear();
-        displayedItems.addAll(game.AllRecipes);
+            // هم‌زمان‌سازی با لیست اصلی یخچال
+            displayedItems.clear();
+            displayedItems.addAll(game.AllRecipes);
 
-        int pageSize = COLUMNS * 5;
-        int start = currentPage * pageSize;
-        int end = Math.min(start + pageSize, displayedItems.size());
+            int pageSize = COLUMNS * 5;
+            int start = currentPage * pageSize;
+            int end = Math.min(start + pageSize, displayedItems.size());
 
-        for (int i = start; i < end; i++) {
-            Recipe recipe = displayedItems.get(i);
-            Image img = new Image(recipe.texture);
-            img.setSize(CELL_SIZE, CELL_SIZE);
+            for (int i = start; i < end; i++) {
+                Recipe recipe = displayedItems.get(i);
+                Image img = new Image(recipe.texture);
+                img.setSize(CELL_SIZE, CELL_SIZE);
 
-            // تغییر رنگ اگر recipe در KnownRecipe نبود
-            if (!player.KnownRecipes.contains(recipe)) {
-                img.setColor(Color.GRAY);
+                // تغییر رنگ اگر recipe در KnownRecipe نبود
+                if (!player.KnownRecipes.contains(recipe)) {
+                    img.setColor(Color.GRAY);
+                }
+
+                Stack stack = new Stack();
+                stack.setSize(CELL_SIZE, CELL_SIZE);
+                stack.add(img);
+
+                if (i == selectedIndex) {
+                    img.setColor(Color.YELLOW);  // های‌لایت
+
+                    String labelText = recipe.name + recipe.description;
+                    Label itemLabel = new Label(labelText, labelStyle);
+                    itemLabel.setFontScale(1.5f);
+                    itemLabel.setColor(Color.WHITE);
+
+                    Table labelContainer = new Table();
+                    labelContainer.top();
+                    labelContainer.add(itemLabel).padTop(5);
+                    stack.add(labelContainer);
+                }
+
+                inventoryTable.add(stack).size(CELL_SIZE, CELL_SIZE).pad(65, 40, -2, 30);
+
+                if ((i - start + 1) % COLUMNS == 0) {
+                    inventoryTable.row().padTop(10);
+                }
             }
 
-            Stack stack = new Stack();
-            stack.setSize(CELL_SIZE, CELL_SIZE);
-            stack.add(img);
 
-            if (i == selectedIndex) {
-                img.setColor(Color.YELLOW);  // های‌لایت
+            int remainingSlots = pageSize - (end - start);
+            for (int i = 0; i < remainingSlots; i++) {
+                Actor emptySlot = new Actor();
+                emptySlot.setSize(CELL_SIZE, CELL_SIZE);
+                inventoryTable.add(emptySlot).size(CELL_SIZE, CELL_SIZE).pad(65, 40, -2, 30);
 
-                String labelText = recipe.name + recipe.description;
-                Label itemLabel = new Label(labelText, labelStyle);
-                itemLabel.setFontScale(1.5f);
-                itemLabel.setColor(Color.WHITE);
-
-                Table labelContainer = new Table();
-                labelContainer.top();
-                labelContainer.add(itemLabel).padTop(5);
-                stack.add(labelContainer);
-            }
-
-            inventoryTable.add(stack).size(CELL_SIZE, CELL_SIZE).pad(65, 40, -2, 30);
-
-            if ((i - start + 1) % COLUMNS == 0) {
-                inventoryTable.row().padTop(10);
+                if ((i + (end - start) + 1) % COLUMNS == 0) {
+                    inventoryTable.row().padTop(10);
+                }
             }
         }
 
-
-        int remainingSlots = pageSize - (end - start);
-        for (int i = 0; i < remainingSlots; i++) {
-            Actor emptySlot = new Actor();
-            emptySlot.setSize(CELL_SIZE, CELL_SIZE);
-            inventoryTable.add(emptySlot).size(CELL_SIZE, CELL_SIZE).pad(65,40,-2,30);
-
-            if ((i + (end - start) + 1) % COLUMNS == 0) {
-                inventoryTable.row().padTop(10);
-            }
-        }
     }
 
-
-}
