@@ -11,20 +11,27 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.utils.Align;
 import org.example.Controllers.GameController.GameController;
+import org.example.Main;
 import org.example.Models.Enums.ItemType;
 import org.example.Models.Enums.TileType;
 import org.example.Models.Game;
 import org.example.Models.Item;
+import org.example.Models.Skill;
 import org.example.Views.MapRenderer;
+import org.example.Views.MenuView.LoginRegisterMenuView;
 import org.example.Views.PlayerAnimation;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+
+import java.util.ArrayList;
 
 
 public class GameScreen implements Screen {
@@ -54,8 +61,9 @@ public class GameScreen implements Screen {
     private boolean isMiniMapOpen = false;
     private OrthographicCamera miniMapCamera;
     private BitmapFont miniMapFont;
-
-
+    public boolean isShippingBinOpen = false;
+    private boolean isSkillScreenOpen = false;
+    private ArrayList<Rectangle> skillIconBounds = new ArrayList<>() ;
 
 
     public GameScreen(Game game) {
@@ -185,6 +193,56 @@ public class GameScreen implements Screen {
                 kitchenUI.act(delta);
                 kitchenUI.draw();
             }
+            if (isSkillScreenOpen) {
+                skillIconBounds.clear();  // هر بار قبل از پر کردن، خالی کن
+
+                batch.setProjectionMatrix(new Matrix4().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+                batch.begin();
+
+                int x = 50;
+                int y = Gdx.graphics.getHeight() - 50;
+
+                int iconSize = 64;
+                int spacingY = 80;
+
+                for (Skill skill : game.currentPlayer.skills) {
+                    batch.draw(skill.texture, x, y - iconSize, iconSize, iconSize);
+                    skillIconBounds.add(new Rectangle(x, y - iconSize, iconSize, iconSize));
+
+                    font.draw(batch, "Level: " + skill.getLevel(), x + iconSize + 10, y - 10);
+                    font.draw(batch, "XP to next: " + skill.getRequiredXP(skill.level), x + iconSize + 10, y - 30);
+
+                    y -= spacingY;
+                }
+
+                batch.end();
+
+                int mouseX = Gdx.input.getX();
+                int mouseY = Gdx.input.getY();
+                float mouseYCorrected = Gdx.graphics.getHeight() - mouseY;
+
+                for (int i = 0; i < skillIconBounds.size(); i++) {
+                    Rectangle rect = skillIconBounds.get(i);
+                    if (rect.contains(mouseX, mouseYCorrected)) {
+                        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+                        shapeRenderer.setColor(1, 1, 0, 0.5f);
+                        float tooltipX = rect.x + rect.width + 10;
+                        float tooltipY = rect.y + rect.height;
+                        float tooltipWidth = 400;
+                        float tooltipHeight = 120;
+                        shapeRenderer.rect(tooltipX, tooltipY - tooltipHeight, tooltipWidth, tooltipHeight);
+                        shapeRenderer.end();
+
+                        batch.begin();
+                        font.draw(batch, game.currentPlayer.skills.get(i).description, tooltipX + 5, tooltipY - 10, tooltipWidth - 10, Align.left, true);
+                        batch.end();
+
+                        break;
+                    }
+                }
+            }
+
+
 
 
             if (selectingDirection) {
@@ -267,6 +325,7 @@ public class GameScreen implements Screen {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) && !isRefrigeratorOpen) {
             isInventoryOpen = !isInventoryOpen;
+            isSkillScreenOpen= false;
             if (isInventoryOpen) {
                 inventoryUI.rebuildUI();
                 Gdx.input.setInputProcessor(multiplexer); // ✅ ورودی به این مرحله بره
@@ -282,12 +341,19 @@ public class GameScreen implements Screen {
             selectingDirection = !selectingDirection;
             // می‌تونی اینجا مثلا یک صدای کوچک هم پخش کنی یا پیام بده
         }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.S) && isInventoryOpen) {
+            isSkillScreenOpen = !isSkillScreenOpen;
+        }
+
         if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
             if (!isMiniMapOpen) {
                 isMiniMapOpen = true;
             } else {
                 isMiniMapOpen = false;
             }
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.Q)){
+            ShowSetting();
         }
         if (Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT)) {
             int tileSize = 16;
@@ -305,6 +371,10 @@ public class GameScreen implements Screen {
                 if (RefrigeratorPick){
                     refrigeratorUI.rebuildUI();
                 }
+            }
+            if (game.Map.get(tileY).get(tileX).type.equals(TileType.SHIPPINGBIN)) {
+                isShippingBinOpen = true;
+                isInventoryOpen = true;
             }
         }
 
@@ -369,6 +439,29 @@ public class GameScreen implements Screen {
         dialog.button("Put Food in Refrigerator", "put");
         dialog.button("Pick Food from Refrigerator", "pick");
         dialog.button("Cook Food", "cook");
+        dialog.button("Cancel", "cancel");
+
+        dialog.show(uiStage);
+    }
+    private void ShowSetting() {
+        Dialog dialog = new Dialog("Setting", skin) {
+            @Override
+            protected void result(Object object) {
+                switch (object.toString()) {
+                    case "Exit":
+                        Main.getInstance().setScreen(new LoginRegisterMenuView());
+
+                        break;
+
+                    case "cancel":
+
+                        break;
+                }
+            }
+        };
+
+        dialog.text("What do you want to do?");
+        dialog.button("Exit Game", "Exit");
         dialog.button("Cancel", "cancel");
 
         dialog.show(uiStage);

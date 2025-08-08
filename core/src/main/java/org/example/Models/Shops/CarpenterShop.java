@@ -10,9 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CarpenterShop implements Shop {
-    private List<ShopItem> unlimitedItems;
-    private List<LimitedShopItem> limitedItems;
-
+    public List<ShopItem> unlimitedItems;
+    public List<LimitedShopItem> limitedItems;
     @Override
     public String getName() {
         return "Carpenter's Shop";

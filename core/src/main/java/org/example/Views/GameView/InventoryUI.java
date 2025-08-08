@@ -117,7 +117,7 @@ public class InventoryUI extends Stage {
                 updated = true;
             }
 
-        } else if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER) && !game.gameScreen.isRefrigeratorOpen) {
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER) && !game.gameScreen.isRefrigeratorOpen && !game.gameScreen.isShippingBinOpen) {
             // وقتی Enter زده شد، اگر آیتم انتخاب شده Tool بود انتخابش کن
             if (selectedIndex >= 0 && selectedIndex < displayedItems.size()) {
                 Item selectedItem = displayedItems.get(selectedIndex);
@@ -152,6 +152,23 @@ public class InventoryUI extends Stage {
         else if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) && game.gameScreen.isRefrigeratorOpen){
             game.gameScreen.isInventoryOpen = false;
             game.gameScreen.isRefrigeratorOpen = false;
+        }
+        else if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER) && game.gameScreen.isShippingBinOpen){
+            if (selectedIndex >= 0 && selectedIndex < displayedItems.size()) {
+                Item selectedItem = displayedItems.get(selectedIndex);
+
+                controller.Sell(selectedItem.name , game, 1);
+                game.gameScreen.isShippingBinOpen = false;
+                game.gameScreen.isInventoryOpen = false;
+
+            }
+        }
+        else if (Gdx.input.isKeyJustPressed(Input.Keys.DEL) ){
+            if (selectedIndex >= 0 && selectedIndex < displayedItems.size()) {
+                Item selectedItem = displayedItems.get(selectedIndex);
+                controller.removeItem(game,selectedItem.name,1);
+                updated = true;
+            }
         }
 
         if (updated) {

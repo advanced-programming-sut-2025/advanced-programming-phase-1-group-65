@@ -1644,31 +1644,12 @@ public class GameController {
     }
 
     public void Sell(String name,Game game,int count){
-        int playerX = game.currentPlayer.PositionX;
-        int playerY = game.currentPlayer.PositionY;
-        boolean nearShop = false;
-        for (int i = -1; i <= 1; i++) {
-            for (int j = -1; j <= 1; j++) {
-                int newX = playerX + j;
-                int newY = playerY + i;
 
-                if (newX >= 0 && newY >= 0 && newY < game.Map.size() && newX < game.Map.get(0).size()) {
-                    Tile tile = game.Map.get(newY).get(newX);
-                    if (tile.type.equals(TileType.SHIPPINGBIN)) {
-                        nearShop =true;
-                    }
-                }
 
-            }
 
-        }
 
-        if(nearShop){
 
-            if(!HasItem(game,name,1)){
-                System.out.println("You don't have this amount of this item ");
-                return;
-            }
+
             Item newitem = new Item(getItem(game,name));
             newitem.Count= count;
             if(newitem.price == 0){
@@ -1679,8 +1660,6 @@ public class GameController {
             removeItem(game,name,count);
             System.out.println("You sold this item");
             return;
-        }
-        System.out.println("You need to be near a Shipping Bin.");
 
     }
     public void TendToShippingBins(Game game){
@@ -1737,6 +1716,7 @@ public class GameController {
                 if (item.Count > countToRemove) {
                     item.Count -= countToRemove;
                     System.out.println("You removed "+countToRemove+" from "+name);
+                    game.gameScreen.showMessage("You removed "+countToRemove+" from "+name);
                     updateInventoryUI(game);
 
                     return;

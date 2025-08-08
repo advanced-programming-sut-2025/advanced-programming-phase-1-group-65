@@ -1,5 +1,6 @@
 package org.example.Models;
 
+import com.badlogic.gdx.graphics.Texture;
 import org.example.Models.Enums.TileType;
 
 import java.util.ArrayList;
@@ -11,15 +12,29 @@ public class Player {
     public Skill miningSkill;
     public Skill foragingSkill;
     public Skill fishingSkill;
+    public List<Skill> skills = new ArrayList<>();
+
     public TileType lastTileType = TileType.EMPTY;
     public Item CurrentItem = null;
     public boolean GreenHouseFixed = false;
     public Player() {
         farmingSkill = new Skill();
+        farmingSkill.texture = new Texture("Skills/Farming_Skill_Icon.png");
+        farmingSkill.description = "Earned by harvesting crops and caring for animals. Leveling up increases hoe and watering can proficiency. ";
         miningSkill = new Skill();
+        miningSkill.texture = new Texture("Skills/Mining_Skill_Icon.png");
+        miningSkill.description = "Increased by breaking rocks with a pickaxe. Leveling up increases pickaxe proficiency. ";
         foragingSkill = new Skill();
+        foragingSkill.texture = new Texture("Skills/Foraging_Skill_Icon.png");
+        foragingSkill.description = "Earned by gathering foraged items and chopping trees with an axe. Leveling up increases axe proficiency. ";
         fishingSkill = new Skill();
+        fishingSkill.texture = new Texture("Skills/Fishing_Skill_Icon.png");
+        fishingSkill.description = "Increased by successfully fishing or using crab pots. Leveling up increases fishing rod proficiency. ";
         npcFriendships = new HashMap<>();
+        skills.add(farmingSkill);
+        skills.add(miningSkill);
+        skills.add(foragingSkill);
+        skills.add(fishingSkill);
 
     }
     public boolean RefrigeratorOpen =false;
