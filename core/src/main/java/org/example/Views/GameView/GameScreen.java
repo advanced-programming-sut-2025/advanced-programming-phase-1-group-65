@@ -18,11 +18,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
 import org.example.Controllers.GameController.GameController;
 import org.example.Main;
+import org.example.Models.*;
 import org.example.Models.Enums.ItemType;
 import org.example.Models.Enums.TileType;
 import org.example.Models.Game;
-import org.example.Models.Item;
-import org.example.Models.Skill;
 import org.example.Views.MapRenderer;
 import org.example.Views.MenuView.LoginRegisterMenuView;
 import org.example.Views.PlayerAnimation;
@@ -177,7 +176,19 @@ public class GameScreen implements Screen {
             int tileSize = 16;
             int offset = (tileSize - playerSize) / 2;
             this.batch.draw(frame, (float)(px * tileSize + offset), (float)(py * tileSize ), (float)playerSize, (float)playerSize);
+            /*if (this.game.currentPlayer.CurrentTool != null) {
 
+                TextureRegion toolTexture = new TextureRegion(this.game.currentPlayer.CurrentTool.texture);
+
+                // تنظیم مختصات ابزار روی بازیکن؛ می‌تونی اعداد را با توجه به جایگاهی که می‌خوای اصلاح کنی
+                float toolX = px * tileSize + offset + 7;  // کمی به راست
+                float toolY = py * tileSize +2;           // کمی بالاتر از پایین بازیکن
+                int toolSize = 8;  // اندازه ابزار
+
+                batch.draw(toolTexture, toolX, toolY, toolSize, toolSize);
+            }
+
+             */
             batch.end();
             this.drawClockUI();
 
@@ -249,10 +260,10 @@ public class GameScreen implements Screen {
 
 
 
-            float barWidth = 20; // عرض نوار
-            float barHeight = 150; // ارتفاع کل نوار
-            float x2 = Gdx.graphics.getWidth() - barWidth - 40; // 20 پیکسل فاصله از سمت راست صفحه
-            float y2 = 100; // فاصله از پایین صفحه
+            float barWidth = 30; // عرض نوار
+            float barHeight = 200; // ارتفاع کل نوار
+            float x2 = Gdx.graphics.getWidth() - barWidth - 50; // 20 پیکسل فاصله از سمت راست صفحه
+            float y2 = 400; // فاصله از پایین صفحه
 
 // درصد انرژی
             float energyPercent = (float)(game.currentPlayer.Energy / game.currentPlayer.MaxEnergy);
@@ -424,6 +435,9 @@ public class GameScreen implements Screen {
                 isMiniMapOpen = false;
             }
         }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.E)){
+            game.currentPlayer.Energy =200;
+        }
         if (Gdx.input.isKeyJustPressed(Input.Keys.Q)){
             ShowSetting();
         }
@@ -447,6 +461,16 @@ public class GameScreen implements Screen {
             if (game.Map.get(tileY).get(tileX).type.equals(TileType.SHIPPINGBIN)) {
                 isShippingBinOpen = true;
                 isInventoryOpen = true;
+            }
+            if (game.Map.get(tileY).get(tileX).type.equals(TileType.TREE)) {
+                 Trees trees =  (Trees)game.Map.get(tileY).get(tileX);
+                 showMessage(controller.CraftInfo(game,trees.name));
+
+            }
+            if (game.Map.get(tileY).get(tileX).type.equals(TileType.FORAGING)) {
+                Foraging foraging =  (Foraging) game.Map.get(tileY).get(tileX);
+                showMessage(controller.CraftInfo(game,foraging.name));
+
             }
         }
 
@@ -594,7 +618,7 @@ public class GameScreen implements Screen {
         camera.position.set(camX, camY, 0);
     }
     public void showMessage(String message) {
-        Dialog dialog = new Dialog("Message", skin) {
+        Dialog dialog = new Dialog("\n", skin) {
             @Override
             protected void result(Object object) {
                 // وقتی دکمه OK زده شد اینجا اجرا میشه

@@ -994,7 +994,7 @@ public class GameController {
             System.out.println("No current player available.");
         }
     }
-    public void CraftInfo(Game game,String name) {
+    public String CraftInfo(Game game,String name) {
         for (Foraging foraging : game.AllCropInfo){
             if(foraging.name.equalsIgnoreCase(name)){
                 String Stages = numberWithDashes(foraging.Stage);
@@ -1014,7 +1014,15 @@ public class GameController {
                 System.out.println("Is Edible: " + IsEdible);
                 System.out.println("Energy: " + foraging.Fruit.energy);
                 System.out.println("Season: " + Season);
-                return;
+                return
+                    "Stage: " + Stages +"\nTotal Harvest Time: " + HarvestTime
+                    + "\nOne Time: " + OneTime
+                    + "\nRegrowth Time: " + foraging.RegrowthTime
+                    + "\nBase Sell Price: " + foraging.Fruit.price
+                    + "\nIs Edible: " + IsEdible
+                    + "\nEnergy: " + foraging.Fruit.energy
+                    + "\nSeason: " + Season
+                    ;
             }
         }
         for (Trees tree : game.AllTreesInfo){
@@ -1030,12 +1038,21 @@ public class GameController {
                 System.out.println("Is Edible: " + tree.Fruit.isEdible);
                 System.out.println("Energy: " + tree.Fruit.energy);
                 System.out.println("Season: " + Season);
-                return;
+                return "Name: " + tree.name
+                    + "\nFruit: " + tree.Fruit.name
+                    + "\nStages: 7-7-7-7"
+                    + "\nSource: " + tree.seed.name
+                    + "\nTotal Harvest Time: 28"
+                    + "\nRegrowth Time: " + tree.HarvestingCycle
+                    + "\nBase Sell Price: " + tree.Fruit.price
+                    + "\nIs Edible: " + tree.Fruit.isEdible
+                    + "\nEnergy: " + tree.Fruit.energy
+                    + "\nSeason: " + Season;
 
 
             }
         }
-        System.out.println("This Crop doesn't exist.");
+      return  "This is a Wild Tree";
 
     }
     public void ShowInventory(Game game) {
