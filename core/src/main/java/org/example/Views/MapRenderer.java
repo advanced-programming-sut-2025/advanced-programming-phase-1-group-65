@@ -245,6 +245,7 @@ public class MapRenderer {
 
         batch.begin();
 
+
         TextureRegion currentOutdoorRegion = isNight ? outdoorTileNightRegion : outdoorTileRegion;
 
         for (int y = 0; y < rows; y++) {

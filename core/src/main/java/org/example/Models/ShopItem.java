@@ -9,7 +9,7 @@ public class ShopItem extends Item {
     private int price;
     public Texture texture;
 
-    public ShopItem(String name, String description, int price,ItemType type, ItemSubType subType) {
+    public ShopItem(String name, String description, Integer price,ItemType type, ItemSubType subType) {
 
         super(type,subType,1,name,price);
         this.description = description;

@@ -3,6 +3,7 @@ package org.example.Views.MenuView;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -38,6 +39,10 @@ public class GameMenuView extends ScreenAdapter implements AppMenu {
         skin = new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"));
         table = new Table();
         table.setFillParent(true);
+        Texture background = new Texture(Gdx.files.internal("background.png"));
+        Image backgroundImage = new Image(background);
+        backgroundImage.setFillParent(true);
+        stage.addActor(backgroundImage);
         stage.addActor(table);
 
         Label titleLabel = new Label("Game Menu", skin);

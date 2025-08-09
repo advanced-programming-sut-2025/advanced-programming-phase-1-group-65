@@ -159,7 +159,6 @@ public class GameView {
             }
             else if ((matcher = GameCommands.FISHING.matcher(input)) != null) {
                 String toolName = matcher.group(1);
-                controller.Fishing(game, toolName);
             }
             else if ((matcher = GameCommands.MEET_NPC.matcher(input)) != null) {
                 String npcName = matcher.group(1);

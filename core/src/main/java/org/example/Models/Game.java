@@ -424,7 +424,8 @@ public class Game {
                 user.player.KnownRecipes.add(this.AllRecipes.get(4));
                  Food egg1=new Food (1,ItemSubType.EGG,"Chicken Egg" , 1,1,true );
                     egg1.texture = new Texture(Gdx.files.internal("Food/Egg.png"));
-                user.player.items.add(egg1);
+                    Food egg2 = new Food(egg1);
+                user.player.items.add(egg2);
              /* user.player.items.add(new Material(1, ItemSubType.SEED,"Test Seed",25));
                 user.player.items.add(new Material(1000,ItemSubType.WOOD,"Wood",10));
                 user.player.items.add(new Material(1000,ItemSubType.STONE,"Stone",10));

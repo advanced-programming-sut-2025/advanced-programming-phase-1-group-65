@@ -2,6 +2,7 @@ package org.example.Views.MenuView;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -33,6 +34,10 @@ public class MainMenuView extends ScreenAdapter implements AppMenu {
 
         table = new Table();
         table.setFillParent(true);
+        Texture background = new Texture(Gdx.files.internal("background.png"));
+        Image backgroundImage = new Image(background);
+        backgroundImage.setFillParent(true);
+        stage.addActor(backgroundImage);
         stage.addActor(table);
 
         titleLabel = new Label("Welcome to the Main Menu!", skin);

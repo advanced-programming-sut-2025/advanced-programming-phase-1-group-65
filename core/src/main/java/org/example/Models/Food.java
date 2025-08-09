@@ -6,6 +6,7 @@ import org.example.Models.Enums.ItemType;
 public class Food extends Item {
     public ItemSubType subtype;
 
+
     public Food(int count, ItemSubType subtype, String name, int energy, Integer price, boolean isEdible) {
         super(ItemType.FOOD,subtype,count,name,price);
         this.subtype = subtype;
@@ -22,5 +23,4 @@ public class Food extends Item {
     }
     public int energy;
     public boolean isEdible;
-    public Integer price;
 }

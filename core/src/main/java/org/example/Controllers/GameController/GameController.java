@@ -618,11 +618,133 @@ public class GameController {
             game.currentPlayer.Energy-=4;
             return;
         }
+        else if (game.currentPlayer.CurrentTool.subtype.equals(ItemSubType.FISHINGPOLE)){
+            Fishing(game,x , y);
+        }
 
         else {
             System.out.println("invalid tool");
             return;
         }
+    }
+    public void Fishing(Game game, int x , int y) {
+        int bonusEnergy = 0;
+        if (game.currentPlayer.fishingSkill.getLevel()==4){
+            bonusEnergy=-1;
+        }
+
+
+        int px = game.currentPlayer.PositionX;
+        int py = game.currentPlayer.PositionY;
+
+        boolean isNearLake = false;
+        for (int dx = -1; dx <= 1; dx++) {
+            for (int dy = -1; dy <= 1; dy++) {
+                if (dx == 0 && dy == 0) continue;
+                int nx = px + dx;
+                int ny = py + dy;
+
+                if (ny >= 0 && ny < game.Map.size() && nx >= 0 && nx < game.Map.get(ny).size()) {
+                    if (game.Map.get(ny).get(nx).type == TileType.LAKE) {
+                        isNearLake = true;
+                        break;
+                    }
+                }
+            }
+            if (isNearLake) break;
+        }
+
+        if (!isNearLake) {
+            System.out.println("You must be near a lake tile to fish.");
+            game.gameScreen.showMessage("You must be near a lake tile to fish");
+            game.currentPlayer.Energy -= 8+bonusEnergy;
+            bonusEnergy = 0;
+            return;
+        }
+
+        String currentSeason = game.gameClock.getCurrentSeason();
+
+        ArrayList<Food> seasonalFish = new ArrayList<>();
+
+        Food fishLegend = new Food(1, ItemSubType.FISH, "Legend", 50, 5000, true);
+        fishLegend.texture = new Texture("Fish/Legend.png");
+        Food fishGlacier = new Food(1, ItemSubType.FISH, "Glacierfish", 45, 1000, true);
+        fishGlacier.texture = new Texture("Fish/Glacierfish.png");
+        Food fishCrimson = new Food(1, ItemSubType.FISH, "Crimsonfish", 40, 1500, true);
+        fishCrimson.texture = new Texture("Fish/Crimsonfish.png");
+        Food fishAngler = new Food(1, ItemSubType.FISH, "Angler", 30, 900, true);
+        fishAngler.texture = new Texture("Fish/Angler.png");
+        seasonalFish.add(fishLegend);
+        seasonalFish.add(fishAngler);
+        seasonalFish.add(fishCrimson);
+        seasonalFish.add(fishGlacier);
+
+        if (game.currentPlayer.fishingSkill.getLevel() >= 4) {
+            if (currentSeason.equalsIgnoreCase("spring")){
+
+            }
+
+            if (currentSeason.equalsIgnoreCase("winter")){
+                 seasonalFish.add(fishGlacier);
+            }
+            if (currentSeason.equalsIgnoreCase("fall")){
+                 seasonalFish.add(fishAngler);
+            }
+            if (currentSeason.equalsIgnoreCase("summer")){
+                seasonalFish.add(fishCrimson);
+            }
+        }
+
+
+
+        if (seasonalFish.isEmpty()) {
+            System.out.println("There are no fish available in this season.");
+            game.gameScreen.showMessage("There are no fish available in this season.");
+
+            return;
+        }
+
+        String weather = game.weatherSystem.getTodayWeatherName();
+        double M = switch (weather.toLowerCase()) {
+            case "sunny" -> 1.5;
+            case "rain" -> 1.2;
+            case "storm" -> 0.5;
+            default -> 1.0;
+        };
+
+        double R = Math.random();
+        int fishCount = (int) Math.ceil(R * M * (game.currentPlayer.fishingSkill.getLevel() + 2));
+        fishCount = Math.min(fishCount, 6);
+
+        if (fishCount == 0) {
+            System.out.println("You didn’t catch any fish this time.");
+            game.gameScreen.showMessage("You didn’t catch any fish this time.");
+            game.currentPlayer.Energy -= 8 + bonusEnergy;
+            return;
+        }
+
+        System.out.println("You caught " + fishCount + " fish:");
+        game.gameScreen.showMessage("You caught " + fishCount + " fish:");
+
+        for (int i = 0; i < fishCount; i++) {
+            int randomIndex = new Random().nextInt(seasonalFish.size());
+            Food caughtFish = new Food(seasonalFish.get(randomIndex)) ;
+
+            double poleMultiplier = 1;
+            // double qualityScore = (Math.random() * (game.currentPlayer.fishingSkill.getLevel() + 2)  * poleMultiplier)/(7-M);
+
+            String quality;
+            double priceMultiplier;
+
+
+
+
+            AddItem(game, caughtFish);
+            game.currentPlayer.gainFishingXP(5);
+        }
+        seasonalFish=null;
+
+        game.currentPlayer.Energy -= 8 + bonusEnergy;
     }
     public void TendToCropsDaily(Game game){
         Iterator<Foraging> iterator = game.AllCrops.iterator();
@@ -807,145 +929,7 @@ public class GameController {
         System.out.println("You don't have an animal near you");
         return;
     }
-    public void Fishing(Game game, String toolName) {
-        int bonusEnergy = 0;
-        if (game.currentPlayer.fishingSkill.getLevel()==4){
-            bonusEnergy=-1;
-        }
 
-        Tool tool = null;
-        for (Item item : game.currentPlayer.items) {
-            if (item.name.equalsIgnoreCase(toolName) && item instanceof Tool &&
-                    ((Tool) item).subtype == ItemSubType.FISHINGPOLE) {
-                tool = (Tool) item;
-                break;
-            }
-        }
-
-        if (tool == null) {
-            System.out.println("You do not have the specified fishing pole.");
-            return;
-        }
-
-        int px = game.currentPlayer.PositionX;
-        int py = game.currentPlayer.PositionY;
-
-        boolean isNearLake = false;
-        for (int dx = -1; dx <= 1; dx++) {
-            for (int dy = -1; dy <= 1; dy++) {
-                if (dx == 0 && dy == 0) continue;
-                int nx = px + dx;
-                int ny = py + dy;
-
-                if (ny >= 0 && ny < game.Map.size() && nx >= 0 && nx < game.Map.get(ny).size()) {
-                    if (game.Map.get(ny).get(nx).type == TileType.LAKE) {
-                        isNearLake = true;
-                        break;
-                    }
-                }
-            }
-            if (isNearLake) break;
-        }
-
-        if (!isNearLake) {
-            System.out.println("You must be near a lake tile to fish.");
-            game.currentPlayer.Energy -= 8+bonusEnergy;
-            bonusEnergy = 0;
-            return;
-        }
-
-        String currentSeason = game.gameClock.getCurrentSeason();
-
-        ArrayList<Food> seasonalFish = new ArrayList<>();
-        for (FishWithSeason fishData : FishManager.allFish) {
-            if (fishData.season.equalsIgnoreCase(currentSeason)) {
-                seasonalFish.add(new Food(
-                        fishData.fish.Count,
-                        fishData.fish.subtype,
-                        fishData.fish.name,
-                        fishData.fish.energy,
-                        fishData.fish.price,
-                        fishData.fish.isEdible
-                ));
-            }
-        }
-
-       /* if (game.currentPlayer.fishingSkill.getLevel() >= 4) {
-            if (currentSeason.equalsIgnoreCase("spring"))
-                seasonalFish.add(new Food(1, ItemSubType.FISH, "Legend", 50, 5000, true , new Texture(Gdx.files.internal("Fish/Legend.png"))));
-            if (currentSeason.equalsIgnoreCase("winter"))
-                seasonalFish.add(new Food(1, ItemSubType.FISH, "Glacierfish", 45, 1000, true, new Texture(Gdx.files.internal("Fish/Glacierfish.png"))));
-            if (currentSeason.equalsIgnoreCase("fall"))
-                seasonalFish.add(new Food(1, ItemSubType.FISH, "Angler", 30, 900, true, new Texture(Gdx.files.internal("Fish/Angler.png"))));
-            if (currentSeason.equalsIgnoreCase("summer"))
-                seasonalFish.add(new Food(1, ItemSubType.FISH, "Crimsonfish", 40, 1500, true, new Texture(Gdx.files.internal("Fish/Crimsonfish.png"))));
-        }
-
-        */
-
-        if (seasonalFish.isEmpty()) {
-            System.out.println("There are no fish available in this season.");
-            return;
-        }
-
-        String weather = game.weatherSystem.getTodayWeatherName();
-        double M = switch (weather.toLowerCase()) {
-            case "sunny" -> 1.5;
-            case "rain" -> 1.2;
-            case "storm" -> 0.5;
-            default -> 1.0;
-        };
-
-        double R = Math.random();
-        int fishCount = (int) Math.ceil(R * M * (game.currentPlayer.fishingSkill.getLevel() + 2));
-        fishCount = Math.min(fishCount, 6);
-
-        if (fishCount == 0) {
-            System.out.println("You didn’t catch any fish this time.");
-            game.currentPlayer.Energy -= 8 + bonusEnergy;
-            return;
-        }
-
-        System.out.println("You caught " + fishCount + " fish:");
-
-        for (int i = 0; i < fishCount; i++) {
-            int randomIndex = new Random().nextInt(seasonalFish.size());
-            Food caughtFish = seasonalFish.get(randomIndex);
-
-            double poleMultiplier = 0.1;
-            String toolNameLower = tool.name.toLowerCase();
-            if (toolNameLower.contains("bamboo")) poleMultiplier = 0.5;
-            else if (toolNameLower.contains("fiberglass")) poleMultiplier = 0.9;
-            else if (toolNameLower.contains("iridium")) poleMultiplier = 1.2;
-
-            double qualityScore = (Math.random() * (game.currentPlayer.fishingSkill.getLevel() + 2)  * poleMultiplier)/(7-M);
-
-            String quality;
-            double priceMultiplier;
-
-            if (qualityScore <= 0.5) {
-                quality = "Normal";
-                priceMultiplier = 1.0;
-            } else if (qualityScore > 0.5 && qualityScore <= 0.7) {
-                quality = "Silver";
-                priceMultiplier = 1.25;
-            } else if (qualityScore > 0.7 && qualityScore <= 0.9) {
-                quality = "Gold";
-                priceMultiplier = 1.5;
-            } else {
-                quality = "Iridium";
-                priceMultiplier = 2.0;
-            }
-            caughtFish.price *= (int)priceMultiplier;
-
-            AddItem(game, caughtFish);
-            System.out.println("- " + caughtFish.name + " (Quality: " + quality + ")");
-            game.currentPlayer.gainFishingXP(5);
-        }
-        seasonalFish=null;
-
-        game.currentPlayer.Energy -= 8 + bonusEnergy;
-    }
     public void AddItem(Game game,Item newitem) {
         for (Item item : game.currentPlayer.items) {
             if(item.name.equalsIgnoreCase(newitem.name) && item.subtype.equals(newitem.subtype)){
@@ -1666,7 +1650,7 @@ public class GameController {
 
 
 
-
+            System.out.println("You are selling "+name);
             Item newitem = new Item(getItem(game,name));
             newitem.Count= count;
             if(newitem.price == 0){
@@ -1700,10 +1684,13 @@ public class GameController {
     public Item getItem(Game game,String name){
         for (Item item : game.currentPlayer.items){
             if(item.name.equalsIgnoreCase(name)){
+                System.out.println(item.name + item.price);
                 return item;
             }
         }
+        System.out.println("Item not found.");
         return null;
+
     }
     public Item getItemType(Game game,ItemSubType subtype){
         for (Item item : game.currentPlayer.items){
@@ -1733,7 +1720,7 @@ public class GameController {
                 if (item.Count > countToRemove) {
                     item.Count -= countToRemove;
                     System.out.println("You removed "+countToRemove+" from "+name);
-                    game.gameScreen.showMessage("You removed "+countToRemove+" from "+name);
+                   // game.gameScreen.showMessage("You removed "+countToRemove+" from "+name);
                     updateInventoryUI(game);
 
                     return;

@@ -67,6 +67,10 @@ public class ProfileMenuView extends ScreenAdapter implements AppMenu {
 
         table = new Table();
         table.setFillParent(true);
+        Texture background = new Texture(Gdx.files.internal("background.png"));
+        Image backgroundImage = new Image(background);
+        backgroundImage.setFillParent(true);
+        stage.addActor(backgroundImage);
         stage.addActor(table);
 
         titleLabel = new Label("Profile Menu", skin);

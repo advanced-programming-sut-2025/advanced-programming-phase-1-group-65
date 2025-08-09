@@ -30,6 +30,7 @@ public class Item {
         this.Count = Other.Count;
         this.name = Other.name;
         this.price = Other.price;
+        this.texture = Other.texture;
 
     }
     public String getName() { return name; }

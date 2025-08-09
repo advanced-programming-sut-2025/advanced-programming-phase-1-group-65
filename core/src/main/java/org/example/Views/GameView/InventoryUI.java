@@ -134,6 +134,10 @@ public class InventoryUI extends Stage {
                     System.out.println("Current Seed selected: " + selectedItem.getName());
                     showMessage("You Have Equiped " + selectedItem.getName() );
                 }
+                else if (selectedItem.type == ItemType.FOOD){
+                    controller.Eat(game , selectedItem.name);
+                    game.gameScreen.isInventoryOpen = false;
+                }
             }
 
         }
