@@ -37,7 +37,7 @@ public class WeatherSystem {
             case "spring":
                 if (roll < 50) {
                     tomorrowWeather = WeatherType.SUNNY;
-                } else if (roll < 80) {
+                } else if ( roll < 80 && roll >50) {
                     tomorrowWeather = WeatherType.RAIN;
                 } else {
                     tomorrowWeather = WeatherType.STORM;
@@ -46,7 +46,7 @@ public class WeatherSystem {
             case "summer":
                 if (roll < 60) {
                     tomorrowWeather = WeatherType.SUNNY;
-                } else if (roll < 90) {
+                } else if (roll < 90 && roll >60) {
                     tomorrowWeather = WeatherType.RAIN;
                 } else {
                     tomorrowWeather = WeatherType.STORM;
@@ -55,7 +55,7 @@ public class WeatherSystem {
             case "autumn":
                 if (roll < 40) {
                     tomorrowWeather = WeatherType.SUNNY;
-                } else if (roll < 75) {
+                } else if (roll < 75 && roll >40) {
                     tomorrowWeather = WeatherType.RAIN;
                 } else {
                     tomorrowWeather = WeatherType.STORM;

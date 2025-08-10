@@ -66,7 +66,8 @@ public class Player {
     public double Energy = 200;
     public double maxEnergy = 200;
     public boolean Fainted = false;
-
+    public boolean isEating = false;
+    public float eatingTimer = 0;
     public List<Item> items = new ArrayList<>();
     public Tool CurrentTool = null;
     public Game game = null;

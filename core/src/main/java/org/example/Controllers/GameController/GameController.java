@@ -1297,6 +1297,8 @@ public class GameController {
             game.currentPlayer.Energy = game.currentPlayer.MaxEnergy;
         }
         removeItem(game,TargetFood.name,1);
+        game.gameScreen.playerAnim.startEating();
+
         System.out.println("You have successfully eaten " + Target.name);
         return;
     }

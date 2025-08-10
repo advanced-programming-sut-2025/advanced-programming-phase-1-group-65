@@ -20,6 +20,7 @@ import org.example.Models.Enums.TileType;
 import org.example.Models.Trees;
 import com.badlogic.gdx.math.MathUtils;
 public class MapRenderer {
+    public Game game;
     private final ArrayList<ArrayList<Tile>> map;
     private final int tileSize = 16;
     private final Map<TileType, Texture> textureMap = new HashMap<>();
@@ -76,22 +77,12 @@ public class MapRenderer {
 
     public MapRenderer(ArrayList<ArrayList<Tile>> map, Game game) {
         this.map = map;
+        this.game = game;
         this.loadTextures();
         cameraShake = new CameraShake();
-        this.greenhousebroken = new Texture("map/GreenHouseFixed.png");
+        this.greenhousebroken = new Texture("map/GreenHouseBroken.png");
 
-        // بارگذاری تکسچرهای بزرگ
 
-            this.greenhousebroken = new Texture("map/GreenHouseFixed.png");
-
-            if (game.currentPlayer.GreenHouseFixed) {
-                this.greenhousebroken = new Texture("map/GreenHouseFixed.png");
-
-            }
-
-        if (game.currentPlayer.GreenHouseFixed) {
-            this.greenhousebroken = new Texture("map/GreenHouseFixed.png");
-        }
 
         this.lakeBigTexture = new Texture("map/LakeBig.png");
         this.blacksmithBigTexture = new Texture("map/BlacksmithBig.png");
@@ -103,7 +94,6 @@ public class MapRenderer {
         this.jojaMartBigTexture = new Texture("map/JojaMartBig.png");
         ShedTexture = new Texture("map/Shed.png");
 
-        regionMap.put(TileType.GREENHOUSE, new TextureRegion(greenhousebroken));
         regionMap.put(TileType.LAKE, new TextureRegion(lakeBigTexture));
         regionMap.put(TileType.SHACK , new TextureRegion(ShedTexture));
         regionMap.put(TileType.BLACKSMITH, new TextureRegion(blacksmithBigTexture));
@@ -230,6 +220,8 @@ public class MapRenderer {
         this.isNight = night;
     }
     public void render(SpriteBatch batch) {
+        updateGreenhouseTexture();
+
         int rows = map.size();
         int cols = map.get(0).size();
         boolean[][] drawn = new boolean[rows][cols];
@@ -351,6 +343,19 @@ public class MapRenderer {
         batch.setProjectionMatrix(originalProj);
         batch.begin();
     }
+    private void updateGreenhouseTexture() {
+        if (game.currentPlayer.GreenHouseFixed) {
+            greenhousebroken = new Texture("map/GreenHouseFixed.png");
+            regionMap.put(TileType.GREENHOUSE, new TextureRegion(greenhousebroken));
+
+        } else {
+            greenhousebroken = new Texture("map/GreenHouseBroken.png");
+            regionMap.put(TileType.GREENHOUSE, new TextureRegion(greenhousebroken));
+
+        }
+    }
+
+
 
 
     public void dispose() {

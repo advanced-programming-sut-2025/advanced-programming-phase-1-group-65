@@ -5,10 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
@@ -21,6 +18,7 @@ import org.example.Main;
 import org.example.Models.*;
 import org.example.Models.Enums.ItemType;
 import org.example.Models.Enums.TileType;
+import org.example.Models.Enums.WeatherType;
 import org.example.Models.Game;
 import org.example.Views.MapRenderer;
 import org.example.Views.MenuView.LoginRegisterMenuView;
@@ -45,7 +43,7 @@ public class GameScreen implements Screen {
     private final MapRenderer mapRenderer;
     private SpriteBatch batch;
     private ShapeRenderer shapeRenderer;
-    private PlayerAnimation playerAnim;
+    public PlayerAnimation playerAnim;
     private PlayerAnimation.Direction currentDirection;
     private Texture clockTexture;
     private BitmapFont font;
@@ -63,7 +61,10 @@ public class GameScreen implements Screen {
     public boolean isShippingBinOpen = false;
     private boolean isSkillScreenOpen = false;
     private ArrayList<Rectangle> skillIconBounds = new ArrayList<>() ;
-
+    public boolean walking= false;
+    private Animation<TextureRegion> rainAnimation;
+    private float rainStateTime = 0f;
+    private ArrayList<RainDrop> rainDrops;
 
     public GameScreen(Game game) {
         this.game = game;
@@ -74,7 +75,6 @@ public class GameScreen implements Screen {
         this.timeAccumulator = 0.0F;
         this.timePerGameHour = 5.0F;
 
-// اینجا باید map رو بدی
     }
 
     @Override
@@ -102,7 +102,7 @@ public class GameScreen implements Screen {
         miniMapCamera.update();
 
 
-        this.playerAnim = new PlayerAnimation(0.2F);
+        this.playerAnim = new PlayerAnimation(0.2F , game);
         this.clockTexture = new Texture(Gdx.files.internal("ui/Clock.png"));
         this.font = new BitmapFont();
         this.font.getData().setScale(1.5F);
@@ -110,7 +110,22 @@ public class GameScreen implements Screen {
         this.miniMapFont = new BitmapFont();
         this.miniMapFont.getData().setScale(2f);
         this.miniMapFont.setColor(1f, 1f, 1f, 1f);
-    }
+        Texture rainTexture = new Texture("weather/rain.png");
+        TextureRegion[][] tmp = TextureRegion.split(rainTexture, rainTexture.getWidth() / 4, rainTexture.getHeight());
+        TextureRegion[] frames = new TextureRegion[4];
+        for (int i = 0; i < 4; i++) {
+            frames[i] = tmp[0][i];
+        }
+        rainAnimation = new Animation<>(0.2f, frames);
+
+        // ایجاد لیست قطره ها
+        rainDrops = new ArrayList<>();
+        for (int i = 0; i < 200; i++) {
+            float x = (float)(Math.random() * Gdx.graphics.getWidth());
+            float y = (float)(Math.random() * Gdx.graphics.getHeight());
+            float speed = 100 + (float)(Math.random() * 100);
+            rainDrops.add(new RainDrop(x, y, speed, rainAnimation));
+        }}
 
 
     @Override
@@ -321,6 +336,14 @@ public class GameScreen implements Screen {
             }
 
             batch.end();
+            if (game.weatherSystem.getTodayWeather() == WeatherType.RAIN) {
+                batch.begin();
+                for (RainDrop drop : rainDrops) {
+                    drop.update(delta, Gdx.graphics.getHeight());
+                    drop.render(batch);
+                }
+                batch.end();
+            }
 
             if (selectingDirection) {
                 // فعال کردن شفافیت
@@ -354,6 +377,7 @@ public class GameScreen implements Screen {
                 shapeRenderer.end();
                 Gdx.gl.glDisable(GL20.GL_BLEND);
             }
+
             uiStage.act(delta);
             uiStage.draw();
             Gdx.input.setInputProcessor(multiplexer);
@@ -375,28 +399,28 @@ public class GameScreen implements Screen {
             return;
         }
 
+
         if (!isInventoryOpen && !isRefrigeratorOpen) {
-            if (Gdx.input.isKeyJustPressed(51)) {
+            if (Gdx.input.isKeyJustPressed(51)) { // W
                 this.controller.Walk(this.game, 'w');
-                game.currentPlayer.Energy -=1;
+                game.currentPlayer.Energy -= 1;
                 this.currentDirection = PlayerAnimation.Direction.UP;
-            } else if (Gdx.input.isKeyJustPressed(47)) {
+                walking = true;
+            } else if (Gdx.input.isKeyJustPressed(47)) { // S
                 this.controller.Walk(this.game, 's');
-                game.currentPlayer.Energy -=1;
-
+                game.currentPlayer.Energy -= 1;
                 this.currentDirection = PlayerAnimation.Direction.DOWN;
-            } else if (Gdx.input.isKeyJustPressed(29)) {
+                walking = true;
+            } else if (Gdx.input.isKeyJustPressed(29)) { // A
                 this.controller.Walk(this.game, 'a');
-                game.currentPlayer.Energy -=1;
-
+                game.currentPlayer.Energy -= 1;
                 this.currentDirection = PlayerAnimation.Direction.LEFT;
-            } else if (Gdx.input.isKeyJustPressed(32)) {
+                walking = true;
+            } else if (Gdx.input.isKeyJustPressed(32)) { // D
                 this.controller.Walk(this.game, 'd');
-                game.currentPlayer.Energy -=1;
-
+                game.currentPlayer.Energy -= 1;
                 this.currentDirection = PlayerAnimation.Direction.RIGHT;
-            } else if (Gdx.input.isKeyJustPressed(48)) {
-                this.game.gameClock.advanceTimeByOneHour(this.game, this.controller);
+                walking = true;
             }
             else if (Gdx.input.isKeyJustPressed(Input.Keys.G)) {
                 game.currentPlayer.GreenHouseFixed =true;
@@ -416,7 +440,9 @@ public class GameScreen implements Screen {
                 Gdx.input.setInputProcessor(multiplexer); // ✅ غیرفعال‌سازی، یا اگه Stage دیگه‌ای دارید تنظیمش کنید
             }
         }
-
+        if (Gdx.input.isKeyJustPressed(Input.Keys.T) && !isInventoryOpen) {
+            game.gameClock.advanceTimeByOneHour(game , controller);
+        }
         if (Gdx.input.isKeyJustPressed(Input.Keys.T) && isInventoryOpen) {
             inventoryUI.showToolsOnly();
         }
@@ -441,6 +467,7 @@ public class GameScreen implements Screen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.Q)){
             ShowSetting();
         }
+
         if (Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT)) {
             int tileSize = 16;
             int mouseX = Gdx.input.getX();
