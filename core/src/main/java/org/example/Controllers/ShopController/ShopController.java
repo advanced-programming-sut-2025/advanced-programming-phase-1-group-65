@@ -10,6 +10,33 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ShopController {
+    public interface ShopMessageListener {
+        void showMessage(String message);
+    }
+
+    private ShopMessageListener messageListener;
+
+    public void setMessageListener(ShopMessageListener listener) {
+        this.messageListener = listener;
+    }
+
+    private void notifyPlayer(String message) {
+        if (messageListener != null) {
+            messageListener.showMessage(message);
+
+        }
+    }
+    public interface PurchaseListener {
+        void onPurchaseCompleted();
+    }
+
+    private PurchaseListener purchaseListener;
+
+    public void setPurchaseListener(PurchaseListener listener) {
+        this.purchaseListener = listener;
+    }
+
+
 
     private final Map<TileType, Shop> shopCache = new HashMap<>();
 
@@ -45,7 +72,6 @@ public class ShopController {
 
     public void showAllProducts(Game game) {
         if (!isPlayerInShop(game)) {
-            System.out.println("You must be next to a shop to view its products.");
             return;
         }
         showProductsByTileType(game);
@@ -53,7 +79,6 @@ public class ShopController {
 
     public void showAllAvailableProducts(Game game) {
         if (!isPlayerInShop(game)) {
-            System.out.println("You must be next to a shop to view available products.");
             return;
         }
         showAvailableProductsByTileType(game);
@@ -225,18 +250,18 @@ public class ShopController {
     public void purchaseItem(Game game, String productName, int count,GameController controller) {
         BuildingController buildingController = new BuildingController();
         if (count <= 0) {
-            System.out.println("Invalid quantity specified.");
+            notifyPlayer("Invalid quantity specified.");
             return;
         }
 
         if (!isPlayerInShop(game)) {
-            System.out.println("You must be next to a shop to buy items.");
+            notifyPlayer("You must be next to a shop to buy items.");
             return;
         }
 
         Shop shop = getNearbyShop(game);
         if (shop == null) {
-            System.out.println("No valid shop nearby.");
+            notifyPlayer("No valid shop nearby.");
             return;
         }
 
@@ -244,7 +269,7 @@ public class ShopController {
             if (item.getName().equalsIgnoreCase(productName)) {
                 int totalPrice = item.getPrice() * count;
                 if (game.currentPlayer.money < totalPrice) {
-                    System.out.println("You don't have enough money.");
+                    notifyPlayer("You don't have enough money.");
                     return;
                 }
 
@@ -295,7 +320,7 @@ public class ShopController {
                         controller.AddItem(game,building);
                     }
                 }
-                System.out.println("You bought " + count + " x " + item.getName() + " for " + totalPrice + "g.");
+                notifyPlayer("You bought " + count + " x " + item.getName() + " for " + totalPrice + "g.");
                 return;
             }
         }
@@ -304,18 +329,18 @@ public class ShopController {
             if (item.getName().equalsIgnoreCase(productName)) {
                 int remaining = item.getDailyLimit() - item.getPurchasedToday();
                 if (remaining <= 0) {
-                    System.out.println("This item has reached its daily purchase limit.");
+                    notifyPlayer("This item has reached its daily purchase limit.");
                     return;
                 }
 
                 if (count > remaining) {
-                    System.out.println("Only " + remaining + " of this item can be bought today.");
+                    notifyPlayer("Only " + remaining + " of this item can be bought today.");
                     return;
                 }
 
                 int totalPrice = item.getPrice() * count;
                 if (game.currentPlayer.money < totalPrice) {
-                    System.out.println("You don't have enough money.");
+                    notifyPlayer("You don't have enough money.");
                     return;
                 }
 
@@ -355,7 +380,7 @@ public class ShopController {
                 }
                 else if(item.subtype == ItemSubType.BARN || item.subtype == ItemSubType.COOP){
                     if(!buildingController.canBuild(item.name, game,controller)) {
-                        System.out.println("You don't have the materials for this building.");
+                        notifyPlayer("You don't have the materials for this building.");
                         return;
                     }
                     buildingController.looseMaterial(item.name, game,controller);
@@ -377,11 +402,14 @@ public class ShopController {
                     }
                 }
 
-                System.out.println("You bought " + count + " x " + item.getName() + " for " + totalPrice + "g.");
+                notifyPlayer("You bought " + count + " x " + item.getName() + " for " + totalPrice + "g.");
+                if (purchaseListener != null) {
+                    purchaseListener.onPurchaseCompleted();
+                }
                 return;
             }
         }
 
-        System.out.println("Item not found in this shop.");
+        notifyPlayer("Item not found in this shop.");
     }
 }

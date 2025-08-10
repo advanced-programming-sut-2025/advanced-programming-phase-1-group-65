@@ -61,7 +61,7 @@ public class GameScreen implements Screen {
         inventoryUI = new InventoryUI(game, batch, controller);
         gameController = new GameController();
         shopController = new ShopController();
-        shopUI = new ShopUI(game);
+        shopUI = new ShopUI(game,gameController);
 
         camera = new OrthographicCamera(320, 160);
         camera.zoom = 1.5f;
@@ -235,7 +235,7 @@ public class GameScreen implements Screen {
             isShopOpen = !isShopOpen;
             if (isShopOpen) {
                 shopUI.show();
-                Gdx.input.setInputProcessor(shopUI);
+                Gdx.input.setInputProcessor(shopUI.getStage());
             } else {
                 Gdx.input.setInputProcessor(new DirectionInputProcessor(this));
             }
