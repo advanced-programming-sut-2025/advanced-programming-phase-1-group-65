@@ -2,6 +2,9 @@ package org.example.Views.GameView;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -19,10 +22,12 @@ import org.example.Models.*;
 import org.example.Models.Enums.ItemType;
 import org.example.Models.Enums.TileType;
 import org.example.Models.Enums.WeatherType;
+import org.example.Controllers.ShopController.ShopController;
 import org.example.Models.Game;
 import org.example.Views.MapRenderer;
 import org.example.Views.MenuView.LoginRegisterMenuView;
 import org.example.Views.PlayerAnimation;
+import org.example.Views.UI.ShopUI;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -36,8 +41,10 @@ public class GameScreen implements Screen {
     OrthographicCamera camera;
     GameController controller = new GameController();
     public InventoryUI inventoryUI;
+    public ShopUI shopUI; // اضافه کردن فروشگاه
     public RefrigeratorUI refrigeratorUI;
     boolean isInventoryOpen = false;
+    boolean isShopOpen = false;  // وضعیت باز بودن فروشگاه
     private Skin skin;
     public boolean selectingDirection = false;
     private final MapRenderer mapRenderer;
@@ -65,6 +72,7 @@ public class GameScreen implements Screen {
     private Animation<TextureRegion> rainAnimation;
     private float rainStateTime = 0f;
     private ArrayList<RainDrop> rainDrops;
+    public ShopController shopController;
 
     public GameScreen(Game game) {
         this.game = game;
@@ -82,6 +90,10 @@ public class GameScreen implements Screen {
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
         inventoryUI = new InventoryUI(game, batch, controller);
+       // gameController = new GameController();
+        shopController = new ShopController();
+        shopUI = new ShopUI(game,controller);
+
         refrigeratorUI = new RefrigeratorUI(game, batch, controller);
         kitchenUI  = new KitchenUI(game, batch, controller);
         camera = new OrthographicCamera(320, 160);
@@ -95,6 +107,7 @@ public class GameScreen implements Screen {
         multiplexer.addProcessor(uiStage);            // UI Stage اول باشه
         multiplexer.addProcessor(directionInput);     // بعد ورودی سفارشی
         multiplexer.addProcessor(inventoryUI);
+        multiplexer.addProcessor(shopUI.getStage());
         Gdx.input.setInputProcessor(multiplexer);
 
         miniMapCamera = new OrthographicCamera(320, 160);
@@ -131,7 +144,7 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
 
-        if (!isMiniMapOpen) {
+        if (!isMiniMapOpen && !isInventoryOpen && !isShopOpen) {
             this.timeAccumulator += delta;
             if (this.timeAccumulator >= 20.0f) {
                 this.timeAccumulator -= 20.0F;
@@ -141,12 +154,11 @@ public class GameScreen implements Screen {
 
         handleInput();
 
-        if (!isMiniMapOpen) {
+        if (!isMiniMapOpen && !isShopOpen) {
             updateCamera();
             mapRenderer.update(delta);
             camera.update();
-        } else {
-
+        } else if (isMiniMapOpen) {
             updateMiniMapCamera();
             miniMapCamera.update();
         }
@@ -155,7 +167,6 @@ public class GameScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if (isMiniMapOpen) {
-
             batch.setProjectionMatrix(miniMapCamera.combined);
             batch.begin();
             mapRenderer.render(batch);
@@ -169,18 +180,14 @@ public class GameScreen implements Screen {
             batch.draw(frame, (float)(px * tileSize + offset), (float)(py * tileSize ), (float)playerSize, (float)playerSize);
             batch.end();
 
-            // نمایش پیام بالای صفحه mini map
             batch.setProjectionMatrix((new Matrix4()).setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
             batch.begin();
             String msg = "Mini Map - Press M to return to game";
-            float textWidth = miniMapFont.getRegion().getRegionWidth(); // این مقدار تقریبی است ولی کافی است
             miniMapFont.draw(batch, msg, Gdx.graphics.getWidth() / 2f - 150, Gdx.graphics.getHeight() - 20);
             batch.end();
         } else {
             batch.setProjectionMatrix(camera.combined);
-
             batch.begin();
-
             mapRenderer.render(batch);
             TextureRegion frame = this.playerAnim.getCurrentFrame(this.currentDirection, delta);
 
@@ -219,6 +226,7 @@ public class GameScreen implements Screen {
                 kitchenUI.act(delta);
                 kitchenUI.draw();
             }
+
             if (isSkillScreenOpen) {
                 skillIconBounds.clear();  // هر بار قبل از پر کردن، خالی کن
 
@@ -352,7 +360,7 @@ public class GameScreen implements Screen {
 
                 shapeRenderer.setProjectionMatrix(camera.combined);
                 shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-                shapeRenderer.setColor(1, 1, 0, 0.5f); // زرد شفاف
+                shapeRenderer.setColor(1, 1, 0, 0.5f);
 
                 int playerX = game.currentPlayer.PositionX;
                 int playerY = game.currentPlayer.PositionY;
@@ -381,11 +389,44 @@ public class GameScreen implements Screen {
             uiStage.act(delta);
             uiStage.draw();
             Gdx.input.setInputProcessor(multiplexer);
+            if (shopUI.isVisible()) {
+                Gdx.gl.glClearColor(0, 0, 0, 1);
+                Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+                shopUI.act(delta);
+                shopUI.draw();
+            }
         }
+
+
+
 
 
     }
 
+    @Override
+    public void resize(int i, int i1) {
+
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void hide() {
+
+    }
+
+    @Override
+    public void dispose() {
+
+    }
 
 
     private void handleInput() {
@@ -398,6 +439,7 @@ public class GameScreen implements Screen {
             }
             return;
         }
+
 
 
         if (!isInventoryOpen && !isRefrigeratorOpen) {
@@ -443,6 +485,17 @@ public class GameScreen implements Screen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.T) && !isInventoryOpen) {
             game.gameClock.advanceTimeByOneHour(game , controller);
         }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.Z)) {
+            isShopOpen = !isShopOpen;
+            if (isShopOpen) {
+                shopUI.show();
+                Gdx.input.setInputProcessor(multiplexer);
+            } else {
+                this.show();
+                Gdx.input.setInputProcessor(multiplexer);
+            }
+        }
+
         if (Gdx.input.isKeyJustPressed(Input.Keys.T) && isInventoryOpen) {
             inventoryUI.showToolsOnly();
         }
@@ -453,13 +506,17 @@ public class GameScreen implements Screen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.S) && isInventoryOpen) {
             isSkillScreenOpen = !isSkillScreenOpen;
         }
-
         if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
-            if (!isMiniMapOpen) {
-                isMiniMapOpen = true;
+            isMiniMapOpen = !isMiniMapOpen;
+            if (isMiniMapOpen) {
+
+                updateMiniMapCamera();
             } else {
-                isMiniMapOpen = false;
+
+                camera.zoom = 1.5f;
+                camera.update();
             }
+            Gdx.input.setInputProcessor(multiplexer);
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.E)){
             game.currentPlayer.Energy =200;
@@ -503,37 +560,7 @@ public class GameScreen implements Screen {
 
 
     }
-    private void updateMiniMapCamera() {
-        int tileSize = 16;
-        int mapWidthInTiles = game.Map.get(0).size();
-        int mapHeightInTiles = game.Map.size();
 
-        float mapWidth = mapWidthInTiles * tileSize;
-        float mapHeight = mapHeightInTiles * tileSize;
-
-        float centerX = mapWidth / 2f;
-        float centerY = mapHeight / 2f;
-
-        float viewportWidth = mapWidth * 2f;
-        float viewportHeight = mapHeight * 2f;
-
-        float screenRatio = (float) Gdx.graphics.getWidth() / Gdx.graphics.getHeight();
-        float mapRatio = viewportWidth / viewportHeight;
-
-        if (screenRatio > mapRatio) {
-            viewportWidth = viewportHeight * screenRatio;
-        } else {
-            viewportHeight = viewportWidth / screenRatio;
-        }
-
-        miniMapCamera.viewportWidth = viewportWidth;
-        miniMapCamera.viewportHeight = viewportHeight;
-
-        miniMapCamera.zoom = 0.55f;
-
-        miniMapCamera.position.set(centerX, centerY, 0);
-        miniMapCamera.update();
-    }
     private void showKitchenMenu(int tileX, int tileY) {
         System.out.println("showKitchenMenu");
         Dialog dialog = new Dialog("Kitchen Options", skin) {
@@ -623,11 +650,7 @@ public class GameScreen implements Screen {
 
 
 
-    @Override
-    public void dispose() {
-        batch.dispose();
-        shapeRenderer.dispose();
-    }
+
     private void updateCamera() {
         int tileSize = 16;
         float playerX = game.currentPlayer.PositionX * tileSize + tileSize / 2f;
@@ -644,6 +667,39 @@ public class GameScreen implements Screen {
 
         camera.position.set(camX, camY, 0);
     }
+
+    private void updateMiniMapCamera() {
+        int tileSize = 16;
+        int mapWidthInTiles = game.Map.get(0).size();
+        int mapHeightInTiles = game.Map.size();
+
+        float mapWidth = mapWidthInTiles * tileSize;
+        float mapHeight = mapHeightInTiles * tileSize;
+
+        float centerX = mapWidth / 2f;
+        float centerY = mapHeight / 2f;
+
+        float viewportWidth = mapWidth * 2f;
+        float viewportHeight = mapHeight * 2f;
+
+        float screenRatio = (float) Gdx.graphics.getWidth() / Gdx.graphics.getHeight();
+        float mapRatio = viewportWidth / viewportHeight;
+
+        if (screenRatio > mapRatio) {
+            viewportWidth = viewportHeight * screenRatio;
+        } else {
+            viewportHeight = viewportWidth / screenRatio;
+        }
+
+        miniMapCamera.viewportWidth = viewportWidth;
+        miniMapCamera.viewportHeight = viewportHeight;
+
+        miniMapCamera.zoom = 0.55f;
+
+        miniMapCamera.position.set(centerX, centerY, 0);
+        miniMapCamera.update();
+    }
+
     public void showMessage(String message) {
         Dialog dialog = new Dialog("\n", skin) {
             @Override
@@ -660,14 +716,7 @@ public class GameScreen implements Screen {
 
         dialog.show(uiStage);
     }
+    }
 
 
 
-
-
-
-    @Override public void resize(int width, int height) {}
-    @Override public void pause() {}
-    @Override public void resume() {}
-    @Override public void hide() {}
-}

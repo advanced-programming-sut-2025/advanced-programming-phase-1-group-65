@@ -71,7 +71,7 @@ public class Player {
     public List<Item> items = new ArrayList<>();
     public Tool CurrentTool = null;
     public Game game = null;
-    public int money = 0;
+    public int money = 50000;
     public TileType previousTileType = TileType.EMPTY;
 
 
