@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.example.Models.Enums.ItemSubType;
 
+import static org.example.Models.Enums.ItemSubType.COOP;
 import static org.example.Models.Enums.ItemSubType.SEED;
 
 public class DirectionInputProcessor extends InputAdapter {
@@ -41,6 +42,11 @@ public class DirectionInputProcessor extends InputAdapter {
                     gameScreen.game.currentPlayer.CurrentItem.subtype == ItemSubType.SEED) {
                     String seedName = gameScreen.game.currentPlayer.CurrentItem.name;
                     gameScreen.controller.Plant(gameScreen.game, dx, dy, seedName);
+                }
+                else if (gameScreen.game.currentPlayer.CurrentItem.subtype == ItemSubType.BARN || gameScreen.game.currentPlayer.CurrentItem.subtype == ItemSubType.COOP) {
+                        String building = gameScreen.game.currentPlayer.CurrentItem.name;
+                        gameScreen.buildingController.Build(building , gameScreen.game ,playerX+dx,playerY-dy,gameScreen.controller);
+
                 }
 
                 gameScreen.selectingDirection = false;

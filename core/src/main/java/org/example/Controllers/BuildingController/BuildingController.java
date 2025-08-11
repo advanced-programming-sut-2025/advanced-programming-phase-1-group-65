@@ -46,28 +46,46 @@ public class BuildingController {
             for (int j = 0; j < building.width; j++) {
                 int x = startX + j;
                 int y = startY + i;
-                if (x >= game.Map.get(0).size() || y >= game.Map.size()) {
+                if (x < 0 || y < 0 || x >= game.Map.get(0).size() || y >= game.Map.size()) {
                     System.out.println("Out of bounds");
+                    game.gameScreen.showMessage("Out of bounds");
                     return;
                 }
                 if (!game.Map.get(y).get(x).type.equals(TileType.EMPTY)) {
                     System.out.println("Space is not empty");
+                    game.gameScreen.showMessage("Space is not empty");
                     return;
                 }
             }
         }
         game.currentPlayer.playerBuildings.add(building);
-        for (int i = 0; i < building.height; i++) {
-            for (int j = 0; j < building.width; j++) {
-                int x = startX + j;
-                int y = startY + i;
-                Tile barnTile = new Tile(TileType.BUILDING);
-                barnTile.parentBuilding = building;
-                game.Map.get(y).set(x, barnTile);
+        if (name.contains("Barn")){
+            for (int i = 0; i < building.height; i++) {
+                for (int j = 0; j < building.width; j++) {
+                    int x = startX + j;
+                    int y = startY + i;
+                    Tile barnTile = new Tile(TileType.BARN);
+                    barnTile.parentBuilding = building;
+                    game.Map.get(y).set(x, barnTile);
+                }
             }
         }
+        else if(name.contains("Coop")){
+            for (int i = 0; i < building.height; i++) {
+                for (int j = 0; j < building.width; j++) {
+                    int x = startX + j;
+                    int y = startY + i;
+                    Tile coopTile = new Tile(TileType.COOP);
+                    coopTile.parentBuilding = building;
+                    game.Map.get(y).set(x, coopTile);
+                }
+            }
+        }
+
         controller.removeItem(game,name,1);
+        game.currentPlayer.CurrentItem = null;
         System.out.println("Building created successfully");
+        game.gameScreen.showMessage("Building created successfully");
 
     }
     public void looseMaterial(String name,Game game,GameController controller){

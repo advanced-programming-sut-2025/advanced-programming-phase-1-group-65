@@ -16,6 +16,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
+import org.example.Controllers.BuildingController.BuildingController;
 import org.example.Controllers.GameController.GameController;
 import org.example.Main;
 import org.example.Models.*;
@@ -73,6 +74,7 @@ public class GameScreen implements Screen {
     private float rainStateTime = 0f;
     private ArrayList<RainDrop> rainDrops;
     public ShopController shopController;
+    public BuildingController buildingController;
 
     public GameScreen(Game game) {
         this.game = game;
@@ -93,6 +95,7 @@ public class GameScreen implements Screen {
        // gameController = new GameController();
         shopController = new ShopController();
         shopUI = new ShopUI(game,controller);
+        buildingController = new BuildingController();
 
         refrigeratorUI = new RefrigeratorUI(game, batch, controller);
         kitchenUI  = new KitchenUI(game, batch, controller);

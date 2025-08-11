@@ -397,10 +397,12 @@ public class ShopController {
                     buildingController.looseMaterial(item.name, game,controller);
                     if(item.subtype == ItemSubType.COOP) {
                         Item building = new Item(ItemType.MATERIAL,ItemSubType.COOP,1, item.name, item.getPrice());
+                        building.texture = new Texture("Building/Coop.png");
                         controller.AddItem(game,building);
                     }
                     else if(item.subtype == ItemSubType.BARN) {
                         Item building = new Item(ItemType.MATERIAL,ItemSubType.BARN,1, item.name, item.getPrice());
+                        building.texture = new Texture("Building/Barn.png");
                         controller.AddItem(game,building);
                     }
 

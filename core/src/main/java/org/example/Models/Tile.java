@@ -88,7 +88,9 @@ public class Tile {
                 return "👷‍♀️";
             case SHIPPINGBIN:
                 return "&";
-            case BUILDING:
+            case BARN:
+                return "=";
+            case COOP:
                 return "=";
             case ANIMAL:
                 return "U";

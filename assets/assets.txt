@@ -1,3 +1,5 @@
+Building/Barn.png
+Building/Coop.png
 Fish/Angler.png
 Fish/Crimsonfish.png
 Fish/Glacierfish.png
@@ -55,6 +57,7 @@ Material/Chanterelle.png
 Material/Coal_Node_Quarry_01.png
 Material/Common_Mushroom.png
 Material/Copper_Node.png
+Material/Deluxe_Retaining_Soil.png
 Material/Diamond_Node.png
 Material/Gold_Node.png
 Material/Hazelnut.png
@@ -73,6 +76,8 @@ Material/Pine_Cone.png
 Material/Pine_Tar.png
 Material/Sap.png
 Material/Spangle_Seeds.png
+Material/Speed-Gro.png
+Material/Stone.png
 Material/Summer_Spangle.png
 Material/Summer_Squash.png
 Material/Summer_Squash_Seeds.png

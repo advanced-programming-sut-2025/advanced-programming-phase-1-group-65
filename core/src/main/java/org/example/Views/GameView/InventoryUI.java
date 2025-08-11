@@ -138,6 +138,10 @@ public class InventoryUI extends Stage {
                     controller.Eat(game , selectedItem.name);
                     game.gameScreen.isInventoryOpen = false;
                 }
+                else if (selectedItem.subtype == ItemSubType.BARN || selectedItem.subtype == ItemSubType.COOP) {
+                    game.currentPlayer.CurrentTool = null;
+                    game.currentPlayer.CurrentItem =  selectedItem;
+                }
             }
 
         }

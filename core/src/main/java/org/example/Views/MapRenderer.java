@@ -38,6 +38,8 @@ public class MapRenderer {
     private final Texture ranchBigTexture;
     private final Texture stardropSaloonBigTexture;
     private final Texture jojaMartBigTexture;
+    private final Texture coopTexture;
+    private final Texture barnTexture;
     private Texture outdoorTileTexture;
     private TextureRegion outdoorTileRegion;
     private Texture LakeTileTexture;
@@ -65,6 +67,7 @@ public class MapRenderer {
     private Texture ShippingTileTexture;
     private TextureRegion ShippingTileRegion;
     private Texture lightningTexture;
+
     private final ArrayList<Vector2> lightningPositions = new ArrayList<>();
     private boolean showLightning = false;
     private float lightningTimer = 0f;
@@ -81,9 +84,6 @@ public class MapRenderer {
         this.loadTextures();
         cameraShake = new CameraShake();
         this.greenhousebroken = new Texture("map/GreenHouseBroken.png");
-
-
-
         this.lakeBigTexture = new Texture("map/LakeBig.png");
         this.blacksmithBigTexture = new Texture("map/BlacksmithBig.png");
         this.generalStoreBigTexture = new Texture("map/GeneralStoreBig.png");
@@ -92,6 +92,8 @@ public class MapRenderer {
         this.ranchBigTexture = new Texture("map/RanchBig.png");
         this.stardropSaloonBigTexture = new Texture("map/StardropSaloonBig.png");
         this.jojaMartBigTexture = new Texture("map/JojaMartBig.png");
+        this.coopTexture = new Texture("Building/Coop.png");
+        this.barnTexture = new Texture("Building/Barn.png");
         ShedTexture = new Texture("map/Shed.png");
 
         regionMap.put(TileType.LAKE, new TextureRegion(lakeBigTexture));
@@ -103,6 +105,8 @@ public class MapRenderer {
         regionMap.put(TileType.RANCH, new TextureRegion(ranchBigTexture));
         regionMap.put(TileType.STARDROPSALOON, new TextureRegion(stardropSaloonBigTexture));
         regionMap.put(TileType.JOJAMART, new TextureRegion(jojaMartBigTexture));
+        regionMap.put(TileType.COOP, new TextureRegion(coopTexture));
+        regionMap.put(TileType.BARN, new TextureRegion(barnTexture));
         outdoorTileTexture = new Texture("map/OutDoorTile.png");
         outdoorTileRegion = new TextureRegion(outdoorTileTexture);
         LakeTileTexture = new Texture("map/LakeTile.jpg");
@@ -256,7 +260,9 @@ public class MapRenderer {
                     || type == TileType.RANCH
                     || type == TileType.STARDROPSALOON
                     || type == TileType.JOJAMART
-                    || type == TileType.SHACK;
+                    || type == TileType.SHACK
+                    || type == TileType.COOP
+                    || type == TileType.BARN;
 
                 if (isBigTile) {
                     TextureRegion baseRegion = regionMap.get(TileType.EMPTY);
