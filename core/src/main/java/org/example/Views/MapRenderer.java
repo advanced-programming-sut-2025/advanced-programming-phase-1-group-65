@@ -67,6 +67,24 @@ public class MapRenderer {
     private Texture ShippingTileTexture;
     private TextureRegion ShippingTileRegion;
     private Texture lightningTexture;
+    private Texture ChickenTileTexture;
+    private TextureRegion ChickenTileRegion;
+    private Texture PigTileTexture;
+    private TextureRegion PigTileRegion;
+    private Texture RabbitTileTexture;
+    private TextureRegion RabbitTileRegion;
+    private Texture SheepTileTexture;
+    private TextureRegion SheepTileRegion;
+    private Texture DuckTileTexture;
+    private TextureRegion DuckTileRegion;
+    private Texture CowTileTexture;
+    private TextureRegion CowTileRegion;
+    private Texture DinosaurTileTexture;
+    private TextureRegion DinosaurTileRegion;
+    private Texture GoatTileTexture;
+    private TextureRegion GoatTileRegion;
+
+
 
     private final ArrayList<Vector2> lightningPositions = new ArrayList<>();
     private boolean showLightning = false;
@@ -77,6 +95,7 @@ public class MapRenderer {
     private TextureRegion outdoorTileNightRegion;
     private boolean showMiniMap = false;
     private boolean isNight = false;
+
 
     public MapRenderer(ArrayList<ArrayList<Tile>> map, Game game) {
         this.map = map;
@@ -95,6 +114,7 @@ public class MapRenderer {
         this.coopTexture = new Texture("Building/Coop.png");
         this.barnTexture = new Texture("Building/Barn.png");
         ShedTexture = new Texture("map/Shed.png");
+
 
         regionMap.put(TileType.LAKE, new TextureRegion(lakeBigTexture));
         regionMap.put(TileType.SHACK , new TextureRegion(ShedTexture));
@@ -136,6 +156,22 @@ public class MapRenderer {
         outdoorTileNightTexture = new Texture("map/OutDoorTileNight.png");
         outdoorTileNightRegion = new TextureRegion(outdoorTileNightTexture);
         lightningTexture = new Texture("map/lightning.png");
+        ChickenTileTexture = new Texture("Animals/Brown_Chicken.png");
+        ChickenTileRegion = new TextureRegion(ChickenTileTexture);
+        DuckTileTexture = new Texture("Animals/Duck.png");
+        DuckTileRegion = new TextureRegion(DuckTileTexture);
+        RabbitTileTexture = new Texture("Animals/Rabbit.png");
+        RabbitTileRegion = new TextureRegion(RabbitTileTexture);
+        SheepTileTexture = new Texture("Animals/Sheep.png");
+        SheepTileRegion = new TextureRegion(SheepTileTexture);
+        DinosaurTileTexture = new Texture("Animals/Dinosaur.png");
+        DinosaurTileRegion = new TextureRegion(DinosaurTileTexture);
+        PigTileTexture = new Texture("Animals/Pig.png");
+        PigTileRegion = new TextureRegion(PigTileTexture);
+        CowTileTexture = new Texture("Animals/White_Cow.png");
+        CowTileRegion = new TextureRegion(CowTileTexture);
+        GoatTileTexture = new Texture("Animals/Goat.png");
+        GoatTileRegion = new TextureRegion(GoatTileTexture);
 
     }
 
@@ -164,6 +200,21 @@ public class MapRenderer {
                 case "Iriduim Ore" -> IriduimTileRegion;
                 case "Copper Ore" -> QuarryTileRegion;
                 default -> null;
+            };
+        }
+        if (tile instanceof Animal) {
+            Animal animal = (Animal) tile;
+            return switch (animal.animalType){
+                case COW -> CowTileRegion;
+                case CHICKEN -> ChickenTileRegion;
+                case RABBIT -> RabbitTileRegion;
+                case SHEEP -> SheepTileRegion;
+                case PIG -> PigTileRegion;
+                case DUCK -> DuckTileRegion;
+                case GOAT -> GoatTileRegion;
+                case DINOSAUR -> DinosaurTileRegion;
+                default -> null;
+
             };
         }
         if (tile instanceof Trees) {

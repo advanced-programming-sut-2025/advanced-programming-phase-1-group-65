@@ -1,3 +1,11 @@
+Animals/Brown_Chicken.png
+Animals/Dinosaur.png
+Animals/Duck.png
+Animals/Goat.png
+Animals/Pig.png
+Animals/Rabbit.png
+Animals/Sheep.png
+Animals/White_Cow.png
 Building/Barn.png
 Building/Coop.png
 Fish/Angler.png

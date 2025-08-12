@@ -8,6 +8,7 @@ public class LimitedShopItem extends Item {
     private int dailyLimit;
     private String description;
     private int purchasedToday = 0;
+    public String NickName;
 
     public LimitedShopItem(String name, String description, Integer price, int dailyLimit, ItemType type, ItemSubType subtype) {
         super(type,subtype,1,name,price);

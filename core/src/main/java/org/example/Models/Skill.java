@@ -22,6 +22,9 @@ public class Skill {
     public int getRequiredXP(int level) {
         return 50 + level * 100;
     }
+    public int getXP (int level) {
+        return getRequiredXP(level) - xp;
+    }
 
     public int getLevel() {
         return level;

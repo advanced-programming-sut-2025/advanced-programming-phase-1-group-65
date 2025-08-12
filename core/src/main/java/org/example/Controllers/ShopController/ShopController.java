@@ -223,12 +223,8 @@ public class ShopController {
 
     }
     public void BuyAnimal(Game game, String animalName, String animalNickName , GameController controller) {
-        Shop shop = getNearbyShop(game);
 
-        if (shop == null || !(shop.getName().equalsIgnoreCase("Marnie's Ranch"))) {
-            System.out.println("You must be in Marnie's Ranch.");
-            return;
-        }
+
 
         for(Animal animal : game.AllAnimalInfo){
             if(animal.name.equalsIgnoreCase(animalName)){
@@ -240,15 +236,19 @@ public class ShopController {
                 }
                 if(hasFreeSpace(game,newAnimal.animalType)==null){
                     System.out.println("You need to free space for this animal.");
+                    notifyPlayer("You need to free space for this animal.");
+                    game.currentPlayer.money += animal.price;
+                    //game.gameScreen.showMessage("You need to free space for this animal.");
                     return;
                 }
                 Building building = hasFreeSpace(game,newAnimal.animalType);
                 building.animals.add(newAnimal);
                 System.out.println("You bought the animal successfully.");
+                game.gameScreen.showMessage("You bought the animal successfully.");
             }
         }
     }
-    public void purchaseItem(Game game, String productName, int count,GameController controller) {
+    public void purchaseItem(Game game, String productName, int count,GameController controller , String NickName) {
         BuildingController buildingController = new BuildingController();
         if (count <= 0) {
             notifyPlayer("Invalid quantity specified.");
@@ -300,10 +300,15 @@ public class ShopController {
                 else if(item.subtype == ItemSubType.FERTILIZER){
                     if(item.name.equalsIgnoreCase("deluxe retaining soil")) {
                         Material fertilizer = new Material(count,ItemSubType.FERTILIZER,"deluxe retaining soil",150);
+                        fertilizer.texture = new Texture("Material/Deluxe_Retaining_Soil.png");
+                        fertilizer.Count = count;
                         controller.AddItem(game,fertilizer);
                     }
                     if(item.name.equalsIgnoreCase("speed-gro")) {
                         Material fertilizer = new Material(count,ItemSubType.FERTILIZER,"speed-gro",100);
+                        fertilizer.texture = new Texture("Material/Speed-Gro.png");
+
+                        fertilizer.Count = count;
                         controller.AddItem(game,fertilizer);
                     }
                 }
@@ -415,8 +420,15 @@ public class ShopController {
                         }
                     }
                 }
+                else if (item.subtype == ItemSubType.RABBIT || item.subtype == ItemSubType.CHICKEN
+                || item.subtype == ItemSubType.COW || item.subtype == ItemSubType.GOAT ||
+                item.subtype == ItemSubType.DUCK || item.subtype == ItemSubType.PIG || item.subtype == ItemSubType.DINOSAUR
+                || item.subtype == ItemSubType.SHEEP){
+                    BuyAnimal(game , item.name, NickName, controller);
 
-                notifyPlayer("You bought " + count + " x " + item.getName() + " for " + totalPrice + "g.");
+                }
+
+                //notifyPlayer("You bought " + count + " x " + item.getName() + " for " + totalPrice + "g.");
                 if (purchaseListener != null) {
                     purchaseListener.onPurchaseCompleted();
                 }

@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.utils.Align;
 import org.example.Controllers.ShopController.ShopController;
+import org.example.Models.Enums.ItemSubType;
 import org.example.Models.LimitedShopItem;
 import org.example.Models.Game;
 import org.example.Controllers.GameController.GameController;
@@ -16,6 +17,8 @@ public class BuyLimitedDialog extends Dialog {
     private ShopController shopController;
     private Game game;
     private GameController gameController;
+     TextField NickNameField ;
+
 
     public BuyLimitedDialog(Skin skin, LimitedShopItem item, ShopController shopController, Game game, GameController gameController) {
         super("Buy Limited: " + item.getName(), skin);
@@ -31,6 +34,17 @@ public class BuyLimitedDialog extends Dialog {
         TextButton minusButton = new TextButton("-", skin);
         TextButton buyButton = new TextButton("Buy", skin);
         TextButton cancelButton = new TextButton("Cancel", skin);
+        if (item.subtype == ItemSubType.RABBIT || item.subtype == ItemSubType.CHICKEN
+            || item.subtype == ItemSubType.COW || item.subtype == ItemSubType.GOAT ||
+            item.subtype == ItemSubType.DUCK || item.subtype == ItemSubType.PIG || item.subtype == ItemSubType.DINOSAUR
+            || item.subtype == ItemSubType.SHEEP){
+                NickNameField = new TextField("", skin);
+                NickNameField.setAlignment(Align.center);
+                NickNameField.setMessageText("Enter Animal Nickname");
+            getContentTable().add(new Label("NickName:", skin)).colspan(3).padTop(10).row();
+            getContentTable().add(NickNameField).width(200).colspan(3).padBottom(10).row();
+
+        }
 
         plusButton.addListener(new ClickListener() {
             @Override
@@ -58,10 +72,24 @@ public class BuyLimitedDialog extends Dialog {
             public void clicked(InputEvent event, float x, float y) {
                 int remaining = item.getDailyLimit() - item.getPurchasedToday();
                 if (count <= remaining) {
-                    shopController.purchaseItem(game, item.getName(), count, gameController);
+                    // اگر گاو بود باید اسم پر باشه
+                    if (item.subtype == ItemSubType.RABBIT || item.subtype == ItemSubType.CHICKEN
+                        || item.subtype == ItemSubType.COW || item.subtype == ItemSubType.GOAT ||
+                        item.subtype == ItemSubType.DUCK || item.subtype == ItemSubType.PIG || item.subtype == ItemSubType.DINOSAUR
+                        || item.subtype == ItemSubType.SHEEP){
+                        String cowName = NickNameField.getText().trim();
+                        if (cowName.isEmpty()) {
+                            // نمایش پیام خطا یا هشدار
+                            System.out.println("Please enter a Nick name!");
+
+                            return;
+                        }
+                        shopController.purchaseItem(game, item.getName(), count, gameController, cowName);
+                        // فرض بر این که purchaseItem نسخه‌ای دارد که اسم هم می‌گیرد
+                    } else {
+                        shopController.purchaseItem(game, item.getName(), count, gameController ,"");
+                    }
                     hide();
-                } else {
-                    // می‌تونی اینجا پیام خطا یا اطلاع‌رسانی بزنی
                 }
             }
         });

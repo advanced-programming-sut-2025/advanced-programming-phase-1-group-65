@@ -53,7 +53,7 @@ public class BuyDialog extends Dialog {
         buyButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                shopController.purchaseItem(game, item.getName(), count, gameController);
+                shopController.purchaseItem(game, item.getName(), count, gameController ,"");
 
                 hide();
             }

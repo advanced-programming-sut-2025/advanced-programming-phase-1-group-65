@@ -35,6 +35,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import java.util.ArrayList;
+import java.util.function.Consumer;
 
 
 public class GameScreen implements Screen {
@@ -75,6 +76,7 @@ public class GameScreen implements Screen {
     private ArrayList<RainDrop> rainDrops;
     public ShopController shopController;
     public BuildingController buildingController;
+    private String lastEnteredName =null;
 
     public GameScreen(Game game) {
         this.game = game;
@@ -247,7 +249,7 @@ public class GameScreen implements Screen {
                     skillIconBounds.add(new Rectangle(x, y - iconSize, iconSize, iconSize));
 
                     font.draw(batch, "Level: " + skill.getLevel(), x + iconSize + 10, y - 10);
-                    font.draw(batch, "XP to next: " + skill.getRequiredXP(skill.level), x + iconSize + 10, y - 30);
+                    font.draw(batch, "XP to next: " + skill.getXP(skill.level), x + iconSize + 10, y - 30);
 
                     y -= spacingY;
                 }
@@ -445,7 +447,7 @@ public class GameScreen implements Screen {
 
 
 
-        if (!isInventoryOpen && !isRefrigeratorOpen) {
+        if (!isInventoryOpen && !isRefrigeratorOpen && !isShopOpen) {
             if (Gdx.input.isKeyJustPressed(51)) { // W
                 this.controller.Walk(this.game, 'w');
                 game.currentPlayer.Energy -= 1;
@@ -467,15 +469,15 @@ public class GameScreen implements Screen {
                 this.currentDirection = PlayerAnimation.Direction.RIGHT;
                 walking = true;
             }
-            else if (Gdx.input.isKeyJustPressed(Input.Keys.G)) {
+            else if (Gdx.input.isKeyJustPressed(Input.Keys.G) && !isShopOpen) {
                 game.currentPlayer.GreenHouseFixed =true;
             }
-            else if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            else if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && !isShopOpen) {
                 this.controller.processNextTurn(this.game);
             }
         }
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) && !isRefrigeratorOpen) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) && !isRefrigeratorOpen && !isShopOpen) {
             isInventoryOpen = !isInventoryOpen;
             isSkillScreenOpen= false;
             if (isInventoryOpen) {
@@ -485,7 +487,7 @@ public class GameScreen implements Screen {
                 Gdx.input.setInputProcessor(multiplexer); // ✅ غیرفعال‌سازی، یا اگه Stage دیگه‌ای دارید تنظیمش کنید
             }
         }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.T) && !isInventoryOpen) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.T) && !isInventoryOpen && !isSkillScreenOpen) {
             game.gameClock.advanceTimeByOneHour(game , controller);
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.Z)) {
@@ -502,14 +504,14 @@ public class GameScreen implements Screen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.T) && isInventoryOpen) {
             inventoryUI.showToolsOnly();
         }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.C) && !isInventoryOpen) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.C) && !isInventoryOpen && !isShopOpen) {
             selectingDirection = !selectingDirection;
             // می‌تونی اینجا مثلا یک صدای کوچک هم پخش کنی یا پیام بده
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.S) && isInventoryOpen) {
             isSkillScreenOpen = !isSkillScreenOpen;
         }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.M) && isInventoryOpen) {
             isMiniMapOpen = !isMiniMapOpen;
             if (isMiniMapOpen) {
 
@@ -521,10 +523,10 @@ public class GameScreen implements Screen {
             }
             Gdx.input.setInputProcessor(multiplexer);
         }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.E)){
+        if (Gdx.input.isKeyJustPressed(Input.Keys.E) && !isShopOpen){
             game.currentPlayer.Energy =200;
         }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.Q)){
+        if (Gdx.input.isKeyJustPressed(Input.Keys.Q) && !isShopOpen){
             ShowSetting();
         }
 
@@ -559,9 +561,78 @@ public class GameScreen implements Screen {
                 showMessage(controller.CraftInfo(game,foraging.name));
 
             }
+            if (game.Map.get(tileY).get(tileX).type.equals(TileType.BARN)
+            || game.Map.get(tileY).get(tileX).type.equals(TileType.COOP)){
+                showBarnMenu(tileX, tileY);
+            }
         }
 
 
+    }
+    private void showBarnMenu (int tileX, int tileY) {
+        Dialog dialog = new Dialog("Animal Options", skin) {
+            String name;
+            @Override
+            protected void result(Object object) {
+                switch (object.toString()) {
+                    case "Shepherd":
+                         askForName(uiStage,skin, "" ,name ->{
+                                     controller.Shepherd(game , name ,game.currentPlayer.PositionX+1 , game.currentPlayer.PositionY+1);
+
+                                 });
+                        break;
+                    case "Collect Produce":
+
+                        //  controller.RefrigeratorPick(game, "Apple"); // یا SelectBox در نسخه بعدی
+                        break;
+                    case "cook":
+                        // controller.PrepareRecipe(game, "Fried Egg");
+                        break;
+                    case "cancel":
+                        break;
+                }
+            }
+        };
+
+        dialog.text("What do you want to do?");
+        dialog.button("Shepherd Animals", "Shepherd");
+        dialog.button("Pick Food from Refrigerator", "pick");
+        dialog.button("Cook Food", "cook");
+        dialog.button("Cancel", "cancel");
+
+        dialog.show(uiStage);
+    }
+    public void askForName(Stage stage, Skin skin, String title, Consumer<String> callback) {
+        Dialog dialog = new Dialog(title, skin);
+
+        TextField nameField = new TextField("", skin);
+        nameField.setMessageText("Enter name...");
+
+        TextButton okButton = new TextButton("OK", skin);
+        TextButton cancelButton = new TextButton("Cancel", skin);
+
+        okButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                String enteredName = nameField.getText().trim();
+                callback.accept(enteredName); // نتیجه رو برگردون
+                dialog.hide();
+            }
+        });
+
+        cancelButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                dialog.hide();
+            }
+        });
+
+        dialog.getContentTable().add(new Label("Name:", skin)).pad(10);
+        dialog.getContentTable().add(nameField).width(200).pad(10).row();
+        dialog.getButtonTable().add(okButton).pad(5);
+        dialog.getButtonTable().add(cancelButton).pad(5);
+
+        dialog.show(stage);
     }
 
     private void showKitchenMenu(int tileX, int tileY) {
