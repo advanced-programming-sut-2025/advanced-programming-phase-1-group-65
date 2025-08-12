@@ -95,6 +95,7 @@ public class Game {
 
     public void creatAllAnimals(Game game){
         Food ChickenEgg = new Food(3,ItemSubType.EGG,"Chicken Egg",60,50,true);
+        ChickenEgg
         Food ChickenBigEgg = new Food(1,ItemSubType.EGG,"Chicken Big Egg",105,95,true);
         Animal Chicken = new Animal("Chicken", AnimalType.CHICKEN,1,800);
         Chicken.foodProduct.add(ChickenEgg);

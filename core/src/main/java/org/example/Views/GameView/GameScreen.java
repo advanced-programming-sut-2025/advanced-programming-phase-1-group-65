@@ -156,6 +156,10 @@ public class GameScreen implements Screen {
                 this.game.gameClock.advanceTimeByOneHour(this.game, this.controller);
             }
         }
+        if (game.currentPlayer.Energy <= 0){
+            game.currentPlayer.Fainted = true;
+            controller.processNextTurn(game);
+        }
 
         handleInput();
 
@@ -565,9 +569,59 @@ public class GameScreen implements Screen {
             || game.Map.get(tileY).get(tileX).type.equals(TileType.COOP)){
                 showBarnMenu(tileX, tileY);
             }
+            if (game.Map.get(tileY).get(tileX).type.equals(TileType.ANIMAL)){
+                showAnimalMenu(tileX, tileY);
+            }
         }
 
 
+    }
+    private void showAnimalMenu (int tileX, int tileY) {
+        Animal animal = null;
+
+        for(Building building:game.currentPlayer.playerBuildings){
+            for(Animal Target:building.animals){
+                if (!Target.Inside){
+                    animal = Target;
+                }
+            }
+        }
+
+
+        Animal finalAnimal = animal;
+        Dialog dialog = new Dialog("Animal Options", skin) {
+            String name;
+
+            @Override
+            protected void result(Object object) {
+
+                switch (object.toString()) {
+                    case "Pet":
+                        controller.Pet(game , finalAnimal.name , finalAnimal.posX , finalAnimal.posY );
+                        break;
+                    case "Feed Animal":
+                         controller.FeedAnimal(game , finalAnimal.name );
+
+                       //  controller.RefrigeratorPick(game, "Apple"); // یا SelectBox در نسخه بعدی
+                        break;
+                    case "Show Info":
+                       String Message = controller.AnimalsShow(game , finalAnimal.name);
+                       game.gameScreen.showMessage(Message);
+                        // controller.PrepareRecipe(game, "Fried Egg");
+                        break;
+                    case "cancel":
+                        break;
+                }
+            }
+        };
+
+        dialog.text("What do you want to do?");
+        dialog.button("Pet", "Pet");
+        dialog.button("Feed", "Feed Animal");
+        dialog.button("Show Info", "Show Info");
+        dialog.button("Cancel", "cancel");
+
+        dialog.show(uiStage);
     }
     private void showBarnMenu (int tileX, int tileY) {
         Dialog dialog = new Dialog("Animal Options", skin) {
@@ -582,12 +636,18 @@ public class GameScreen implements Screen {
                                  });
                         break;
                     case "Collect Produce":
-
+                            askForName(uiStage,skin, "" ,name ->{
+                                controller.CollectProduce(game , name);
+                            });
                         //  controller.RefrigeratorPick(game, "Apple"); // یا SelectBox در نسخه بعدی
                         break;
-                    case "cook":
+                    case "Sell Animal":
+                        askForName(uiStage,skin, "" ,name ->{
+                            controller.SellAnimal(game , name);
+                        });
                         // controller.PrepareRecipe(game, "Fried Egg");
                         break;
+
                     case "cancel":
                         break;
                 }
@@ -596,8 +656,8 @@ public class GameScreen implements Screen {
 
         dialog.text("What do you want to do?");
         dialog.button("Shepherd Animals", "Shepherd");
-        dialog.button("Pick Food from Refrigerator", "pick");
-        dialog.button("Cook Food", "cook");
+        dialog.button("Collect Produce", "Collect Produce");
+        dialog.button("Sell Animal" , "Sell Animal");
         dialog.button("Cancel", "cancel");
 
         dialog.show(uiStage);

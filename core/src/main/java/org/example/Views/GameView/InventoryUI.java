@@ -142,6 +142,10 @@ public class InventoryUI extends Stage {
                     game.currentPlayer.CurrentTool = null;
                     game.currentPlayer.CurrentItem =  selectedItem;
                 }
+                else if (selectedItem.subtype == ItemSubType.FERTILIZER){
+                    game.currentPlayer.CurrentTool = null;
+                    game.currentPlayer.CurrentItem =  selectedItem;
+                }
             }
 
         }

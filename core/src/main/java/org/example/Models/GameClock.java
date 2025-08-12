@@ -65,15 +65,15 @@ public class GameClock {
 
     private void advanceDay(Game game, GameController controller) {
         if (game.user1.player.Fainted){
-            game.user1.player.Energy = 150;
+            game.user1.player.Energy = 200;
             game.user1.player.Fainted = false;
         }
         if (game.user2.player.Fainted){
-            game.user2.player.Energy = 150;
+            game.user2.player.Energy = 200;
             game.user2.player.Fainted = false;
         }
         if (game.user3.player.Fainted){
-            game.user3.player.Energy = 150;
+            game.user3.player.Energy = 200;
             game.user3.player.Fainted = false;
         }
         game.map.GenerateRandomForagingDaily(game.Map,game);
@@ -99,5 +99,5 @@ public class GameClock {
             controller.CheatWater(game);
         }
     }
-    
+
 }

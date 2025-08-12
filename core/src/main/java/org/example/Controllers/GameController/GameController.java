@@ -95,11 +95,6 @@ public class GameController {
             return;
         }
 
-        if (nextTurnCounter >= 3) {
-            game.gameClock.advanceTimeByOneHour(game,this);
-            nextTurnCounter = 0;
-            System.out.println("One hour has passed in game time.");
-        }
     }
 
 
@@ -917,13 +912,13 @@ public class GameController {
 
     }
     public void Pet(Game game, String name,int x,int y){
-        int posX= game.currentPlayer.PositionX+x;
-        int posY= game.currentPlayer.PositionY-y;
-        if(game.Map.get(posY).get(posX).type==TileType.ANIMAL){
-            Animal animalTile =(Animal) game.Map.get(posY).get(posX);
+
+        if(game.Map.get(y).get(x).type==TileType.ANIMAL){
+            Animal animalTile =(Animal) game.Map.get(y).get(x);
             animalTile.petToday = true;
             animalTile.FriendSheepPoint+=15;
             System.out.println(animalTile.name+ " has pet today");
+            game.gameScreen.showMessage(animalTile.name+ " has pet today");
             return;
         }
         System.out.println("You don't have an animal near you");
@@ -1130,17 +1125,20 @@ public class GameController {
         }
         if(Target==null){
             System.out.println("Animal was not found.");
+            game.gameScreen.showMessage("Animal was not found.");
             return;
         }
         if(!Target.Inside){
             Target.Inside = true;
             System.out.println("Animal Was moved back inside.");
+            game.gameScreen.showMessage("Animal Was moved back inside.");
             game.Map.get(Target.posY).set(Target.posX,new Tile(TileType.EMPTY));
             return;
         }
         if(game.gameClock.getCurrentSeasonIndex() == 4 || game.weatherSystem.getTodayWeatherName().equalsIgnoreCase("rain")||
                 game.weatherSystem.getTodayWeatherName().equalsIgnoreCase("storm")){
             System.out.println("Weather is not suitable for this action.");
+            game.gameScreen.showMessage("Weather is not suitable for this action.");
             return;
         }
         if (!game.Map.get(y).get(x).type.equals(TileType.EMPTY)) {
@@ -1152,6 +1150,7 @@ public class GameController {
             Target.isHarvestable=true;
             Target.FinalFoodProduct = new Food(Target.foodProduct.get(0));
             System.out.println("pig can be harvested now.");
+            game.gameScreen.showMessage("pig can be harvested now.");
         }
         game.Map.get(y).set(x,Target);
         Target.Inside = false;
@@ -1160,26 +1159,39 @@ public class GameController {
         Target.posX = x;
         Target.posY = y;
         System.out.println("Animal Was moved outside.");
+        game.gameScreen.showMessage("Animal Was moved outside.");
 
     }
     public void SellAnimal(Game game,String name){
 
         Animal Target =null;
+        Building targetBuilding = null;
         for(Building building:game.currentPlayer.playerBuildings){
             for (Animal animal : building.animals) {
                 if(animal.name.equals(name)){
+                    targetBuilding =building;
                     Target = animal;
                 }
             }
         }
         if(Target==null){
             System.out.println("Animal was not found.");
+            game.gameScreen.showMessage("Animal was not found");
             return;
         }
+         if (!Target.Inside){
+             game.gameScreen.showMessage("Animal Should Be inside.");
+             return;
+         }
 
         int AnimalWorth = (int) (Target.price * ((Target.FriendSheepPoint/1000)+0.3));
         game.currentPlayer.money += AnimalWorth;
+
+        if (targetBuilding != null) {
+            targetBuilding.animals.remove(Target);
+        }
         System.out.println("You have sold "+Target.name + " and got " + AnimalWorth + " dollars");
+        game.gameScreen.showMessage("You have sold "+Target.name + " and got " + AnimalWorth + " dollars");
         return;
     }
 
@@ -1533,6 +1545,7 @@ public class GameController {
                         Foraging foraging = (Foraging) game.Map.get(posy).get(posx);
                         if (foraging.day > 0){
                             System.out.println("You can't fertilize a crop after one day after planting it.");
+                            game.gameScreen.showMessage("You can't fertilize a crop after planting it.");
                             tile.deluxeFed = false;
                             return;
                         }
@@ -1541,12 +1554,15 @@ public class GameController {
                         Trees tree = (Trees) game.Map.get(posy).get(posx);
                         if (tree.day > 0){
                             System.out.println("You can't fertilize a tree after one day after planting it.");
+                            game.gameScreen.showMessage("You can't fertilize a tree after planting it.");
                             tile.deluxeFed=false;
                             return;
                         }
                     }
                     System.out.println("deluxe retaining soil added.");
+                    game.gameScreen.showMessage("deluxe retaining soil added.");
                     removeItem(game ,"deluxe retaining soil",1);
+                    game.currentPlayer.CurrentItem = null;
                     return;
 
                 }
@@ -1561,6 +1577,7 @@ public class GameController {
                         Foraging foraging = (Foraging) game.Map.get(posy).get(posx);
                         if (foraging.day > 0) {
                             System.out.println("You can't fertilize a crop after one day after planting it.");
+                            game.gameScreen.showMessage("You can't fertilize a crop after planting it.");
                             tile.speedFed = false;
                             return;
                         }
@@ -1571,6 +1588,7 @@ public class GameController {
                         Trees tree = (Trees) game.Map.get(posy).get(posx);
                         if (tree.day > 0) {
                             System.out.println("You can't fertilize a tree after one day after planting it.");
+                            game.gameScreen.showMessage("You can't fertilize a tree after planting it.");
                             tile.speedFed = false;
                             return;
                         }
@@ -1579,8 +1597,10 @@ public class GameController {
 
                     }
                     System.out.println("Speed-gro added.");
+                   game.gameScreen.showMessage("Speed-gro added.");
 
                     removeItem(game, "speed-gro", 1);
+                    game.currentPlayer.CurrentItem = null;
                     return;
 
                 }
@@ -1589,18 +1609,21 @@ public class GameController {
             }
         }
         System.out.println("You can't fertilize this tile.");
+        game.gameScreen.showMessage("You can't fertilize this tile.");
         return;
 
     }
     public void FeedAnimal(Game game , String name){
         if(!HasItem(game,"Hay",1)){
             System.out.println("You don't have Hay.");
+            game.gameScreen.showMessage("You don't have Hay.");
             return;
         }
         for(Building building : game.currentPlayer.playerBuildings){
             for(Animal animal : building.animals){
                 if(animal.name.equals(name)){
                     System.out.println(animal.name +" was fed");
+                    game.gameScreen.showMessage("You feed the animal");
                     removeItem(game,"Hay",1);
                     animal.FedToday=true;
                     animal.FriendSheepPoint+=8;
@@ -1620,10 +1643,12 @@ public class GameController {
                         Food newFood = new Food(animal.FinalFoodProduct);
                         AddItem(game,newFood);
                         System.out.println("You have collected "+animal.FinalFoodProduct.name);
+                        game.gameScreen.showMessage("You have collected "+animal.FinalFoodProduct.name);
                         animal.isHarvestable = false;
                         return;
                     }
                     System.out.println("Animal is not harvestable yet");
+                    game.gameScreen.showMessage("Animal is not harvestable yet");
                     return;
 
                 }
@@ -1801,14 +1826,23 @@ public class GameController {
             CraftInfo(game,tree.name);
         }
     }
-    public void AnimalsShow(Game game) {
+    public String AnimalsShow(Game game , String name) {
         for(Building building:game.currentPlayer.playerBuildings){
             for(Animal animal:building.animals){
-                String fedToday = TrueOrFalse(animal.FedToday);
-                String petToday = TrueOrFalse(animal.petToday);
-                System.out.println(animal.name+" Fed Today: " + fedToday+" Pet Today: " + petToday+" FriendSheepPoint: " + animal.FriendSheepPoint);
+
+                if (animal.name.equals(name)){
+                    String fedToday = TrueOrFalse(animal.FedToday);
+                    String petToday = TrueOrFalse(animal.petToday);
+                    String Harvestable = TrueOrFalse(animal.isHarvestable);
+                    if (animal.isHarvestable){
+                        return animal.name+"\n Fed Today: " + fedToday+"\n Pet Today: " + petToday+"\n FriendSheepPoint: " + animal.FriendSheepPoint + "\n Harvestable: " + Harvestable + "\n unCollected Product " + animal.FinalFoodProduct.name ;
+                    }
+                    return animal.name+"\n Fed Today: " + fedToday+"\n Pet Today: " + petToday+"\n FriendSheepPoint: " + animal.FriendSheepPoint + "\n Harvestable: " + Harvestable + "\n unCollected Product : None"  ;
+                }
+
             }
         }
+        return "Animals Show";
     }
     /*public void GoHome(Game game) {
         Player currentPlayerTemp = game.currentPlayer;

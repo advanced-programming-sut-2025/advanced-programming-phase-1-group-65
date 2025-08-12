@@ -2,6 +2,7 @@ Animals/Brown_Chicken.png
 Animals/Dinosaur.png
 Animals/Duck.png
 Animals/Goat.png
+Animals/HeartIconLarge.png
 Animals/Pig.png
 Animals/Rabbit.png
 Animals/Sheep.png
@@ -21,12 +22,15 @@ Food/Farmer_Lunch.png
 Food/Fried_Egg.png
 Food/Fruit_Salad.png
 Food/Hashbrowns.png
+Food/Hay.png
 Food/Maki_Roll.png
+Food/Milk.png
 Food/Miner_Treat.png
 Food/Omelet.png
 Food/Pancakes.png
 Food/Pizza.png
 Food/Pumpkin_Pie.png
+Food/Rabbit_Foot.png
 Food/Red_Plate.png
 Food/Salad.png
 Food/Salmon_Dinner.png
@@ -35,7 +39,9 @@ Food/Spaghetti.png
 Food/Survival_Burger.png
 Food/Tortilla.png
 Food/Triple_Shot_Espresso.png
+Food/Truffle.png
 Food/Vegetable_Medley.png
+Food/Wool.png
 Foraging/Blackberry.png
 Foraging/Carrot_Stage_3.png
 Foraging/Carrot_Stage_4.png

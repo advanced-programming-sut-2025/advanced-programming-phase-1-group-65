@@ -121,49 +121,61 @@ public class Game {
 
     public void creatAllAnimals(Game game){
         Food ChickenEgg = new Food(3,ItemSubType.EGG,"Chicken Egg",60,50,true);
+        ChickenEgg.texture = new Texture("Food/Egg.png");
         Food ChickenBigEgg = new Food(1,ItemSubType.EGG,"Chicken Big Egg",105,95,true);
+        ChickenBigEgg.texture = new Texture("Food/Egg.png");
         Animal Chicken = new Animal("Chicken", AnimalType.CHICKEN,1,800);
         Chicken.foodProduct.add(ChickenEgg);
         Chicken.foodProduct.add(ChickenBigEgg);
         game.AllAnimalInfo.add(Chicken);
 
         Food DuckEgg = new Food(3,ItemSubType.EGG,"Duck Egg",60,95,true);
+        DuckEgg.texture = new Texture("Food/Egg.png");
         Food DuckBigEgg = new Food (1,ItemSubType.EGG,"Duck Big Egg",105,250,true);
+        DuckBigEgg.texture = new Texture("Food/Egg.png");
         Animal Duck = new Animal("Duck", AnimalType.DUCK,2,1200);
         Duck.foodProduct.add(DuckEgg);
         Duck.foodProduct.add(DuckBigEgg);
         game.AllAnimalInfo.add(Duck);
 
         Material RabbitFur = new Material(5,ItemSubType.FURR,"Rabbit Furr",340);
+        RabbitFur.texture = new Texture("Food/Rabbit_Foot.png");
         Animal Rabbit = new Animal("Rabbit", AnimalType.RABBIT,4,8000);
         Rabbit.materialProduct.add(RabbitFur);
         game.AllAnimalInfo.add(Rabbit);
 
         Food DinosaurEgg = new Food(1,ItemSubType.EGG,"Dinosaur Egg",200,350,true);
+        DinosaurEgg.texture = new Texture("Food/Egg.png");
         Animal Dinosaur = new Animal("Dinosaur", AnimalType.DINOSAUR,7,14000);
         Dinosaur.foodProduct.add(DinosaurEgg);
         game.AllAnimalInfo.add(Dinosaur);
 
         Food CowMilk = new Food(2,ItemSubType.MILK,"Cow Milk", 110,125,true);
+        CowMilk.texture = new Texture("Food/Milk.png");
         Food CowBigMilk = new Food(1,ItemSubType.MILK,"Cow Big Milk",130,190,true);
+        CowBigMilk.texture = new Texture("Food/Milk.png");
         Animal Cow = new Animal("Cow", AnimalType.COW,1,1500);
         Cow.foodProduct.add(CowMilk);
         Cow.foodProduct.add(CowBigMilk);
         game.AllAnimalInfo.add(Cow);
 
         Food GoatMilk = new Food(2,ItemSubType.MILK,"Goat Milk",95,225,true);
+        GoatMilk.texture = new Texture("Food/Milk.png");
         Food GoatBigMilk = new Food(1,ItemSubType.MILK,"Goat Big Milk",160,345,true);
+        GoatMilk.texture = new Texture("Food/Milk.png");
         Animal Goat = new Animal("Goat", AnimalType.GOAT,2,4000);
         Goat.foodProduct.add(GoatMilk);
         Goat.foodProduct.add(GoatBigMilk);
         game.AllAnimalInfo.add(Goat);
 
         Material SheepFurr = new Material(3,ItemSubType.FURR,"Sheep Furr",340);
+        SheepFurr.texture = new Texture("Food/Wool.png");
         Animal Sheep = new Animal("Sheep", AnimalType.SHEEP,3,8000);
         Sheep.materialProduct.add(SheepFurr);
         game.AllAnimalInfo.add(Sheep);
 
         Food Truffle = new Food(5,ItemSubType.TRUFFLE,"Truffle",10,620,true);
+        Truffle.texture = new Texture("Food/Truffle.png");
         Animal Pig = new Animal("Pig", AnimalType.PIG,0,16000);
         Pig.foodProduct.add(Truffle);
         game.AllAnimalInfo.add(Pig);
@@ -437,9 +449,10 @@ public class Game {
                 Item building = new Item(ItemType.MATERIAL,ItemSubType.BARN,1, "Barn", 10000);
                 building.texture = new Texture("Building/Barn.png");
                 user.player.items.add(building);
-
-              /* user.player.items.add(new Material(1000,ItemSubType.HAY,"Hay",10));
-                user.player.items.add(new Material(1,ItemSubType.FISH,"Sardine",10));
+                Material Hay = new Material(1000,ItemSubType.HAY,"Hay",10);
+                Hay.texture = new Texture("Food/Hay.png");
+               user.player.items.add(Hay);
+              /*  user.player.items.add(new Material(1,ItemSubType.FISH,"Sardine",10));
                 user.player.items.add(new Material(1,ItemSubType.FIBER,"Fiber",10));
                 user.player.items.add(new Material(1,ItemSubType.UNKNOWN,"Rice",10));
 */

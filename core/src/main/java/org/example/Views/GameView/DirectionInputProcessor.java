@@ -48,6 +48,10 @@ public class DirectionInputProcessor extends InputAdapter {
                         gameScreen.buildingController.Build(building , gameScreen.game ,playerX+dx,playerY-dy,gameScreen.controller);
 
                 }
+                else if (gameScreen.game.currentPlayer.CurrentItem.subtype == ItemSubType.FERTILIZER) {
+                    String fertilizerName = gameScreen.game.currentPlayer.CurrentItem.name;
+                    gameScreen.controller.Fertilize(gameScreen.game, dx, dy, fertilizerName);
+                }
 
                 gameScreen.selectingDirection = false;
                 return true;
