@@ -1,5 +1,8 @@
 package org.example.Models;
 
+import com.badlogic.gdx.graphics.Texture;
+
+import java.awt.*;
 import java.util.Map;
 import java.util.List;
 import java.util.HashMap;
@@ -18,6 +21,7 @@ public class NPC {
     private Set<String> favoriteItems = new HashSet<>();
     private int lastGiftDay = -1;
     private int friendshipPoints = 0;
+
     public NPC(String name, int x, int y) {
         this.name = name;
         this.x = x;
@@ -27,6 +31,8 @@ public class NPC {
         this.dialogues = new HashMap<>();
         this.friendshipQuests = new HashMap<>();
         loadDefaultDialogues();
+
+
     }
 
     public String getName() {
@@ -71,6 +77,7 @@ public class NPC {
     public void setFriendshipLevel(int level) {
         this.friendshipLevel = Math.min(3, level);
     }
+
 
     public Set<String> getFavoriteItems() {
         return favoriteItems;
@@ -429,4 +436,5 @@ public class NPC {
         Random rand = new Random();
         return possibleDialogues.get(rand.nextInt(possibleDialogues.size()));
     }
+
 }

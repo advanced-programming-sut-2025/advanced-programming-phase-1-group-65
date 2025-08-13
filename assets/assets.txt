@@ -81,6 +81,11 @@ map/fishShopBig.png
 map/lightning.png
 map/paths.png
 map/spring_outdoorTileSheet_extra.png
+npcs/abigail.png
+npcs/harvey.png
+npcs/leah.png
+npcs/robin.png
+npcs/sebastian.png
 player/d1.png
 player/d2.png
 player/d3.png
@@ -100,3 +105,5 @@ skin/pixthulhu-ui.atlas
 skin/pixthulhu-ui.json
 skin/pixthulhu-ui.png
 ui/Clock.png
+ui/dialog_bg.png
+ui/npc_icon.png

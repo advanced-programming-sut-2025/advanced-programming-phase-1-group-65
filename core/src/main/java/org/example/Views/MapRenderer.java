@@ -69,6 +69,8 @@ public class MapRenderer {
     private TextureRegion outdoorTileNightRegion;
     private boolean showMiniMap = false;
     private boolean isNight = false;
+    private Texture talkIconTexture;
+    private TextureRegion talkIconRegion;
 
     public MapRenderer(ArrayList<ArrayList<Tile>> map, Game game) {
         this.map = map;
@@ -134,6 +136,11 @@ public class MapRenderer {
         loadTileTexture(TileType.EMPTY, "map/OutDoorTile.png");
         loadTileTexture(TileType.WALL, "map/Hardwood_Fence.png");
         loadTileTexture(TileType.PLAYER, "map/OutDoorTile.png");
+        loadTileTexture(TileType.SEBASTIAN_NPC, "npcs/sebastian.png");
+        loadTileTexture(TileType.ABIGAIL_NPC, "npcs/abigail.png");
+        loadTileTexture(TileType.HARVEY_NPC, "npcs/harvey.png");
+        loadTileTexture(TileType.LEAH_NPC, "npcs/leah.png");
+        loadTileTexture(TileType.ROBIN_NPC, "npcs/robin.png");
 
     }
 
@@ -142,7 +149,6 @@ public class MapRenderer {
         textureMap.put(type, tex);
         regionMap.put(type, new TextureRegion(tex));
     }
-
     private TextureRegion getTextureForTile(Tile tile) {
         if (tile instanceof Rock) {
             Rock rock = (Rock) tile;
@@ -161,17 +167,27 @@ public class MapRenderer {
             if (tree.name.equalsIgnoreCase("Wild")) {
                 return WildTreeRegion;
             } else {
-                return tree.isHarvestable ? new TextureRegion(tree.texture2) : new TextureRegion(tree.texture1);
+                return tree.isHarvestable
+                        ? new TextureRegion(tree.texture2)
+                        : new TextureRegion(tree.texture1);
             }
         }
 
-        return switch (tile.type) {
+        // اول از switch برای زمین‌های پایه
+        TextureRegion region = switch (tile.type) {
             case EMPTY -> outdoorTileRegion;
             case WALL -> WallTileRegion;
             case FERTILE -> FertileTileRegion;
             case QUARRY -> QuarryTileRegion;
             default -> null;
         };
+
+        // اگر null بود، از regionMap بخون (برای NPC ها و ساختمان‌ها)
+        if (region == null) {
+            region = regionMap.get(tile.type);
+        }
+
+        return region;
     }
 
     public void update(float delta) {
@@ -279,12 +295,11 @@ public class MapRenderer {
                             width * tileSize, height * tileSize);
 
                 } else {
-                    // برای کاشی‌های معمولی از currentOutdoorRegion استفاده می‌کنیم
+
                     batch.draw(currentOutdoorRegion, x * tileSize, y * tileSize, tileSize, tileSize);
 
                     TextureRegion region = getTextureForTile(tile);
 
-                    // اگر منطقه مربوط به کاشی خالی (EMPTY) است، آن را با currentOutdoorRegion جایگزین کن
                     if (region == outdoorTileRegion) {
                         region = currentOutdoorRegion;
                     }

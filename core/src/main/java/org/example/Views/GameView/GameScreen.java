@@ -11,13 +11,27 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import org.example.Controllers.GameController.GameController;
+import org.example.Controllers.NPCController.NPCController;
 import org.example.Controllers.ShopController.ShopController;
 import org.example.Models.Game;
+import org.example.Models.NPC;
 import org.example.Views.MapRenderer;
 import org.example.Views.PlayerAnimation;
 import org.example.Views.UI.ShopUI;
+import com.badlogic.gdx.utils.TimeUtils;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 public class GameScreen implements Screen {
     final Game game;
@@ -41,9 +55,21 @@ public class GameScreen implements Screen {
     private boolean isMiniMapOpen = false;
     private GameController gameController;
     private ShopController shopController;
-
+    private Texture npcIconTexture;
     private OrthographicCamera miniMapCamera;
     private BitmapFont miniMapFont;
+    List<String> npcNames = Arrays.asList("abigail", "sebastian", "harvey", "leah", "robin");
+    long lastUpdateTime = 0;
+    String currentNpcName = "abigail";
+    Random random = new Random();
+    private boolean isDialogOpen = false;
+    private String currentDialogText = "";
+    private float npcIconX, npcIconY, npcIconWidth, npcIconHeight;
+    private NPC nearbyNpc;
+    private NPCController npcController;
+    private float dialogTimer = 0f;
+    private final float DIALOG_DURATION = 2.5f;
+    private Texture dialogBackgroundTexture;
 
     public GameScreen(Game game) {
         this.game = game;
@@ -80,6 +106,8 @@ public class GameScreen implements Screen {
         this.miniMapFont = new BitmapFont();
         this.miniMapFont.getData().setScale(2f);
         this.miniMapFont.setColor(1f, 1f, 1f, 1f);
+        this.npcIconTexture = new Texture(Gdx.files.internal("ui/npc_icon.png"));
+        dialogBackgroundTexture = new Texture(Gdx.files.internal("ui/dialog_bg.png"));
     }
 
     @Override
@@ -131,6 +159,26 @@ public class GameScreen implements Screen {
             batch.setProjectionMatrix(camera.combined);
             batch.begin();
             mapRenderer.render(batch);
+
+            NPCController npcController = new NPCController(game);
+            long now = TimeUtils.millis();
+            if (now - lastUpdateTime > 20000) {
+                int index = random.nextInt(npcNames.size());
+                currentNpcName = npcNames.get(index);
+                lastUpdateTime = now;
+            }
+
+            NPC nearbyNpc = npcController.findNearbyNPCByName(currentNpcName);
+            if (nearbyNpc != null) {
+                int tileSize = 16;
+                float iconSize = 10f;
+                npcIconX = nearbyNpc.getX() * tileSize + 3;
+                npcIconY = nearbyNpc.getY() * tileSize + tileSize;
+                npcIconWidth = iconSize;
+                npcIconHeight = iconSize;
+                batch.draw(npcIconTexture, npcIconX, npcIconY, iconSize, iconSize);
+
+            }
             TextureRegion frame = this.playerAnim.getCurrentFrame(this.currentDirection, delta);
 
             if (selectingDirection) {
@@ -178,9 +226,47 @@ public class GameScreen implements Screen {
                 shopUI.draw();
             }
         }
+        if (isDialogOpen) {
+            if (isDialogOpen) {
+                dialogTimer += delta;
+                if (dialogTimer >= DIALOG_DURATION) {
+                    isDialogOpen = false;
+                }
+            }
+            batch.begin();
+            float dialogX = 60;
+            float dialogY = 60;
+            float dialogWidth = Gdx.graphics.getWidth() - 120;
+            float dialogHeight = 100;
+
+            batch.draw(dialogBackgroundTexture, dialogX, dialogY, dialogWidth, dialogHeight);
+
+            font.setColor(1, 1, 1, 1);
+            font.draw(batch, currentDialogText, dialogX + 20, dialogY + dialogHeight - 30);
+            batch.end();
+        }
+
+
     }
 
     private void handleInput() {
+        if (Gdx.input.justTouched()) {
+            int mouseX = Gdx.input.getX();
+            int mouseY = Gdx.input.getY();
+            Vector3 worldCoordinates = camera.unproject(new Vector3(mouseX, mouseY, 0));
+
+            if (worldCoordinates.x >= npcIconX && worldCoordinates.x <= npcIconX + npcIconWidth
+                    && worldCoordinates.y >= npcIconY && worldCoordinates.y <= npcIconY + npcIconHeight) {
+                npcController = new NPCController(game);
+                nearbyNpc = npcController.findNearbyNPCByName(currentNpcName);
+                    currentDialogText = npcController.talkToNPCByName(nearbyNpc.getName());
+                isDialogOpen = true;
+                dialogTimer = 0f;
+
+            } else {
+                isDialogOpen = false;
+            }
+        }
         if (isMiniMapOpen) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
                 isMiniMapOpen = false;
@@ -259,6 +345,7 @@ public class GameScreen implements Screen {
             }
             Gdx.input.setInputProcessor(new DirectionInputProcessor(this));
         }
+
     }
 
     private void drawClockUI() {
@@ -359,4 +446,5 @@ public class GameScreen implements Screen {
             mapRenderer.update(delta);
         }
     }
+
 }
