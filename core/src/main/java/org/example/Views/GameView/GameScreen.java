@@ -17,14 +17,24 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
 import org.example.Controllers.BuildingController.BuildingController;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import org.example.Controllers.GameController.GameController;
 import org.example.Main;
 import org.example.Models.*;
 import org.example.Models.Enums.ItemType;
 import org.example.Models.Enums.TileType;
 import org.example.Models.Enums.WeatherType;
+import org.example.Controllers.NPCController.NPCController;
 import org.example.Controllers.ShopController.ShopController;
 import org.example.Models.Game;
+import org.example.Models.NPC;
 import org.example.Views.MapRenderer;
 import org.example.Views.MenuView.LoginRegisterMenuView;
 import org.example.Views.PlayerAnimation;
@@ -37,6 +47,11 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
+import com.badlogic.gdx.utils.TimeUtils;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 public class GameScreen implements Screen {
     final Game game;
@@ -65,6 +80,8 @@ public class GameScreen implements Screen {
     public boolean KitchenOpen = false;
     public InputMultiplexer multiplexer;
     private boolean isMiniMapOpen = false;
+    private ShopController shopController;
+    private Texture npcIconTexture;
     private OrthographicCamera miniMapCamera;
     private BitmapFont miniMapFont;
     public boolean isShippingBinOpen = false;
@@ -72,15 +89,23 @@ public class GameScreen implements Screen {
     private ArrayList<Rectangle> skillIconBounds = new ArrayList<>() ;
     public boolean walking= false;
     private Animation<TextureRegion> rainAnimation;
-    private float rainStateTime = 0f;
     private ArrayList<RainDrop> rainDrops;
-    public ShopController shopController;
     public BuildingController buildingController;
-    private String lastEnteredName =null;
+    List<String> npcNames = Arrays.asList("abigail", "sebastian", "harvey", "leah", "robin");
+    long lastUpdateTime = 0;
+    String currentNpcName = "abigail";
+    Random random = new Random();
+    private boolean isDialogOpen = false;
+    private String currentDialogText = "";
+    private float npcIconX, npcIconY, npcIconWidth, npcIconHeight;
+    private NPC nearbyNpc;
+    private NPCController npcController;
+    private float dialogTimer = 0f;
+    private final float DIALOG_DURATION = 2.5f;
+    private Texture dialogBackgroundTexture;
 
     public GameScreen(Game game) {
         this.game = game;
-        // وقتی mapRenderer از جنس خودت هست نیازی به پاس دادنش نیست
         this.mapRenderer = new MapRenderer(game.Map , game);
         skin = new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"));
         this.currentDirection = PlayerAnimation.Direction.DOWN;
@@ -128,6 +153,8 @@ public class GameScreen implements Screen {
         this.miniMapFont = new BitmapFont();
         this.miniMapFont.getData().setScale(2f);
         this.miniMapFont.setColor(1f, 1f, 1f, 1f);
+        this.npcIconTexture = new Texture(Gdx.files.internal("ui/npc_icon.png"));
+        dialogBackgroundTexture = new Texture(Gdx.files.internal("ui/dialog_bg.png"));
         Texture rainTexture = new Texture("weather/rain.png");
         TextureRegion[][] tmp = TextureRegion.split(rainTexture, rainTexture.getWidth() / 4, rainTexture.getHeight());
         TextureRegion[] frames = new TextureRegion[4];
@@ -143,7 +170,9 @@ public class GameScreen implements Screen {
             float y = (float)(Math.random() * Gdx.graphics.getHeight());
             float speed = 100 + (float)(Math.random() * 100);
             rainDrops.add(new RainDrop(x, y, speed, rainAnimation));
-        }}
+        }
+    }
+
 
 
     @Override
@@ -198,12 +227,32 @@ public class GameScreen implements Screen {
             batch.setProjectionMatrix(camera.combined);
             batch.begin();
             mapRenderer.render(batch);
+
+            NPCController npcController = new NPCController(game);
+            long now = TimeUtils.millis();
+            if (now - lastUpdateTime > 20000) {
+                int index = random.nextInt(npcNames.size());
+                currentNpcName = npcNames.get(index);
+                lastUpdateTime = now;
+            }
+
+            NPC nearbyNpc = npcController.findNearbyNPCByName(currentNpcName);
+            if (nearbyNpc != null) {
+                int tileSize = 16;
+                float iconSize = 10f;
+                npcIconX = nearbyNpc.getX() * tileSize + 3;
+                npcIconY = nearbyNpc.getY() * tileSize + tileSize;
+                npcIconWidth = iconSize;
+                npcIconHeight = iconSize;
+                batch.draw(npcIconTexture, npcIconX, npcIconY, iconSize, iconSize);
+
+            }
             TextureRegion frame = this.playerAnim.getCurrentFrame(this.currentDirection, delta);
 
 
             int px = this.game.currentPlayer.PositionX;
             int py = this.game.currentPlayer.PositionY;
-            int playerSize = 12;
+            int playerSize = 10;
             int tileSize = 16;
             int offset = (tileSize - playerSize) / 2;
             this.batch.draw(frame, (float)(px * tileSize + offset), (float)(py * tileSize ), (float)playerSize, (float)playerSize);
@@ -405,9 +454,25 @@ public class GameScreen implements Screen {
                 shopUI.draw();
             }
         }
+        if (isDialogOpen) {
+            if (isDialogOpen) {
+                dialogTimer += delta;
+                if (dialogTimer >= DIALOG_DURATION) {
+                    isDialogOpen = false;
+                }
+            }
+            batch.begin();
+            float dialogX = 60;
+            float dialogY = 60;
+            float dialogWidth = Gdx.graphics.getWidth() - 120;
+            float dialogHeight = 100;
 
+            batch.draw(dialogBackgroundTexture, dialogX, dialogY, dialogWidth, dialogHeight);
 
-
+            font.setColor(1, 1, 1, 1);
+            font.draw(batch, currentDialogText, dialogX + 20, dialogY + dialogHeight - 30);
+            batch.end();
+        }
 
 
     }
@@ -416,7 +481,6 @@ public class GameScreen implements Screen {
     public void resize(int i, int i1) {
 
     }
-
     @Override
     public void pause() {
 
@@ -444,10 +508,28 @@ public class GameScreen implements Screen {
                 isMiniMapOpen = false;
                 camera.zoom = 1f;  // برگردوندن زوم دوربین بازی به حالت اولیه
                 camera.update();
-                Gdx.input.setInputProcessor(new DirectionInputProcessor(this));
+                Gdx.input.setInputProcessor(multiplexer);
             }
             return;
         }
+        if (Gdx.input.justTouched()) {
+            int mouseX = Gdx.input.getX();
+            int mouseY = Gdx.input.getY();
+            Vector3 worldCoordinates = camera.unproject(new Vector3(mouseX, mouseY, 0));
+
+            if (worldCoordinates.x >= npcIconX && worldCoordinates.x <= npcIconX + npcIconWidth
+                    && worldCoordinates.y >= npcIconY && worldCoordinates.y <= npcIconY + npcIconHeight) {
+                npcController = new NPCController(game);
+                nearbyNpc = npcController.findNearbyNPCByName(currentNpcName);
+                    currentDialogText = npcController.talkToNPCByName(nearbyNpc.getName());
+                isDialogOpen = true;
+                dialogTimer = 0f;
+
+            } else {
+                isDialogOpen = false;
+            }
+        }
+
 
 
 
@@ -515,7 +597,7 @@ public class GameScreen implements Screen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.S) && isInventoryOpen) {
             isSkillScreenOpen = !isSkillScreenOpen;
         }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.M) && isInventoryOpen) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.M) && !isInventoryOpen && !isShopOpen) {
             isMiniMapOpen = !isMiniMapOpen;
             if (isMiniMapOpen) {
 
@@ -752,6 +834,8 @@ public class GameScreen implements Screen {
     }
 
 
+
+
     private void drawClockUI() {
         this.batch.setProjectionMatrix((new Matrix4()).setToOrtho2D(0.0F, 0.0F, (float)Gdx.graphics.getWidth(), (float)Gdx.graphics.getHeight()));
         this.batch.begin();
@@ -851,6 +935,8 @@ public class GameScreen implements Screen {
         dialog.show(uiStage);
     }
     }
+
+
 
 
 

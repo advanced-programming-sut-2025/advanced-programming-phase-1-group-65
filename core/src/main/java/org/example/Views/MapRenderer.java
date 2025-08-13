@@ -95,6 +95,8 @@ public class MapRenderer {
     private TextureRegion outdoorTileNightRegion;
     private boolean showMiniMap = false;
     private boolean isNight = false;
+    private Texture talkIconTexture;
+    private TextureRegion talkIconRegion;
 
 
     public MapRenderer(ArrayList<ArrayList<Tile>> map, Game game) {
@@ -179,8 +181,12 @@ public class MapRenderer {
         loadTileTexture(TileType.EMPTY, "map/OutDoorTile.png");
         loadTileTexture(TileType.WALL, "map/Hardwood_Fence.png");
         loadTileTexture(TileType.PLAYER, "map/OutDoorTile.png");
+        loadTileTexture(TileType.SEBASTIAN_NPC, "npcs/sebastian.png");
+        loadTileTexture(TileType.ABIGAIL_NPC, "npcs/abigail.png");
+        loadTileTexture(TileType.HARVEY_NPC, "npcs/harvey.png");
+        loadTileTexture(TileType.LEAH_NPC, "npcs/leah.png");
+        loadTileTexture(TileType.ROBIN_NPC, "npcs/robin.png");
 
-        // اگر نیاز بود بقیه تکسچرهای کوچک را هم اینجا اضافه کن
     }
 
     private void loadTileTexture(TileType type, String path) {
@@ -188,7 +194,6 @@ public class MapRenderer {
         textureMap.put(type, tex);
         regionMap.put(type, new TextureRegion(tex));
     }
-
     private TextureRegion getTextureForTile(Tile tile) {
         if (tile instanceof Rock) {
             Rock rock = (Rock) tile;
@@ -231,14 +236,22 @@ public class MapRenderer {
 
 
         }
-        return switch (tile.type) {
+        TextureRegion region = switch (tile.type) {
             case EMPTY -> outdoorTileRegion;
             case WALL -> WallTileRegion;
             case FERTILE -> FertileTileRegion;
             case QUARRY -> QuarryTileRegion;
             case SHIPPINGBIN ->  ShippingTileRegion;
+
             default -> null;
         };
+
+        // اگر null بود، از regionMap بخون (برای NPC ها و ساختمان‌ها)
+        if (region == null) {
+            region = regionMap.get(tile.type);
+        }
+
+        return region;
     }
 
     public void update(float delta) {
@@ -320,7 +333,6 @@ public class MapRenderer {
                     TextureRegion bigRegion = regionMap.get(type);
                     if (baseRegion == null || bigRegion == null) continue;
 
-                    // پیدا کردن عرض ناحیه
                     int width = 1;
                     while (x + width < cols &&
                         map.get(y).get(x + width).getType() == type &&
@@ -328,7 +340,6 @@ public class MapRenderer {
                         width++;
                     }
 
-                    // پیدا کردن ارتفاع ناحیه
                     int height = 1;
                     boolean canExpandHeight = true;
                     while (y + height < rows && canExpandHeight) {
@@ -342,7 +353,6 @@ public class MapRenderer {
                         if (canExpandHeight) height++;
                     }
 
-                    // کشیدن پس‌زمینه EMPTY زیر ناحیه
                     for (int dy = 0; dy < height; dy++) {
                         for (int dx = 0; dx < width; dx++) {
                             batch.draw(currentOutdoorRegion, (x + dx) * tileSize, (y + dy) * tileSize, tileSize, tileSize);
@@ -350,7 +360,6 @@ public class MapRenderer {
                         }
                     }
 
-                    // رسم تصویر بزرگ ساختمان
                     batch.draw(bigRegion,
                         x * tileSize, y * tileSize,
                         width * tileSize, height * tileSize);

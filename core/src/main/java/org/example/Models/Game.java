@@ -2,6 +2,7 @@ package org.example.Models;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import org.example.Controllers.NPCController.NPCController;
 import org.example.Models.Enums.AnimalType;
 import org.example.Models.Enums.ItemSubType;
 import org.example.Models.Enums.ItemType;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Game {
+    public NPCController npcController;
     public Map map = null;
     public ArrayList<ArrayList<Tile>> Map = null;
     public Map mapclone = null;
@@ -46,6 +48,8 @@ public class Game {
         this.users = List.of(user1, user2, user3);
         this.gameClock = new GameClock();
         this.weatherSystem = new WeatherSystem("spring");
+        npcController = new NPCController(this);
+
     }
     public void creatAllRecipes(Game game) {
         Recipe FriedEgg = new Recipe("Fried Egg","1 Egg");
