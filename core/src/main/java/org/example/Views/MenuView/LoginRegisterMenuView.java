@@ -32,7 +32,12 @@ public class LoginRegisterMenuView extends ScreenAdapter implements AppMenu {
         Texture background = new Texture(Gdx.files.internal("background.png"));
         Image backgroundImage = new Image(background);
         backgroundImage.setFillParent(true);
+        Texture text = new Texture("StardewValley.png");
+        Image textImage = new Image(text);
+        textImage.setPosition(Gdx.graphics.getWidth()/2 -400,Gdx.graphics.getHeight()-500);
+        textImage.setSize(800,500);
         stage.addActor(backgroundImage);
+        stage.addActor(textImage);
         stage.addActor(table);
 
         Label welcomeLabel = new Label("Welcome to the Login/Register Menu!", skin);

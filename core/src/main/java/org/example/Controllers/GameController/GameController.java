@@ -331,6 +331,7 @@ public class GameController {
     public void UseTool(Game game, int x, int y) {
         if (game.currentPlayer.Energy <= 5){
             System.out.println("You do not have enough energy to use this tool");
+            game.gameScreen.showMessage("You do not have enough energy to use this tool");
             return;
         }
         Scanner temp = new Scanner(System.in);
@@ -370,6 +371,7 @@ public class GameController {
                         AddItem(game,newFruit);
                         game.currentPlayer.gainForagingXP(5);
                         System.out.println("You have Harvested"+tree.Fruit.Count+" " + tree.Fruit.name);
+                        game.gameScreen.showMessage("You have Harvested" + tree.Fruit.Count+" " + tree.Fruit.name);
                         game.currentPlayer.Energy-=5+bonusEnergy;
                         bonusEnergy=0;
                         return;
@@ -412,6 +414,7 @@ public class GameController {
                 game.Map.get(disty).set(distx , new Tile(TileType.FERTILE));
                 game.currentPlayer.Energy-=5;
                 System.out.println("You have furrowed the ground");
+                game.gameScreen.showMessage("You have furrowed the ground");
                 return;
             }
             System.out.println("This tool is not proper for the selected tile");
@@ -434,11 +437,11 @@ public class GameController {
                     game.currentPlayer.gainForagingXP(10);
                     foraging.isHarvestable=false;
                     System.out.println("You have chopped the foraging and harvested " + fruit.Count +" "+fruit.name);
+                    game.gameScreen.showMessage("You have chopped the foraging and harvested "+ fruit.Count + " " + fruit.name);
                     return;
 
                 }
                 else if(!foraging.isHarvestable){
-                    System.out.println("This Foraging is not harvestable yet\ndo you wish to proceed?(y/n)");
                         game.Map.get(disty).set(distx , new Tile(TileType.EMPTY));
                         game.currentPlayer.Energy-=2;
                         System.out.println("You have chopped the foraging");
@@ -458,6 +461,7 @@ public class GameController {
                     AddItem(game,newFruit);
                     game.currentPlayer.gainForagingXP(5);
                     System.out.println("You have harvested the tree and got " + fruit.Count +" "+fruit.name);
+                    game.gameScreen.showMessage("You have harvested the tree and got " + fruit.Count +" "+fruit.name);
                     tree.HarvestedFirstTime = true;
                     tree.isHarvestable=false;
                     return;
@@ -466,6 +470,7 @@ public class GameController {
                 else if(!tree.isHarvestable){
                     game.currentPlayer.Energy-=2;
                     System.out.println("This tree is not harvestable yet");
+                    game.gameScreen.showMessage("This tree is not harvestable yet");
                     return;
 
                 }
@@ -488,6 +493,7 @@ public class GameController {
                 game.currentPlayer.Energy-=5+bonusEnergy;
                 bonusEnergy=0;
                 System.out.println("You have filled the watering can");
+                game.gameScreen.showMessage("You have filled the watering can");
                 return;
             }
             else if (game.Map.get(disty).get(distx).type.equals(TileType.FORAGING)){
@@ -495,6 +501,7 @@ public class GameController {
                     game.currentPlayer.Energy-=5+bonusEnergy;
                     bonusEnergy=0;
                     System.out.println("Watering can is empty");
+                    game.gameScreen.showMessage("Watering can is empty");
                     return;
                 }
                 Foraging foraging = (Foraging) game.Map.get(disty).get(distx);
@@ -504,11 +511,13 @@ public class GameController {
                 game.currentPlayer.gainFarmingXP(5);
                 bonusEnergy=0;
                 System.out.println("You have watered the foraging");
+                game.gameScreen.showMessage("You have watered the foraging");
                 return;
             }
             else if (game.Map.get(disty).get(distx).type.equals(TileType.TREE)){
                 if (game.currentPlayer.CurrentTool.volume == 0){
                     System.out.println("Watering can is empty");
+                    game.gameScreen.showMessage("Watering can is empty");
                     game.currentPlayer.Energy-=5+bonusEnergy;
                     bonusEnergy=0;
                     return;
@@ -517,6 +526,7 @@ public class GameController {
                 tree.WateredToday = true;
                 game.currentPlayer.gainFarmingXP(5);
                 System.out.println("You have watered the trees");
+                game.gameScreen.showMessage("You have watered the trees");
                 game.currentPlayer.CurrentTool.volume -= 1;
                 return;
             }
@@ -543,6 +553,7 @@ public class GameController {
                 game.currentPlayer.gainMiningXP(10);
 
                 System.out.println("You have broken the rock and got " + mineral.Count +" "+mineral.name);
+                game.gameScreen.showMessage("You have broken the rock and got " + mineral.Count +" "+mineral.name);
                 if (game.currentPlayer.miningSkill.getLevel()>=2){
                     Random rand = new Random();
                     int selected;
@@ -550,6 +561,7 @@ public class GameController {
                     Rock newRock = new Rock(game.AllRocksInfo.get(selected));
                     AddItem(game,newRock.Mineral);
                     System.out.println("You also got " + newRock.Mineral.Count +" "+newRock.Mineral.name);
+                    game.gameScreen.showMessage("You also got " + newRock.Mineral.Count +" "+newRock.Mineral.name);
 
                 }
                 return;
@@ -566,6 +578,7 @@ public class GameController {
                 Animal animal = (Animal) game.Map.get(disty).get(distx);
                 if(!animal.isHarvestable){
                     System.out.println("This animal is not harvestable yet");
+                    game.gameScreen.showMessage("This animal is not harvestable yet");
                     game.currentPlayer.Energy-=4;
                     return;
                 }
@@ -574,11 +587,13 @@ public class GameController {
                     Material newMaterial = new Material(animal.FinalMaterialProduct);
                     AddItem(game,newMaterial);
                     System.out.println("You have shaved the sheep and got " + newMaterial.Count +" "+newMaterial.name);
+                    game.gameScreen.showMessage("You have shaved the sheep and got " + newMaterial.Count +" "+newMaterial.name);
                     game.currentPlayer.Energy-=4;
 
                     return;
                 }
                 System.out.println("This animal can not be shaved");
+                game.gameScreen.showMessage("This animal can not be shaved");
                 game.currentPlayer.Energy-=4;
                 return;
 
@@ -593,18 +608,21 @@ public class GameController {
                 Animal animal = (Animal) game.Map.get(disty).get(distx);
                 if(!animal.isHarvestable){
                     System.out.println("This animal is not harvestable yet");
+                    game.gameScreen.showMessage("This animal is not harvestable yet");
                     game.currentPlayer.Energy-=4;
                     return;
                 }
                 if(animal.animalType==AnimalType.COW || animal.animalType==AnimalType.GOAT){
                     Food newFood = new Food(animal.FinalFoodProduct);
                     System.out.println("You have milked the animal and got " + newFood.Count +" "+newFood.name);
+                    game.gameScreen.showMessage("You have milked the animal and got " + newFood.Count +" "+newFood.name);
                     animal.isHarvestable=false;
                     AddItem(game,newFood);
                     game.currentPlayer.Energy-=4;
                     return;
                 }
                 System.out.println("This animal can not be milked");
+                game.gameScreen.showMessage("This animal can not be milked");
                 game.currentPlayer.Energy-=4;
                 return;
 
@@ -651,7 +669,7 @@ public class GameController {
 
         if (!isNearLake) {
             System.out.println("You must be near a lake tile to fish.");
-            game.gameScreen.showMessage("You must be near a lake tile to fish");
+            game.gameScreen.showMessage("You must be near a lake to fish");
             game.currentPlayer.Energy -= 8+bonusEnergy;
             bonusEnergy = 0;
             return;
@@ -757,6 +775,7 @@ public class GameController {
                if (foraging.daysWithOutWater >= 8 && !foraging.isHarvestable){
                    game.Map.get(foraging.posy).set(foraging.posx, new Tile(TileType.EMPTY));
                    System.out.println(foraging.name + " has withered due to lack of water");
+                   game.gameScreen.showMessage(foraging.name + " has withered due to lack of water");
                    iterator.remove();
                    return;
                }
@@ -797,6 +816,7 @@ public class GameController {
                 if (tree.daysWithoutWater >= 10 && !tree.isHarvestable){
                     game.Map.get(tree.posy).set(tree.posx, new Tile(TileType.EMPTY));
                     System.out.println(tree.name + " has withered due to lack of water");
+                    game.gameScreen.showMessage(tree.name + " has withered due to lack of water");
                     iterator.remove();
                     return;
                 }
@@ -1090,6 +1110,7 @@ public class GameController {
                         if(tree.seed.name.equalsIgnoreCase(name)){
                             if (!containsDigit(game.gameClock.getCurrentSeasonIndex(),tree.Season)){
                                 System.out.println("This Tree can not be planted during this season");
+                                game.gameScreen.showMessage("This Tree can not be planted during this season");
                                 return;
                             }
                             newTree = new Trees(tree);

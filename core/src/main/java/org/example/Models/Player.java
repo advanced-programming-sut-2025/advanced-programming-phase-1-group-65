@@ -68,6 +68,7 @@ public class Player {
     public boolean Fainted = false;
     public boolean isEating = false;
     public float eatingTimer = 0;
+    public float faintingTimer = 0;
     public List<Item> items = new ArrayList<>();
     public Tool CurrentTool = null;
     public Game game = null;

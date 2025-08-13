@@ -257,15 +257,62 @@ public class InventoryUI extends Stage {
 
 
     public void showToolsOnly() {
+        inventoryTable.clearChildren();
         displayedItems.clear();
         for (Item item : game.currentPlayer.items) {
-            if (item.type == ItemType.TOOL) {
+            if (item.type == ItemType.TOOL){
                 displayedItems.add(item);
             }
         }
-        currentPage = 0;
-        selectedIndex = 0;
-        rebuildUI();
+
+        int pageSize = COLUMNS * 5;
+        int start = currentPage * pageSize;
+        int end = Math.min(start + pageSize, displayedItems.size());
+
+        for (int i = start; i < end; i++) {
+            Item item = displayedItems.get(i);
+            Image img = new Image(item.getTexture());
+            img.setSize(CELL_SIZE, CELL_SIZE);
+
+            Stack stack = new Stack();
+            stack.setSize(CELL_SIZE, CELL_SIZE);
+            stack.add(img);
+
+            if (i == selectedIndex) {
+                img.setColor(Color.YELLOW);
+
+                String labelText = item.getName() + " x" + item.Count;
+                Label itemLabel = new Label(labelText, labelStyle);
+                itemLabel.setFontScale(1.5f);
+                itemLabel.setColor(Color.WHITE);
+
+                // برای قرار دادن متن بالای آیتم
+                Table labelContainer = new Table();
+                labelContainer.top(); // متن در بالا قرار بگیرد
+                labelContainer.add(itemLabel).padTop(5);
+
+                stack.add(labelContainer);
+            }
+
+            inventoryTable.add(stack).size(CELL_SIZE, CELL_SIZE).pad(65, 40, -2, 30);
+
+            if ((i - start + 1) % COLUMNS == 0) {
+                inventoryTable.row().padTop(10);
+            }
+
+        }
+
+        // پر کردن خانه‌های خالی برای حفظ ساختار جدول
+        int remainingSlots = pageSize - (end - start);
+        for (int i = 0; i < remainingSlots; i++) {
+            Actor emptySlot = new Actor();
+            emptySlot.setSize(CELL_SIZE, CELL_SIZE);
+            inventoryTable.add(emptySlot).size(CELL_SIZE, CELL_SIZE).pad(65,40,-2,30);
+
+            if ((i + (end - start) + 1) % COLUMNS == 0) {
+                inventoryTable.row().padTop(10);
+            }
+        }
     }
     public void showMessage(String message) {
         Table messageTable = new Table();

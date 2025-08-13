@@ -2,6 +2,7 @@ package org.example.Views.UI;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -55,6 +56,10 @@ public class ShopUI {
 
         rootTable = new Table();
         rootTable.setFillParent(true);
+        Texture background = new Texture(Gdx.files.internal("background.png"));
+        Image backgroundImage = new Image(background);
+        backgroundImage.setFillParent(true);
+        stage.addActor(backgroundImage);
         stage.addActor(rootTable);
 
         initFilterSelectBox();

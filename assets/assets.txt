@@ -112,6 +112,7 @@ Skills/Farming_Skill_Icon.png
 Skills/Fishing_Skill_Icon.png
 Skills/Foraging_Skill_Icon.png
 Skills/Mining_Skill_Icon.png
+StardewValley.png
 Tools/Axe.png
 Tools/Bamboo_Pole.png
 Tools/Hoe.png
@@ -170,6 +171,10 @@ player/d1.png
 player/d2.png
 player/d3.png
 player/d4.png
+player/f1.png
+player/f2.png
+player/f3.png
+player/f4.png
 player/l1.png
 player/l2.png
 player/l3.png

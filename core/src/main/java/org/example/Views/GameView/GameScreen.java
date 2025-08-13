@@ -41,7 +41,7 @@ import java.util.function.Consumer;
 public class GameScreen implements Screen {
     final Game game;
     OrthographicCamera camera;
-    GameController controller = new GameController();
+    public GameController controller = new GameController();
     public InventoryUI inventoryUI;
     public ShopUI shopUI; // اضافه کردن فروشگاه
     public RefrigeratorUI refrigeratorUI;
@@ -158,7 +158,7 @@ public class GameScreen implements Screen {
         }
         if (game.currentPlayer.Energy <= 0){
             game.currentPlayer.Fainted = true;
-            controller.processNextTurn(game);
+            //controller.processNextTurn(game);
         }
 
         handleInput();
@@ -207,7 +207,7 @@ public class GameScreen implements Screen {
             int tileSize = 16;
             int offset = (tileSize - playerSize) / 2;
             this.batch.draw(frame, (float)(px * tileSize + offset), (float)(py * tileSize ), (float)playerSize, (float)playerSize);
-            /*if (this.game.currentPlayer.CurrentTool != null) {
+            if (this.game.currentPlayer.CurrentTool != null) {
 
                 TextureRegion toolTexture = new TextureRegion(this.game.currentPlayer.CurrentTool.texture);
 
@@ -219,7 +219,7 @@ public class GameScreen implements Screen {
                 batch.draw(toolTexture, toolX, toolY, toolSize, toolSize);
             }
 
-             */
+
             batch.end();
             this.drawClockUI();
 
