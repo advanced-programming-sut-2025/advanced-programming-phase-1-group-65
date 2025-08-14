@@ -49,7 +49,6 @@ public class Player {
     }    public List<Integer> completedQuestIds = new ArrayList<>();
 
     public ArrayList<Recipe> KnownRecipes = new ArrayList<>();
-    public int MaxEnergy = 200;
     public void gainMiningXP(int amount) {
         miningSkill.gainXP(amount);
     }
@@ -74,6 +73,9 @@ public class Player {
     public Game game = null;
     public int money = 50000;
     public TileType previousTileType = TileType.EMPTY;
+    public boolean friedEggBuffActive = false;
+    public float friedEggBuffTime = 0; // ثانیه باقی‌مانده
+
 
 
     public void setFarmNumber(int FarmNumber) {

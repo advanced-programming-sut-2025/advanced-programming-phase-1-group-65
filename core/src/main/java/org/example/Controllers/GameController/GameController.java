@@ -13,6 +13,7 @@ import org.example.Models.Shops.FishManager;
 import org.example.Models.Tile;
 import org.example.Views.GameView.InventoryUI;
 import org.example.Views.MenuView.KitchenView;
+import com.badlogic.gdx.utils.Timer;
 
 import java.util.*;
 
@@ -1326,8 +1327,27 @@ public class GameController {
         }
         Food TargetFood = (Food) Target;
         game.currentPlayer.Energy+=TargetFood.energy;
-        if (game.currentPlayer.Energy>= game.currentPlayer.MaxEnergy){
-            game.currentPlayer.Energy = game.currentPlayer.MaxEnergy;
+        if (game.currentPlayer.Energy>= game.currentPlayer.maxEnergy && !TargetFood.name.equals("Fried Egg")){
+            game.currentPlayer.Energy = game.currentPlayer.maxEnergy;
+        }
+        if (TargetFood.name.equals("Fried Egg")) {
+            game.currentPlayer.maxEnergy = 250;
+                game.currentPlayer.Energy = 250;
+            game.currentPlayer.friedEggBuffActive = true;
+            game.currentPlayer.friedEggBuffTime = 60; // 60 ثانیه
+
+
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    game.currentPlayer.maxEnergy = 200;
+                    if (game.currentPlayer.Energy > 200) {
+                        game.currentPlayer.Energy = 200;
+                    }
+                    game.currentPlayer.friedEggBuffActive = false;
+                    game.currentPlayer.friedEggBuffTime = 0;
+                }
+            }, 60); // 60 ثانیه
         }
         removeItem(game,TargetFood.name,1);
         game.gameScreen.playerAnim.startEating();

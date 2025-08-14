@@ -108,6 +108,7 @@ Rocks/Diamond.png
 Rocks/Gold_Ore.png
 Rocks/Iridium_Ore.png
 Rocks/Iron_Ore.png
+Skills/Energy_Buff.png
 Skills/Farming_Skill_Icon.png
 Skills/Fishing_Skill_Icon.png
 Skills/Foraging_Skill_Icon.png

@@ -237,6 +237,7 @@ public class MapRenderer {
 
         }
         TextureRegion region = switch (tile.type) {
+            case PLAYER -> outdoorTileRegion;
             case EMPTY -> outdoorTileRegion;
             case WALL -> WallTileRegion;
             case FERTILE -> FertileTileRegion;
@@ -253,6 +254,7 @@ public class MapRenderer {
 
         return region;
     }
+
 
     public void update(float delta) {
 
@@ -371,7 +373,7 @@ public class MapRenderer {
                     TextureRegion region = getTextureForTile(tile);
 
                     // اگر منطقه مربوط به کاشی خالی (EMPTY) است، آن را با currentOutdoorRegion جایگزین کن
-                    if (region == outdoorTileRegion) {
+                    if (region == outdoorTileRegion ) {
                         region = currentOutdoorRegion;
                     }
 

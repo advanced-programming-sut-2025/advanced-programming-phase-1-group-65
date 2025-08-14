@@ -235,6 +235,14 @@ public class GameScreen implements Screen {
                 currentNpcName = npcNames.get(index);
                 lastUpdateTime = now;
             }
+            if (game.currentPlayer.friedEggBuffActive) {
+                game.currentPlayer.friedEggBuffTime -= Gdx.graphics.getDeltaTime();
+                if (game.currentPlayer.friedEggBuffTime < 0) {
+                    game.currentPlayer.friedEggBuffTime = 0;
+                }
+            }
+
+
 
             NPC nearbyNpc = npcController.findNearbyNPCByName(currentNpcName);
             if (nearbyNpc != null) {
@@ -270,6 +278,24 @@ public class GameScreen implements Screen {
 
 
             batch.end();
+            // تغییر پروجکشن به مختصات صفحه
+            batch.setProjectionMatrix(new Matrix4().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+            batch.begin();
+
+            if (game.currentPlayer.friedEggBuffActive) {
+                int iconSize = 70;
+                int x = 70;
+                int y = Gdx.graphics.getHeight() - 70;
+
+                // رسم آیکون Buff
+                batch.draw(new Texture("Skills/Energy_Buff.png"), x, y - iconSize, iconSize, iconSize);
+
+                // رسم زمان باقی‌مانده Buff
+                font.draw(batch, (int)game.currentPlayer.friedEggBuffTime + "s", x + iconSize + 10, y - 10);
+            }
+
+            batch.end();
+
             this.drawClockUI();
 
             if (isInventoryOpen) {
@@ -344,10 +370,10 @@ public class GameScreen implements Screen {
             float barWidth = 30; // عرض نوار
             float barHeight = 200; // ارتفاع کل نوار
             float x2 = Gdx.graphics.getWidth() - barWidth - 50; // 20 پیکسل فاصله از سمت راست صفحه
-            float y2 = 400; // فاصله از پایین صفحه
+            float y2 = 500; // فاصله از پایین صفحه
 
 // درصد انرژی
-            float energyPercent = (float)(game.currentPlayer.Energy / game.currentPlayer.MaxEnergy);
+            float energyPercent = (float)(game.currentPlayer.Energy / game.currentPlayer.maxEnergy);
             if (energyPercent > 1) energyPercent = 1;
             if (energyPercent < 0) energyPercent = 0;
 
