@@ -450,13 +450,13 @@ public class Game {
                 Material Stone = new Material(1000,ItemSubType.STONE,"Stone",10);
                 Stone.texture = new Texture("Material/Stone.png");
                 user.player.items.add(Stone);
-             /*   Item building = new Item(ItemType.MATERIAL,ItemSubType.BARN,1, "Barn", 10000);
+                Item building = new Item(ItemType.MATERIAL,ItemSubType.BARN,1, "Barn", 10000);
                 building.texture = new Texture("Building/Barn.png");
-                user.player.items.add(building);
+                //user.player.items.add(building);
                 Material Hay = new Material(1000,ItemSubType.HAY,"Hay",10);
                 Hay.texture = new Texture("Food/Hay.png");
                user.player.items.add(Hay);
-               user.player.items.add(new Material(1,ItemSubType.FISH,"Sardine",10));
+            /*   user.player.items.add(new Material(1,ItemSubType.FISH,"Sardine",10));
                 user.player.items.add(new Material(1,ItemSubType.FIBER,"Fiber",10));
                 user.player.items.add(new Material(1,ItemSubType.UNKNOWN,"Rice",10));
 */

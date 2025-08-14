@@ -149,6 +149,8 @@ public class InventoryUI extends Stage {
             }
 
         }
+
+
         else if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER) && game.gameScreen.isRefrigeratorOpen){
             if (selectedIndex >= 0 && selectedIndex < displayedItems.size()) {
                 Item selectedItem = displayedItems.get(selectedIndex);
@@ -184,8 +186,15 @@ public class InventoryUI extends Stage {
         }
 
         if (updated) {
-            rebuildUI();
+            if (game.gameScreen.isBackPackOpen){
+                showToolsOnly();
+            }
+            else {
+                rebuildUI();
+
+            }
         }
+
 
 
         // **حالا selectedIndex را به محدوده صفحه جدید محدود کنیم**
@@ -194,16 +203,23 @@ public class InventoryUI extends Stage {
         if (selectedIndex < start) selectedIndex = start;
         if (selectedIndex >= end) selectedIndex = end - 1;
 
-        if (updated) {
+        if (game.gameScreen.isBackPackOpen){
+            showToolsOnly();
+        }
+        else {
             rebuildUI();
+
         }
     }
 
     public void rebuildUI() {
         inventoryTable.clearChildren();
         displayedItems.clear();
-        displayedItems.addAll(game.currentPlayer.items);
-
+        for ( Item item : game.currentPlayer.items){
+            if (item.type != ItemType.TOOL){
+                displayedItems.add(item);
+            }
+        }
 
         int pageSize = COLUMNS * 5;
         int start = currentPage * pageSize;
@@ -336,7 +352,11 @@ public class InventoryUI extends Stage {
 
     public void showAllItems() {
         displayedItems.clear();
-        displayedItems.addAll(game.currentPlayer.items);
+        for ( Item item : game.currentPlayer.items){
+            if (item.type != ItemType.TOOL){
+                displayedItems.add(item);
+            }
+        }
         currentPage = 0;
         selectedIndex = 0;
         rebuildUI();

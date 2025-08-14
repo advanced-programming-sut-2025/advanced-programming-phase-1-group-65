@@ -103,6 +103,7 @@ public class GameScreen implements Screen {
     private float dialogTimer = 0f;
     private final float DIALOG_DURATION = 2.5f;
     private Texture dialogBackgroundTexture;
+    public boolean isBackPackOpen = false;
 
     public GameScreen(Game game) {
         this.game = game;
@@ -615,6 +616,7 @@ public class GameScreen implements Screen {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.T) && isInventoryOpen) {
             inventoryUI.showToolsOnly();
+            isBackPackOpen = !isBackPackOpen;
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.C) && !isInventoryOpen && !isShopOpen) {
             selectingDirection = !selectingDirection;
