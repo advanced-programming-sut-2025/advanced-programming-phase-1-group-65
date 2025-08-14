@@ -548,9 +548,12 @@ public class GameScreen implements Screen {
                     && worldCoordinates.y >= npcIconY && worldCoordinates.y <= npcIconY + npcIconHeight) {
                 npcController = new NPCController(game);
                 nearbyNpc = npcController.findNearbyNPCByName(currentNpcName);
+                if (nearbyNpc != null) {
                     currentDialogText = npcController.talkToNPCByName(nearbyNpc.getName());
-                isDialogOpen = true;
-                dialogTimer = 0f;
+                    isDialogOpen = true;
+                    dialogTimer = 0f;
+                }
+
 
             } else {
                 isDialogOpen = false;
