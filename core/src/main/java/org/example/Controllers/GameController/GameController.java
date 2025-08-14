@@ -922,10 +922,12 @@ public class GameController {
     public void GreenHouse(Game game){
         if(game.currentPlayer.money < 1000){
             System.out.println("You don't have enough money");
+            game.gameScreen.showMessage("You don't have enough money");
             return;
         }
         if(!HasItem(game,"Wood",500)){
             System.out.println("You don't have enough wood");
+            game.gameScreen.showMessage("You don't have enough wood");
             return;
         }
         System.out.println("GreenHouse Built successfully");

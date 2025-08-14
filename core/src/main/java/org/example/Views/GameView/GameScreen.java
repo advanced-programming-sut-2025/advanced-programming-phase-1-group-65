@@ -682,9 +682,35 @@ public class GameScreen implements Screen {
             if (game.Map.get(tileY).get(tileX).type.equals(TileType.ANIMAL)){
                 showAnimalMenu(tileX, tileY);
             }
+            if (game.Map.get(tileY).get(tileX).type.equals(TileType.GREENHOUSE)){
+                showGreenHouseMenu(tileX, tileY);
+            }
         }
 
 
+    }
+    private void showGreenHouseMenu(int tileX, int tileY) {
+        Dialog dialog = new Dialog("GreenHouse", skin) {
+            @Override
+            protected void result(Object object) {
+                switch (object.toString()) {
+                    case "Fix":
+                        controller.GreenHouse(game);
+                        break;
+
+
+                    case "cancel":
+                        break;
+                }
+            }
+        };
+
+        dialog.text("What do you want to do?");
+        dialog.button("Fix GreenHouse", "Fix");
+
+        dialog.button("Cancel", "cancel");
+
+        dialog.show(uiStage);
     }
     private void showAnimalMenu (int tileX, int tileY) {
         Animal animal = null;
